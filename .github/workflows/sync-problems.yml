@@ -1,0 +1,40 @@
+name: Sync SCBench problems
+
+on:
+  workflow_dispatch:
+  repository_dispatch:
+    types: [scbench-problems-updated]
+  schedule:
+    - cron: "*/15 * * * *"
+
+concurrency:
+  group: scbench-problem-sync
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout review site
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Read the private source repository
+        run: node sync-github.mjs
+        env:
+          SCBENCH_GITHUB_TOKEN: ${{ secrets.SCBENCH_GITHUB_TOKEN }}
+
+      - name: Commit synchronized data
+        run: |
+          git config user.name "scbench-sync[bot]"
+          git config user.email "scbench-sync[bot]@users.noreply.github.com"
+          git add data/problems.json
+          git diff --cached --quiet || git commit -m "chore: sync SCBench problem data"
+          git push
