@@ -125,9 +125,20 @@ function updateSyncStatus() {
 function normalizeSyncedProblems(payload) {
   const candidate = Array.isArray(payload) ? payload : payload?.problems;
   if (!Array.isArray(candidate) || !candidate.length) throw new Error("Synchronized problem data is empty");
-  const valid = candidate.filter((problem) => problem && problem.id && problem.title && problem.type && problem.prompt);
+  const valid = candidate.filter((problem) => problem && problem.id && problem.title && problem.type && (problem.prompt || problem.checkpointPrompts?.length));
   if (valid.length !== candidate.length) throw new Error("Synchronized problem data is incomplete");
   return valid;
+}
+
+function checkpointPromptsFor(problem) {
+  if (Array.isArray(problem.checkpointPrompts) && problem.checkpointPrompts.length) return problem.checkpointPrompts;
+  return (problem.checkpointLinks || []).map(([label, sourcePath]) => ({
+    label,
+    sourcePath,
+    prompt: label === `checkpoint_${problem.checkpoints}`
+      ? problem.prompt
+      : "This checkpoint prompt will be populated by the next synchronized snapshot."
+  }));
 }
 
 async function loadSyncedProblems() {
@@ -212,7 +223,11 @@ function bindRows() {
 }
 
 function renderReview(problem) {
-  const checkpointRows = problem.checkpointLinks.map(([label, href]) => `<div class="checkpoint-row"><span class="checkpoint-key">${escapeHtml(label)}</span><span class="checkpoint-title">${escapeHtml(problem.title)} / ${escapeHtml(label)} prompt</span><a class="action-link" href="${escapeHtml(href)}" target="_blank" rel="noreferrer">open prompt ↗</a></div>`).join("");
+  const checkpointPrompts = checkpointPromptsFor(problem);
+  const checkpointCards = checkpointPrompts.map((checkpoint, index) => `<details class="checkpoint-card"${index === checkpointPrompts.length - 1 ? " open" : ""}>
+      <summary class="checkpoint-summary"><span class="checkpoint-caret" aria-hidden="true"></span><span class="checkpoint-key">${escapeHtml(checkpoint.label)}</span><span class="checkpoint-title">${escapeHtml(problem.title)} / ${escapeHtml(checkpoint.label)} prompt</span><span class="checkpoint-state">view</span></summary>
+      <div class="checkpoint-content"><pre class="prompt-block">${escapeHtml(checkpoint.prompt)}</pre>${checkpoint.sourcePath ? `<div class="prompt-actions"><a class="action-link" href="${escapeHtml(checkpoint.sourcePath)}" target="_blank" rel="noreferrer">source artifact ↗</a></div>` : ""}</div>
+    </details>`).join("");
   app.innerHTML = `<section class="page">
     <div class="review-header">
       <a class="back-link" href="#problems">← all problems</a>
@@ -224,12 +239,8 @@ function renderReview(problem) {
     <div class="review-grid">
       <div class="review-main">
         <section class="review-panel">
-          <div class="panel-heading"><h2>Current prompt</h2><span>checkpoint_${escapeHtml(problem.checkpoints)}</span></div>
-          <div class="panel-body"><p class="prompt-intro">Latest checkpoint excerpt. The full source prompt remains linked for line-by-line review.</p><pre class="prompt-block">${escapeHtml(problem.prompt)}</pre><div class="prompt-actions"><a class="action-link" href="${escapeHtml(problem.promptPath)}" target="_blank" rel="noreferrer">open full prompt ↗</a><a class="action-link" href="${escapeHtml(problem.readmePath)}" target="_blank" rel="noreferrer">open package README ↗</a></div></div>
-        </section>
-        <section class="review-panel">
-          <div class="panel-heading"><h2>Prompt chain</h2><span>${escapeHtml(checkpointLabel(problem.checkpoints))}</span></div>
-          <div class="panel-body"><div class="checkpoint-list">${checkpointRows}</div></div>
+          <div class="panel-heading"><h2>Checkpoint prompts</h2><span>${escapeHtml(checkpointLabel(problem.checkpoints))}</span></div>
+          <div class="panel-body"><div class="checkpoint-list">${checkpointCards}</div></div>
         </section>
         <section class="review-panel">
           <div class="panel-heading"><h2>Evaluation results</h2><span>reserved</span></div>
