@@ -72,6 +72,10 @@ function cleanText(value) {
     .trim();
 }
 
+function cleanPrompt(value) {
+  return String(value || "").replace(/\r/g, "").trim();
+}
+
 function trimExcerpt(value, limit) {
   const text = cleanText(value);
   return text.length > limit ? `${text.slice(0, limit).trim()}\n\n[Excerpt. Open the source artifact for the complete content.]` : text;
@@ -145,12 +149,12 @@ async function buildProblem(entry, index) {
     .map((match) => ({ number: Number(match[1]), path: `${pipelinePath}/checkpoint_${match[1]}.md` }))
     .sort((left, right) => left.number - right.number);
   if (!checkpointFiles.length) throw new Error(`No checkpoint prompt found for ${id}`);
-  const current = checkpointFiles.at(-1);
-  const promptText = await readText(current.path);
-  const checkpointLinks = await Promise.all(checkpointFiles.map(async (checkpoint) => [
-    `checkpoint_${checkpoint.number}`,
-    blobUrl(checkpoint.path)
-  ]));
+  const checkpointPrompts = await Promise.all(checkpointFiles.map(async (checkpoint) => ({
+    label: `checkpoint_${checkpoint.number}`,
+    prompt: cleanPrompt(await readText(checkpoint.path)),
+    sourcePath: blobUrl(checkpoint.path)
+  })));
+  const current = checkpointPrompts.at(-1);
 
   return {
     number: String(index + 1).padStart(2, "0"),
@@ -161,13 +165,14 @@ async function buildProblem(entry, index) {
     tags: problemTags(id, readme),
     checkpoints: checkpointFiles.length,
     summary: summaryFor(id, readme),
-    prompt: trimExcerpt(promptText, 7000),
+    prompt: trimExcerpt(current.prompt, 7000),
     certDate: certificationDate(certification),
     certSummary: certificationSummary(certification),
     readmePath: blobUrl(readmePath),
     certPath: blobUrl(certPath),
-    promptPath: blobUrl(current.path),
-    checkpointLinks
+    promptPath: current.sourcePath,
+    checkpointLinks: checkpointPrompts.map(({ label, sourcePath }) => [label, sourcePath]),
+    checkpointPrompts
   };
 }
 
@@ -183,7 +188,7 @@ async function main() {
   const problems = [];
   for (const [index, entry] of entries.entries()) problems.push(await buildProblem(entry, index));
   const payload = {
-    schemaVersion: 1,
+    schemaVersion: 2,
     generatedAt: new Date().toISOString(),
     source: {
       repository: `${OWNER}/${REPOSITORY}`,
