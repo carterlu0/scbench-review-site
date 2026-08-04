@@ -1,0 +1,23 @@
+name: Notify SCBench review site
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "problems/**"
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger review-site synchronization
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.REVIEW_SITE_DISPATCH_TOKEN }}
+          script: |
+            await github.rest.repos.createDispatchEvent({
+              owner: "REVIEW_SITE_OWNER",
+              repo: "REVIEW_SITE_REPOSITORY",
+              event_type: "scbench-problems-updated",
+              client_payload: { source_sha: context.sha }
+            });
