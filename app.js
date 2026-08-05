@@ -182,6 +182,12 @@ function renderMarkdown(source) {
       output.push(`<li>${renderInlineMarkdown((unordered || ordered)[1])}</li>`);
       continue;
     }
+    const listContinuation = line.match(/^\s{2,}(.+)$/);
+    if (listType && listContinuation) {
+      const lastItem = output.length - 1;
+      output[lastItem] = output[lastItem].replace(/<\/li>$/, ` ${renderInlineMarkdown(listContinuation[1].trim())}</li>`);
+      continue;
+    }
     if (listType) closeList();
     const quote = line.match(/^\s{0,3}>\s?(.*)$/);
     if (quote) {
@@ -340,6 +346,59 @@ function bindRows() {
   });
 }
 
+function durationLabel(value) {
+  const seconds = Number(value);
+  if (!Number.isFinite(seconds) || seconds < 0) return "";
+  const minutes = Math.floor(seconds / 60);
+  const remainder = Math.round(seconds % 60);
+  return minutes ? `${minutes}m ${String(remainder).padStart(2, "0")}s` : `${remainder}s`;
+}
+
+function runOutcome(run) {
+  const value = String(run?.outcome || "unknown").toLowerCase();
+  return ["passed", "failed", "error"].includes(value) ? value : "unknown";
+}
+
+function resultMetricChips(evaluation) {
+  const counts = evaluation?.counts || {};
+  const labels = { structure: "structure", core: "core", functionality: "function", regression: "regression" };
+  const chips = Object.entries(labels).flatMap(([key, label]) => {
+    const value = counts[key];
+    return Array.isArray(value) && value.length === 2 ? [`<span class="result-metric"><b>${escapeHtml(label)}</b>${escapeHtml(value[0])}/${escapeHtml(value[1])}</span>`] : [];
+  });
+  if (evaluation?.core_gate_passed !== undefined) {
+    chips.push(`<span class="result-metric ${evaluation.core_gate_passed ? "metric-pass" : "metric-fail"}"><b>core gate</b>${evaluation.core_gate_passed ? "passed" : "blocked"}</span>`);
+  }
+  return chips.join("");
+}
+
+function renderEvaluationResults(problem) {
+  const runs = Array.isArray(problem.evaluationRuns) ? problem.evaluationRuns : [];
+  if (!runs.length) {
+    return `<div class="results-empty"><strong>No evaluation results published yet.</strong><p>This area is reserved for future round-by-round, model-level, and case-level results.</p><div class="results-schema"><div class="schema-cell">round / checkpoint</div><div class="schema-cell">model / runner</div><div class="schema-cell">pass rate / notes</div></div></div>`;
+  }
+  const evaluatedRuns = runs.filter((run) => run.checkpoints?.some((checkpoint) => checkpoint.evaluation)).length;
+  const passedRuns = runs.filter((run) => runOutcome(run) === "passed").length;
+  const infrastructureFailures = runs.filter((run) => run.checkpoints?.some((checkpoint) => checkpoint.evaluation?.infrastructure_failure)).length;
+  const runCards = runs.map((run) => {
+    const outcome = runOutcome(run);
+    const checkpointRows = (run.checkpoints || []).map((checkpoint) => {
+      const evaluation = checkpoint.evaluation;
+      const state = String(checkpoint.state || "unknown").toLowerCase();
+      const evaluatorNote = evaluation
+        ? `pytest ${escapeHtml(evaluation.pytest_exit_code)}${evaluation.infrastructure_failure ? " · infrastructure failure" : ""}`
+        : "no evaluator result";
+      return `<div class="run-checkpoint-row"><div><span class="run-state state-${escapeHtml(state)}">${escapeHtml(state)}</span><strong>${escapeHtml(checkpoint.checkpoint || "checkpoint")}</strong><span class="run-duration">${escapeHtml(durationLabel(checkpoint.duration_seconds))}</span></div><div class="run-checkpoint-detail"><div class="result-metrics">${resultMetricChips(evaluation)}</div><span>${evaluatorNote}</span></div></div>`;
+    }).join("");
+    return `<article class="run-card">
+      <div class="run-card-header"><div><span class="run-outcome outcome-${outcome}">${escapeHtml(outcome)}</span><h3>${escapeHtml(run.model || "model not recorded")}</h3><p>${escapeHtml(run.agent?.type || "agent")} ${escapeHtml(run.agent?.version || "")} · ${escapeHtml(run.prompt || "prompt not recorded")} · ${escapeHtml(run.thinking || "thinking not recorded")}</p></div>${run.sourcePath ? `<a class="action-link" href="${escapeHtml(run.sourcePath)}" target="_blank" rel="noreferrer">run record ↗</a>` : ""}</div>
+      <div class="run-meta"><span>run ${escapeHtml(run.run_id || "unknown")}</span><span>${escapeHtml(syncTimestamp(run.exported_at) || "time not recorded")}</span><span>${escapeHtml(run.completed_checkpoints || 0)} / ${escapeHtml(run.expected_checkpoints || "?")} checkpoints</span></div>
+      <div class="run-checkpoint-list">${checkpointRows || `<p class="run-empty">No checkpoint details recorded.</p>`}</div>
+    </article>`;
+  }).join("");
+  return `<div class="results-overview"><div><strong>${runs.length}</strong><span>runs</span></div><div><strong>${evaluatedRuns}</strong><span>evaluated</span></div><div><strong>${passedRuns}</strong><span>passed</span></div><div><strong>${infrastructureFailures}</strong><span>infra failures</span></div></div><div class="results-runs">${runCards}</div>`;
+}
+
 function renderReview(problem) {
   const checkpointPrompts = checkpointPromptsFor(problem);
   const checkpointCards = checkpointPrompts.map((checkpoint, index) => `<details class="checkpoint-card"${index === checkpointPrompts.length - 1 ? " open" : ""}>
@@ -361,8 +420,8 @@ function renderReview(problem) {
           <div class="panel-body"><div class="checkpoint-list">${checkpointCards}</div></div>
         </section>
         <section class="review-panel">
-          <div class="panel-heading"><h2>Evaluation results</h2><span>reserved</span></div>
-          <div class="panel-body"><div class="results-empty"><strong>No evaluation results published yet.</strong><p>This area is reserved for future round-by-round, model-level, and case-level results.</p><div class="results-schema"><div class="schema-cell">round / checkpoint</div><div class="schema-cell">model / runner</div><div class="schema-cell">pass rate / notes</div></div></div></div>
+          <div class="panel-heading"><h2>Evaluation results</h2><span>${Array.isArray(problem.evaluationRuns) ? `${problem.evaluationRuns.length} run${problem.evaluationRuns.length === 1 ? "" : "s"}` : "reserved"}</span></div>
+          <div class="panel-body">${renderEvaluationResults(problem)}</div>
         </section>
       </div>
       <aside class="review-side">
