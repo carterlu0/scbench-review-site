@@ -1,10 +1,10 @@
 {
-  "schemaVersion": 2,
-  "generatedAt": "2026-08-05T07:19:29.515Z",
+  "schemaVersion": 3,
+  "generatedAt": "2026-08-05T08:42:49.165Z",
   "source": {
     "repository": "carterlu0/scbench-rtl-problems",
     "branch": "main",
-    "commit": "40c8d2610135bd2208b1242aa68fade4e6d7e22a"
+    "commit": "14e32b0e51b96e12ab0ee9ee468944aaf7805fb9"
   },
   "problems": [
     {
@@ -51,6 +51,257 @@
           "label": "checkpoint_3",
           "prompt": "# checkpoint_3: Add next common_cells functionality\n\nYou are given a writable baseline RTL repository in `repo/`. Your task is to implement the public behavior for this checkpoint while preserving prior behavior.\n\n## Public Goal\n\nBring the repository from the starting snapshot to the next public functionality surface while\npreserving all earlier checkpoint behavior. This is an incremental extension plus behavior-fix\ncheckpoint, not a request to reconstruct a final snapshot byte-for-byte.\n\n## Candidate Modules\n\n```text\ncredit_counter\n```\n\n## Entrypoint Contract\n\nCreate or update `%%%ENTRYPOINT:entry_file%%%` so it can be run from the workspace root as:\n\n```bash\n%%%ENTRYPOINT:entry_command%%% checkpoint_3\n```\n\nThe script must modify `repo/` in the current working directory and should be idempotent. Do not assume the entrypoint file is located in `$PWD`.\n\n## Required Repository Behavior\n\nThe `credit_counter` addition is required as specified below. In addition, every behavioral\nchange in this checkpoint that affects a public DUT contract is active:\n\n- `stream_join_dynamic` must handshake only selected inputs; unselected inputs must never receive\n\t`inp_ready_o` on an output handshake.\n- `mem_to_banks_detailed` must not emit a spurious response after a full dead write and must retain\n\tits user payload association.\n- The public `FFARNC` macro must give synchronous clear priority over the ordinary D assignment;\n\ton a rising edge with `clear=1`, Q must take the reset value even if D differs.\n- `id_queue` must expose `NUM_CMP_PORTS` and packed-array exists compare ports so independent\n\tcompare requests can run in parallel. It must also expose `CUT_OUP_POP_INP_GNT`; when set, a full\n\tqueue must not grant a new input solely because an output is popped in the same cycle.\n- `delta_counter` must preserve active-low reset, load, clear, up/down delta count, and sticky\n\toverflow behavior. The reset rewrite in this checkpoint is a tool-safe coding correction whose 0/1 simulation\n\tsimulation semantics are equivalent to the starting snapshot; it is a still-active behavior regression, not a new algorithm.\n- `stream_to_mem` must retain its request/response bridge behavior while assertions are inactive\n\tduring reset; assertion macro/message changes and CI/tool compatibility changes are not candidate\n\tfunctionality.\n\n`stream_xbar` additionally exposes `AxiVldMask`, which masks payload bits checked by its built-in\nready/valid stability assertions. This parameter changes assertion coverage, not routed payload\ndata, and is therefore a public validation-support surface rather than a new crossbar data-path\nbehavior.\n\nThe `stream_arbiter_flushable` priority branch changes its internal `LockIn` argument from one to\nzero, but that branch also selects `ExtPrio=1`; `rr_arb_tree` bypasses all lock state in external\npriority mode in both endpoint versions. The edit therefore has no observable public behavior and\nis not a candidate requirement.\n\nThe endpoint may contain additional assertion-only, documentation, or compatibility diffs from the\nnext snapshot; those are not hidden implementation requirements. Every behavior listed in this\ncheckpoint must be observable through the independent evaluator oracle.\n\nAdd or preserve the final checkpoint files:\n\n- `repo/src/credit_counter.sv`\n- `repo/src/stream_join_dynamic.sv`\n- `repo/src/stream_to_mem.sv`\n- `repo/src/mem_to_banks_detailed.sv`\n- `repo/src/delta_counter.sv`\n- `repo/src/id_queue.sv`\n- `repo/src/stream_xbar.sv`\n- `repo/test/stream_to_mem_tb.sv`\n\n`credit_counter` must track a bounded credit count. Its parameter list must expose `NumCredits`, `InitCreditEmpty`, and an overrideable `parameter type credit_cnt_t = logic [$clog2(NumCredits):0]`; do not make `credit_cnt_t` a `localparam type`. Its public ports must include `clk_i`, `rst_ni`, `credit_o`, `credit_give_i`, `credit_take_i`, `credit_init_i`, `credit_left_o`, `credit_crit_o`, and `credit_full_o`. With `InitCreditEmpty=1`, it resets to zero, increments on `credit_give_i`, decrements on `credit_take_i`, reinitializes on `credit_init_i`, asserts `credit_left_o` when nonzero, asserts `credit_crit_o` when giving one more credit would fill the counter (`credit_o == NumCredits - 1`), and asserts `credit_full_o` at `NumCredits`.\n\n`stream_join_dynamic` must join only the selected input streams. `oup_valid_o` may assert only when `sel_i` is nonzero and every selected bit in `inp_valid_i` is high. On an output handshake, `inp_ready_o` must assert exactly for selected inputs.\n\nIt must expose this public SystemVerilog interface:\n\n```systemverilog\nmodule stream_join_dynamic #(\n\tparameter int unsigned N_INP = 32'd0\n) (\n\tinput  logic [N_INP-1:0] inp_valid_i,\n\toutput logic [N_INP-1:0] inp_ready_o,\n\tinput  logic [N_INP-1:0] sel_i,\n\toutput logic             oup_valid_o,\n\tinput  logic             oup_ready_i\n);\n```\n\n`stream_to_mem` must bridge request/response ready-valid streams to a memory request and memory response interface. It must forward request payloads to `mem_req_o`, apply backpressure through `req_ready_o`, buffer memory responses when `BufDepth > 0`, expose them on `resp_o/resp_valid_o`, and clear responses after `resp_ready_i` handshakes.\n\nIt must expose this public SystemVerilog interface:\n\n```systemverilog\nmodule stream_to_mem #(\n\tparameter type         mem_req_t  = logic,\n\tparameter type         mem_resp_t = logic,\n\tparameter int unsigned BufDepth   = 32'd1\n) (\n\tinput  logic      clk_i,\n\tinput  logic      rst_ni,\n\tinput  mem_req_t  req_i,\n\tinput  logic      req_valid_i,\n\toutput logic      req_ready_o,\n\toutput mem_resp_t resp_o,\n\toutput logic      resp_valid_o,\n\tinput  logic      resp_ready_i,\n\toutput mem_req_t  mem_req_o,\n\toutput logic      mem_req_valid_o,\n\tinput  logic      mem_req_ready_i,\n\tinput  mem_resp_t mem_resp_i,\n\tinput  logic      mem_resp_valid_i\n);\n```\n\n## Still-active Prior Requirements\n\nThe previous `lossy_valid_to_stream` behavior remains active: it must still expose the checkpoint 1 public interface and preserve the valid-only to ready/valid conversion behavior, including the two-entry lossy overwrite policy while stalled. The final snapshot may include ordinary upstream compatibility edits to `repo/src/lossy_valid_to_stream.sv`, so do not rely on byte-for-byte preservation for that source file; preserve the behavior.\n\nThe previous `passthrough_stream_fifo` behavior remains active. Preserve `repo/src/passthrough_stream_fifo.sv` and `repo/test/passthrough_stream_fifo_tb.sv` byte-for-byte unchanged from the checkpoint 2 baseline, and keep the public interface `Depth`, `PrintInfo`, `SameCycleRW`, `type_t`, `clk_i`, `rst_ni`, `flush_i`, `testmode_i`, `data_i`, `valid_i`, `ready_o`, `data_o`, `valid_o`, and `ready_i`. Its core same-cycle full pop/push behavior must still hold for `Depth=2` and `SameCycleRW=1`.\n\n`repo/test/lossy_valid_to_stream_tb.sv` must also remain byte-for-byte unchanged from the checkpoint 2 baseline.\n\n## Local Validation\n\n```bash\n%%%ENTRYPOINT:entry_command%%% checkpoint_3\n```\n\n## Scope Restrictions\n\n- Do not require network access during tests.\n- Do not require submodule checkout during tests.\n- Do not add local simulation artifacts to `repo/`.",
           "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/common-cells-t1/pipeline/checkpoint_3.md"
+        }
+      ],
+      "evaluationRuns": [
+        {
+          "schema_version": 1,
+          "run_id": "20260805T1548",
+          "exported_at": "2026-08-05T08:25:42.317215+00:00",
+          "published_problem": "common-cells-t1",
+          "source_problem": "common_cells_t1_pipeline",
+          "release_commit": "5bee80e875090b9885b1b3753ed284d13b50eee5",
+          "definition_sha256": {
+            "config.yaml": "1f835c7fc7f901f9ce4acb2cdc5246022954542ad880dcb51f25398b07e83ab2",
+            "checkpoint_1.md": "84c4866cc059bdc436df85aff2f43b91afe39083db461f5361821514b93291f9",
+            "checkpoint_2.md": "fc9a666806f3372b2fc0f960c5a5b9de11cec381519c78fe8b5db8fbc520712e",
+            "checkpoint_3.md": "4984a90bac22b3a26d8a029f8d73958d53302219b2c5cb288f5cbdd249c4faf6"
+          },
+          "source_run": {
+            "directory": "codex-0.141.0_rtl-plan-and-test_high_20260805T1548",
+            "result_json_sha256": "2449cbb6bc7a7e3f5490ead915a3bad526b0e0a080ff6c7b4a36e5e20ac14f92",
+            "checkpoint_results_sha256": "29171e326afcff1ff4d402b8a833e5c864ef6e84b2253d15c8d5b3b378604b25"
+          },
+          "agent": {
+            "type": "codex",
+            "version": "0.141.0"
+          },
+          "model": "agicto-gpt-5.6-luna",
+          "prompt": "rtl-plan-and-test",
+          "thinking": "high",
+          "expected_checkpoints": 3,
+          "completed_checkpoints": 3,
+          "outcome": "failed",
+          "checkpoints": [
+            {
+              "checkpoint": "checkpoint_1",
+              "state": "ran",
+              "started_at": "2026-08-05T15:49:01.624508",
+              "ended_at": "2026-08-05T15:57:54.259883",
+              "duration_seconds": 532.635375,
+              "steps": 40,
+              "evaluation": {
+                "pytest_exit_code": 1,
+                "infrastructure_failure": false,
+                "counts": {
+                  "structure": [
+                    1,
+                    1
+                  ],
+                  "core": [
+                    1,
+                    2
+                  ],
+                  "functionality": [
+                    0,
+                    0
+                  ],
+                  "regression": [
+                    1,
+                    1
+                  ],
+                  "error": [
+                    0,
+                    0
+                  ]
+                },
+                "core_gate_passed": false,
+                "sha256": "06751bb0dc4b8a6ded871a2d0530a6ce9551aa1efdd6746144f3aaf6ec8663a0"
+              }
+            },
+            {
+              "checkpoint": "checkpoint_2",
+              "state": "ran",
+              "started_at": "2026-08-05T15:58:03.474010",
+              "ended_at": "2026-08-05T16:06:57.808330",
+              "duration_seconds": 534.33432,
+              "steps": 46,
+              "evaluation": {
+                "pytest_exit_code": 1,
+                "infrastructure_failure": false,
+                "counts": {
+                  "structure": [
+                    1,
+                    1
+                  ],
+                  "core": [
+                    3,
+                    6
+                  ],
+                  "functionality": [
+                    0,
+                    0
+                  ],
+                  "regression": [
+                    1,
+                    5
+                  ],
+                  "error": [
+                    0,
+                    0
+                  ]
+                },
+                "core_gate_passed": false,
+                "sha256": "04d40eeba0c6444453b222852fb35a1ccca6bc4e7d4e03bf20217d9df884b4f5"
+              }
+            },
+            {
+              "checkpoint": "checkpoint_3",
+              "state": "ran",
+              "started_at": "2026-08-05T16:07:26.501590",
+              "ended_at": "2026-08-05T16:16:44.836696",
+              "duration_seconds": 558.335106,
+              "steps": 49,
+              "evaluation": {
+                "pytest_exit_code": 1,
+                "infrastructure_failure": false,
+                "counts": {
+                  "structure": [
+                    1,
+                    1
+                  ],
+                  "core": [
+                    2,
+                    4
+                  ],
+                  "functionality": [
+                    1,
+                    1
+                  ],
+                  "regression": [
+                    3,
+                    15
+                  ],
+                  "error": [
+                    0,
+                    0
+                  ]
+                },
+                "core_gate_passed": false,
+                "sha256": "3c9cb926e73b79651173286d24868b2e175959165f1c52cc906940ff044dfca1"
+              }
+            }
+          ],
+          "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/common-cells-t1/agent-results/runs/20260805T1548.json"
+        },
+        {
+          "schema_version": 1,
+          "run_id": "20260805T1432",
+          "exported_at": "2026-08-05T06:50:09.171844+00:00",
+          "published_problem": "common-cells-t1",
+          "source_problem": "common_cells_t1_pipeline",
+          "release_commit": "136b95c7f320bbc74eccd7cf1d034c1864b92bf6",
+          "definition_sha256": {
+            "config.yaml": "1f835c7fc7f901f9ce4acb2cdc5246022954542ad880dcb51f25398b07e83ab2",
+            "checkpoint_1.md": "84c4866cc059bdc436df85aff2f43b91afe39083db461f5361821514b93291f9",
+            "checkpoint_2.md": "fc9a666806f3372b2fc0f960c5a5b9de11cec381519c78fe8b5db8fbc520712e",
+            "checkpoint_3.md": "4984a90bac22b3a26d8a029f8d73958d53302219b2c5cb288f5cbdd249c4faf6"
+          },
+          "source_run": {
+            "directory": "codex-0.141.0_rtl-plan-and-test_medium_20260805T1432",
+            "result_json_sha256": "8b91308a9c242442409e5a63a943f64588e980f9cd5c7187fd5dab003a93ec76",
+            "checkpoint_results_sha256": "d48911e2b567c70c92c52159f8f5ff061cac3ec9e2796cc91a56400f9a7ea6ae"
+          },
+          "agent": {
+            "type": "codex",
+            "version": "0.141.0"
+          },
+          "model": "agicto-gpt-5.6-luna",
+          "prompt": "rtl-plan-and-test",
+          "thinking": "medium",
+          "expected_checkpoints": 3,
+          "completed_checkpoints": 1,
+          "outcome": "failed",
+          "checkpoints": [
+            {
+              "checkpoint": "checkpoint_1",
+              "state": "ran",
+              "started_at": "2026-08-05T14:32:26.052643",
+              "ended_at": "2026-08-05T14:40:52.201267",
+              "duration_seconds": 506.148624,
+              "steps": 40,
+              "evaluation": {
+                "pytest_exit_code": 1,
+                "infrastructure_failure": false,
+                "counts": {
+                  "structure": [
+                    1,
+                    1
+                  ],
+                  "core": [
+                    1,
+                    2
+                  ],
+                  "functionality": [
+                    0,
+                    0
+                  ],
+                  "regression": [
+                    1,
+                    1
+                  ],
+                  "error": [
+                    0,
+                    0
+                  ]
+                },
+                "core_gate_passed": false,
+                "sha256": "2fdc32464af145e6daae96bff9d3dae54bd1948eeaa70f625660252d2b764a67"
+              }
+            }
+          ],
+          "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/common-cells-t1/agent-results/runs/20260805T1432.json"
+        },
+        {
+          "schema_version": 1,
+          "run_id": "20260805T1059",
+          "exported_at": "2026-08-05T06:31:25.366339+00:00",
+          "published_problem": "common-cells-t1",
+          "source_problem": "common_cells_t1_pipeline",
+          "release_commit": "136b95c7f320bbc74eccd7cf1d034c1864b92bf6",
+          "definition_sha256": {
+            "config.yaml": "1f835c7fc7f901f9ce4acb2cdc5246022954542ad880dcb51f25398b07e83ab2",
+            "checkpoint_1.md": "84c4866cc059bdc436df85aff2f43b91afe39083db461f5361821514b93291f9",
+            "checkpoint_2.md": "fc9a666806f3372b2fc0f960c5a5b9de11cec381519c78fe8b5db8fbc520712e",
+            "checkpoint_3.md": "4984a90bac22b3a26d8a029f8d73958d53302219b2c5cb288f5cbdd249c4faf6"
+          },
+          "source_run": {
+            "directory": "codex-0.141.0_rtl-plan-and-test_medium_20260805T1059",
+            "result_json_sha256": "85240e518f9e6007753cd3d216d89dabd3def48eda7ccf18dd2422730858209d",
+            "checkpoint_results_sha256": "5e7d7cbf6e4213354250a5cb12418553056bd0a68f65f07226bd70a6aa1c0dc0"
+          },
+          "agent": {
+            "type": "codex",
+            "version": "0.141.0"
+          },
+          "model": "beeapi-gpt-5.6-luna",
+          "prompt": "rtl-plan-and-test",
+          "thinking": "medium",
+          "expected_checkpoints": 3,
+          "completed_checkpoints": 1,
+          "outcome": "error",
+          "checkpoints": [
+            {
+              "checkpoint": "checkpoint_1",
+              "state": "error",
+              "started_at": "2026-08-05T10:59:13.330906",
+              "ended_at": "2026-08-05T11:34:46.401683",
+              "duration_seconds": 2133.070777,
+              "steps": 9,
+              "evaluation": null
+            }
+          ],
+          "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/common-cells-t1/agent-results/runs/20260805T1059.json"
         }
       ]
     },
@@ -126,7 +377,8 @@
           "prompt": "# checkpoint_6: Add AXI dual-port RAM\n\nYou are given a writable baseline RTL repository in `repo/`. Your task is to implement the public behavior for this checkpoint while preserving prior behavior.\n\n## Public Goal\n\nAdd the AXI RAM interface and dual-port AXI RAM so two AXI ports can safely share a memory-backed target while preserving the full prior AXI subsystem behavior.\n\n## Candidate Modules\n\n```text\ntaxi_axi_ram_if_rdwr, taxi_axi_ram_if_rd, taxi_axi_ram_if_wr, taxi_axi_dp_ram\n```\n\n## Entrypoint Contract\n\nCreate or update `%%%ENTRYPOINT:entry_file%%%` so it can be run from the workspace root as:\n\n```bash\n%%%ENTRYPOINT:entry_command%%% checkpoint_6\n```\n\nThe script must modify `repo/` in the current working directory and should be idempotent. Do not assume the entrypoint file is located in `$PWD`. Because grading is cumulative, this checkpoint's entrypoint must accept every checkpoint name up through the current checkpoint; when invoked with an older checkpoint name, it must validate or prepare that checkpoint's files without failing only because the requested checkpoint is older.\n\nThe entrypoint must update the `repo/` that exists in the current working directory. Do not package a complete replacement repository or source staging directory beside `build_checkpoint.sh`. Put the submitted source files in their final `repo/` locations; the entrypoint should validate or lightly prepare `$PWD/repo`, not copy a packaged repository or packaged source tree into it.\n\n## Required Repository Behavior\n\nThe checkpoint adds AXI memory-backed target support for two independent AXI ports while keeping the prior AXI interconnect and crossbar behavior active.\n\nRequired public files must be placed directly under the scored repository root `repo/`:\n\n```text\nrepo/src/axi/rtl/taxi_axi_dp_ram.sv\nrepo/src/axi/rtl/taxi_axi_dp_ram.f\nrepo/src/axi/rtl/taxi_axi_ram_if_rd.sv\nrepo/src/axi/rtl/taxi_axi_ram_if_wr.sv\nrepo/src/axi/rtl/taxi_axi_ram_if_rdwr.sv\nrepo/src/axi/rtl/taxi_axi_ram_if_rdwr.f\nrepo/src/axi/tb/taxi_axi_dp_ram/test_taxi_axi_dp_ram.py\n```\n\nDo not place the checkpoint implementation under vendored or nested source trees such as `repo/src/axi/lib/taxi/src/axi/...`; the public deliverables above must exist at `repo/src/axi/...`.\n\nThe AXI dual-port RAM must expose the `taxi_axi_dp_ram` module. The public\n`taxi_axi_ram_if_rd`, `taxi_axi_ram_if_wr`, and `taxi_axi_ram_if_rdwr` modules\nand files must remain available through the required file-list flow; their use\ninside `taxi_axi_dp_ram` is not prescribed. The two AXI ports must share the\nsame memory-backed target, support ordinary AXI ready/valid read and write\ntransactions, and return data previously written through either port at the\ncorresponding address. Burst address progression, byte strobes, backpressure,\nand independent read/write progress must not break existing AXI protocol\nbehavior.\n\nThe dual-port RAM test flow compiles the public source list\n`repo/src/axi/rtl/taxi_axi_dp_ram.f`. It must list `taxi_axi_dp_ram.sv` and\n`taxi_axi_ram_if_rdwr.f`. The nested list must in turn list\n`taxi_axi_ram_if_wr.sv`, `taxi_axi_ram_if_rd.sv`, `taxi_axi_ram_if_rdwr.sv`, and\n`taxi_axi_if.sv` in dependency-safe order.\n\nThe `taxi_axi_dp_ram` top-level parameter interface must include `ADDR_W`,\n`A_PIPELINE_OUTPUT`, `B_PIPELINE_OUTPUT`, `A_INTERLEAVE`, and `B_INTERLEAVE`.\n`A_PIPELINE_OUTPUT` and `A_INTERLEAVE` control the Port A RAM interface;\n`B_PIPELINE_OUTPUT` and `B_INTERLEAVE` independently control Port B.  The four\nper-port controls are optional logic parameters and must default to `1'b0`.\nEnabling one port's `PIPELINE_OUTPUT` control must add exactly one local-clock\ncycle from that port's accepted AR request to its accepted R response relative\nto the otherwise identical unpipelined port. Enabling one port's `INTERLEAVE`\ncontrol must permit an accepted read response on that port while a multi-beat\nwrite burst is active, before the accepted write-last beat; the read response\nmust preserve the stored payload and must not corrupt the write transaction.\n\nExisting AXI-full 1S interconnect and crossbar wrapper behavior remains active. Adding the dual-port RAM must not remove or regress the existing `taxi_axi_interconnect_1s` or `taxi_axi_crossbar_1s`. AXI-Lite modules are outside this checkpoint's candidate and regression surface.\n\nIf you run pytest, tox, cocotb, Verilator, or any local validation while solving this checkpoint, clean all generated artifacts before finishing. The final submitted `repo/` must not contain local caches, simulator outputs, or timing databases such as `.pytest_cache`, `__pycache__`, `sim_build`, `obj_dir`, `.tox`, `.test_durations`, `.coverage`, `results.xml`, `dump.vcd`, or generated waveform/log artifacts. Before the final answer, explicitly remove these artifacts from `repo/`; at minimum run cleanup equivalent to `rm -rf repo/.pytest_cache repo/**/__pycache__ repo/**/sim_build repo/**/results.xml` if any local validation was run.\n\n## Local Validation\n\n```bash\n%%%ENTRYPOINT:entry_command%%% checkpoint_6\n\ncd repo\ntox -- --verbose \\\n\t'src/axi/tb/taxi_axi_dp_ram/test_taxi_axi_dp_ram.py::test_taxi_axi_dp_ram[8]' \\\n\t'src/axi/tb/taxi_axi_dp_ram/test_taxi_axi_dp_ram.py::test_taxi_axi_dp_ram[32]' \\\n\t'src/axi/tb/taxi_axi_dp_ram/test_taxi_axi_dp_ram.py::test_taxi_axi_dp_ram_cross_port_sharing[8-a-pipeline-b-interleave]' \\\n\t'src/axi/tb/taxi_axi_dp_ram/test_taxi_axi_dp_ram.py::test_taxi_axi_dp_ram_cross_port_sharing[32-b-pipeline-a-interleave]' \\\n\t'src/axi/tb/taxi_axi_dp_ram/test_taxi_axi_dp_ram.py::test_taxi_axi_dp_ram_pipeline_latency[a]' \\\n\t'src/axi/tb/taxi_axi_dp_ram/test_taxi_axi_dp_ram.py::test_taxi_axi_dp_ram_pipeline_latency[b]' \\\n\t'src/axi/tb/taxi_axi_dp_ram/test_taxi_axi_dp_ram.py::test_taxi_axi_dp_ram_interleave_order[a]' \\\n\t'src/axi/tb/taxi_axi_dp_ram/test_taxi_axi_dp_ram.py::test_taxi_axi_dp_ram_interleave_order[b]'\n```\n\n## Scope Restrictions\n\n- Do not require network access during tests.\n- Do not require submodule checkout during tests.\n- Do not add local simulation artifacts to `repo/`.\n- Do not add future-checkpoint-only features outside the AXI RAM interface and dual-port RAM scope.",
           "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/taxi-axi-t3/pipeline/checkpoint_6.md"
         }
-      ]
+      ],
+      "evaluationRuns": []
     },
     {
       "number": "03",
@@ -191,7 +443,8 @@
           "prompt": "# checkpoint_5: Add MARK_WHEN_FULL FIFO behavior\n\nYou are given a writable baseline RTL repository in `repo/`. Your task is to implement the public behavior for this checkpoint while preserving all prior FIFO and pipeline behavior.\n\n## Public Goal\n\nImplement the `MARK_WHEN_FULL` FIFO option so frames that encounter a full FIFO condition can be retained and marked bad instead of being silently accepted as clean data or dropped through the wrong policy path.\n\n## Candidate Modules\n\n```text\naxis_fifo, axis_async_fifo, axis_pipeline_fifo,\naxis_fifo_adapter, axis_async_fifo_adapter\n```\n\n## Entrypoint Contract\n\nCreate or update `build_checkpoint.sh` so it can be run from the workspace root as:\n\n```bash\nbash build_checkpoint.sh checkpoint_5\n```\n\nThe script must modify `repo/` in the current working directory and should be idempotent. Do not assume the entrypoint file is located in `$PWD`.\n\n## Required Repository Behavior\n\nUpdate `repo/rtl/axis_fifo.v`, `repo/rtl/axis_async_fifo.v`,\n`repo/rtl/axis_fifo_adapter.v`, and `repo/rtl/axis_async_fifo_adapter.v` with\n`MARK_WHEN_FULL` behavior compatible with the public endpoint harness.\nPreserve `axis_pipeline_fifo` and all earlier FIFO features.\n\nPublic structural and configuration contract for this checkpoint:\n\n- `axis_fifo` and `axis_async_fifo` must expose a `MARK_WHEN_FULL` parameter;\n- `axis_fifo_adapter` and `axis_async_fifo_adapter` must expose and propagate\n\t`MARK_WHEN_FULL` without changing marked-frame data, termination, or sidebands;\n- `MARK_WHEN_FULL` is a separate full-condition policy from `DROP_WHEN_FULL` and must not require `DROP_WHEN_FULL` to be enabled;\n- `MARK_WHEN_FULL` must work when `LAST_ENABLE=1` and `FRAME_FIFO=0`;\n- `MARK_WHEN_FULL` is not compatible with `FRAME_FIFO=1`;\n- `MARK_WHEN_FULL` requires `LAST_ENABLE=1`;\n- when `MARK_WHEN_FULL=1`, `USER_BAD_FRAME_MASK` must select at least one\n\tenabled user bit so a marked frame has an observable bad-frame indication;\n- `MARK_WHEN_FULL` must not require `DROP_OVERSIZE_FRAME=1`;\n- keep the existing pause-control, status-depth, AXI Stream, and reset interfaces from the checkpoint_4 baseline modules intact.\n\nStill-active prior contract:\n\n- checkpoint_1 `DROP_OVERSIZE_FRAME`, `DROP_BAD_FRAME`, and oversized-frame consume/drop behavior remain active in `axis_fifo` and `axis_async_fifo`;\n- checkpoint_2 `axis_pipeline_fifo` remains active, including the public module interface, `LENGTH=0` bypass, and positive `LENGTH` buffering with aligned sideband signals;\n- checkpoint_3 status-depth ports remain active on `axis_fifo` and `axis_async_fifo` with the same names, widths, and clock-domain ownership;\n- checkpoint_4 pause ports and `PAUSE_ENABLE`/`FRAME_PAUSE` behavior remain active on `axis_fifo` and `axis_async_fifo`.\n- the checkpoint_3 async FIFO interface remains active: use `s_rst` and `m_rst`, plus `RAM_PIPELINE` and `OUTPUT_FIFO_ENABLE`; the earlier `async_rst` input and `PIPELINE_OUTPUT` parameter are retired.\n\nObservable behavior requirements:\n\n- when configured, a full-condition frame can be emitted with the configured bad-frame user indication instead of being treated as clean;\n- when a frame becomes full after at least one beat was accepted, the accepted\n\tordered prefix is retained and followed by exactly one terminating beat with\n\t`tlast=1` and the configured bad-frame user indication; discarded suffix beats\n\tmust not reappear as ordinary data beats;\n- `MARK_WHEN_FULL` must be distinct from `DROP_WHEN_FULL` behavior;\n- marked frames must still preserve AXI Stream frame termination and metadata alignment;\n- `tid` and `tdest` remain aligned across the retained prefix and terminating\n\tbeat, and a subsequent ordinary frame must pass normally after recovery;\n- invalid `MARK_WHEN_FULL` configurations above must be rejected during\n\telaboration or at simulation start with a clear diagnostic;\n- ordinary non-full frames must pass unchanged;\n- pause, status-depth, oversized-frame, async FIFO, and pipeline FIFO behavior must continue to work.\n\n## Local Validation\n\n```bash\nbash build_checkpoint.sh checkpoint_5\nbash local_validation/run_checks.sh checkpoint_5\n```\n\n## Final Grading Surface\n\nThe grader overlays submitted FIFO RTL files from `repo/rtl/` into the matching endpoint snapshot harness and runs snapshot-declared incremental tox/cocotb tests. Source text does not need to match the reference implementation byte-for-byte, but public module names, parameters, ports, and AXI Stream behavior must be interface-compatible with the endpoint harness.\n\n## Scope Restrictions\n\n- Do not require network access during tests.\n- Do not require submodule checkout during tests.\n- Do not add local simulation artifacts to `repo/`.\n- Do not bypass the FIFO behavior by special-casing the public tests.",
           "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-axis-fifo-t1/pipeline/checkpoint_5.md"
         }
-      ]
+      ],
+      "evaluationRuns": []
     },
     {
       "number": "04",
@@ -220,7 +473,8 @@
           "prompt": "# Single-round checkpoint_1: Modernize the axis_fifo test suite\n\nYou are given a historical `alexforencich/verilog-axis` snapshot with the legacy MyHDL/pytest test flow. Your task is to modernize the `axis_fifo` test environment while preserving the public FIFO behavior.\n\n## Public Goal\n\nReplace the legacy `axis_fifo` test flow with a focused cocotb/cocotb-test style testbench that can exercise the same FIFO behavior under Icarus Verilog and provide a clearer behavioral oracle for ready/valid, pause, reset, `tuser`, and overflow behavior.\n\n## Scope\n\nTarget component:\n\n```text\naxis_fifo\n```\n\nReference snapshots:\n\n```text\nlegacy: 2021-04-03_pre_tox_myhdl_travis_9d99ec0\nmodern: 2021-04-03_cocotb_testbenches_74c1014\n```\n\n## Required Repository Behavior\n\nThe candidate should preserve the RTL behavior of `axis_fifo` and provide a focused modern testbench that can be run from the component test directory with Icarus Verilog.\n\nFinal grading evaluates submitted testbench and environment changes against the provided/reference `axis_fifo` RTL. Do not change RTL to satisfy tests except for incidental compatibility edits explicitly required by the test flow.\n\nYour submitted snapshot is evaluated from an evaluator-controlled working directory. The entrypoint must not hard-code `/workspace/repo` or any host-specific absolute path. It should operate on the current working directory and produce a `repo/` directory containing the updated repository. If a `repo/` directory is already present next to the entrypoint, use that as the source repository; otherwise copy or update the evaluator-provided repository material in the current workspace.\n\nThe provided legacy repository is the starting tree. Materializing its complete\ncontents into final `repo/` is expected and is not modernization work. Keep\nexisting RTL and unrelated legacy testbenches unchanged unless a small\ncompatibility edit is essential to run the focused `axis_fifo` test flow. The\nintended implementation changes are the focused `axis_fifo` test surface and\nits runner, not a repository-wide rewrite.\n\nProvide or update these focused test-surface files:\n\n- `repo/tb/axis_fifo/test_axis_fifo.py`: a cocotb/cocotb-test style focused testbench for `axis_fifo` that uses `cocotbext-axi` AXI-stream helpers such as `AxiStreamSource`, `AxiStreamSink`, `AxiStreamBus`, or `AxiStreamFrame` rather than a fully hand-written AXI-stream driver;\n- `repo/tb/axis_fifo/Makefile`: an Icarus/cocotb Makefile that declares `VERILOG_SOURCES` and uses `cocotb-config`;\n- `repo/run_snapshot_tests.sh`: a runner that exposes a focused `axis_fifo` command, for example by entering `tb/axis_fifo` and running `make SIM=icarus WAVES=0`;\n- `build_checkpoint.sh`: the checkpoint entrypoint should prepare the final `repo/` tree for evaluation.\n\nAfter `build_checkpoint.sh` has prepared `repo/`, the focused runner should be invocable from the working directory that contains `repo/` as `sh repo/run_snapshot_tests.sh axis_fifo`.\n\nThe modern testbench should cover at least these behavior families:\n\n- normal packet transfer;\n- source and sink pause/backpressure;\n- reset during traffic;\n- `tuser` assertion behavior;\n- overflow or bad-frame handling where supported by the historical implementation.\n\nDo not turn this task into a broad RTL feature-addition checkpoint. The intended work is test-suite modernization and oracle improvement for an existing component.\n\nDo not vendor dependency trees such as `myhdl/`, `cocotb/`, `cocotbext/`, `.venv/`, or `venv/` into `repo/`. Do not submit local simulation/cache artifacts such as `sim_build/`, `.pytest_cache/`, `.tox/`, `results.xml`, `*.vvp`, `*.vcd`, or `*.fst`.\n\n## Final Submission Hygiene\n\nBefore finishing, inspect the final `repo/` tree and remove historical recovery artifacts, dependency source trees, and simulator outputs. The strict legacy MyHDL tarball/tree may be useful for construction evidence outside the submitted repository, but it must not be copied into final `repo/`. In particular, the final submitted repository should not contain `repo/myhdl`, `repo/myhdl.tar.gz`, or `repo/myhdl-*.tar.gz`.\n\nAfter running local validation, clean generated simulator and pytest artifacts before returning the answer. A suitable cleanup command is:\n\n```bash\nrm -rf repo/tb/axis_fifo/sim_build repo/tb/axis_fifo/.pytest_cache repo/.pytest_cache repo/.tox\nfind repo -name '*.vvp' -o -name '*.vcd' -o -name '*.fst' -o -name 'results.xml'\n```\n\nIf that `find` command prints paths, remove those generated files before final submission. The final answer should leave only source files, testbench files, scripts, and documentation needed to reproduce the focused `axis_fifo` modernization.\n\nThe focused runner must also be reproducible in the evaluation environment. It may set up or invoke required Python packages from the runner without vendoring their source trees into `repo/`. Do not rely on a manually activated shell environment that is not created by the submitted scripts or documented runner setup.\n\nThe expected scoring is feature-point based: file surface, cocotb migration, AXI-stream helper usage, Makefile wiring, runner interface, payload oracle, backpressure oracle, reset oracle, `tuser` oracle, overflow/bad-frame oracle, dependency hygiene, and artifact hygiene are assessed independently.\n\n## Reproduction Rules\n\nStrict historical reproduction and compatibility reproduction must remain separate.\n\nThe strict legacy endpoint is available for the focused `axis_fifo` scope. It uses the official `python:3.6-buster` base image acquired through a Docker Hub mirror and retagged locally, Debian archive apt sources for EOL Buster packages, and a snapshot-local MyHDL tarball pinned to commit `7b17942abbb2d9374df13f4f1f8c9d4589e1c88c`. A compatibility legacy Dockerfile may be used only as diagnostic evidence. Do not report compatibility results as strict historical reproduction.\n\nThe modern focused endpoint uses a documented compatibility pin, `cocotb==1.5.2`, because this snapshot relies on cocotb 1.x APIs.\n\n## Local Validation\n\nStrict legacy focused golden TB evidence exists for:\n\n```bash\nPYTEST_ARGS=test_axis_fifo.py\n```\n\nThe recorded legacy result passes with one focused pytest item.\n\nModern focused golden TB evidence currently exists for:\n\n```bash\ncd tb/axis_fifo && make SIM=icarus WAVES=0\n```\n\nThe recorded modern result passes with 8 cocotb tests and 0 errors.",
           "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-axis-fifo-t2/pipeline/checkpoint_1.md"
         }
-      ]
+      ],
+      "evaluationRuns": []
     },
     {
       "number": "05",
@@ -267,7 +521,8 @@
           "prompt": "# checkpoint_3: Add TX underrun and error verification\n\nContinue from checkpoint_2. The RTL remains evaluator-fixed input and is not part of the candidate output.\n\nExtend both `axis_gmii_tx` and `eth_mac_1g` verification with directed TX underrun and TX error scenarios. Check the malformed/error indication for the affected frame, verify subsequent valid frames recover with correct payload and FCS, and finish with empty/drained sinks. Preserve all prior PTP, pause, LFC/PFC, reset, payload, FCS, and dependency-compatibility coverage.\n\n`bash build_checkpoint.sh checkpoint_3` must update the same candidate TB/runner surface and continue to accept all earlier checkpoint names. Target RTL remains evaluator-only.\n\nThe evaluator runs the candidate TB against trusted checkpoint_3 target RTL and retains checkpoint_1 and checkpoint_2 verification requirements as Regression.",
           "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-ethernet-t2/pipeline/checkpoint_3.md"
         }
-      ]
+      ],
+      "evaluationRuns": []
     }
   ]
 }
