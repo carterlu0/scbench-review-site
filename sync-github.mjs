@@ -36,6 +36,15 @@ async function listDirectory(path) {
   return entries;
 }
 
+async function listDirectoryIfPresent(path) {
+  try {
+    return await listDirectory(path);
+  } catch (error) {
+    if (String(error.message).includes("GitHub API 404")) return [];
+    throw error;
+  }
+}
+
 async function readBranchCommit() {
   const response = await fetch(`${API_ROOT}/commits/${encodeURIComponent(BRANCH)}`, { headers });
   if (!response.ok) throw new Error(`GitHub API ${response.status} while reading commit ${BRANCH}`);
@@ -128,6 +137,18 @@ function blobUrl(path) {
   return `${REPOSITORY_URL}/blob/${encodeURIComponent(BRANCH)}/${path}`;
 }
 
+async function agentResultsFor(root) {
+  const runsRoot = `${root}/agent-results/runs`;
+  const entries = await listDirectoryIfPresent(runsRoot);
+  const runFiles = entries
+    .filter((entry) => entry.type === "file" && /\.json$/i.test(entry.name))
+    .sort((left, right) => right.name.localeCompare(left.name, undefined, { numeric: true }));
+  return Promise.all(runFiles.map(async (entry) => ({
+    ...JSON.parse(await readText(`${runsRoot}/${entry.name}`)),
+    sourcePath: blobUrl(`${runsRoot}/${entry.name}`)
+  })));
+}
+
 async function buildProblem(entry, index) {
   const id = entry.name;
   const typeMatch = id.match(/-t([1-3])$/i);
@@ -143,6 +164,7 @@ async function buildProblem(entry, index) {
     readTextIfPresent(certPath),
     listDirectory(pipelinePath)
   ]);
+  const evaluationRuns = await agentResultsFor(root);
   const checkpointFiles = pipelineEntries
     .map((item) => item.name.match(/^checkpoint_(\d+)\.md$/i))
     .filter(Boolean)
@@ -172,7 +194,8 @@ async function buildProblem(entry, index) {
     certPath: blobUrl(certPath),
     promptPath: current.sourcePath,
     checkpointLinks: checkpointPrompts.map(({ label, sourcePath }) => [label, sourcePath]),
-    checkpointPrompts
+    checkpointPrompts,
+    evaluationRuns
   };
 }
 
@@ -188,7 +211,7 @@ async function main() {
   const problems = [];
   for (const [index, entry] of entries.entries()) problems.push(await buildProblem(entry, index));
   const payload = {
-    schemaVersion: 2,
+    schemaVersion: 3,
     generatedAt: new Date().toISOString(),
     source: {
       repository: `${OWNER}/${REPOSITORY}`,
