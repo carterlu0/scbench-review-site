@@ -198,6 +198,36 @@ button, a, input { -webkit-tap-highlight-color: transparent; }
 .results-empty p { margin: 0; font-size: 12px; }
 .results-schema { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; margin-top: 14px; }
 .schema-cell { border: 1px solid var(--line-soft); border-radius: var(--radius); padding: 9px; color: var(--faint); font-family: var(--mono); font-size: 10px; }
+.results-overview { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 14px; }
+.results-overview > div { border: 1px solid var(--line-soft); border-radius: var(--radius); background: var(--surface-inset); padding: 10px; }
+.results-overview strong { display: block; color: var(--text); font-family: var(--mono); font-size: 18px; line-height: 1; }
+.results-overview span { color: var(--faint); display: block; font-family: var(--mono); font-size: 9px; margin-top: 6px; text-transform: uppercase; }
+.results-runs { display: grid; gap: 10px; }
+.run-card { border: 1px solid var(--line-soft); border-radius: var(--radius); background: var(--surface-inset); overflow: hidden; }
+.run-card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 13px 13px 10px; }
+.run-card-header h3 { color: var(--text); font-size: 13px; margin: 7px 0 2px; }
+.run-card-header p { color: var(--muted); font-family: var(--mono); font-size: 10px; margin: 0; }
+.run-outcome, .run-state { display: inline-flex; align-items: center; font-family: var(--mono); font-size: 10px; text-transform: uppercase; }
+.run-outcome::before, .run-state::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--faint); margin-right: 6px; }
+.run-outcome.outcome-passed::before { background: var(--green); }
+.run-outcome.outcome-failed::before, .run-outcome.outcome-error::before, .run-state.state-error::before { background: var(--red); }
+.run-outcome.outcome-passed { color: var(--green); }
+.run-outcome.outcome-failed, .run-outcome.outcome-error, .run-state.state-error { color: var(--red); }
+.run-state.state-ran { color: var(--blue); }
+.run-state.state-ran::before { background: var(--blue); }
+.run-meta { border-top: 1px solid var(--line-soft); border-bottom: 1px solid var(--line-soft); display: flex; flex-wrap: wrap; gap: 7px 14px; color: var(--faint); padding: 9px 13px; font-family: var(--mono); font-size: 10px; }
+.run-checkpoint-list { padding: 4px 13px 10px; }
+.run-checkpoint-row { border-bottom: 1px solid var(--line-soft); display: grid; grid-template-columns: minmax(150px, .45fr) minmax(0, 1fr); gap: 12px; padding: 10px 0; }
+.run-checkpoint-row:last-child { border-bottom: 0; }
+.run-checkpoint-row strong { color: var(--text); font-family: var(--mono); font-size: 11px; margin-left: 8px; }
+.run-duration { color: var(--faint); font-family: var(--mono); font-size: 10px; margin-left: 8px; }
+.run-checkpoint-detail { color: var(--muted); display: grid; gap: 6px; font-family: var(--mono); font-size: 10px; }
+.result-metrics { display: flex; flex-wrap: wrap; gap: 5px; }
+.result-metric { border: 1px solid var(--line); border-radius: 4px; color: var(--muted); display: inline-flex; gap: 5px; padding: 2px 5px; }
+.result-metric b { color: var(--faint); font-weight: 500; }
+.result-metric.metric-pass { border-color: var(--success-line); color: var(--green); }
+.result-metric.metric-fail { border-color: #7c5353; color: var(--red); }
+.run-empty { color: var(--faint); font-size: 11px; margin: 7px 0 0; }
 .review-note { color: var(--muted); font-size: 12px; margin: 0; }
 .text-link { color: var(--blue); }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
@@ -224,6 +254,9 @@ button, a, input { -webkit-tap-highlight-color: transparent; }
   .checkpoint-summary { grid-template-columns: 10px 90px minmax(0, 1fr); }
   .checkpoint-state { grid-column: 3; }
   .results-schema { grid-template-columns: 1fr; }
+  .results-overview { grid-template-columns: repeat(2, 1fr); }
+  .run-card-header { display: grid; }
+  .run-checkpoint-row { grid-template-columns: 1fr; gap: 6px; }
 }
 
 body[data-theme="light"] {
