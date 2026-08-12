@@ -359,6 +359,18 @@ function runOutcome(run) {
   return ["passed", "failed", "error"].includes(value) ? value : "unknown";
 }
 
+function experimentInfo(run) {
+  const srMatch = String(run?.source_problem || "").match(/(?:^|_)pipeline_sr_checkpoint_(\d+)$/i);
+  const type = run?.experimentType === "sr" || srMatch ? "sr" : "pipeline";
+  const targetCheckpoint = run?.targetCheckpoint || (srMatch ? `checkpoint_${Number(srMatch[1])}` : "");
+  return { type, targetCheckpoint };
+}
+
+function checkpointDisplayLabel(run, checkpoint) {
+  const experiment = experimentInfo(run);
+  return checkpoint?.targetCheckpoint || experiment.targetCheckpoint || checkpoint?.checkpoint || "checkpoint";
+}
+
 function resultMetricChips(evaluation) {
   const counts = evaluation?.counts || {};
   const labels = { structure: "structure", core: "core", functionality: "function", regression: "regression" };
@@ -380,23 +392,41 @@ function renderEvaluationResults(problem) {
   const evaluatedRuns = runs.filter((run) => run.checkpoints?.some((checkpoint) => checkpoint.evaluation)).length;
   const passedRuns = runs.filter((run) => runOutcome(run) === "passed").length;
   const infrastructureFailures = runs.filter((run) => run.checkpoints?.some((checkpoint) => checkpoint.evaluation?.infrastructure_failure)).length;
-  const runCards = runs.map((run) => {
+  const renderRunCard = (run) => {
     const outcome = runOutcome(run);
+    const experiment = experimentInfo(run);
     const checkpointRows = (run.checkpoints || []).map((checkpoint) => {
       const evaluation = checkpoint.evaluation;
       const state = String(checkpoint.state || "unknown").toLowerCase();
+      const displayCheckpoint = checkpointDisplayLabel(run, checkpoint);
+      const localNote = experiment.type === "sr" && checkpoint.localCheckpoint && checkpoint.localCheckpoint !== displayCheckpoint
+        ? ` · local wrapper step ${checkpoint.localCheckpoint}`
+        : "";
       const evaluatorNote = evaluation
         ? `pytest ${escapeHtml(evaluation.pytest_exit_code)}${evaluation.infrastructure_failure ? " · infrastructure failure" : ""}`
         : "no evaluator result";
-      return `<div class="run-checkpoint-row"><div><span class="run-state state-${escapeHtml(state)}">${escapeHtml(state)}</span><strong>${escapeHtml(checkpoint.checkpoint || "checkpoint")}</strong><span class="run-duration">${escapeHtml(durationLabel(checkpoint.duration_seconds))}</span></div><div class="run-checkpoint-detail"><div class="result-metrics">${resultMetricChips(evaluation)}</div><span>${evaluatorNote}</span></div></div>`;
+      return `<div class="run-checkpoint-row"><div><span class="run-state state-${escapeHtml(state)}">${escapeHtml(state)}</span><strong>${escapeHtml(displayCheckpoint)}</strong><span class="run-duration">${escapeHtml(durationLabel(checkpoint.duration_seconds))}</span></div><div class="run-checkpoint-detail"><div class="result-metrics">${resultMetricChips(evaluation)}</div><span>${evaluatorNote}${escapeHtml(localNote)}</span></div></div>`;
     }).join("");
+    const progressLabel = experiment.type === "sr"
+      ? `${experiment.targetCheckpoint || "checkpoint not recorded"} · single-round wrapper`
+      : `${escapeHtml(run.completed_checkpoints || 0)} / ${escapeHtml(run.expected_checkpoints || "?")} checkpoints`;
     return `<article class="run-card">
-      <div class="run-card-header"><div><span class="run-outcome outcome-${outcome}">${escapeHtml(outcome)}</span><h3>${escapeHtml(run.model || "model not recorded")}</h3><p>${escapeHtml(run.agent?.type || "agent")} ${escapeHtml(run.agent?.version || "")} · ${escapeHtml(run.prompt || "prompt not recorded")} · ${escapeHtml(run.thinking || "thinking not recorded")}</p></div>${run.sourcePath ? `<a class="action-link" href="${escapeHtml(run.sourcePath)}" target="_blank" rel="noreferrer">run record ↗</a>` : ""}</div>
-      <div class="run-meta"><span>run ${escapeHtml(run.run_id || "unknown")}</span><span>${escapeHtml(syncTimestamp(run.exported_at) || "time not recorded")}</span><span>${escapeHtml(run.completed_checkpoints || 0)} / ${escapeHtml(run.expected_checkpoints || "?")} checkpoints</span></div>
+      <div class="run-card-header"><div><div class="run-labels"><span class="experiment-badge experiment-${experiment.type}">${experiment.type === "sr" ? "SR" : "Pipeline"}</span><span class="run-outcome outcome-${outcome}">${escapeHtml(outcome)}</span></div><h3>${escapeHtml(run.model || "model not recorded")}</h3><p>${escapeHtml(run.agent?.type || "agent")} ${escapeHtml(run.agent?.version || "")} · ${escapeHtml(run.prompt || "prompt not recorded")} · ${escapeHtml(run.thinking || "thinking not recorded")}</p></div>${run.sourcePath ? `<a class="action-link" href="${escapeHtml(run.sourcePath)}" target="_blank" rel="noreferrer">run record ↗</a>` : ""}</div>
+      <div class="run-meta"><span>run ${escapeHtml(run.run_id || "unknown")}</span><span>${escapeHtml(syncTimestamp(run.exported_at) || "time not recorded")}</span><span>${experiment.type === "sr" ? escapeHtml(progressLabel) : progressLabel}</span></div>
       <div class="run-checkpoint-list">${checkpointRows || `<p class="run-empty">No checkpoint details recorded.</p>`}</div>
     </article>`;
+  };
+  const experimentGroups = [
+    { type: "pipeline", title: "Pipeline experiments", description: "Sequential runs across the published checkpoint pipeline." },
+    { type: "sr", title: "SR experiments", description: "Single-round wrappers evaluated against the checkpoint shown on each card." }
+  ].flatMap((group) => {
+    const groupRuns = runs.filter((run) => experimentInfo(run).type === group.type);
+    if (!groupRuns.length) return [];
+    return [`<section class="experiment-group"><div class="experiment-group-heading"><div><h3>${group.title}</h3><p>${group.description}</p></div><span>${groupRuns.length} run${groupRuns.length === 1 ? "" : "s"}</span></div><div class="results-runs">${groupRuns.map(renderRunCard).join("")}</div></section>`];
   }).join("");
-  return `<div class="results-overview"><div><strong>${runs.length}</strong><span>runs</span></div><div><strong>${evaluatedRuns}</strong><span>evaluated</span></div><div><strong>${passedRuns}</strong><span>passed</span></div><div><strong>${infrastructureFailures}</strong><span>infra failures</span></div></div><div class="results-runs">${runCards}</div>`;
+  const pipelineRuns = runs.filter((run) => experimentInfo(run).type === "pipeline").length;
+  const srRuns = runs.length - pipelineRuns;
+  return `<div class="results-overview"><div><strong>${pipelineRuns}</strong><span>pipeline runs</span></div><div><strong>${srRuns}</strong><span>SR runs</span></div><div><strong>${passedRuns}</strong><span>passed</span></div><div><strong>${infrastructureFailures}</strong><span>infra failures</span></div></div>${experimentGroups}`;
 }
 
 function renderReview(problem) {

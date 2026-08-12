@@ -143,10 +143,23 @@ async function agentResultsFor(root) {
   const runFiles = entries
     .filter((entry) => entry.type === "file" && /\.json$/i.test(entry.name))
     .sort((left, right) => right.name.localeCompare(left.name, undefined, { numeric: true }));
-  return Promise.all(runFiles.map(async (entry) => ({
-    ...JSON.parse(await readText(`${runsRoot}/${entry.name}`)),
-    sourcePath: blobUrl(`${runsRoot}/${entry.name}`)
-  })));
+  return Promise.all(runFiles.map(async (entry) => {
+    const run = JSON.parse(await readText(`${runsRoot}/${entry.name}`));
+    const srMatch = String(run.source_problem || "").match(/(?:^|_)pipeline_sr_checkpoint_(\d+)$/i);
+    const experimentType = srMatch ? "sr" : "pipeline";
+    const targetCheckpoint = srMatch ? `checkpoint_${Number(srMatch[1])}` : "";
+    return {
+      ...run,
+      experimentType,
+      targetCheckpoint,
+      checkpoints: Array.isArray(run.checkpoints) ? run.checkpoints.map((checkpoint) => ({
+        ...checkpoint,
+        localCheckpoint: checkpoint.checkpoint || "",
+        targetCheckpoint: targetCheckpoint || checkpoint.checkpoint || ""
+      })) : [],
+      sourcePath: blobUrl(`${runsRoot}/${entry.name}`)
+    };
+  }));
 }
 
 async function buildProblem(entry, index) {
@@ -211,7 +224,7 @@ async function main() {
   const problems = [];
   for (const [index, entry] of entries.entries()) problems.push(await buildProblem(entry, index));
   const payload = {
-    schemaVersion: 3,
+    schemaVersion: 4,
     generatedAt: new Date().toISOString(),
     source: {
       repository: `${OWNER}/${REPOSITORY}`,
