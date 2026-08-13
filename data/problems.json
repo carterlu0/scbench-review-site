@@ -1,10 +1,10 @@
 {
   "schemaVersion": 4,
-  "generatedAt": "2026-08-13T12:09:59.571Z",
+  "generatedAt": "2026-08-13T13:48:42.212Z",
   "source": {
     "repository": "carterlu0/scbench-rtl-problems",
     "branch": "main",
-    "commit": "866cf39bf4733c884ebcdf281185d40194f84fa1"
+    "commit": "81fbc9f3a136527620a2c890f17fdd2d4b996b6a"
   },
   "problems": [
     {
@@ -18,7 +18,7 @@
       "summary": "Release status: published\n Source family: common_cells_t1\n Difficulty: medium\n Tags: rtl, verilog, common-cells, checkpointed",
       "prompt": "# checkpoint_3: Add next common_cells functionality\n\nYou are given a writable baseline RTL repository in `repo/`. Your task is to implement the public behavior for this checkpoint while keeping every previously verified public behavior correct. This is a behavioral contract: implementation files may be refactored or repaired when needed, and source-text identity is not required. The evaluator reruns earlier independent behavior oracles as Regression, and those oracle results are authoritative.\n\n## Public Goal\n\nBring the repository from the starting snapshot to the next public functionality surface while\npreserving all earlier checkpoint behavior. This is an incremental extension plus behavior-fix\ncheckpoint, not a request to reconstruct a final snapshot byte-for-byte.\n\n## Candidate Modules\n\n```text\ncredit_counter\n```\n\n## Entrypoint Contract\n\nCreate or update `%%%ENTRYPOINT:entry_file%%%` so it can be run from the workspace root as:\n\n```bash\n%%%ENTRYPOINT:entry_command%%% checkpoint_3\n```\n\nThe final script must remain cumulative: it must accept `checkpoint_1`, `checkpoint_2`, and\n`checkpoint_3`, return success for every supported argument, and preserve all files and behavior\nactive through this checkpoint. The evaluator may invoke the same final script separately with each\nactive checkpoint argument when rerunning Regression. The script must modify `repo/` in the current\nworking directory and should be idempotent. Do not assume the entrypoint file is located in `$PWD`.\n\n## Required Repository Behavior\n\nThe `credit_counter` addition is required as specified below. In addition, every behavioral\nchange in this checkpoint that affects a public DUT contract is active:\n\n- `stream_join_dynamic` must handshake only selected inputs; unselected inputs must never receive\n `inp_ready_o` on an output handshake.\n- `mem_to_banks_detailed` must not emit a spurious response after a full dead write and must retain\n its user payload association.\n- The public `FFARNC` macro must give synchronous clear priority over the ordinary D assignment;\n on a rising edge with `clear=1`, Q must take the reset value even if D differs.\n- `id_queue` must expose `NUM_CMP_PORTS` and packed-array exists compare ports so independent\n compare requests can run in parallel. It must also expose `CUT_OUP_POP_INP_GNT`; when set, a full\n queue must not grant a new input solely because an output is popped in the same cycle.\n- `delta_counter` must preserve active-low reset, load, clear, up/down delta count, and sticky\n overflow behavior. The reset rewrite in this checkpoint is a tool-safe coding correction whose 0/1 simulation\n simulation semantics are equivalent to the starting snapshot; it is a still-active behavior regression, not a new algorithm.\n- `stream_to_mem` must retain its request/response bridge behavior while assertions are inactive\n during reset; assertion macro/message changes and CI/tool compatibility changes are not candidate\n functionality.\n\n`stream_xbar` additionally exposes `AxiVldMask`, which masks payload bits checked by its built-in\nready/valid stability assertions. This parameter changes assertion coverage, not routed payload\ndata, and is therefore a public validation-support surface rather than a new crossbar data-path\nbehavior.\n\nThe `stream_arbiter_flushable` priority branch changes its internal `LockIn` argument from one to\nzero, but that branch also selects `ExtPrio=1`; `rr_arb_tree` bypasses all lock state in external\npriority mode in both endpoint versions. The edit therefore has no observable public behavior and\nis not a candidate requirement.\n\nThe endpoint may contain additional assertion-only, documentation, or compatibility diffs from the\nnext snapshot; those are not hidden implementation requirements. Every behavior listed in this\ncheckpoint must be observable through the independent evaluator oracle.\n\nAdd or preserve the final checkpoint files:\n\n- `repo/src/credit_counter.sv`\n- `repo/src/stream_join_dynamic.sv`\n- `repo/src/stream_to_mem.sv`\n- `repo/src/mem_to_banks_detailed.sv`\n- `repo/src/delta_counter.sv`\n- `repo/src/id_queue.sv`\n- `repo/src/stream_xbar.sv`\n- `repo/test/stream_to_mem_tb.sv`\n\n`credit_counter` must track a bounded credit count. Its parameter list must expose `NumCredits`, `InitCreditEmpty`, and an overrideable `parameter type credit_cnt_t = logic [$clog2(NumCredits):0]`; do not make `credit_cnt_t` a `localparam type`. Its public ports must include `clk_i`, `rst_ni`, `credit_o`, `credit_give_i`, `credit_take_i`, `credit_init_i`, `credit_left_o`, `credit_crit_o`, and `credit_full_o`. With `InitCreditEmpty=1`, it resets to zero, increments on `credit_give_i`, decrements on `credit_take_i`, reinitializes on `credit_init_i`, asserts `credit_left_o` when nonzero, asserts `credit_crit_o` when giving one more credit would fill the counter (`credit_o == NumCredits - 1`), and asserts `credit_full_o` at `NumCredits`.\n\n`stream_join_dynamic` must join only the selected input streams. `oup_valid_o` may assert only when `sel_i` is nonzero and every selected bit in `inp_valid_i` is high. On an output handshake, `inp_ready_o` must assert exactly for selected inputs.\n\nIt must expose this public SystemVerilog interface:\n\n```systemverilog\nmodule stream_join_dynamic #(\n parameter int unsigned N_INP = 32'd0\n) (\n input logic [N_INP-1:0] inp_valid_i,\n output logic [N_INP-1:0] inp_ready_o,\n input logic [N_INP-1:0] sel_i,\n output logic oup_valid_o,\n input logic oup_ready_i\n);\n```\n\n`stream_to_mem` must bridge request/response ready-valid streams to a memory request and memory response interface. It must forward request payloads to `mem_req_o`, apply backpressure through `req_ready_o`, buffer memory responses when `BufDepth > 0`, expose them on `resp_o/resp_valid_o`, and clear responses after `resp_ready_i` handshakes.\n\nIt must expose this public SystemVerilog interface:\n\n```systemverilog\nmodule stream_to_mem #(\n parameter type mem_req_t = logic,\n parameter type mem_resp_t = logic,\n parameter int unsigned BufDepth = 32'd1\n) (\n input logic clk_i,\n input logic rst_ni,\n input mem_req_t req_i,\n input logic req_valid_i,\n output logic req_ready_o,\n output mem_resp_t resp_o,\n output logic resp_valid_o,\n input logic resp_ready_i,\n output mem_req_t mem_req_o,\n output logic mem_req_valid_o,\n input logic mem_req_ready_i,\n input mem_resp_t mem_resp_i,\n input logic mem_resp_valid_i\n);\n```\n\n## Still-active Prior Requirements\n\nThe previous `lossy_valid_to_stream` behavior remains active: it must still expose the checkpoint 1 public interface and preserve the valid-only to ready/valid conversion behavior, including the two-entry lossy overwrite policy while stalled. Its source and local test asset may be repaired or refactored as needed; preserve the behavior rather than a source-text identity.\n\nThe prior bank-splitting handshake remains active for both `mem_to_banks` and\n`mem_to_banks_detailed`: an ordinary request accepted with `req_i && gnt_o` must expose every\nrequired or selected `bank_req_o` in that sa\n\n[Excerpt. Open the source artifact for the complete content.]",
       "certDate": "2026-08-08",
-      "certSummary": "2026-08-12 的 Prompt 公平性修正公开了两项既有 evaluator 合同：C1/C2 bank splitter\n在 `req_i && gnt_o` 接受请求的同周期必须已经展示所需 `bank_req_o`，以及累计 pipeline\n最终入口必须继续接受所有已生效 checkpoint 参数。测试、oracle、runtime 和镜像未改变，\n但 C1--C3 pipeline 与 SR prompt SHA256 已改变。修正后已重新冻结并归档一份 pipeline\nterminal batch 和 SR1--SR3 各一份 terminal batch；四份 manifest 均为 `passed`、\nvalidator return code 为 `0` 且 `input_drift=false`。当前 Prompt、配置、测试、conftest\n和 definition scope 哈希均与对应 frozen summary 相符，因此这些 archive 是当前定义的正式\n身份连续性证据。",
+      "certSummary": "2026-08-13 又执行了一次测试语义重分类（`scoring-grouping-change`）：非法配置拒绝\n（C1 static divider `DIV_VALUE=0`、clock mux `NUM_INPUTS=1`、optimal FIFO `Depth=0/1`）\n与各 checkpoint 的制品卫生检查从 Core/Structure 移入 Error；C3 `stream_xbar`\nmasked 正向合同从 Functionality 提升为 Core，unmasked 预期 assertion failure 移入\nError。这些 Error 测试同时带 `regression` marker，因此当前 checkpoint 按 Error 优先\n归类，后续 checkpoint 按 Regression 保留，避免 prior Error 被划入 Functionality。\n四份新的独立 terminal batch 已重新冻结当前定义：pipeline\n`common-cells-t1-pipeline-reclassification-20260813-04` 与 SR1--SR3\n`\n\n[Excerpt. Open the source artifact for the complete content.]",
       "readmePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/common-cells-t1/README.md",
       "certPath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/common-cells-t1/evidence/certification.md",
       "promptPath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/common-cells-t1/pipeline/checkpoint_3.md",
@@ -54,6 +54,839 @@
         }
       ],
       "evaluationRuns": [
+        {
+          "schema_version": 3,
+          "run_id": "20260813t182340",
+          "exported_at": "2026-08-13T12:16:18.802453+00:00",
+          "published_problem": "common-cells-t1",
+          "source_problem": "common_cells_t1_pipeline",
+          "release_commit": "866cf39bf4733c884ebcdf281185d40194f84fa1",
+          "definition_sha256": {
+            "config.yaml": "ffffd72d9f59a20c42331dd7d04c900c83fabcfc66a66794a135867e59d34b96",
+            "checkpoint_1.md": "b08b38b069f0aee0d9413284db6aa419e7c70887c0e6cf0ab68bbb2c895bc691",
+            "checkpoint_2.md": "b6eea3ebbe30e8a63034f977c9402c91ea177a07f7c040df90e0c98531689355",
+            "checkpoint_3.md": "242b6b501622b6b8df517c2a7cb0126d190390633ed117ec91a451c36839ac8b"
+          },
+          "source_run": {
+            "directory": "codex-0.141.0_rtl-plan-and-test_high_20260813T182347716483_rtl_common_cells_t1_codex_gpt-5.6-luna_pipeline_strong_tb_20260813t182340",
+            "result_json_sha256": "f72435deb67911ee650120a41696b1e779ea70f149a6f24e9f74ba72df449b4e",
+            "checkpoint_results_sha256": "fb95f987440164aafed9c5184aee41ce3b77e189afa8942c550372f451ff6acc"
+          },
+          "agent": {
+            "type": "codex",
+            "version": "0.141.0"
+          },
+          "model": "agicto-gpt-5.6-luna",
+          "prompt": "rtl-plan-and-test",
+          "thinking": "high",
+          "run_metrics": {
+            "costs": {
+              "checkpoint": {
+                "mean": 0,
+                "stddev": 0,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 3
+              },
+              "problem": {
+                "mean": 0,
+                "stddev": null,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 1
+              },
+              "total": 0
+            },
+            "time": {
+              "checkpoint": {
+                "mean": 545.6464653333334,
+                "stddev": 34.028681105639464,
+                "min": 506.737167,
+                "max": 569.844638,
+                "median": 560.357591,
+                "count": 3
+              },
+              "problem": {
+                "mean": 1636.939396,
+                "stddev": null,
+                "min": 1636.939396,
+                "max": 1636.939396,
+                "median": 1636.939396,
+                "count": 1
+              }
+            },
+            "tokens": {
+              "input": 4106877,
+              "output": 50254,
+              "cache_read": 3797760,
+              "cache_write": 0,
+              "reasoning": 15213,
+              "problem": {
+                "input": 4106877,
+                "output": 50254,
+                "cache_read": 3797760,
+                "cache_write": 0,
+                "reasoning": 15213
+              },
+              "checkpoint": {
+                "input": 1368959,
+                "output": 16751.333333333332,
+                "cache_read": 1265920,
+                "cache_write": 0,
+                "reasoning": 5071
+              }
+            },
+            "steps": {
+              "checkpoint": {
+                "mean": 40.666666666666664,
+                "stddev": 2.0816659994661326,
+                "min": 39,
+                "max": 43,
+                "median": 40,
+                "count": 3
+              },
+              "problem": {
+                "mean": 122,
+                "stddev": null,
+                "min": 122,
+                "max": 122,
+                "median": 122,
+                "count": 1
+              }
+            },
+            "pass_rates": {
+              "problem": {
+                "structure": 1,
+                "core": 0.5761904761904761,
+                "total": 0.7050775311644877,
+                "error": 0.8333333333333334,
+                "functionality": 0.5761904761904761,
+                "regression": 0.8297435897435897
+              },
+              "checkpoint": {
+                "structure": 1,
+                "core": 0.5761904761904761,
+                "total": 0.7050775311644877,
+                "error": 0.8333333333333334,
+                "functionality": 0.5761904761904761,
+                "regression": 0.8297435897435897
+              }
+            }
+          },
+          "expected_checkpoints": 3,
+          "completed_checkpoints": 3,
+          "outcome": "failed",
+          "checkpoints": [
+            {
+              "checkpoint": "checkpoint_1",
+              "state": "ran",
+              "started_at": "2026-08-13T18:23:54.509863",
+              "ended_at": "2026-08-13T18:32:21.247030",
+              "duration_seconds": 506.737167,
+              "steps": 43,
+              "run_result": {
+                "problem": "common_cells_t1_pipeline",
+                "version": 1,
+                "checkpoint": "checkpoint_1",
+                "path": "$RUN_DIR/common_cells_t1_pipeline",
+                "idx": 1,
+                "state": "ran",
+                "is_first": true,
+                "is_last": false,
+                "strict_pass_rate": 0.6923076923076923,
+                "structure_pass_rate": 1,
+                "core_pass_rate": 0.42857142857142855,
+                "functionality_pass_rate": 0.42857142857142855,
+                "isolated_pass_rate": 0.6666666666666666,
+                "total_tests": 13,
+                "passed_tests": 9,
+                "structure_total": 1,
+                "structure_passed": 1,
+                "core_total": 7,
+                "core_passed": 3,
+                "functionality_total": 7,
+                "functionality_passed": 3,
+                "functionality_incremental_total": 0,
+                "functionality_incremental_passed": 0,
+                "error_total": 4,
+                "error_passed": 4,
+                "regression_total": 1,
+                "regression_passed": 1,
+                "started": "2026-08-13T18:23:54.509863",
+                "ended": "2026-08-13T18:32:21.247030",
+                "duration": 506.737167,
+                "cost": 0,
+                "steps": 43,
+                "cache_read": 1310336,
+                "cache_write": 0,
+                "input": 1414731,
+                "output": 14556,
+                "reasoning": 2955,
+                "loc": 0,
+                "sloc": 0,
+                "total_lines": 0,
+                "single_comments": 0,
+                "lint_errors": 0,
+                "lint_fixable": 0,
+                "files": 0,
+                "functions": 0,
+                "methods": 0,
+                "classes": 0,
+                "statements": 0,
+                "symbols_total": 0,
+                "cc_max": 0,
+                "cc_mean": 0,
+                "cc_std": 0,
+                "cc_high_count": 0,
+                "cc_extreme_count": 0,
+                "high_cc_mean": 0,
+                "cc_normalized": 0,
+                "cc_concentration": 0,
+                "cc_top20": 0,
+                "max_nesting_depth": 0,
+                "lines_per_symbol": 0,
+                "single_use_functions": 0,
+                "trivial_wrappers": 0,
+                "unused_variables": 0,
+                "clone_lines": 0,
+                "cloned_sloc_lines": 0,
+                "ast_grep_violations": 0,
+                "verbosity_flagged_sloc_lines": 0,
+                "sg_slop_violations": 0,
+                "graph_cyclic_dependency_mass": 0,
+                "graph_propagation_cost": 0,
+                "graph_dependency_entropy": 0,
+                "lines_added": 0,
+                "lines_removed": 0,
+                "mean_func_loc": 0,
+                "mass.cc": 0,
+                "mass.high_cc_pct": 0
+              },
+              "code_snapshot": {
+                "file_count": 160,
+                "total_bytes": 624569,
+                "tree_sha256": "0294f689d0a55858653f2a8c16eadcf96c7330c1e07cdcf95da5f17ed9a7f19a",
+                "excluded_artifacts": [],
+                "archive": {
+                  "path": "problems/common-cells-t1/agent-results/artifacts/20260813t182340/checkpoint_1/agent-code.tar.gz",
+                  "sha256": "3fc467eec3af28d56a01a9dbecec7f2837bcf758393644c2c726fd2a06195de2",
+                  "size_bytes": 128477,
+                  "file_count": 160,
+                  "tree_sha256": "0294f689d0a55858653f2a8c16eadcf96c7330c1e07cdcf95da5f17ed9a7f19a"
+                },
+                "manifest": {
+                  "path": "problems/common-cells-t1/agent-results/artifacts/20260813t182340/checkpoint_1/agent-code.manifest.json",
+                  "sha256": "452fcbd3cc24c38fcb8096e29ee67d4a77ccbaa561f1d788344477d330bf784b",
+                  "size_bytes": 29529,
+                  "file_count": 160,
+                  "total_bytes": 624569,
+                  "tree_sha256": "0294f689d0a55858653f2a8c16eadcf96c7330c1e07cdcf95da5f17ed9a7f19a"
+                },
+                "changed_files": {
+                  "path": "problems/common-cells-t1/agent-results/artifacts/20260813t182340/checkpoint_1/changed-files.json",
+                  "sha256": "55bcad485039f0832c5c0da5fcc7a274ffe2d11be07699b7ea0552bc3fbf471b",
+                  "count": 15
+                },
+                "diff": {
+                  "path": "problems/common-cells-t1/agent-results/artifacts/20260813t182340/checkpoint_1/changes.patch",
+                  "sha256": "d6649c7baf5c35ecf734540eeeb6763440b08ff4ccd317e2651076aecb479380",
+                  "size_bytes": 22483
+                },
+                "baseline_path": "problems/common-cells-t1/pipeline/static_assets/golden_snapshots/v1.24.0"
+              },
+              "evaluation": {
+                "pytest_exit_code": 1,
+                "infrastructure_failure": false,
+                "counts": {
+                  "structure": [
+                    1,
+                    1
+                  ],
+                  "core": [
+                    3,
+                    7
+                  ],
+                  "functionality": [
+                    0,
+                    0
+                  ],
+                  "regression": [
+                    1,
+                    1
+                  ],
+                  "error": [
+                    4,
+                    4
+                  ]
+                },
+                "core_gate_passed": false,
+                "sha256": "9705a59c70ff323d6aed92fa305aad8964fa3e1890018ad9673966fc08287815",
+                "details": {
+                  "schema_version": 1,
+                  "problem_name": "common_cells_t1_pipeline",
+                  "problem_version": 1,
+                  "checkpoint_name": "checkpoint_1",
+                  "checkpoint_version": 1,
+                  "duration": 45.89421319961548,
+                  "entrypoint": "bash build_checkpoint.sh",
+                  "tests": {
+                    "checkpoint_1-Error": {
+                      "passed": [
+                        "test_checkpoint_1_artifact_hygiene",
+                        "test_checkpoint_1_clock_mux_rejects_single_input",
+                        "test_checkpoint_1_optimal_fifo_rejects_unsupported_depths",
+                        "test_checkpoint_1_static_divider_rejects_zero"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Core": {
+                      "passed": [
+                        "test_checkpoint_1_clock_mux_switch_behavior",
+                        "test_checkpoint_1_static_divider_reset_behavior",
+                        "test_checkpoint_1_stream_throttle_exhausted_credit"
+                      ],
+                      "failed": [
+                        "test_checkpoint_1_id_queue_exists_mask_behavior",
+                        "test_checkpoint_1_lossy_valid_to_stream_behavior",
+                        "test_checkpoint_1_mem_to_banks_staggered_completion",
+                        "test_checkpoint_1_v1_30_additions_behavior"
+                      ],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Structure": {
+                      "passed": [
+                        "test_checkpoint_1_core_structure"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Regression": {
+                      "passed": [
+                        "test_checkpoint_1_counter_behavior_regression"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    }
+                  },
+                  "pass_counts": {
+                    "Structure": 1,
+                    "Core": 3,
+                    "Functionality": 0,
+                    "Regression": 1,
+                    "Error": 4
+                  },
+                  "total_counts": {
+                    "Structure": 1,
+                    "Core": 7,
+                    "Functionality": 0,
+                    "Regression": 1,
+                    "Error": 4
+                  },
+                  "detail_metrics": {},
+                  "pytest_exit_code": 1,
+                  "pytest_collected": 13,
+                  "test_collection_hash": "0e9e481fbb8ab0f61fb6089a492203089ca9c4c242c662b14248d009fec9cfc8",
+                  "infrastructure_failure": false,
+                  "infrastructure_reason": null
+                }
+              },
+              "localCheckpoint": "checkpoint_1",
+              "targetCheckpoint": "checkpoint_1"
+            },
+            {
+              "checkpoint": "checkpoint_2",
+              "state": "ran",
+              "started_at": "2026-08-13T18:33:11.848544",
+              "ended_at": "2026-08-13T18:42:41.693182",
+              "duration_seconds": 569.844638,
+              "steps": 40,
+              "run_result": {
+                "problem": "common_cells_t1_pipeline",
+                "version": 1,
+                "checkpoint": "checkpoint_2",
+                "path": "$RUN_DIR/common_cells_t1_pipeline",
+                "idx": 2,
+                "state": "ran",
+                "is_first": false,
+                "is_last": false,
+                "strict_pass_rate": 0.6956521739130435,
+                "structure_pass_rate": 1,
+                "core_pass_rate": 0.5,
+                "functionality_pass_rate": 0.5,
+                "isolated_pass_rate": 0.6,
+                "total_tests": 23,
+                "passed_tests": 16,
+                "structure_total": 1,
+                "structure_passed": 1,
+                "core_total": 8,
+                "core_passed": 4,
+                "functionality_total": 8,
+                "functionality_passed": 4,
+                "functionality_incremental_total": 0,
+                "functionality_incremental_passed": 0,
+                "error_total": 1,
+                "error_passed": 1,
+                "regression_total": 13,
+                "regression_passed": 10,
+                "started": "2026-08-13T18:33:11.848544",
+                "ended": "2026-08-13T18:42:41.693182",
+                "duration": 569.844638,
+                "cost": 0,
+                "steps": 40,
+                "cache_read": 1258496,
+                "cache_write": 0,
+                "input": 1387576,
+                "output": 18418,
+                "reasoning": 5228,
+                "loc": 0,
+                "sloc": 0,
+                "total_lines": 0,
+                "single_comments": 0,
+                "lint_errors": 0,
+                "lint_fixable": 0,
+                "files": 0,
+                "functions": 0,
+                "methods": 0,
+                "classes": 0,
+                "statements": 0,
+                "symbols_total": 0,
+                "cc_max": 0,
+                "cc_mean": 0,
+                "cc_std": 0,
+                "cc_high_count": 0,
+                "cc_extreme_count": 0,
+                "high_cc_mean": 0,
+                "cc_normalized": 0,
+                "cc_concentration": 0,
+                "cc_top20": 0,
+                "max_nesting_depth": 0,
+                "lines_per_symbol": 0,
+                "single_use_functions": 0,
+                "trivial_wrappers": 0,
+                "unused_variables": 0,
+                "clone_lines": 0,
+                "cloned_sloc_lines": 0,
+                "ast_grep_violations": 0,
+                "verbosity_flagged_sloc_lines": 0,
+                "sg_slop_violations": 0,
+                "graph_cyclic_dependency_mass": 0,
+                "graph_propagation_cost": 0,
+                "graph_dependency_entropy": 0,
+                "lines_added": 0,
+                "lines_removed": 0,
+                "mean_func_loc": 0,
+                "mass.cc": 0,
+                "mass.high_cc_pct": 0,
+                "delta.loc": 0,
+                "delta.ast_grep_violations": 0,
+                "delta.churn_ratio": 0
+              },
+              "code_snapshot": {
+                "file_count": 166,
+                "total_bytes": 635531,
+                "tree_sha256": "24defdb2ad8ed6b2a4063a692f9dccacf532e88be88e735093b7039c4e588c25",
+                "excluded_artifacts": [],
+                "archive": {
+                  "path": "problems/common-cells-t1/agent-results/artifacts/20260813t182340/checkpoint_2/agent-code.tar.gz",
+                  "sha256": "48fc416cf7ec1075b9184a0cd9cd33b43a25680d84fa6a187c186c2730d375bb",
+                  "size_bytes": 130609,
+                  "file_count": 166,
+                  "tree_sha256": "24defdb2ad8ed6b2a4063a692f9dccacf532e88be88e735093b7039c4e588c25"
+                },
+                "manifest": {
+                  "path": "problems/common-cells-t1/agent-results/artifacts/20260813t182340/checkpoint_2/agent-code.manifest.json",
+                  "sha256": "513b576f48518c956f1c57d507975515acedc3fd485ae5f3d284d83fa48bde95",
+                  "size_bytes": 30665,
+                  "file_count": 166,
+                  "total_bytes": 635531,
+                  "tree_sha256": "24defdb2ad8ed6b2a4063a692f9dccacf532e88be88e735093b7039c4e588c25"
+                },
+                "changed_files": {
+                  "path": "problems/common-cells-t1/agent-results/artifacts/20260813t182340/checkpoint_2/changed-files.json",
+                  "sha256": "107feb0eaa5a74e51102c85b60cf80e37f4a90f68c72e1a7d9c43a33372741c8",
+                  "count": 24
+                },
+                "diff": {
+                  "path": "problems/common-cells-t1/agent-results/artifacts/20260813t182340/checkpoint_2/changes.patch",
+                  "sha256": "083cbdb73cfc6bf6ad6e124227e846e391ecbdd7efc398ad72dc63faefe3f0de",
+                  "size_bytes": 35502
+                },
+                "baseline_path": "problems/common-cells-t1/pipeline/static_assets/golden_snapshots/v1.24.0"
+              },
+              "evaluation": {
+                "pytest_exit_code": 1,
+                "infrastructure_failure": false,
+                "counts": {
+                  "structure": [
+                    1,
+                    1
+                  ],
+                  "core": [
+                    4,
+                    8
+                  ],
+                  "functionality": [
+                    0,
+                    0
+                  ],
+                  "regression": [
+                    10,
+                    13
+                  ],
+                  "error": [
+                    1,
+                    1
+                  ]
+                },
+                "core_gate_passed": false,
+                "sha256": "bf666af814869ced9c4fea8e24abd822afb74d6eb1d9da56d082909f7847b2d2",
+                "details": {
+                  "schema_version": 1,
+                  "problem_name": "common_cells_t1_pipeline",
+                  "problem_version": 1,
+                  "checkpoint_name": "checkpoint_2",
+                  "checkpoint_version": 1,
+                  "duration": 91.11230874061584,
+                  "entrypoint": "bash build_checkpoint.sh",
+                  "tests": {
+                    "checkpoint_1-Regression": {
+                      "passed": [
+                        "test_checkpoint_1_artifact_hygiene",
+                        "test_checkpoint_1_clock_mux_rejects_single_input",
+                        "test_checkpoint_1_clock_mux_switch_behavior",
+                        "test_checkpoint_1_core_structure",
+                        "test_checkpoint_1_counter_behavior_regression",
+                        "test_checkpoint_1_id_queue_exists_mask_behavior",
+                        "test_checkpoint_1_optimal_fifo_rejects_unsupported_depths",
+                        "test_checkpoint_1_static_divider_rejects_zero",
+                        "test_checkpoint_1_static_divider_reset_behavior",
+                        "test_checkpoint_1_stream_throttle_exhausted_credit"
+                      ],
+                      "failed": [
+                        "test_checkpoint_1_lossy_valid_to_stream_behavior",
+                        "test_checkpoint_1_mem_to_banks_staggered_completion",
+                        "test_checkpoint_1_v1_30_additions_behavior"
+                      ],
+                      "skipped": []
+                    },
+                    "checkpoint_2-Core": {
+                      "passed": [
+                        "test_checkpoint_2_ffarnc_surface_behavior",
+                        "test_checkpoint_2_passthrough_stream_fifo_behavior",
+                        "test_checkpoint_2_passthrough_stream_fifo_stall_stability_behavior",
+                        "test_checkpoint_2_stream_join_dynamic_behavior"
+                      ],
+                      "failed": [
+                        "test_checkpoint_2_addr_decode_dync_behavior",
+                        "test_checkpoint_2_mem_to_banks_detailed_behavior",
+                        "test_checkpoint_2_mem_to_banks_detailed_staggered_response_behavior",
+                        "test_checkpoint_2_multiaddr_decode_behavior"
+                      ],
+                      "skipped": []
+                    },
+                    "checkpoint_2-Error": {
+                      "passed": [
+                        "test_checkpoint_2_artifact_hygiene"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_2-Structure": {
+                      "passed": [
+                        "test_checkpoint_2_core_structure"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    }
+                  },
+                  "pass_counts": {
+                    "Structure": 1,
+                    "Core": 4,
+                    "Functionality": 0,
+                    "Regression": 10,
+                    "Error": 1
+                  },
+                  "total_counts": {
+                    "Structure": 1,
+                    "Core": 8,
+                    "Functionality": 0,
+                    "Regression": 13,
+                    "Error": 1
+                  },
+                  "detail_metrics": {},
+                  "pytest_exit_code": 1,
+                  "pytest_collected": 23,
+                  "test_collection_hash": "6a26b8368b4cd91c017dfc20fa76093bf934b3f1bb4c6aa0ed8a210fd4ea1e96",
+                  "infrastructure_failure": false,
+                  "infrastructure_reason": null
+                }
+              },
+              "localCheckpoint": "checkpoint_2",
+              "targetCheckpoint": "checkpoint_2"
+            },
+            {
+              "checkpoint": "checkpoint_3",
+              "state": "ran",
+              "started_at": "2026-08-13T18:44:19.421738",
+              "ended_at": "2026-08-13T18:53:39.779329",
+              "duration_seconds": 560.357591,
+              "steps": 39,
+              "run_result": {
+                "problem": "common_cells_t1_pipeline",
+                "version": 1,
+                "checkpoint": "checkpoint_3",
+                "path": "$RUN_DIR/common_cells_t1_pipeline",
+                "idx": 3,
+                "state": "ran",
+                "is_first": false,
+                "is_last": true,
+                "strict_pass_rate": 0.7272727272727273,
+                "structure_pass_rate": 1,
+                "core_pass_rate": 0.8,
+                "functionality_pass_rate": 0.8,
+                "isolated_pass_rate": 0.75,
+                "total_tests": 33,
+                "passed_tests": 24,
+                "structure_total": 1,
+                "structure_passed": 1,
+                "core_total": 5,
+                "core_passed": 4,
+                "functionality_total": 5,
+                "functionality_passed": 4,
+                "functionality_incremental_total": 0,
+                "functionality_incremental_passed": 0,
+                "error_total": 2,
+                "error_passed": 1,
+                "regression_total": 25,
+                "regression_passed": 18,
+                "started": "2026-08-13T18:44:19.421738",
+                "ended": "2026-08-13T18:53:39.779329",
+                "duration": 560.357591,
+                "cost": 0,
+                "steps": 39,
+                "cache_read": 1228928,
+                "cache_write": 0,
+                "input": 1304570,
+                "output": 17280,
+                "reasoning": 7030,
+                "loc": 0,
+                "sloc": 0,
+                "total_lines": 0,
+                "single_comments": 0,
+                "lint_errors": 0,
+                "lint_fixable": 0,
+                "files": 0,
+                "functions": 0,
+                "methods": 0,
+                "classes": 0,
+                "statements": 0,
+                "symbols_total": 0,
+                "cc_max": 0,
+                "cc_mean": 0,
+                "cc_std": 0,
+                "cc_high_count": 0,
+                "cc_extreme_count": 0,
+                "high_cc_mean": 0,
+                "cc_normalized": 0,
+                "cc_concentration": 0,
+                "cc_top20": 0,
+                "max_nesting_depth": 0,
+                "lines_per_symbol": 0,
+                "single_use_functions": 0,
+                "trivial_wrappers": 0,
+                "unused_variables": 0,
+                "clone_lines": 0,
+                "cloned_sloc_lines": 0,
+                "ast_grep_violations": 0,
+                "verbosity_flagged_sloc_lines": 0,
+                "sg_slop_violations": 0,
+                "graph_cyclic_dependency_mass": 0,
+                "graph_propagation_cost": 0,
+                "graph_dependency_entropy": 0,
+                "lines_added": 0,
+                "lines_removed": 0,
+                "mean_func_loc": 0,
+                "mass.cc": 0,
+                "mass.high_cc_pct": 0,
+                "delta.loc": 0,
+                "delta.ast_grep_violations": 0,
+                "delta.churn_ratio": 0
+              },
+              "code_snapshot": {
+                "file_count": 167,
+                "total_bytes": 637309,
+                "tree_sha256": "cd615e258931364a31fcef5be3021e10cc2c515db91f2775633ad8c870ec9c7e",
+                "excluded_artifacts": [],
+                "archive": {
+                  "path": "problems/common-cells-t1/agent-results/artifacts/20260813t182340/checkpoint_3/agent-code.tar.gz",
+                  "sha256": "c93083b0de24bd5138b372969fe19856a12637fef1d3252d099837201c44d5ec",
+                  "size_bytes": 131144,
+                  "file_count": 167,
+                  "tree_sha256": "cd615e258931364a31fcef5be3021e10cc2c515db91f2775633ad8c870ec9c7e"
+                },
+                "manifest": {
+                  "path": "problems/common-cells-t1/agent-results/artifacts/20260813t182340/checkpoint_3/agent-code.manifest.json",
+                  "sha256": "a32c70f471253711ead96ed89cccbee13277d24c1397d28e32247e4d3a39ef06",
+                  "size_bytes": 30848,
+                  "file_count": 167,
+                  "total_bytes": 637309,
+                  "tree_sha256": "cd615e258931364a31fcef5be3021e10cc2c515db91f2775633ad8c870ec9c7e"
+                },
+                "changed_files": {
+                  "path": "problems/common-cells-t1/agent-results/artifacts/20260813t182340/checkpoint_3/changed-files.json",
+                  "sha256": "9ad7c2b1300becb5c55498043581d50b1a42bb91a888a6cae394f3d9d993342a",
+                  "count": 28
+                },
+                "diff": {
+                  "path": "problems/common-cells-t1/agent-results/artifacts/20260813t182340/checkpoint_3/changes.patch",
+                  "sha256": "9ee98da2a82bf3f983a3edc3776ea041e5f423cd0bc720a3b4ab0bf52187609d",
+                  "size_bytes": 43843
+                },
+                "baseline_path": "problems/common-cells-t1/pipeline/static_assets/golden_snapshots/v1.24.0"
+              },
+              "evaluation": {
+                "pytest_exit_code": 1,
+                "infrastructure_failure": false,
+                "counts": {
+                  "structure": [
+                    1,
+                    1
+                  ],
+                  "core": [
+                    4,
+                    5
+                  ],
+                  "functionality": [
+                    0,
+                    0
+                  ],
+                  "regression": [
+                    18,
+                    25
+                  ],
+                  "error": [
+                    1,
+                    2
+                  ]
+                },
+                "core_gate_passed": false,
+                "sha256": "dc9912ca8254b13a25d4fe058bec9cda0abf83219e5b379f4a0644eac437139f",
+                "details": {
+                  "schema_version": 1,
+                  "problem_name": "common_cells_t1_pipeline",
+                  "problem_version": 1,
+                  "checkpoint_name": "checkpoint_3",
+                  "checkpoint_version": 1,
+                  "duration": 148.4700710773468,
+                  "entrypoint": "bash build_checkpoint.sh",
+                  "tests": {
+                    "checkpoint_1-Regression": {
+                      "passed": [
+                        "test_checkpoint_1_artifact_hygiene",
+                        "test_checkpoint_1_clock_mux_rejects_single_input",
+                        "test_checkpoint_1_clock_mux_switch_behavior",
+                        "test_checkpoint_1_core_structure",
+                        "test_checkpoint_1_counter_behavior_regression",
+                        "test_checkpoint_1_id_queue_exists_mask_behavior",
+                        "test_checkpoint_1_optimal_fifo_rejects_unsupported_depths",
+                        "test_checkpoint_1_static_divider_rejects_zero",
+                        "test_checkpoint_1_static_divider_reset_behavior",
+                        "test_checkpoint_1_stream_throttle_exhausted_credit"
+                      ],
+                      "failed": [
+                        "test_checkpoint_1_lossy_valid_to_stream_behavior",
+                        "test_checkpoint_1_mem_to_banks_staggered_completion",
+                        "test_checkpoint_1_v1_30_additions_behavior"
+                      ],
+                      "skipped": []
+                    },
+                    "checkpoint_2-Regression": {
+                      "passed": [
+                        "test_checkpoint_2_artifact_hygiene",
+                        "test_checkpoint_2_core_structure",
+                        "test_checkpoint_2_ffarnc_surface_behavior",
+                        "test_checkpoint_2_passthrough_stream_fifo_behavior",
+                        "test_checkpoint_2_passthrough_stream_fifo_stall_stability_behavior",
+                        "test_checkpoint_2_stream_join_dynamic_behavior"
+                      ],
+                      "failed": [
+                        "test_checkpoint_2_addr_decode_dync_behavior",
+                        "test_checkpoint_2_mem_to_banks_detailed_behavior",
+                        "test_checkpoint_2_mem_to_banks_detailed_staggered_response_behavior",
+                        "test_checkpoint_2_multiaddr_decode_behavior"
+                      ],
+                      "skipped": []
+                    },
+                    "checkpoint_3-Error": {
+                      "passed": [
+                        "test_checkpoint_3_artifact_hygiene"
+                      ],
+                      "failed": [
+                        "test_checkpoint_3_stream_xbar_unmasked_assertions"
+                      ],
+                      "skipped": []
+                    },
+                    "checkpoint_3-Structure": {
+                      "passed": [
+                        "test_checkpoint_3_core_structure"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_3-Core": {
+                      "passed": [
+                        "test_checkpoint_3_ffarnc_clear_priority",
+                        "test_checkpoint_3_id_queue_extensions",
+                        "test_checkpoint_3_stream_and_credit_behavior",
+                        "test_checkpoint_3_stream_xbar_mask_surface"
+                      ],
+                      "failed": [
+                        "test_checkpoint_3_dead_write_response_behavior"
+                      ],
+                      "skipped": []
+                    },
+                    "checkpoint_3-Regression": {
+                      "passed": [
+                        "test_checkpoint_3_delta_counter_behavior",
+                        "test_checkpoint_3_stream_to_mem_behavior"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    }
+                  },
+                  "pass_counts": {
+                    "Structure": 1,
+                    "Core": 4,
+                    "Functionality": 0,
+                    "Regression": 18,
+                    "Error": 1
+                  },
+                  "total_counts": {
+                    "Structure": 1,
+                    "Core": 5,
+                    "Functionality": 0,
+                    "Regression": 25,
+                    "Error": 2
+                  },
+                  "detail_metrics": {},
+                  "pytest_exit_code": 1,
+                  "pytest_collected": 33,
+                  "test_collection_hash": "a1e45caa6056f8d2144dcbebf85b30b1e2da40e99a857a343a9bb534af094e2b",
+                  "infrastructure_failure": false,
+                  "infrastructure_reason": null
+                }
+              },
+              "localCheckpoint": "checkpoint_3",
+              "targetCheckpoint": "checkpoint_3"
+            }
+          ],
+          "experimentType": "pipeline",
+          "targetCheckpoint": "",
+          "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/common-cells-t1/agent-results/runs/20260813t182340.json"
+        },
         {
           "schema_version": 3,
           "run_id": "20260812t221238",
