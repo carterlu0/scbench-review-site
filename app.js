@@ -371,6 +371,50 @@ function checkpointDisplayLabel(run, checkpoint) {
   return checkpoint?.targetCheckpoint || experiment.targetCheckpoint || checkpoint?.checkpoint || "checkpoint";
 }
 
+function runTimestamp(run) {
+  const parsed = Date.parse(run?.exported_at || "");
+  if (Number.isFinite(parsed)) return parsed;
+  const runId = String(run?.run_id || "").replace(/\D/g, "");
+  return Number(runId) || 0;
+}
+
+function compareRunsNewest(first, second) {
+  const timeDifference = runTimestamp(second) - runTimestamp(first);
+  if (timeDifference) return timeDifference;
+  return String(second?.run_id || "").localeCompare(String(first?.run_id || ""), undefined, { numeric: true });
+}
+
+function modelAgentLabel(run) {
+  return `${run?.model || "model not recorded"} + ${run?.agent?.type || "agent"} ${run?.agent?.version || "version not recorded"}`;
+}
+
+function experimentKey(run) {
+  const experiment = experimentInfo(run);
+  return String(run?.source_problem || `${experiment.type}:${experiment.targetCheckpoint || "all"}`);
+}
+
+function experimentLabel(run) {
+  const experiment = experimentInfo(run);
+  if (experiment.type === "sr") return `SR / ${experiment.targetCheckpoint || "checkpoint"}`;
+  const pipelineSuffix = String(run?.source_problem || "").match(/_pipeline(?:_(.+))?$/i)?.[1];
+  if (!pipelineSuffix) return "Pipeline";
+  return `Pipeline / ${pipelineSuffix.replace(/_/g, " ")}`;
+}
+
+function splitCurrentAndHistoricalRuns(runs) {
+  const newestByExperiment = new Map();
+  const historical = [];
+  [...runs].sort(compareRunsNewest).forEach((run) => {
+    const key = `${modelAgentLabel(run)}|${experimentKey(run)}`;
+    if (newestByExperiment.has(key)) historical.push(run);
+    else newestByExperiment.set(key, run);
+  });
+  return {
+    current: [...newestByExperiment.values()].sort(compareRunsNewest),
+    historical: historical.sort(compareRunsNewest)
+  };
+}
+
 function resultMetricChips(evaluation) {
   const counts = evaluation?.counts || {};
   const labels = { structure: "structure", core: "core", functionality: "function", regression: "regression" };
@@ -384,10 +428,9 @@ function resultMetricChips(evaluation) {
   return chips.join("");
 }
 
-function renderEvaluationResults(problem) {
-  const runs = Array.isArray(problem.evaluationRuns) ? problem.evaluationRuns : [];
+function renderEvaluationRunGroups(runs) {
   if (!runs.length) {
-    return `<div class="results-empty"><strong>No evaluation results published yet.</strong><p>This area is reserved for future round-by-round, model-level, and case-level results.</p><div class="results-schema"><div class="schema-cell">round / checkpoint</div><div class="schema-cell">model / runner</div><div class="schema-cell">pass rate / notes</div></div></div>`;
+    return `<div class="results-empty"><strong>No results in this view.</strong><p>New evaluation records will appear here after synchronization.</p></div>`;
   }
   const evaluatedRuns = runs.filter((run) => run.checkpoints?.some((checkpoint) => checkpoint.evaluation)).length;
   const passedRuns = runs.filter((run) => runOutcome(run) === "passed").length;
@@ -411,7 +454,7 @@ function renderEvaluationResults(problem) {
       ? `${experiment.targetCheckpoint || "checkpoint not recorded"} · single-round wrapper`
       : `${escapeHtml(run.completed_checkpoints || 0)} / ${escapeHtml(run.expected_checkpoints || "?")} checkpoints`;
     return `<article class="run-card">
-      <div class="run-card-header"><div><div class="run-labels"><span class="experiment-badge experiment-${experiment.type}">${experiment.type === "sr" ? "SR" : "Pipeline"}</span><span class="run-outcome outcome-${outcome}">${escapeHtml(outcome)}</span></div><h3>${escapeHtml(run.model || "model not recorded")}</h3><p>${escapeHtml(run.agent?.type || "agent")} ${escapeHtml(run.agent?.version || "")} · ${escapeHtml(run.prompt || "prompt not recorded")} · ${escapeHtml(run.thinking || "thinking not recorded")}</p></div>${run.sourcePath ? `<a class="action-link" href="${escapeHtml(run.sourcePath)}" target="_blank" rel="noreferrer">run record ↗</a>` : ""}</div>
+      <div class="run-card-header"><div><div class="run-labels"><span class="experiment-badge experiment-${experiment.type}">${escapeHtml(experimentLabel(run))}</span><span class="run-outcome outcome-${outcome}">${escapeHtml(outcome)}</span></div><h3>${escapeHtml(run.model || "model not recorded")}</h3><p>${escapeHtml(run.agent?.type || "agent")} ${escapeHtml(run.agent?.version || "")} · ${escapeHtml(run.prompt || "prompt not recorded")} · ${escapeHtml(run.thinking || "thinking not recorded")}</p></div>${run.sourcePath ? `<a class="action-link" href="${escapeHtml(run.sourcePath)}" target="_blank" rel="noreferrer">run record ↗</a>` : ""}</div>
       <div class="run-meta"><span>run ${escapeHtml(run.run_id || "unknown")}</span><span>${escapeHtml(syncTimestamp(run.exported_at) || "time not recorded")}</span><span>${experiment.type === "sr" ? escapeHtml(progressLabel) : progressLabel}</span></div>
       <div class="run-checkpoint-list">${checkpointRows || `<p class="run-empty">No checkpoint details recorded.</p>`}</div>
     </article>`;
@@ -429,8 +472,50 @@ function renderEvaluationResults(problem) {
   return `<div class="results-overview"><div><strong>${pipelineRuns}</strong><span>pipeline runs</span></div><div><strong>${srRuns}</strong><span>SR runs</span></div><div><strong>${passedRuns}</strong><span>passed</span></div><div><strong>${infrastructureFailures}</strong><span>infra failures</span></div></div>${experimentGroups}`;
 }
 
+function evaluationHistoryHash(problem) {
+  return `#review/${encodeURIComponent(problem.id)}/history`;
+}
+
+function renderEvaluationResults(problem) {
+  const allRuns = Array.isArray(problem.evaluationRuns) ? problem.evaluationRuns : [];
+  if (!allRuns.length) {
+    return `<div class="results-empty"><strong>No evaluation results published yet.</strong><p>This area is reserved for future round-by-round, model-level, and case-level results.</p><div class="results-schema"><div class="schema-cell">round / checkpoint</div><div class="schema-cell">model / runner</div><div class="schema-cell">pass rate / notes</div></div></div>`;
+  }
+  const { current, historical } = splitCurrentAndHistoricalRuns(allRuns);
+  const historyAction = historical.length
+    ? `<a class="action-link" href="${evaluationHistoryHash(problem)}">view ${historical.length} historical run${historical.length === 1 ? "" : "s"} →</a>`
+    : `<span class="results-current-note">all results are current</span>`;
+  return `<div class="results-current-heading"><div><strong>${current.length} current result${current.length === 1 ? "" : "s"}</strong><span>Latest run per model, agent version, and experiment type.</span></div>${historyAction}</div>${renderEvaluationRunGroups(current)}`;
+}
+
+function evaluationCounts(problem) {
+  const runs = Array.isArray(problem.evaluationRuns) ? problem.evaluationRuns : [];
+  if (!runs.length) return { current: 0, historical: 0 };
+  const split = splitCurrentAndHistoricalRuns(runs);
+  return { current: split.current.length, historical: split.historical.length };
+}
+
+function renderEvaluationHistory(problem) {
+  const allRuns = Array.isArray(problem.evaluationRuns) ? problem.evaluationRuns : [];
+  const { historical } = splitCurrentAndHistoricalRuns(allRuns);
+  app.innerHTML = `<section class="page">
+    <div class="review-header">
+      <a class="back-link" href="#review/${encodeURIComponent(problem.id)}">← current evaluation results</a>
+      <div class="review-title-row">
+        <div><h1>${escapeHtml(problem.title)}</h1><p class="review-subtitle">Historical evaluation results</p><div class="meta-row"><span class="meta-pill">${escapeHtml(problem.family)}</span><span class="meta-pill">type ${escapeHtml(problem.type)}</span><span class="meta-pill">${historical.length} historical run${historical.length === 1 ? "" : "s"}</span></div><div class="sync-status" id="sync-status" data-sync-state="checking"></div></div>
+        <div class="review-id">history<br />${escapeHtml(problem.id)}</div>
+      </div>
+    </div>
+    <section class="review-panel history-panel">
+      <div class="panel-heading"><h2>Evaluation history</h2><span>archived results</span></div>
+      <div class="panel-body">${renderEvaluationRunGroups(historical)}</div>
+    </section>
+  </section>`;
+}
+
 function renderReview(problem) {
   const checkpointPrompts = checkpointPromptsFor(problem);
+  const resultCounts = evaluationCounts(problem);
   const checkpointCards = checkpointPrompts.map((checkpoint, index) => `<details class="checkpoint-card"${index === checkpointPrompts.length - 1 ? " open" : ""}>
       <summary class="checkpoint-summary"><span class="checkpoint-caret" aria-hidden="true"></span><span class="checkpoint-key">${escapeHtml(checkpoint.label)}</span><span class="checkpoint-title">${escapeHtml(problem.title)} / ${escapeHtml(checkpoint.label)} prompt</span><span class="checkpoint-state">view</span></summary>
       <div class="checkpoint-content"><article class="prompt-markdown">${renderMarkdown(checkpoint.prompt)}</article>${checkpoint.sourcePath ? `<div class="prompt-actions"><a class="action-link" href="${escapeHtml(checkpoint.sourcePath)}" target="_blank" rel="noreferrer">source artifact ↗</a></div>` : ""}</div>
@@ -450,7 +535,7 @@ function renderReview(problem) {
           <div class="panel-body"><div class="checkpoint-list">${checkpointCards}</div></div>
         </section>
         <section class="review-panel">
-          <div class="panel-heading"><h2>Evaluation results</h2><span>${Array.isArray(problem.evaluationRuns) ? `${problem.evaluationRuns.length} run${problem.evaluationRuns.length === 1 ? "" : "s"}` : "reserved"}</span></div>
+          <div class="panel-heading"><h2>Evaluation results</h2><span>${Array.isArray(problem.evaluationRuns) ? `${resultCounts.current} current${resultCounts.historical ? ` · ${resultCounts.historical} history` : ""}` : "reserved"}</span></div>
           <div class="panel-body">${renderEvaluationResults(problem)}</div>
         </section>
       </div>
@@ -466,9 +551,10 @@ function renderReview(problem) {
 }
 
 function renderRoute() {
-  const match = window.location.hash.match(/^#review\/([^/]+)$/);
+  const match = window.location.hash.match(/^#review\/([^/]+)(?:\/(history))?$/);
   const problem = match ? findProblem(decodeURIComponent(match[1])) : null;
-  if (problem) renderReview(problem);
+  if (problem && match[2] === "history") renderEvaluationHistory(problem);
+  else if (problem) renderReview(problem);
   else renderHome();
   window.scrollTo(0, 0);
   updateSyncStatus();
