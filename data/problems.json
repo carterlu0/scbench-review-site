@@ -1,10 +1,10 @@
 {
   "schemaVersion": 4,
-  "generatedAt": "2026-08-18T04:10:54.974Z",
+  "generatedAt": "2026-08-18T04:53:11.882Z",
   "source": {
     "repository": "carterlu0/scbench-rtl-problems",
     "branch": "main",
-    "commit": "e0ae3e9a4c4a896e37ea1b009dd20ef53c246928"
+    "commit": "e118b5285465fe4b5477db89bba3d5ead8cf696d"
   },
   "problems": [
     {
@@ -6371,7 +6371,7 @@
       "summary": "Release status: published\n Source family: verilog_axis_fifo_t1\n Difficulty: medium\n Tags: rtl, verilog, axis, fifo",
       "prompt": "# checkpoint_5: Add MARK_WHEN_FULL FIFO behavior\n\nYou are given a writable baseline RTL repository in `repo/`. Your task is to implement the public behavior for this checkpoint while preserving all prior FIFO and pipeline behavior.\n\n## Public Goal\n\nImplement the `MARK_WHEN_FULL` FIFO option so frames that encounter a full FIFO condition can be retained and marked bad instead of being silently accepted as clean data or dropped through the wrong policy path.\n\n## Candidate Modules\n\n```text\naxis_fifo, axis_async_fifo, axis_pipeline_fifo,\naxis_fifo_adapter, axis_async_fifo_adapter\n```\n\n## Entrypoint Contract\n\nCreate or update `build_checkpoint.sh` so it can be run from the workspace root as:\n\n```bash\nbash build_checkpoint.sh checkpoint_5\n```\n\nThe script must modify `repo/` in the current working directory and should be idempotent. Do not assume the entrypoint file is located in `$PWD`.\n\n## Required Repository Behavior\n\nUpdate `repo/rtl/axis_fifo.v`, `repo/rtl/axis_async_fifo.v`,\n`repo/rtl/axis_fifo_adapter.v`, and `repo/rtl/axis_async_fifo_adapter.v` with\n`MARK_WHEN_FULL` behavior compatible with the public endpoint harness.\nPreserve `axis_pipeline_fifo` and all earlier FIFO features.\n\nPublic structural and configuration contract for this checkpoint:\n\n- `axis_fifo` and `axis_async_fifo` must expose a `MARK_WHEN_FULL` parameter;\n- `axis_fifo_adapter` and `axis_async_fifo_adapter` must expose and propagate\n `MARK_WHEN_FULL` without changing marked-frame data, termination, or sidebands;\n- `MARK_WHEN_FULL` is a separate full-condition policy from `DROP_WHEN_FULL` and must not require `DROP_WHEN_FULL` to be enabled;\n- `MARK_WHEN_FULL` must work when `LAST_ENABLE=1` and `FRAME_FIFO=0`;\n- `MARK_WHEN_FULL` is not compatible with `FRAME_FIFO=1`;\n- `MARK_WHEN_FULL` requires `LAST_ENABLE=1`;\n- when `MARK_WHEN_FULL=1`, `USER_BAD_FRAME_MASK` must select at least one\n enabled user bit so a marked frame has an observable bad-frame indication;\n- `MARK_WHEN_FULL` must not require `DROP_OVERSIZE_FRAME=1`;\n- keep the existing pause-control, status-depth, AXI Stream, and reset interfaces from the checkpoint_4 baseline modules intact.\n\nStill-active prior contract:\n\n- checkpoint_1 `DROP_OVERSIZE_FRAME`, `DROP_BAD_FRAME`, and oversized-frame consume/drop behavior remain active in `axis_fifo` and `axis_async_fifo`;\n- checkpoint_2 `axis_pipeline_fifo` remains active, including the public module interface, `LENGTH=0` bypass, and positive `LENGTH` buffering with aligned sideband signals;\n- checkpoint_3 status-depth ports remain active on `axis_fifo` and `axis_async_fifo` with the same names, widths, and clock-domain ownership;\n- checkpoint_4 pause ports and `PAUSE_ENABLE`/`FRAME_PAUSE` behavior remain active on `axis_fifo` and `axis_async_fifo`.\n- the checkpoint_3 async FIFO interface remains active: use `s_rst` and `m_rst`, plus `RAM_PIPELINE` and `OUTPUT_FIFO_ENABLE`; the earlier `async_rst` input and `PIPELINE_OUTPUT` parameter are retired.\n\nObservable behavior requirements:\n\n- when configured, a full-condition frame can be emitted with the configured bad-frame user indication instead of being treated as clean;\n- when a frame becomes full after at least one beat was accepted, the accepted\n ordered prefix is retained and followed by exactly one terminating beat with\n `tlast=1` and the configured bad-frame user indication; discarded suffix beats\n must not reappear as ordinary data beats;\n- `MARK_WHEN_FULL` must be distinct from `DROP_WHEN_FULL` behavior;\n- marked frames must still preserve AXI Stream frame termination and metadata alignment;\n- `tid` and `tdest` remain aligned across the retained prefix and terminating\n beat, and a subsequent ordinary frame must pass normally after recovery;\n- invalid `MARK_WHEN_FULL` configurations above must be rejected during\n elaboration or at simulation start with a clear diagnostic;\n- ordinary non-full frames must pass unchanged;\n- pause, status-depth, oversized-frame, async FIFO, and pipeline FIFO behavior must continue to work.\n\n## Local Validation\n\n```bash\nbash build_checkpoint.sh checkpoint_5\nbash local_validation/run_checks.sh checkpoint_5\n```\n\n## Final Grading Surface\n\nThe grader overlays submitted FIFO RTL files from `repo/rtl/` into the matching endpoint snapshot harness and runs snapshot-declared incremental tox/cocotb tests. Source text does not need to match the reference implementation byte-for-byte, but public module names, parameters, ports, and AXI Stream behavior must be interface-compatible with the endpoint harness.\n\n## Scope Restrictions\n\n- Do not require network access during tests.\n- Do not require submodule checkout during tests.\n- Do not add local simulation artifacts to `repo/`.\n- Do not bypass the FIFO behavior by special-casing the public tests.",
       "certDate": "2026-08-09",
-      "certSummary": "- `定义有效性`：**通过**。C1 public wrapper/generator ABI、candidate allowlist 与 Agent-visible\n local validation 的修复已纳入当前定义；其余既有 prompt、evaluator-owned 测试与 helper、\n golden snapshot、runtime environment 和 Docker image identity 保持受控。\n- `证据有效性`：**通过**。2026-08-12 的五个 runtime-requalification batch 为 pipeline C1-C5\n 提供当前三联记录，均为 terminal `passed`、return code 0、`input_drift=false`。10 条 endpoint\n entrypoint/snapshot 逐组通过，5 条 predecessor 均为预期 Core negative 且保持全部 Regression。\n SR1-SR5 不由本次 pipeline batch 重新认证：它们继续分别受其自身最近 terminal archiv\n\n[Excerpt. Open the source artifact for the complete content.]",
+      "certSummary": "- `定义有效性`：**通过**。C1 public wrapper/generator ABI、candidate allowlist 与 Agent-visible\n local validation 的修复已纳入当前定义；其余既有 prompt、evaluator-owned 测试与 helper、\n golden snapshot、runtime environment 和 Docker image identity 保持受控。\n- `证据有效性`：**通过**。2026-08-17 的 C1 arb_mux allowlist 契约修复补证（六个独立 batch：\n pipeline C1-C5、SR1）在修复后定义下均为 terminal `passed`、return code 0、\n `input_drift=false`；每个 endpoint entrypoint/snapshot 逐组通过，每个 predecessor 保持全部\n Regression 且为新 Core 预期 negative。SR2-SR5 allowlist 原本已含该文件，保持其自身最近\n terminal archive 的 c\n\n[Excerpt. Open the source artifact for the complete content.]",
       "readmePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-axis-fifo-t1/README.md",
       "certPath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-axis-fifo-t1/evidence/certification.md",
       "promptPath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-axis-fifo-t1/pipeline/checkpoint_5.md",
@@ -6425,6 +6425,403 @@
         }
       ],
       "evaluationRuns": [
+        {
+          "schema_version": 3,
+          "run_id": "20260817t162022",
+          "exported_at": "2026-08-17T08:47:47.033841+00:00",
+          "published_problem": "verilog-axis-fifo-t1",
+          "source_problem": "verilog_axis_fifo_t1_pipeline",
+          "release_commit": "65fc951529f00dbcf1a59816b913c9c6428ab360",
+          "definition_sha256": {
+            "config.yaml": "8db987b92ea391f5dff1f92c5b17c4c54355b7441327b97a2112edb44b318092",
+            "checkpoint_1.md": "4dbf6b0445f3cc2628940dcb75122736babbc3738c25576e4e72a13cd59e3303",
+            "checkpoint_2.md": "1f70daead16104c7cb9acc0bf945673eaa9602d2cf55d1799ade460e601db4b4",
+            "checkpoint_3.md": "f39eb7144931f6f04694bde9bec458e05a2105f78acc0a18fc7508a321942111",
+            "checkpoint_4.md": "6e95495c9dcbe995eb5dc2010e58a1fb6a34e165effc03b2330fa460d44ce93e",
+            "checkpoint_5.md": "0ba761230c577d62c709c459047693f6691c1b7e9e2d8bd3381f840bd73acaef"
+          },
+          "source_run": {
+            "directory": "codex-0.141.0_rtl-plan-and-test_xhigh_20260817T162028235310_rtl_verilog_axis_fifo_t1_codex_deepseek-v4-pro_pipeline_incremental_tb_20260817t162022",
+            "result_json_sha256": "b2d7c657d1014813109b8e96cf1261abaae6c2d40b5213090e5411fceb685ddd",
+            "checkpoint_results_sha256": "54d5cf1bb8613a1dcf54965bdcf4e0dcd80367e48d28392b55c0cd18068049c3"
+          },
+          "agent": {
+            "type": "codex",
+            "version": "0.141.0"
+          },
+          "model": "deepseek-deepseek-v4-pro",
+          "prompt": "rtl-plan-and-test",
+          "thinking": "xhigh",
+          "run_metrics": {
+            "costs": {
+              "checkpoint": {
+                "mean": 0,
+                "stddev": 0,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 2
+              },
+              "problem": {
+                "mean": 0,
+                "stddev": null,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 1
+              },
+              "total": 0
+            },
+            "time": {
+              "checkpoint": {
+                "mean": 760.127401,
+                "stddev": 226.86134437972467,
+                "min": 599.712206,
+                "max": 920.542596,
+                "median": 760.127401,
+                "count": 2
+              },
+              "problem": {
+                "mean": 1520.254802,
+                "stddev": null,
+                "min": 1520.254802,
+                "max": 1520.254802,
+                "median": 1520.254802,
+                "count": 1
+              }
+            },
+            "tokens": {
+              "input": 13137393,
+              "output": 117730,
+              "cache_read": 12981376,
+              "cache_write": 0,
+              "reasoning": 48649,
+              "problem": {
+                "input": 13137393,
+                "output": 117730,
+                "cache_read": 12981376,
+                "cache_write": 0,
+                "reasoning": 48649
+              },
+              "checkpoint": {
+                "input": 6568696.5,
+                "output": 58865,
+                "cache_read": 6490688,
+                "cache_write": 0,
+                "reasoning": 24324.5
+              }
+            },
+            "steps": {
+              "checkpoint": {
+                "mean": 85.5,
+                "stddev": 33.23401871576773,
+                "min": 62,
+                "max": 109,
+                "median": 85.5,
+                "count": 2
+              },
+              "problem": {
+                "mean": 171,
+                "stddev": null,
+                "min": 171,
+                "max": 171,
+                "median": 171,
+                "count": 1
+              }
+            },
+            "pass_rates": {
+              "problem": {
+                "structure": 1,
+                "core": 0.5,
+                "total": 0.6666666666666666,
+                "error": 0,
+                "functionality": 0.5,
+                "regression": 0
+              },
+              "checkpoint": {
+                "structure": 1,
+                "core": 0.5,
+                "total": 0.6666666666666666,
+                "error": 0,
+                "functionality": 0.5,
+                "regression": 0
+              }
+            }
+          },
+          "expected_checkpoints": 5,
+          "completed_checkpoints": 2,
+          "outcome": "failed",
+          "checkpoints": [
+            {
+              "checkpoint": "checkpoint_1",
+              "state": "skipped",
+              "started_at": "2026-08-17T16:20:34.787483",
+              "ended_at": "2026-08-17T16:35:55.330079",
+              "duration_seconds": 920.542596,
+              "steps": 109,
+              "run_result": {
+                "problem": "verilog_axis_fifo_t1_pipeline",
+                "version": 1,
+                "checkpoint": "checkpoint_1",
+                "path": "$RUN_DIR/verilog_axis_fifo_t1_pipeline",
+                "idx": 1,
+                "state": "skipped",
+                "is_first": true,
+                "is_last": false,
+                "strict_pass_rate": 0.6666666666666666,
+                "structure_pass_rate": 1,
+                "core_pass_rate": 0.5,
+                "functionality_pass_rate": 0.5,
+                "isolated_pass_rate": 0.6666666666666666,
+                "total_tests": 3,
+                "passed_tests": 2,
+                "structure_total": 1,
+                "structure_passed": 1,
+                "core_total": 2,
+                "core_passed": 1,
+                "functionality_total": 2,
+                "functionality_passed": 1,
+                "functionality_incremental_total": 0,
+                "functionality_incremental_passed": 0,
+                "error_total": 0,
+                "error_passed": 0,
+                "regression_total": 0,
+                "regression_passed": 0,
+                "started": "2026-08-17T16:20:34.787483",
+                "ended": "2026-08-17T16:35:55.330079",
+                "duration": 920.542596,
+                "cost": 0,
+                "steps": 109,
+                "cache_read": 10323328,
+                "cache_write": 0,
+                "input": 10434293,
+                "output": 68362,
+                "reasoning": 30588,
+                "loc": 30795,
+                "sloc": 21942,
+                "total_lines": 30795,
+                "single_comments": 433,
+                "lint_errors": 7503,
+                "lint_fixable": 410,
+                "files": 82,
+                "functions": 445,
+                "methods": 105,
+                "classes": 23,
+                "statements": 4905,
+                "symbols_total": 880,
+                "cc_max": 203,
+                "cc_mean": 9.287272727272727,
+                "cc_std": 19.612670661384502,
+                "cc_high_count": 116,
+                "cc_extreme_count": 41,
+                "high_cc_mean": 35.10344827586207,
+                "cc_normalized": 0.008108385412274313,
+                "cc_concentration": 0.7147234284900691,
+                "cc_top20": 0.783281127642913,
+                "max_nesting_depth": 6,
+                "lines_per_symbol": 75.32181818181819,
+                "single_use_functions": 439,
+                "trivial_wrappers": 20,
+                "unused_variables": 1141,
+                "clone_lines": 1331,
+                "cloned_sloc_lines": 1051,
+                "ast_grep_violations": 0,
+                "verbosity_flagged_sloc_lines": 1051,
+                "sg_slop_violations": 0,
+                "lint_per_loc": 0.24364344861178763,
+                "violation_pct": 0,
+                "cloned_pct": 0.034128917031985714,
+                "verbosity_flagged_pct": 0.034128917031985714,
+                "graph_cyclic_dependency_mass": 0,
+                "graph_propagation_cost": 0,
+                "graph_dependency_entropy": 0,
+                "lines_added": 30795,
+                "lines_removed": 0,
+                "mean_func_loc": 75.32181818181819,
+                "mass.cc": 73233.69,
+                "mass.high_cc_pct": 0.9489276767491776
+              },
+              "code_snapshot": {
+                "file_count": 200,
+                "total_bytes": 1511954,
+                "tree_sha256": "de608c40a5434fee5169247bb759660335e39220164028b1fe2834b1e10a9fc0",
+                "excluded_artifacts": [],
+                "archive": {
+                  "path": "problems/verilog-axis-fifo-t1/agent-results/artifacts/20260817t162022/checkpoint_1/agent-code.tar.gz",
+                  "sha256": "1edbaceda4de9471f22f4f0d028c97e3a6a518554d8916f9725484ede111699f",
+                  "size_bytes": 121273,
+                  "file_count": 200,
+                  "tree_sha256": "de608c40a5434fee5169247bb759660335e39220164028b1fe2834b1e10a9fc0"
+                },
+                "manifest": {
+                  "path": "problems/verilog-axis-fifo-t1/agent-results/artifacts/20260817t162022/checkpoint_1/agent-code.manifest.json",
+                  "sha256": "34035f3eb60ba7cbc95522404ed3a0e1fd9cd1a3cb28b60264512ec841ee7280",
+                  "size_bytes": 38058,
+                  "file_count": 200,
+                  "total_bytes": 1511954,
+                  "tree_sha256": "de608c40a5434fee5169247bb759660335e39220164028b1fe2834b1e10a9fc0"
+                },
+                "changed_files": {
+                  "path": "problems/verilog-axis-fifo-t1/agent-results/artifacts/20260817t162022/checkpoint_1/changed-files.json",
+                  "sha256": "90ff9c161013b9caab741038927bc6519a904032ca2da7abad3deb8a7bbf6103",
+                  "count": 10
+                },
+                "diff": {
+                  "path": "problems/verilog-axis-fifo-t1/agent-results/artifacts/20260817t162022/checkpoint_1/changes.patch",
+                  "sha256": "86af5cfb12c56e6a6e75ea982785b802df47df0c685875043ba88d989fb1718c",
+                  "size_bytes": 38559
+                },
+                "baseline_path": "problems/verilog-axis-fifo-t1/pipeline/static_assets/golden_snapshots/2021-04-03_cocotb_fifo_baseline_74c1014"
+              },
+              "evaluation": {
+                "pytest_exit_code": 1,
+                "infrastructure_failure": false,
+                "counts": {
+                  "structure": [
+                    1,
+                    1
+                  ],
+                  "core": [
+                    1,
+                    2
+                  ],
+                  "functionality": [
+                    0,
+                    0
+                  ],
+                  "regression": [
+                    0,
+                    0
+                  ],
+                  "error": [
+                    0,
+                    0
+                  ]
+                },
+                "core_gate_passed": false,
+                "sha256": "0844ee90519a3e37e6bf93cfb1f410600b239ebfa545b0139a1bdae547ab17bd",
+                "details": {
+                  "schema_version": 1,
+                  "problem_name": "verilog_axis_fifo_t1_pipeline",
+                  "problem_version": 1,
+                  "checkpoint_name": "checkpoint_1",
+                  "checkpoint_version": 1,
+                  "duration": 61.23130559921265,
+                  "entrypoint": "bash build_checkpoint.sh",
+                  "tests": {
+                    "checkpoint_1-Structure": {
+                      "passed": [
+                        "test_checkpoint_1_core_structure[checkpoint_1]"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Core": {
+                      "passed": [
+                        "test_checkpoint_1_drop_oversize_endpoint_behavior"
+                      ],
+                      "failed": [
+                        "test_checkpoint_1_switch_surface_endpoint_behavior"
+                      ],
+                      "skipped": []
+                    }
+                  },
+                  "pass_counts": {
+                    "Structure": 1,
+                    "Core": 1,
+                    "Functionality": 0,
+                    "Regression": 0,
+                    "Error": 0
+                  },
+                  "total_counts": {
+                    "Structure": 1,
+                    "Core": 2,
+                    "Functionality": 0,
+                    "Regression": 0,
+                    "Error": 0
+                  },
+                  "detail_metrics": {},
+                  "pytest_exit_code": 1,
+                  "pytest_collected": 3,
+                  "test_collection_hash": "b888e3ea309f2dcd976938b9a595526e81c4a89fd36ada84eaee86fa969872f8",
+                  "infrastructure_failure": false,
+                  "infrastructure_reason": null
+                }
+              },
+              "localCheckpoint": "checkpoint_1",
+              "targetCheckpoint": "checkpoint_1"
+            },
+            {
+              "checkpoint": "checkpoint_2",
+              "state": "skipped",
+              "started_at": "2026-08-17T16:37:40.288182",
+              "ended_at": "2026-08-17T16:47:40.000388",
+              "duration_seconds": 599.712206,
+              "steps": 62,
+              "run_result": {
+                "problem": "verilog_axis_fifo_t1_pipeline",
+                "version": 1,
+                "checkpoint": "checkpoint_2",
+                "path": "$RUN_DIR/verilog_axis_fifo_t1_pipeline",
+                "idx": 2,
+                "state": "skipped",
+                "is_first": false,
+                "is_last": false,
+                "started": "2026-08-17T16:37:40.288182",
+                "ended": "2026-08-17T16:47:40.000388",
+                "duration": 599.712206,
+                "cost": 0,
+                "steps": 62,
+                "cache_read": 2658048,
+                "cache_write": 0,
+                "input": 2703100,
+                "output": 49368,
+                "reasoning": 18061,
+                "delta.loc": -100,
+                "delta.ast_grep_violations": 0,
+                "delta.churn_ratio": 0
+              },
+              "code_snapshot": {
+                "file_count": 203,
+                "total_bytes": 1529548,
+                "tree_sha256": "9a7ed0542d86a7dad64ac0669902481e01c3249bdfe839d7a51c9089bf9fc9ae",
+                "excluded_artifacts": [],
+                "archive": {
+                  "path": "problems/verilog-axis-fifo-t1/agent-results/artifacts/20260817t162022/checkpoint_2/agent-code.tar.gz",
+                  "sha256": "9380a183a4fcc715578f4ddf6783ce172a4ecb0a34d2c15bc508295942c11bf6",
+                  "size_bytes": 122125,
+                  "file_count": 203,
+                  "tree_sha256": "9a7ed0542d86a7dad64ac0669902481e01c3249bdfe839d7a51c9089bf9fc9ae"
+                },
+                "manifest": {
+                  "path": "problems/verilog-axis-fifo-t1/agent-results/artifacts/20260817t162022/checkpoint_2/agent-code.manifest.json",
+                  "sha256": "427043a7cc1740524beddc341306fd64ed82a724550400a0c1c63a7826917c74",
+                  "size_bytes": 38646,
+                  "file_count": 203,
+                  "total_bytes": 1529548,
+                  "tree_sha256": "9a7ed0542d86a7dad64ac0669902481e01c3249bdfe839d7a51c9089bf9fc9ae"
+                },
+                "changed_files": {
+                  "path": "problems/verilog-axis-fifo-t1/agent-results/artifacts/20260817t162022/checkpoint_2/changed-files.json",
+                  "sha256": "fd3c80e78a806786b19e322d326b1c4fd178078b474c7df7787db4e24a395450",
+                  "count": 13
+                },
+                "diff": {
+                  "path": "problems/verilog-axis-fifo-t1/agent-results/artifacts/20260817t162022/checkpoint_2/changes.patch",
+                  "sha256": "7e47f98541139d1acc617656a06e07f9c3a09497836ad4795d0afb63aa84fa13",
+                  "size_bytes": 56979
+                },
+                "baseline_path": "problems/verilog-axis-fifo-t1/pipeline/static_assets/golden_snapshots/2021-04-03_cocotb_fifo_baseline_74c1014"
+              },
+              "evaluation": null,
+              "localCheckpoint": "checkpoint_2",
+              "targetCheckpoint": "checkpoint_2"
+            }
+          ],
+          "experimentType": "pipeline",
+          "targetCheckpoint": "",
+          "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-axis-fifo-t1/agent-results/runs/20260817t162022.json"
+        },
         {
           "schema_version": 3,
           "run_id": "20260812t151800",
