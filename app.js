@@ -132,8 +132,11 @@ function renderMarkdown(source) {
     flushParagraph();
     closeList();
   };
+  const tableCells = (line) => line.trim().replace(/^\|/, "").replace(/\|$/, "").split("|").map((cell) => cell.trim());
+  const tableSeparator = (line) => /^\s*\|?\s*:?-{3,}:?\s*(?:\|\s*:?-{3,}:?\s*)+\|?\s*$/.test(line);
 
-  for (const line of lines) {
+  for (let index = 0; index < lines.length; index += 1) {
+    const line = lines[index];
     const fence = line.match(/^\s*```\s*([^\s]*)\s*$/);
     if (fence) {
       if (inCode) {
@@ -155,6 +158,19 @@ function renderMarkdown(source) {
     }
     if (!line.trim()) {
       closeBlocks();
+      continue;
+    }
+    if (line.includes("|") && tableSeparator(lines[index + 1] || "")) {
+      closeBlocks();
+      const headers = tableCells(line);
+      const rows = [];
+      index += 2;
+      while (index < lines.length && lines[index].includes("|") && lines[index].trim()) {
+        rows.push(tableCells(lines[index]));
+        index += 1;
+      }
+      index -= 1;
+      output.push(`<div class="markdown-table-wrap"><table><thead><tr>${headers.map((cell) => `<th>${renderInlineMarkdown(cell)}</th>`).join("")}</tr></thead><tbody>${rows.map((row) => `<tr>${headers.map((_, cellIndex) => `<td>${renderInlineMarkdown(row[cellIndex] || "")}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`);
       continue;
     }
     const heading = line.match(/^\s{0,3}(#{1,6})\s+(.+?)\s*#*\s*$/);
@@ -516,6 +532,14 @@ function renderEvaluationHistory(problem) {
 function renderReview(problem) {
   const checkpointPrompts = checkpointPromptsFor(problem);
   const resultCounts = evaluationCounts(problem);
+  const overviewCard = problem.overview ? `<section class="review-panel">
+          <div class="panel-heading"><h2>Problem overview</h2><span>README</span></div>
+          <div class="panel-body"><details class="overview-card" open>
+            <summary><span>Detailed problem description</span><span class="overview-toggle">collapse</span></summary>
+            <article class="overview-markdown">${renderMarkdown(problem.overview)}</article>
+            ${problem.readmePath ? `<div class="prompt-actions"><a class="action-link" href="${escapeHtml(problem.readmePath)}" target="_blank" rel="noreferrer">source README ↗</a></div>` : ""}
+          </details></div>
+        </section>` : "";
   const checkpointCards = checkpointPrompts.map((checkpoint, index) => `<details class="checkpoint-card"${index === checkpointPrompts.length - 1 ? " open" : ""}>
       <summary class="checkpoint-summary"><span class="checkpoint-caret" aria-hidden="true"></span><span class="checkpoint-key">${escapeHtml(checkpoint.label)}</span><span class="checkpoint-title">${escapeHtml(problem.title)} / ${escapeHtml(checkpoint.label)} prompt</span><span class="checkpoint-state">view</span></summary>
       <div class="checkpoint-content"><article class="prompt-markdown">${renderMarkdown(checkpoint.prompt)}</article>${checkpoint.sourcePath ? `<div class="prompt-actions"><a class="action-link" href="${escapeHtml(checkpoint.sourcePath)}" target="_blank" rel="noreferrer">source artifact ↗</a></div>` : ""}</div>
@@ -530,6 +554,7 @@ function renderReview(problem) {
     </div>
     <div class="review-grid">
       <div class="review-main">
+        ${overviewCard}
         <section class="review-panel">
           <div class="panel-heading"><h2>Checkpoint prompts</h2><span>${escapeHtml(checkpointLabel(problem.checkpoints))}</span></div>
           <div class="panel-body"><div class="checkpoint-list">${checkpointCards}</div></div>

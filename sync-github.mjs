@@ -200,6 +200,7 @@ async function buildProblem(entry, index) {
     tags: problemTags(id, readme),
     checkpoints: checkpointFiles.length,
     summary: summaryFor(id, readme),
+    overview: cleanPrompt(readme),
     prompt: trimExcerpt(current.prompt, 7000),
     certDate: certificationDate(certification),
     certSummary: certificationSummary(certification),
@@ -224,7 +225,7 @@ async function main() {
   const problems = [];
   for (const [index, entry] of entries.entries()) problems.push(await buildProblem(entry, index));
   const payload = {
-    schemaVersion: 4,
+    schemaVersion: 5,
     generatedAt: new Date().toISOString(),
     source: {
       repository: `${OWNER}/${REPOSITORY}`,

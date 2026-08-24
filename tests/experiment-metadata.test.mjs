@@ -45,6 +45,20 @@ assert.equal(split.current[0].run_id, "20260814t100000", "current results are so
 assert.equal(split.historical[0].run_id, "20260812t221238");
 assert.notEqual(experimentKey(structurePipeline), experimentKey(corePipeline));
 
+const markdownStart = source.indexOf("const escapeHtml");
+const markdownEnd = source.indexOf("function setTheme", markdownStart);
+assert.notEqual(markdownStart, -1, "markdown helpers must exist");
+assert.notEqual(markdownEnd, -1, "markdown helpers must end before theme handling");
+const markdownContext = {};
+vm.runInNewContext(`${source.slice(markdownStart, markdownEnd)}; globalThis.renderMarkdownForTest = renderMarkdown;`, markdownContext);
+const overviewMarkdown = markdownContext.renderMarkdownForTest("# Overview\n\n| checkpoint | Core |\n| --- | ---: |\n| checkpoint_1 | 7 |\n\nDetailed text.");
+assert.match(overviewMarkdown, /<table>/, "README tables must render as tables");
+assert.match(overviewMarkdown, /checkpoint_1/, "README table cells must remain visible");
+assert.match(overviewMarkdown, /<h1>Overview<\/h1>/, "README headings must render");
+
+assert.match(syncSource, /overview:\s*cleanPrompt\(readme\)/, "sync payload must include the README overview");
+assert.match(syncSource, /schemaVersion:\s*5/, "overview data requires the current schema version");
+
 const syncWithoutImports = syncSource
   .replace(/^import[^\n]+\n/gm, "")
   .replace(/const SCRIPT_DIR[^\n]+\n/, 'const SCRIPT_DIR = ".";\n')
