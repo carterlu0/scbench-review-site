@@ -1,10 +1,10 @@
 {
   "schemaVersion": 5,
-  "generatedAt": "2026-08-26T03:05:52.380Z",
+  "generatedAt": "2026-08-26T04:03:24.321Z",
   "source": {
     "repository": "carterlu0/scbench-rtl-problems",
     "branch": "main",
-    "commit": "6d13e50f869aa8bf001519e3828b9516a6ac18f2"
+    "commit": "69a21c02f7032c5f6743faf184f24bc5a2790647"
   },
   "problems": [
     {
@@ -18638,9 +18638,9 @@
       "checkpoints": 3,
       "summary": "Release status: published\nSource family: verilog_ethernet_t2\nDifficulty: Hard\nTags: rtl, verilog, ethernet, t2, test-modernization, checkpointed",
       "overview": "# Verilog Ethernet T2\n\nRelease status: published\nSource family: verilog_ethernet_t2\nDifficulty: Hard\nTags: rtl, verilog, ethernet, t2, test-modernization, checkpointed\n\nThis package captures the canonical pipeline definition for the pure T2\nverilog-ethernet test-suite modernization problem in a review-friendly form.\n\nThe candidate owns only the focused cocotb testbench, runner, and dependency\nconfiguration (`tb/axis_gmii_rx`, `tb/axis_gmii_tx`, `tb/eth_mac_1g`,\n`run_snapshot_tests.sh`, `tox.ini`). RTL is evaluator-fixed context: the agent\nsees the predecessor RTL, while target RTL and endpoint TB remain evaluator-only\nassets. The evaluator reconstructs hash-bound target RTL and overlays only the\nallowlisted candidate files.\n\n## Included checkpoints\n- checkpoint_1\n- checkpoint_2\n- checkpoint_3\n\n## Files\n- pipeline/: canonical problem definition copied from the generated problems tree\n- evidence/: certification and review notes copied from the originating family\n- environment/: runtime definition for the published pipeline",
-      "prompt": "# checkpoint_3: Add TX underrun and error verification\n\nContinue from checkpoint_2. The RTL remains evaluator-fixed input and is not part of the candidate output.\n\nExtend both `axis_gmii_tx` and `eth_mac_1g` verification with directed TX underrun and TX error scenarios. Check the malformed/error indication for the affected frame, verify subsequent valid frames recover with correct payload and FCS, and finish with empty/drained sinks. Preserve all prior PTP, pause, LFC/PFC, reset, payload, FCS, and dependency-compatibility coverage.\n\n`bash build_checkpoint.sh checkpoint_3` must update the same candidate TB/runner surface and continue to accept all earlier checkpoint names. Target RTL remains evaluator-only.\n\nThe evaluator runs the candidate TB against trusted checkpoint_3 target RTL and retains checkpoint_1 and checkpoint_2 verification requirements as Regression.",
+      "prompt": "# checkpoint_3: Add TX underrun and error verification\n\nContinue from checkpoint_2. The RTL remains evaluator-fixed input and is not part of the candidate output.\n\nExtend both `axis_gmii_tx` and `eth_mac_1g` verification with directed TX underrun and TX error scenarios. Check the malformed/error indication for the affected frame, verify subsequent valid frames recover with correct payload and FCS, and finish with empty/drained sinks. Preserve all prior PTP, pause, LFC/PFC, reset-before-traffic, final-drain, payload, FCS, and focused-runner coverage. The checkpoint_2 API contract remains active: use `cocotbext-eth==0.1.22`, construct `PtpClockSimTime` with `ts_tod` rather than `ts_64`, drive `cfg_rx_enable` in `axis_gmii_rx`, drive `cfg_ifg` and `cfg_tx_enable` in `axis_gmii_tx`, and drive all three signals in `eth_mac_1g`.\n\nThe `axis_gmii_rx` focused suite remains a required checkpoint_1/checkpoint_2 Regression dependency and must continue to execute through the focused runner.\n\n## Required focused scenario matrix\n\nThe following focused `TestFactory` scenario identifiers and parameter values are\npart of the public coverage contract. Keep each listed scenario registered and\ngenerated. Equivalent scenario bodies are allowed, but do not remove a listed\nscenario or mode combination.\n\n- `tb/axis_gmii_rx/test_axis_gmii_rx.py`: `run_test` with\n `payload_lengths=size_list`, `payload_data=incrementing_payload`,\n `ifg=(12, 0)`, `enable_gen=(None, cycle_en)`, and\n `mii_sel=(False, True)`.\n- `tb/axis_gmii_tx/test_axis_gmii_tx.py`: `run_test` with the payload matrix and\n `ifg=(12)`, `enable_gen=(None, cycle_en)`, `mii_sel=(False, True)`;\n `run_test_underrun` and `run_test_error` with the same non-payload mode\n matrix.\n- `tb/eth_mac_1g/test_eth_mac_1g.py`: `run_test_rx` and `run_test_tx` with the\n payload matrix and `ifg=(12)`, `enable_gen=(None, cycle_en)`,\n `mii_sel=(False, True)`; `run_test_tx_underrun`, `run_test_tx_error`,\n `run_test_lfc`, and `run_test_pfc` with that non-payload mode matrix. The\n LFC/PFC scenarios remain required when PFC is enabled.\n\n`bash build_checkpoint.sh checkpoint_3` must update the same candidate TB/runner surface and continue to accept all earlier checkpoint names. Target RTL remains evaluator-only.\n\nThe evaluator runs the candidate TB against trusted checkpoint_3 target RTL and retains checkpoint_1 and checkpoint_2 verification requirements as Regression.",
       "certDate": "2026-08-02",
-      "certSummary": "2026-08-02 修复 prompt/test 公平性、未来 target RTL 资产泄露、pipeline/SR runner 映射、\n运行时 SR 重生成、C1 语义 pause oracle（`\\blfc\\b`/`\\bpfc\\b` 单词边界缺陷）和 validator\nStructure=0 纯 T2 兼容问题，并受控重生成三个 SR wrapper。2026-08-02 至 08-03 已对当前冻结\n定义重新收集 pipeline C1-C3 与 SR1-SR3 的独立 endpoint entrypoint、endpoint snapshot 和\npredecessor evidence，全部六个节点通过。",
+      "certSummary": "- `定义有效性`：**通过**。当前定义采用 evaluator-owned entrypoint 语义：`evaluator_owned_entrypoint=true` 时由 evaluator 物化并执行 `build_checkpoint.sh`，candidate allowlist 不包含该文件；该语义已在六节点当前定义 reference qualification 中执行并绑定。\n- `证据有效性`：**通过**。六个 evaluator-owned entrypoint 批次全部 `state=passed`、`validator_return_code=0`、`input_drift=false`，每个 summary 均包含 endpoint `entrypoint`、endpoint `snapshot` 和 predecessor 三条记录；endpoint pytest exit code 为 0，predecessor 为预期 Core failure 且 regression 保留。evaluator manifest 为 `33e63619d28a77a1ca155fce65a9fa17f\n\n[Excerpt. Open the source artifact for the complete content.]",
       "readmePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-ethernet-t2/README.md",
       "certPath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-ethernet-t2/evidence/certification.md",
       "promptPath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-ethernet-t2/pipeline/checkpoint_3.md",
@@ -18661,21 +18661,1978 @@
       "checkpointPrompts": [
         {
           "label": "checkpoint_1",
-          "prompt": "# checkpoint_1: Strengthen PTP and pause verification\n\nThe RTL implementation is fixed input for this T2 task. The workspace contains the prior testbench and active predecessor RTL. Target RTL remains evaluator-only; do not implement or replace RTL.\n\nModernize the focused cocotb tests for `axis_gmii_rx`, `axis_gmii_tx`, and `eth_mac_1g`. The tests must check packet payload and FCS, RX/TX PTP timestamp association and tolerance, source/sink pause behavior, reset and final drain, and separate LFC/PFC scenarios with observed pause-control-frame counts or ranges.\n\nThe submission surface is limited to the three focused TB directories, `run_snapshot_tests.sh`, and `tox.ini`. `bash build_checkpoint.sh checkpoint_1` must leave those files under `repo/`. The runner must execute each focused component under Icarus/cocotb. Do not vendor dependencies or retain generated simulator/cache artifacts.\n\nThe evaluator rebuilds the DUT from its trusted target snapshot, overlays only the submitted TB/runner files, and verifies that the RTL hash does not change.",
+          "prompt": "# checkpoint_1: Strengthen PTP and pause verification\n\nThe RTL implementation is fixed input for this T2 task. The workspace contains the prior testbench and active predecessor RTL. Target RTL remains evaluator-only; do not implement or replace RTL.\n\nModernize the focused cocotb tests for `axis_gmii_rx`, `axis_gmii_tx`, and `eth_mac_1g`. The tests must check packet payload and FCS, RX/TX PTP timestamp association and tolerance, source/sink pause behavior, reset and final drain, and separate LFC/PFC scenarios with observed pause-control-frame counts or ranges.\n\nEach focused data-flow scenario must reset the testbench before traffic, consume every expected frame or timestamp from the applicable sink, and then verify that no unexpected item remains queued at the end of that scenario. Helpers are allowed; the requirement is the observable reset-before-traffic and final-drain behavior, not a particular Python statement layout. Wrapping a sink receive in a bounded-wait helper such as `with_timeout(tb.<sink>.recv(), ...)` still satisfies the reset-before-traffic and final-drain requirements. LFC and PFC checks must assert a non-zero expected count or a meaningful bounded range rather than only logging activity.\n\nThe submission surface is limited to the three focused TB directories, `run_snapshot_tests.sh`, and `tox.ini`. `bash build_checkpoint.sh checkpoint_1` must leave those files under `repo/`. The runner must execute each focused component exactly once under Icarus/cocotb when invoked with `T2_RUN_MODE=all-focused`; it must also support selecting one component with `T2_RUN_MODE=focused` and `T2_COMPONENT` set to `axis_gmii_rx`, `axis_gmii_tx`, or `eth_mac_1g`. The runner may be invoked from outside `repo/`, so resolve its TB paths from the runner file rather than the caller's current directory. Do not vendor dependencies or retain generated simulator/cache artifacts.\n\nThe evaluator rebuilds the DUT from its trusted target snapshot, overlays only the submitted TB/runner files, and verifies that the RTL hash does not change.",
           "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-ethernet-t2/pipeline/checkpoint_1.md"
         },
         {
           "label": "checkpoint_2",
-          "prompt": "# checkpoint_2: Preserve verification under cocotbext-eth 0.1.22\n\nContinue from checkpoint_1. The RTL remains evaluator-fixed input and is not part of the candidate output.\n\nUpdate the focused TB and runner for the target `cocotbext-eth==0.1.22` API. Preserve all checkpoint_1 payload/FCS, PTP, pause/backpressure, reset, drain, LFC, and PFC assertions. Do not obtain compatibility by deleting scenarios, weakening comparisons, or bypassing the focused runner.\n\n`bash build_checkpoint.sh checkpoint_2` must update the same candidate TB/runner surface and must continue to accept checkpoint_1. Target RTL remains evaluator-only.\n\nThe evaluator runs the candidate TB against trusted checkpoint_2 target RTL and retains checkpoint_1 verification requirements as Regression.",
+          "prompt": "# checkpoint_2: Preserve verification under cocotbext-eth 0.1.22\n\nContinue from checkpoint_1. The RTL remains evaluator-fixed input and is not part of the candidate output.\n\nUpdate the focused TB and runner for the target `cocotbext-eth==0.1.22` API. Construct each `PtpClockSimTime` with the target time-of-day signal through its `ts_tod` keyword; the legacy `ts_64` keyword is no longer part of the active API and must not remain in these focused tests.\n\nThe target focused RTL replaces the prior `ifg_delay` control with `cfg_ifg` and adds `cfg_tx_enable` and `cfg_rx_enable`. Drive `cfg_rx_enable` in `axis_gmii_rx`; drive `cfg_ifg` and `cfg_tx_enable` in `axis_gmii_tx`; and drive all three signals in `eth_mac_1g`. Any cocotb assignment form that actually initializes and drives the signal is acceptable. Preserve all checkpoint_1 payload/FCS, PTP, pause/backpressure, reset-before-traffic, final-drain, LFC, PFC, and focused-runner requirements. Do not obtain compatibility by deleting scenarios, weakening comparisons, or bypassing the focused runner.\n\n`bash build_checkpoint.sh checkpoint_2` must update the same candidate TB/runner surface and must continue to accept checkpoint_1. Target RTL remains evaluator-only.\n\nThe evaluator runs the candidate TB against trusted checkpoint_2 target RTL and retains checkpoint_1 verification requirements as Regression.",
           "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-ethernet-t2/pipeline/checkpoint_2.md"
         },
         {
           "label": "checkpoint_3",
-          "prompt": "# checkpoint_3: Add TX underrun and error verification\n\nContinue from checkpoint_2. The RTL remains evaluator-fixed input and is not part of the candidate output.\n\nExtend both `axis_gmii_tx` and `eth_mac_1g` verification with directed TX underrun and TX error scenarios. Check the malformed/error indication for the affected frame, verify subsequent valid frames recover with correct payload and FCS, and finish with empty/drained sinks. Preserve all prior PTP, pause, LFC/PFC, reset, payload, FCS, and dependency-compatibility coverage.\n\n`bash build_checkpoint.sh checkpoint_3` must update the same candidate TB/runner surface and continue to accept all earlier checkpoint names. Target RTL remains evaluator-only.\n\nThe evaluator runs the candidate TB against trusted checkpoint_3 target RTL and retains checkpoint_1 and checkpoint_2 verification requirements as Regression.",
+          "prompt": "# checkpoint_3: Add TX underrun and error verification\n\nContinue from checkpoint_2. The RTL remains evaluator-fixed input and is not part of the candidate output.\n\nExtend both `axis_gmii_tx` and `eth_mac_1g` verification with directed TX underrun and TX error scenarios. Check the malformed/error indication for the affected frame, verify subsequent valid frames recover with correct payload and FCS, and finish with empty/drained sinks. Preserve all prior PTP, pause, LFC/PFC, reset-before-traffic, final-drain, payload, FCS, and focused-runner coverage. The checkpoint_2 API contract remains active: use `cocotbext-eth==0.1.22`, construct `PtpClockSimTime` with `ts_tod` rather than `ts_64`, drive `cfg_rx_enable` in `axis_gmii_rx`, drive `cfg_ifg` and `cfg_tx_enable` in `axis_gmii_tx`, and drive all three signals in `eth_mac_1g`.\n\nThe `axis_gmii_rx` focused suite remains a required checkpoint_1/checkpoint_2 Regression dependency and must continue to execute through the focused runner.\n\n## Required focused scenario matrix\n\nThe following focused `TestFactory` scenario identifiers and parameter values are\npart of the public coverage contract. Keep each listed scenario registered and\ngenerated. Equivalent scenario bodies are allowed, but do not remove a listed\nscenario or mode combination.\n\n- `tb/axis_gmii_rx/test_axis_gmii_rx.py`: `run_test` with\n\t`payload_lengths=size_list`, `payload_data=incrementing_payload`,\n\t`ifg=(12, 0)`, `enable_gen=(None, cycle_en)`, and\n\t`mii_sel=(False, True)`.\n- `tb/axis_gmii_tx/test_axis_gmii_tx.py`: `run_test` with the payload matrix and\n\t`ifg=(12)`, `enable_gen=(None, cycle_en)`, `mii_sel=(False, True)`;\n\t`run_test_underrun` and `run_test_error` with the same non-payload mode\n\tmatrix.\n- `tb/eth_mac_1g/test_eth_mac_1g.py`: `run_test_rx` and `run_test_tx` with the\n\tpayload matrix and `ifg=(12)`, `enable_gen=(None, cycle_en)`,\n\t`mii_sel=(False, True)`; `run_test_tx_underrun`, `run_test_tx_error`,\n\t`run_test_lfc`, and `run_test_pfc` with that non-payload mode matrix. The\n\tLFC/PFC scenarios remain required when PFC is enabled.\n\n`bash build_checkpoint.sh checkpoint_3` must update the same candidate TB/runner surface and continue to accept all earlier checkpoint names. Target RTL remains evaluator-only.\n\nThe evaluator runs the candidate TB against trusted checkpoint_3 target RTL and retains checkpoint_1 and checkpoint_2 verification requirements as Regression.",
           "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-ethernet-t2/pipeline/checkpoint_3.md"
         }
       ],
       "evaluationRuns": [
+        {
+          "schema_version": 3,
+          "run_id": "20260824t202022",
+          "exported_at": "2026-08-24T13:17:38.958698+00:00",
+          "published_problem": "verilog-ethernet-t2",
+          "source_problem": "verilog_ethernet_t2_mac_ptp_test_modernization",
+          "release_commit": "65fc951529f00dbcf1a59816b913c9c6428ab360",
+          "definition_sha256": {
+            "config.yaml": "22ee00c21490355c2a3255503a45aa1d34303a619cf62573a5f886314efe1993",
+            "checkpoint_1.md": "b5dfe609be754b15651d237df2f3dff7c5a8c7b56641f2f511db462c0ea15077",
+            "checkpoint_2.md": "fabc94e931248def8773b8165130c50a9eb61a06fc48af59b851d718f1236645",
+            "checkpoint_3.md": "2d0ced3f4ba468b678271552db917e40837066be77a916809b44a8ad1f7c0d23"
+          },
+          "source_run": {
+            "directory": "codex-0.141.0_rtl-plan-and-test_high_20260824T202024682257_rtl_verilog_ethernet_t2_inheritance_diagnostic_20260824t202022",
+            "result_json_sha256": "bd1e2283a945681325c2bc3c2325e64a6cdfbfcdb32e94cf275f831222d3b5aa",
+            "checkpoint_results_sha256": "7dd9d9453b6d2886b9176f3cb36515b585c26c5bdddff25e1c10fa3605d510c5"
+          },
+          "agent": {
+            "type": "codex",
+            "version": "0.141.0"
+          },
+          "model": "agicto-gpt-5.6-luna",
+          "prompt": "rtl-plan-and-test",
+          "thinking": "high",
+          "run_metrics": {
+            "costs": {
+              "checkpoint": {
+                "mean": 0,
+                "stddev": 0,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 3
+              },
+              "problem": {
+                "mean": 0,
+                "stddev": null,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 1
+              },
+              "total": 0
+            },
+            "time": {
+              "checkpoint": {
+                "mean": 510.29286399999995,
+                "stddev": 281.729473499334,
+                "min": 211.654678,
+                "max": 771.338953,
+                "median": 547.884961,
+                "count": 3
+              },
+              "problem": {
+                "mean": 1530.878592,
+                "stddev": null,
+                "min": 1530.878592,
+                "max": 1530.878592,
+                "median": 1530.878592,
+                "count": 1
+              }
+            },
+            "tokens": {
+              "input": 8222260,
+              "output": 45262,
+              "cache_read": 7913216,
+              "cache_write": 0,
+              "reasoning": 13686,
+              "problem": {
+                "input": 8222260,
+                "output": 45262,
+                "cache_read": 7913216,
+                "cache_write": 0,
+                "reasoning": 13686
+              },
+              "checkpoint": {
+                "input": 2740753.3333333335,
+                "output": 15087.333333333334,
+                "cache_read": 2637738.6666666665,
+                "cache_write": 0,
+                "reasoning": 4562
+              }
+            },
+            "steps": {
+              "checkpoint": {
+                "mean": 53.333333333333336,
+                "stddev": 21.77919496522618,
+                "min": 29,
+                "max": 71,
+                "median": 60,
+                "count": 3
+              },
+              "problem": {
+                "mean": 160,
+                "stddev": null,
+                "min": 160,
+                "max": 160,
+                "median": 160,
+                "count": 1
+              }
+            },
+            "pass_rates": {
+              "problem": {
+                "structure": 1,
+                "core": 0.4636243386243386,
+                "total": 0.5486261394189783,
+                "error": 0.5,
+                "functionality": 0.5372960372960374,
+                "regression": 0.5181818181818182
+              },
+              "checkpoint": {
+                "structure": 1,
+                "core": 0.4636243386243386,
+                "total": 0.5486261394189783,
+                "error": 0.5,
+                "functionality": 0.5372960372960374,
+                "regression": 0.5181818181818182
+              }
+            }
+          },
+          "expected_checkpoints": 3,
+          "completed_checkpoints": 3,
+          "outcome": "failed",
+          "checkpoints": [
+            {
+              "checkpoint": "checkpoint_1",
+              "state": "ran",
+              "started_at": "2026-08-24T20:20:25.972609",
+              "ended_at": "2026-08-24T20:33:17.311562",
+              "duration_seconds": 771.338953,
+              "steps": 71,
+              "run_result": {
+                "problem": "verilog_ethernet_t2_mac_ptp_test_modernization",
+                "version": 1,
+                "checkpoint": "checkpoint_1",
+                "path": "$RUN_DIR/verilog_ethernet_t2_mac_ptp_test_modernization",
+                "idx": 1,
+                "state": "ran",
+                "is_first": true,
+                "is_last": false,
+                "strict_pass_rate": 0.5384615384615384,
+                "structure_pass_rate": 1,
+                "core_pass_rate": 0.4444444444444444,
+                "functionality_pass_rate": 0.5,
+                "isolated_pass_rate": 0.5384615384615384,
+                "total_tests": 13,
+                "passed_tests": 7,
+                "structure_total": 1,
+                "structure_passed": 1,
+                "core_total": 9,
+                "core_passed": 4,
+                "functionality_total": 10,
+                "functionality_passed": 5,
+                "functionality_incremental_total": 1,
+                "functionality_incremental_passed": 1,
+                "error_total": 2,
+                "error_passed": 1,
+                "regression_total": 0,
+                "regression_passed": 0,
+                "started": "2026-08-24T20:20:25.972609",
+                "ended": "2026-08-24T20:33:17.311562",
+                "duration": 771.338953,
+                "cost": 0,
+                "steps": 71,
+                "cache_read": 5251840,
+                "cache_write": 0,
+                "input": 5411963,
+                "output": 19425,
+                "reasoning": 5811,
+                "loc": 773,
+                "sloc": 498,
+                "total_lines": 773,
+                "single_comments": 6,
+                "lint_errors": 92,
+                "lint_fixable": 0,
+                "files": 3,
+                "functions": 18,
+                "methods": 18,
+                "classes": 3,
+                "statements": 92,
+                "symbols_total": 51,
+                "cc_max": 16,
+                "cc_mean": 3.3055555555555554,
+                "cc_std": 4.328110405539545,
+                "cc_high_count": 5,
+                "cc_extreme_count": 0,
+                "high_cc_mean": 13.6,
+                "cc_normalized": 0.04762173777073855,
+                "cc_concentration": 0.5375816993464052,
+                "cc_top20": 0.6554621848739496,
+                "max_nesting_depth": 1,
+                "lines_per_symbol": 14.13888888888889,
+                "single_use_functions": 17,
+                "trivial_wrappers": 3,
+                "unused_variables": 60,
+                "clone_lines": 38,
+                "cloned_sloc_lines": 34,
+                "ast_grep_violations": 0,
+                "verbosity_flagged_sloc_lines": 34,
+                "sg_slop_violations": 0,
+                "lint_per_loc": 0.11901681759379043,
+                "violation_pct": 0,
+                "cloned_pct": 0.04398447606727038,
+                "verbosity_flagged_pct": 0.04398447606727038,
+                "graph_cyclic_dependency_mass": 0,
+                "graph_propagation_cost": 0,
+                "graph_dependency_entropy": 0,
+                "lines_added": 773,
+                "lines_removed": 0,
+                "mean_func_loc": 14.13888888888889,
+                "mass.cc": 521.38,
+                "mass.high_cc_pct": 0.7115253277716528
+              },
+              "code_snapshot": {
+                "file_count": 105,
+                "total_bytes": 1150905,
+                "tree_sha256": "b10a4efd3fc2332c15fd2a6340e3cf7466991648ee965f859fe73e6fb16a904f",
+                "excluded_artifacts": [],
+                "archive": {
+                  "path": "problems/verilog-ethernet-t2/agent-results/artifacts/20260824t202022/checkpoint_1/agent-code.tar.gz",
+                  "sha256": "0d855b886c0f2f783bcb0998b50a1b6b7b149cbed6210e320e07dcefe12efd81",
+                  "size_bytes": 121054,
+                  "file_count": 105,
+                  "tree_sha256": "b10a4efd3fc2332c15fd2a6340e3cf7466991648ee965f859fe73e6fb16a904f"
+                },
+                "manifest": {
+                  "path": "problems/verilog-ethernet-t2/agent-results/artifacts/20260824t202022/checkpoint_1/agent-code.manifest.json",
+                  "sha256": "528381e32d14b04beec9937d1ebbbc5809cd725f44d9f64e91b4b88779c4ffd2",
+                  "size_bytes": 19253,
+                  "file_count": 105,
+                  "total_bytes": 1150905,
+                  "tree_sha256": "b10a4efd3fc2332c15fd2a6340e3cf7466991648ee965f859fe73e6fb16a904f"
+                },
+                "changed_files": {
+                  "path": "problems/verilog-ethernet-t2/agent-results/artifacts/20260824t202022/checkpoint_1/changed-files.json",
+                  "sha256": "7530046c690944fe62c8713dd034caba4b41385c6b8d3ceeeadde9ce094b9431",
+                  "count": 4
+                },
+                "diff": {
+                  "path": "problems/verilog-ethernet-t2/agent-results/artifacts/20260824t202022/checkpoint_1/changes.patch",
+                  "sha256": "1c3745931eefd4477b368be9a5eea851433789d3f29d8b9f550bd6e66e216ea6",
+                  "size_bytes": 13058
+                },
+                "baseline_path": "problems/verilog-ethernet-t2/pipeline/static_assets/baseline_repo"
+              },
+              "evaluation": {
+                "pytest_exit_code": 1,
+                "infrastructure_failure": false,
+                "counts": {
+                  "structure": [
+                    1,
+                    1
+                  ],
+                  "core": [
+                    4,
+                    9
+                  ],
+                  "functionality": [
+                    1,
+                    1
+                  ],
+                  "regression": [
+                    0,
+                    0
+                  ],
+                  "error": [
+                    1,
+                    2
+                  ]
+                },
+                "core_gate_passed": false,
+                "sha256": "4ec8cc59d234a94a071604c5f590442dbea7178e38de36ed9b0129b9ea20fd6d",
+                "details": {
+                  "schema_version": 1,
+                  "problem_name": "verilog_ethernet_t2_mac_ptp_test_modernization",
+                  "problem_version": 1,
+                  "checkpoint_name": "checkpoint_1",
+                  "checkpoint_version": 1,
+                  "duration": 191.23194026947021,
+                  "entrypoint": "bash build_checkpoint.sh",
+                  "tests": {
+                    "checkpoint_1-Core": {
+                      "passed": [
+                        "test_checkpoint_1_payload_fcs_oracle_directed",
+                        "test_checkpoint_1_ptp_association_oracle_directed",
+                        "test_checkpoint_1_ptp_timestamp_mutation_is_killed",
+                        "test_checkpoint_1_reset_and_final_drain_oracles_are_directed"
+                      ],
+                      "failed": [
+                        "test_checkpoint_1_candidate_runner_executes_all_focused_components",
+                        "test_checkpoint_1_entrypoint_accepts_checkpoint_name",
+                        "test_checkpoint_1_lfc_count_oracle_directed",
+                        "test_checkpoint_1_pause_control_frame_mutation_is_killed",
+                        "test_checkpoint_1_pfc_range_oracle_directed"
+                      ],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Structure": {
+                      "passed": [
+                        "test_checkpoint_1_candidate_surface_is_tb_only"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Functionality": {
+                      "passed": [
+                        "test_checkpoint_1_candidate_tb_passes_trusted_target"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Error": {
+                      "passed": [
+                        "test_checkpoint_1_has_no_generated_artifacts"
+                      ],
+                      "failed": [
+                        "test_checkpoint_1_entrypoint_does_not_vendor_dependencies"
+                      ],
+                      "skipped": []
+                    }
+                  },
+                  "pass_counts": {
+                    "Structure": 1,
+                    "Core": 4,
+                    "Functionality": 1,
+                    "Regression": 0,
+                    "Error": 1
+                  },
+                  "total_counts": {
+                    "Structure": 1,
+                    "Core": 9,
+                    "Functionality": 1,
+                    "Regression": 0,
+                    "Error": 2
+                  },
+                  "detail_metrics": {},
+                  "pytest_exit_code": 1,
+                  "pytest_collected": 13,
+                  "test_collection_hash": "9456cbdeef47214992ca84d5df6c7607e3cd44634bb9b9008fe9545116ef86ef",
+                  "infrastructure_failure": false,
+                  "infrastructure_reason": null
+                }
+              },
+              "localCheckpoint": "checkpoint_1",
+              "targetCheckpoint": "checkpoint_1"
+            },
+            {
+              "checkpoint": "checkpoint_2",
+              "state": "ran",
+              "started_at": "2026-08-24T20:36:34.652218",
+              "ended_at": "2026-08-24T20:40:06.306896",
+              "duration_seconds": 211.654678,
+              "steps": 29,
+              "run_result": {
+                "problem": "verilog_ethernet_t2_mac_ptp_test_modernization",
+                "version": 1,
+                "checkpoint": "checkpoint_2",
+                "path": "$RUN_DIR/verilog_ethernet_t2_mac_ptp_test_modernization",
+                "idx": 2,
+                "state": "ran",
+                "is_first": false,
+                "is_last": false,
+                "strict_pass_rate": 0.6956521739130435,
+                "structure_pass_rate": 1,
+                "core_pass_rate": 0.5714285714285714,
+                "functionality_pass_rate": 0.7272727272727273,
+                "isolated_pass_rate": 0.75,
+                "total_tests": 23,
+                "passed_tests": 16,
+                "structure_total": 1,
+                "structure_passed": 1,
+                "core_total": 7,
+                "core_passed": 4,
+                "functionality_total": 11,
+                "functionality_passed": 8,
+                "functionality_incremental_total": 4,
+                "functionality_incremental_passed": 4,
+                "error_total": 0,
+                "error_passed": 0,
+                "regression_total": 11,
+                "regression_passed": 7,
+                "started": "2026-08-24T20:36:34.652218",
+                "ended": "2026-08-24T20:40:06.306896",
+                "duration": 211.654678,
+                "cost": 0,
+                "steps": 29,
+                "cache_read": 514048,
+                "cache_write": 0,
+                "input": 566570,
+                "output": 7740,
+                "reasoning": 2314,
+                "loc": 777,
+                "sloc": 502,
+                "total_lines": 777,
+                "single_comments": 6,
+                "lint_errors": 92,
+                "lint_fixable": 0,
+                "files": 3,
+                "functions": 18,
+                "methods": 18,
+                "classes": 3,
+                "statements": 92,
+                "symbols_total": 51,
+                "cc_max": 16,
+                "cc_mean": 3.3055555555555554,
+                "cc_std": 4.328110405539545,
+                "cc_high_count": 5,
+                "cc_extreme_count": 0,
+                "high_cc_mean": 13.6,
+                "cc_normalized": 0.04762173777073855,
+                "cc_concentration": 0.5375816993464052,
+                "cc_top20": 0.6554621848739496,
+                "max_nesting_depth": 1,
+                "lines_per_symbol": 14.25,
+                "single_use_functions": 17,
+                "trivial_wrappers": 3,
+                "unused_variables": 60,
+                "clone_lines": 38,
+                "cloned_sloc_lines": 34,
+                "ast_grep_violations": 0,
+                "verbosity_flagged_sloc_lines": 34,
+                "sg_slop_violations": 0,
+                "lint_per_loc": 0.11840411840411841,
+                "violation_pct": 0,
+                "cloned_pct": 0.043758043758043756,
+                "verbosity_flagged_pct": 0.043758043758043756,
+                "graph_cyclic_dependency_mass": 0,
+                "graph_propagation_cost": 0,
+                "graph_dependency_entropy": 0,
+                "lines_added": 13,
+                "lines_removed": 9,
+                "mean_func_loc": 14.25,
+                "mass.cc": 521.84,
+                "mass.high_cc_pct": 0.7108938084931009,
+                "delta.loc": 0.517464424320828,
+                "delta.ast_grep_violations": 0,
+                "delta.churn_ratio": 0.028460543337645538
+              },
+              "code_snapshot": {
+                "file_count": 105,
+                "total_bytes": 1151083,
+                "tree_sha256": "40250c3615d815849e5cb8d29b431ffc0fb6707e8e3321c0d095e71634cb03a0",
+                "excluded_artifacts": [],
+                "archive": {
+                  "path": "problems/verilog-ethernet-t2/agent-results/artifacts/20260824t202022/checkpoint_2/agent-code.tar.gz",
+                  "sha256": "e48cfe4552c93943567ebc27e80745b3c8fdb72c1c05e96c52d48cd735b6d343",
+                  "size_bytes": 120926,
+                  "file_count": 105,
+                  "tree_sha256": "40250c3615d815849e5cb8d29b431ffc0fb6707e8e3321c0d095e71634cb03a0"
+                },
+                "manifest": {
+                  "path": "problems/verilog-ethernet-t2/agent-results/artifacts/20260824t202022/checkpoint_2/agent-code.manifest.json",
+                  "sha256": "31e3d6c28bb2124a4689d7e068379a17750847ddf6e3addd6c13aba44329a0ff",
+                  "size_bytes": 19253,
+                  "file_count": 105,
+                  "total_bytes": 1151083,
+                  "tree_sha256": "40250c3615d815849e5cb8d29b431ffc0fb6707e8e3321c0d095e71634cb03a0"
+                },
+                "changed_files": {
+                  "path": "problems/verilog-ethernet-t2/agent-results/artifacts/20260824t202022/checkpoint_2/changed-files.json",
+                  "sha256": "55cb2420339e6ecf04e623dd11750f8b4782aae0f36a38a92a65e2266f360ac5",
+                  "count": 4
+                },
+                "diff": {
+                  "path": "problems/verilog-ethernet-t2/agent-results/artifacts/20260824t202022/checkpoint_2/changes.patch",
+                  "sha256": "a5caaaab75702e180e5586b287e75942e66014872ec4973745e2a1054cde8fb0",
+                  "size_bytes": 14347
+                },
+                "baseline_path": "problems/verilog-ethernet-t2/pipeline/static_assets/baseline_repo"
+              },
+              "evaluation": {
+                "pytest_exit_code": 1,
+                "infrastructure_failure": false,
+                "counts": {
+                  "structure": [
+                    1,
+                    1
+                  ],
+                  "core": [
+                    4,
+                    7
+                  ],
+                  "functionality": [
+                    4,
+                    4
+                  ],
+                  "regression": [
+                    7,
+                    11
+                  ],
+                  "error": [
+                    0,
+                    0
+                  ]
+                },
+                "core_gate_passed": false,
+                "sha256": "9c1ac9820c4a625d3cec4b5be2716c4781dd2f4f96eb6a1874722689f00e74e6",
+                "details": {
+                  "schema_version": 1,
+                  "problem_name": "verilog_ethernet_t2_mac_ptp_test_modernization",
+                  "problem_version": 1,
+                  "checkpoint_name": "checkpoint_2",
+                  "checkpoint_version": 1,
+                  "duration": 352.0276200771332,
+                  "entrypoint": "bash build_checkpoint.sh",
+                  "tests": {
+                    "checkpoint_1-Regression": {
+                      "passed": [
+                        "test_checkpoint_1_candidate_surface_is_tb_only",
+                        "test_checkpoint_1_entrypoint_accepts_checkpoint_name",
+                        "test_checkpoint_1_payload_fcs_oracle_directed",
+                        "test_checkpoint_1_ptp_association_oracle_directed",
+                        "test_checkpoint_1_ptp_timestamp_mutation_is_killed",
+                        "test_checkpoint_1_reset_and_final_drain_oracles_are_directed"
+                      ],
+                      "failed": [
+                        "test_checkpoint_1_candidate_runner_executes_all_focused_components",
+                        "test_checkpoint_1_lfc_count_oracle_directed",
+                        "test_checkpoint_1_pause_control_frame_mutation_is_killed",
+                        "test_checkpoint_1_pfc_range_oracle_directed"
+                      ],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Functionality": {
+                      "passed": [
+                        "test_checkpoint_1_candidate_tb_passes_trusted_target",
+                        "test_checkpoint_1_entrypoint_does_not_vendor_dependencies",
+                        "test_checkpoint_1_has_no_generated_artifacts"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_2-Structure": {
+                      "passed": [
+                        "test_checkpoint_2_candidate_surface_is_tb_only"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_2-Functionality": {
+                      "passed": [
+                        "test_checkpoint_2_candidate_tb_passes_trusted_target"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_2-Core": {
+                      "passed": [
+                        "test_checkpoint_2_drives_endpoint_configuration_signals",
+                        "test_checkpoint_2_entrypoint_accepts_prior_checkpoint_name",
+                        "test_checkpoint_2_rejects_legacy_ptp_clock_keyword",
+                        "test_checkpoint_2_uses_new_ptp_clock_api"
+                      ],
+                      "failed": [
+                        "test_checkpoint_2_preserves_directed_pause_count_oracles",
+                        "test_checkpoint_2_rejects_weakened_pause_count_assertion",
+                        "test_checkpoint_2_targets_cocotbext_eth_0_1_22"
+                      ],
+                      "skipped": []
+                    },
+                    "checkpoint_2-Regression": {
+                      "passed": [
+                        "test_checkpoint_2_preserves_ptp_mutation_detection"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    }
+                  },
+                  "pass_counts": {
+                    "Structure": 1,
+                    "Core": 4,
+                    "Functionality": 4,
+                    "Regression": 7,
+                    "Error": 0
+                  },
+                  "total_counts": {
+                    "Structure": 1,
+                    "Core": 7,
+                    "Functionality": 4,
+                    "Regression": 11,
+                    "Error": 0
+                  },
+                  "detail_metrics": {},
+                  "pytest_exit_code": 1,
+                  "pytest_collected": 23,
+                  "test_collection_hash": "0fe1b41fb09d1164fed7a0330f9a893c11a589b4608a39d8b46bf69150c6b9e1",
+                  "infrastructure_failure": false,
+                  "infrastructure_reason": null
+                }
+              },
+              "localCheckpoint": "checkpoint_2",
+              "targetCheckpoint": "checkpoint_2"
+            },
+            {
+              "checkpoint": "checkpoint_3",
+              "state": "ran",
+              "started_at": "2026-08-24T20:46:06.375718",
+              "ended_at": "2026-08-24T20:55:14.260679",
+              "duration_seconds": 547.884961,
+              "steps": 60,
+              "run_result": {
+                "problem": "verilog_ethernet_t2_mac_ptp_test_modernization",
+                "version": 1,
+                "checkpoint": "checkpoint_3",
+                "path": "$RUN_DIR/verilog_ethernet_t2_mac_ptp_test_modernization",
+                "idx": 3,
+                "state": "ran",
+                "is_first": false,
+                "is_last": true,
+                "strict_pass_rate": 0.4117647058823529,
+                "structure_pass_rate": 1,
+                "core_pass_rate": 0.375,
+                "functionality_pass_rate": 0.38461538461538464,
+                "isolated_pass_rate": 0.42857142857142855,
+                "total_tests": 34,
+                "passed_tests": 14,
+                "structure_total": 1,
+                "structure_passed": 1,
+                "core_total": 8,
+                "core_passed": 3,
+                "functionality_total": 13,
+                "functionality_passed": 5,
+                "functionality_incremental_total": 5,
+                "functionality_incremental_passed": 2,
+                "error_total": 0,
+                "error_passed": 0,
+                "regression_total": 20,
+                "regression_passed": 8,
+                "started": "2026-08-24T20:46:06.375718",
+                "ended": "2026-08-24T20:55:14.260679",
+                "duration": 547.884961,
+                "cost": 0,
+                "steps": 60,
+                "cache_read": 2147328,
+                "cache_write": 0,
+                "input": 2243727,
+                "output": 18097,
+                "reasoning": 5561,
+                "loc": 996,
+                "sloc": 702,
+                "total_lines": 996,
+                "single_comments": 6,
+                "lint_errors": 123,
+                "lint_fixable": 0,
+                "files": 3,
+                "functions": 26,
+                "methods": 20,
+                "classes": 3,
+                "statements": 153,
+                "symbols_total": 61,
+                "cc_max": 16,
+                "cc_mean": 4,
+                "cc_std": 4.263540521418529,
+                "cc_high_count": 7,
+                "cc_extreme_count": 0,
+                "high_cc_mean": 13,
+                "cc_normalized": 0.02469806763285024,
+                "cc_concentration": 0.5080340264650284,
+                "cc_top20": 0.6086956521739131,
+                "max_nesting_depth": 3,
+                "lines_per_symbol": 15.282608695652174,
+                "single_use_functions": 21,
+                "trivial_wrappers": 3,
+                "unused_variables": 92,
+                "clone_lines": 63,
+                "cloned_sloc_lines": 59,
+                "ast_grep_violations": 0,
+                "verbosity_flagged_sloc_lines": 59,
+                "sg_slop_violations": 0,
+                "lint_per_loc": 0.12349397590361445,
+                "violation_pct": 0,
+                "cloned_pct": 0.05923694779116466,
+                "verbosity_flagged_pct": 0.05923694779116466,
+                "graph_cyclic_dependency_mass": 0,
+                "graph_propagation_cost": 0,
+                "graph_dependency_entropy": 0,
+                "lines_added": 235,
+                "lines_removed": 16,
+                "mean_func_loc": 15.282608695652174,
+                "mass.cc": 849.65,
+                "mass.high_cc_pct": 0.614341049157836,
+                "delta.loc": 28.185328185328185,
+                "delta.ast_grep_violations": 0,
+                "delta.churn_ratio": 0.323037323037323
+              },
+              "code_snapshot": {
+                "file_count": 105,
+                "total_bytes": 1159377,
+                "tree_sha256": "70ad0198652836fe65faa096091dc26f492cd6ce9065396b5d0beb3af8874a66",
+                "excluded_artifacts": [],
+                "archive": {
+                  "path": "problems/verilog-ethernet-t2/agent-results/artifacts/20260824t202022/checkpoint_3/agent-code.tar.gz",
+                  "sha256": "b805aa66bf7956edd93534dc948dc85d6b84b224040ccfbdf58e6e0d439e0aeb",
+                  "size_bytes": 121748,
+                  "file_count": 105,
+                  "tree_sha256": "70ad0198652836fe65faa096091dc26f492cd6ce9065396b5d0beb3af8874a66"
+                },
+                "manifest": {
+                  "path": "problems/verilog-ethernet-t2/agent-results/artifacts/20260824t202022/checkpoint_3/agent-code.manifest.json",
+                  "sha256": "ea92216a685797c3dc31e0338d1af5eeb6c35347c172a69e33654d865274dee8",
+                  "size_bytes": 19254,
+                  "file_count": 105,
+                  "total_bytes": 1159377,
+                  "tree_sha256": "70ad0198652836fe65faa096091dc26f492cd6ce9065396b5d0beb3af8874a66"
+                },
+                "changed_files": {
+                  "path": "problems/verilog-ethernet-t2/agent-results/artifacts/20260824t202022/checkpoint_3/changed-files.json",
+                  "sha256": "f2624d641ee646abeb09f52c6a64d6c04178b6e81563b9f4e9bc2a32626312b9",
+                  "count": 5
+                },
+                "diff": {
+                  "path": "problems/verilog-ethernet-t2/agent-results/artifacts/20260824t202022/checkpoint_3/changes.patch",
+                  "sha256": "36fbe13d483a11385bb98a719f8b0c95508afcfa7e1ccf0b349953cfdcffcdf3",
+                  "size_bytes": 23512
+                },
+                "baseline_path": "problems/verilog-ethernet-t2/pipeline/static_assets/baseline_repo"
+              },
+              "evaluation": {
+                "pytest_exit_code": 1,
+                "infrastructure_failure": false,
+                "counts": {
+                  "structure": [
+                    1,
+                    1
+                  ],
+                  "core": [
+                    3,
+                    8
+                  ],
+                  "functionality": [
+                    2,
+                    5
+                  ],
+                  "regression": [
+                    8,
+                    20
+                  ],
+                  "error": [
+                    0,
+                    0
+                  ]
+                },
+                "core_gate_passed": false,
+                "sha256": "2a2096295e38156577d17590cde72b0050c7d5e04a00527199d8249e797e7e9c",
+                "details": {
+                  "schema_version": 1,
+                  "problem_name": "verilog_ethernet_t2_mac_ptp_test_modernization",
+                  "problem_version": 1,
+                  "checkpoint_name": "checkpoint_3",
+                  "checkpoint_version": 1,
+                  "duration": 1330.5454785823822,
+                  "entrypoint": "bash build_checkpoint.sh",
+                  "tests": {
+                    "checkpoint_1-Regression": {
+                      "passed": [
+                        "test_checkpoint_1_candidate_surface_is_tb_only",
+                        "test_checkpoint_1_entrypoint_accepts_checkpoint_name",
+                        "test_checkpoint_1_payload_fcs_oracle_directed",
+                        "test_checkpoint_1_ptp_association_oracle_directed"
+                      ],
+                      "failed": [
+                        "test_checkpoint_1_candidate_runner_executes_all_focused_components",
+                        "test_checkpoint_1_lfc_count_oracle_directed",
+                        "test_checkpoint_1_pause_control_frame_mutation_is_killed",
+                        "test_checkpoint_1_pfc_range_oracle_directed",
+                        "test_checkpoint_1_ptp_timestamp_mutation_is_killed",
+                        "test_checkpoint_1_reset_and_final_drain_oracles_are_directed"
+                      ],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Functionality": {
+                      "passed": [
+                        "test_checkpoint_1_entrypoint_does_not_vendor_dependencies",
+                        "test_checkpoint_1_has_no_generated_artifacts"
+                      ],
+                      "failed": [
+                        "test_checkpoint_1_candidate_tb_passes_trusted_target"
+                      ],
+                      "skipped": []
+                    },
+                    "checkpoint_2-Regression": {
+                      "passed": [
+                        "test_checkpoint_2_candidate_surface_is_tb_only",
+                        "test_checkpoint_2_entrypoint_accepts_prior_checkpoint_name",
+                        "test_checkpoint_2_targets_cocotbext_eth_0_1_22",
+                        "test_checkpoint_2_uses_new_ptp_clock_api"
+                      ],
+                      "failed": [
+                        "test_checkpoint_2_drives_endpoint_configuration_signals",
+                        "test_checkpoint_2_preserves_directed_pause_count_oracles",
+                        "test_checkpoint_2_preserves_ptp_mutation_detection",
+                        "test_checkpoint_2_rejects_legacy_ptp_clock_keyword",
+                        "test_checkpoint_2_rejects_weakened_pause_count_assertion"
+                      ],
+                      "skipped": []
+                    },
+                    "checkpoint_2-Functionality": {
+                      "passed": [],
+                      "failed": [
+                        "test_checkpoint_2_candidate_tb_passes_trusted_target"
+                      ],
+                      "skipped": []
+                    },
+                    "checkpoint_3-Structure": {
+                      "passed": [
+                        "test_checkpoint_3_candidate_surface_is_tb_only"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_3-Functionality": {
+                      "passed": [],
+                      "failed": [
+                        "test_checkpoint_3_candidate_tb_passes_trusted_target"
+                      ],
+                      "skipped": []
+                    },
+                    "checkpoint_3-Core": {
+                      "passed": [
+                        "test_checkpoint_3_entrypoint_accepts_all_checkpoint_names",
+                        "test_checkpoint_3_mac_underrun_and_error_oracles_directed",
+                        "test_checkpoint_3_tx_underrun_and_error_oracles_directed"
+                      ],
+                      "failed": [
+                        "test_checkpoint_3_detects_eth_mac_error_indication_fault",
+                        "test_checkpoint_3_detects_post_error_recovery_fault",
+                        "test_checkpoint_3_detects_tx_error_indication_fault",
+                        "test_checkpoint_3_detects_tx_underrun_indication_fault",
+                        "test_checkpoint_3_focused_scenario_matrix_is_preserved"
+                      ],
+                      "skipped": []
+                    },
+                    "checkpoint_3-Regression": {
+                      "passed": [],
+                      "failed": [
+                        "test_checkpoint_3_preserves_ptp_mutation_detection"
+                      ],
+                      "skipped": []
+                    }
+                  },
+                  "pass_counts": {
+                    "Structure": 1,
+                    "Core": 3,
+                    "Functionality": 2,
+                    "Regression": 8,
+                    "Error": 0
+                  },
+                  "total_counts": {
+                    "Structure": 1,
+                    "Core": 8,
+                    "Functionality": 5,
+                    "Regression": 20,
+                    "Error": 0
+                  },
+                  "detail_metrics": {},
+                  "pytest_exit_code": 1,
+                  "pytest_collected": 34,
+                  "test_collection_hash": "f60e43964b62cc1023f4a844d7e17da23df41503ff2a750c5786c8b8e2cd09c1",
+                  "infrastructure_failure": false,
+                  "infrastructure_reason": null
+                }
+              },
+              "localCheckpoint": "checkpoint_3",
+              "targetCheckpoint": "checkpoint_3"
+            }
+          ],
+          "experimentType": "pipeline",
+          "targetCheckpoint": "",
+          "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-ethernet-t2/agent-results/runs/20260824t202022.json"
+        },
+        {
+          "schema_version": 3,
+          "run_id": "20260824t163729",
+          "exported_at": "2026-08-24T09:33:50.431484+00:00",
+          "published_problem": "verilog-ethernet-t2",
+          "source_problem": "verilog_ethernet_t2_mac_ptp_test_modernization_sr_checkpoint_3",
+          "release_commit": "65fc951529f00dbcf1a59816b913c9c6428ab360",
+          "definition_sha256": {
+            "config.yaml": "22ee00c21490355c2a3255503a45aa1d34303a619cf62573a5f886314efe1993",
+            "checkpoint_1.md": "b5dfe609be754b15651d237df2f3dff7c5a8c7b56641f2f511db462c0ea15077",
+            "checkpoint_2.md": "fabc94e931248def8773b8165130c50a9eb61a06fc48af59b851d718f1236645",
+            "checkpoint_3.md": "2d0ced3f4ba468b678271552db917e40837066be77a916809b44a8ad1f7c0d23"
+          },
+          "source_run": {
+            "directory": "codex-0.141.0_rtl-plan-and-test_high_20260824T163732012406_rtl_verilog_ethernet_t2_codex_gpt-5.6-luna_sr_checkpoint_3_20260824t163729",
+            "result_json_sha256": "13ff9501f363894d0c0e87e21111880a2f6b90e39247b962ce99d8e452bf2e6d",
+            "checkpoint_results_sha256": "e5a4055229afa56967768b8a26c0b5889931f25c2dd83227da4cf42f6f95ecde"
+          },
+          "agent": {
+            "type": "codex",
+            "version": "0.141.0"
+          },
+          "model": "agicto-gpt-5.6-luna",
+          "prompt": "rtl-plan-and-test",
+          "thinking": "high",
+          "run_metrics": {
+            "costs": {
+              "checkpoint": {
+                "mean": 0,
+                "stddev": null,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 1
+              },
+              "problem": {
+                "mean": 0,
+                "stddev": null,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 1
+              },
+              "total": 0
+            },
+            "time": {
+              "checkpoint": {
+                "mean": 764.856923,
+                "stddev": null,
+                "min": 764.856923,
+                "max": 764.856923,
+                "median": 764.856923,
+                "count": 1
+              },
+              "problem": {
+                "mean": 764.856923,
+                "stddev": null,
+                "min": 764.856923,
+                "max": 764.856923,
+                "median": 764.856923,
+                "count": 1
+              }
+            },
+            "tokens": {
+              "input": 2331384,
+              "output": 18876,
+              "cache_read": 1978368,
+              "cache_write": 0,
+              "reasoning": 7290,
+              "problem": {
+                "input": 2331384,
+                "output": 18876,
+                "cache_read": 1978368,
+                "cache_write": 0,
+                "reasoning": 7290
+              },
+              "checkpoint": {
+                "input": 2331384,
+                "output": 18876,
+                "cache_read": 1978368,
+                "cache_write": 0,
+                "reasoning": 7290
+              }
+            },
+            "steps": {
+              "checkpoint": {
+                "mean": 73,
+                "stddev": null,
+                "min": 73,
+                "max": 73,
+                "median": 73,
+                "count": 1
+              },
+              "problem": {
+                "mean": 73,
+                "stddev": null,
+                "min": 73,
+                "max": 73,
+                "median": 73,
+                "count": 1
+              }
+            },
+            "pass_rates": {
+              "problem": {
+                "structure": 1,
+                "core": 0.5,
+                "total": 0.68,
+                "error": 1,
+                "functionality": 0.4444444444444444,
+                "regression": 0.7692307692307693
+              },
+              "checkpoint": {
+                "structure": 1,
+                "core": 0.5,
+                "total": 0.68,
+                "error": 1,
+                "functionality": 0.4444444444444444,
+                "regression": 0.7692307692307693
+              }
+            }
+          },
+          "expected_checkpoints": 1,
+          "completed_checkpoints": 1,
+          "outcome": "failed",
+          "checkpoints": [
+            {
+              "checkpoint": "checkpoint_1",
+              "state": "ran",
+              "started_at": "2026-08-24T16:37:34.165877",
+              "ended_at": "2026-08-24T16:50:19.022800",
+              "duration_seconds": 764.856923,
+              "steps": 73,
+              "run_result": {
+                "problem": "verilog_ethernet_t2_mac_ptp_test_modernization_sr_checkpoint_3",
+                "version": 1,
+                "checkpoint": "checkpoint_1",
+                "path": "$RUN_DIR/verilog_ethernet_t2_mac_ptp_test_modernization_sr_checkpoint_3",
+                "idx": 1,
+                "state": "ran",
+                "is_first": true,
+                "is_last": true,
+                "strict_pass_rate": 0.68,
+                "structure_pass_rate": 1,
+                "core_pass_rate": 0.5,
+                "functionality_pass_rate": 0.4444444444444444,
+                "isolated_pass_rate": 0.5833333333333334,
+                "total_tests": 25,
+                "passed_tests": 17,
+                "structure_total": 1,
+                "structure_passed": 1,
+                "core_total": 8,
+                "core_passed": 4,
+                "functionality_total": 9,
+                "functionality_passed": 4,
+                "functionality_incremental_total": 1,
+                "functionality_incremental_passed": 0,
+                "error_total": 2,
+                "error_passed": 2,
+                "regression_total": 13,
+                "regression_passed": 10,
+                "started": "2026-08-24T16:37:34.165877",
+                "ended": "2026-08-24T16:50:19.022800",
+                "duration": 764.856923,
+                "cost": 0,
+                "steps": 73,
+                "cache_read": 1978368,
+                "cache_write": 0,
+                "input": 2331384,
+                "output": 18876,
+                "reasoning": 7290,
+                "loc": 1286,
+                "sloc": 875,
+                "total_lines": 1286,
+                "single_comments": 12,
+                "lint_errors": 171,
+                "lint_fixable": 0,
+                "files": 3,
+                "functions": 22,
+                "methods": 18,
+                "classes": 3,
+                "statements": 171,
+                "symbols_total": 55,
+                "cc_max": 25,
+                "cc_mean": 4.9,
+                "cc_std": 6.274899120651979,
+                "cc_high_count": 6,
+                "cc_extreme_count": 0,
+                "high_cc_mean": 17.166666666666668,
+                "cc_normalized": 0.0409978748171168,
+                "cc_concentration": 0.5806122448979592,
+                "cc_top20": 0.6275510204081632,
+                "max_nesting_depth": 3,
+                "lines_per_symbol": 25.025,
+                "single_use_functions": 22,
+                "trivial_wrappers": 3,
+                "unused_variables": 151,
+                "clone_lines": 128,
+                "cloned_sloc_lines": 106,
+                "ast_grep_violations": 0,
+                "verbosity_flagged_sloc_lines": 106,
+                "sg_slop_violations": 0,
+                "lint_per_loc": 0.13297045101088648,
+                "violation_pct": 0,
+                "cloned_pct": 0.08242612752721618,
+                "verbosity_flagged_pct": 0.08242612752721618,
+                "graph_cyclic_dependency_mass": 0,
+                "graph_propagation_cost": 0,
+                "graph_dependency_entropy": 0,
+                "lines_added": 1286,
+                "lines_removed": 0,
+                "mean_func_loc": 25.025,
+                "mass.cc": 1222.5,
+                "mass.high_cc_pct": 0.6825711075129247
+              },
+              "code_snapshot": {
+                "file_count": 109,
+                "total_bytes": 1254352,
+                "tree_sha256": "d894770cc547486735224823f292576fe04860c4761183a50f74c2f5f509db9f",
+                "excluded_artifacts": [],
+                "archive": {
+                  "path": "problems/verilog-ethernet-t2/agent-results/artifacts/20260824t163729/checkpoint_1/agent-code.tar.gz",
+                  "sha256": "c47dbc56337e3d37e1a7e777142abf4382cd14725f95600b57e1c11f953f33de",
+                  "size_bytes": 134334,
+                  "file_count": 109,
+                  "tree_sha256": "d894770cc547486735224823f292576fe04860c4761183a50f74c2f5f509db9f"
+                },
+                "manifest": {
+                  "path": "problems/verilog-ethernet-t2/agent-results/artifacts/20260824t163729/checkpoint_1/agent-code.manifest.json",
+                  "sha256": "1765a3b0a654afc7e60064996844558f10cb8ec52510965d85a2e569d942c24b",
+                  "size_bytes": 19986,
+                  "file_count": 109,
+                  "total_bytes": 1254352,
+                  "tree_sha256": "d894770cc547486735224823f292576fe04860c4761183a50f74c2f5f509db9f"
+                },
+                "changed_files": {
+                  "path": "problems/verilog-ethernet-t2/agent-results/artifacts/20260824t163729/checkpoint_1/changed-files.json",
+                  "sha256": "64349292b8f79416bca2fb296732c4dcea089155f4299b9840b5d7e4f16b68db",
+                  "count": 43
+                },
+                "diff": {
+                  "path": "problems/verilog-ethernet-t2/agent-results/artifacts/20260824t163729/checkpoint_1/changes.patch",
+                  "sha256": "e4c96bfec96c3dbad02844ff2cfb1ca62bbaad3c01d654cd9f55b03a01552d3f",
+                  "size_bytes": 204220
+                },
+                "baseline_path": "problems/verilog-ethernet-t2/pipeline/static_assets/baseline_repo"
+              },
+              "evaluation": {
+                "pytest_exit_code": 1,
+                "infrastructure_failure": false,
+                "counts": {
+                  "structure": [
+                    1,
+                    1
+                  ],
+                  "core": [
+                    4,
+                    8
+                  ],
+                  "functionality": [
+                    0,
+                    1
+                  ],
+                  "regression": [
+                    10,
+                    13
+                  ],
+                  "error": [
+                    2,
+                    2
+                  ]
+                },
+                "core_gate_passed": false,
+                "sha256": "3836fe858f63ccfa8a7e6796cfbc7d30afd6e87716e7f08c1827a85af6d9b426",
+                "details": {
+                  "schema_version": 1,
+                  "problem_name": "verilog_ethernet_t2_mac_ptp_test_modernization_sr_checkpoint_3",
+                  "problem_version": 1,
+                  "checkpoint_name": "checkpoint_1",
+                  "checkpoint_version": 1,
+                  "duration": 2604.186333179474,
+                  "entrypoint": "bash build_checkpoint.sh",
+                  "tests": {
+                    "checkpoint_1-Regression": {
+                      "passed": [
+                        "test_checkpoint_1_lfc_count_oracle_directed_regression",
+                        "test_checkpoint_1_payload_fcs_oracle_directed_regression",
+                        "test_checkpoint_1_pfc_range_oracle_directed_regression",
+                        "test_checkpoint_1_ptp_association_oracle_directed_regression",
+                        "test_checkpoint_1_reset_and_final_drain_oracles_are_directed_regression",
+                        "test_checkpoint_2_drives_endpoint_configuration_signals_regression",
+                        "test_checkpoint_2_preserves_directed_pause_count_oracles_regression",
+                        "test_checkpoint_2_rejects_weakened_pause_count_assertion_regression",
+                        "test_checkpoint_2_targets_cocotbext_eth_0_1_22_regression",
+                        "test_checkpoint_2_uses_new_ptp_clock_api_regression"
+                      ],
+                      "failed": [
+                        "test_checkpoint_1_candidate_runner_executes_all_focused_components_regression",
+                        "test_checkpoint_1_ptp_timestamp_mutation_is_killed_regression",
+                        "test_checkpoint_3_preserves_ptp_mutation_detection"
+                      ],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Structure": {
+                      "passed": [
+                        "test_checkpoint_3_candidate_surface_is_tb_only"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Functionality": {
+                      "passed": [],
+                      "failed": [
+                        "test_checkpoint_3_candidate_tb_passes_trusted_target"
+                      ],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Core": {
+                      "passed": [
+                        "test_checkpoint_3_focused_scenario_matrix_is_preserved",
+                        "test_checkpoint_3_mac_underrun_and_error_oracles_directed",
+                        "test_checkpoint_3_tx_underrun_and_error_oracles_directed",
+                        "test_single_round_entrypoint_accepts_checkpoint_name"
+                      ],
+                      "failed": [
+                        "test_checkpoint_3_detects_eth_mac_error_indication_fault",
+                        "test_checkpoint_3_detects_post_error_recovery_fault",
+                        "test_checkpoint_3_detects_tx_error_indication_fault",
+                        "test_checkpoint_3_detects_tx_underrun_indication_fault"
+                      ],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Error": {
+                      "passed": [
+                        "test_single_round_entrypoint_does_not_vendor_dependencies",
+                        "test_single_round_has_no_generated_artifacts"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    }
+                  },
+                  "pass_counts": {
+                    "Structure": 1,
+                    "Core": 4,
+                    "Functionality": 0,
+                    "Regression": 10,
+                    "Error": 2
+                  },
+                  "total_counts": {
+                    "Structure": 1,
+                    "Core": 8,
+                    "Functionality": 1,
+                    "Regression": 13,
+                    "Error": 2
+                  },
+                  "detail_metrics": {},
+                  "pytest_exit_code": 1,
+                  "pytest_collected": 25,
+                  "test_collection_hash": "c981c6e24275e7badcac63977c859d2f6bf91d8bcece857776f64cc1b02c125b",
+                  "infrastructure_failure": false,
+                  "infrastructure_reason": null
+                }
+              },
+              "localCheckpoint": "checkpoint_1",
+              "targetCheckpoint": "checkpoint_1"
+            }
+          ],
+          "experimentType": "pipeline",
+          "targetCheckpoint": "",
+          "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-ethernet-t2/agent-results/runs/20260824t163729.json"
+        },
+        {
+          "schema_version": 3,
+          "run_id": "20260824t162335",
+          "exported_at": "2026-08-24T09:12:33.839977+00:00",
+          "published_problem": "verilog-ethernet-t2",
+          "source_problem": "verilog_ethernet_t2_mac_ptp_test_modernization_sr_checkpoint_2",
+          "release_commit": "65fc951529f00dbcf1a59816b913c9c6428ab360",
+          "definition_sha256": {
+            "config.yaml": "22ee00c21490355c2a3255503a45aa1d34303a619cf62573a5f886314efe1993",
+            "checkpoint_1.md": "b5dfe609be754b15651d237df2f3dff7c5a8c7b56641f2f511db462c0ea15077",
+            "checkpoint_2.md": "fabc94e931248def8773b8165130c50a9eb61a06fc48af59b851d718f1236645",
+            "checkpoint_3.md": "2d0ced3f4ba468b678271552db917e40837066be77a916809b44a8ad1f7c0d23"
+          },
+          "source_run": {
+            "directory": "codex-0.141.0_rtl-plan-and-test_high_20260824T162338879881_rtl_verilog_ethernet_t2_codex_gpt-5.6-luna_sr_checkpoint_2_20260824t162335",
+            "result_json_sha256": "35116c343dacb1d2d88ec8bebb1e44eec952ea6390a243f90809b5df6bf7b41b",
+            "checkpoint_results_sha256": "dbc1059b652e594ac22525e8027644a9ccea9de86a1072bca13e4d8454b32418"
+          },
+          "agent": {
+            "type": "codex",
+            "version": "0.141.0"
+          },
+          "model": "agicto-gpt-5.6-luna",
+          "prompt": "rtl-plan-and-test",
+          "thinking": "high",
+          "run_metrics": {
+            "costs": {
+              "checkpoint": {
+                "mean": 0,
+                "stddev": null,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 1
+              },
+              "problem": {
+                "mean": 0,
+                "stddev": null,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 1
+              },
+              "total": 0
+            },
+            "time": {
+              "checkpoint": {
+                "mean": 289.489527,
+                "stddev": null,
+                "min": 289.489527,
+                "max": 289.489527,
+                "median": 289.489527,
+                "count": 1
+              },
+              "problem": {
+                "mean": 289.489527,
+                "stddev": null,
+                "min": 289.489527,
+                "max": 289.489527,
+                "median": 289.489527,
+                "count": 1
+              }
+            },
+            "tokens": {
+              "input": 618064,
+              "output": 8249,
+              "cache_read": 523648,
+              "cache_write": 0,
+              "reasoning": 2810,
+              "problem": {
+                "input": 618064,
+                "output": 8249,
+                "cache_read": 523648,
+                "cache_write": 0,
+                "reasoning": 2810
+              },
+              "checkpoint": {
+                "input": 618064,
+                "output": 8249,
+                "cache_read": 523648,
+                "cache_write": 0,
+                "reasoning": 2810
+              }
+            },
+            "steps": {
+              "checkpoint": {
+                "mean": 37,
+                "stddev": null,
+                "min": 37,
+                "max": 37,
+                "median": 37,
+                "count": 1
+              },
+              "problem": {
+                "mean": 37,
+                "stddev": null,
+                "min": 37,
+                "max": 37,
+                "median": 37,
+                "count": 1
+              }
+            },
+            "pass_rates": {
+              "problem": {
+                "structure": 1,
+                "core": 1,
+                "total": 0.95,
+                "error": 1,
+                "functionality": 1,
+                "regression": 0.8888888888888888
+              },
+              "checkpoint": {
+                "structure": 1,
+                "core": 1,
+                "total": 0.95,
+                "error": 1,
+                "functionality": 1,
+                "regression": 0.8888888888888888
+              }
+            }
+          },
+          "expected_checkpoints": 1,
+          "completed_checkpoints": 1,
+          "outcome": "passed",
+          "checkpoints": [
+            {
+              "checkpoint": "checkpoint_1",
+              "state": "ran",
+              "started_at": "2026-08-24T16:23:40.769132",
+              "ended_at": "2026-08-24T16:28:30.258659",
+              "duration_seconds": 289.489527,
+              "steps": 37,
+              "run_result": {
+                "problem": "verilog_ethernet_t2_mac_ptp_test_modernization_sr_checkpoint_2",
+                "version": 1,
+                "checkpoint": "checkpoint_1",
+                "path": "$RUN_DIR/verilog_ethernet_t2_mac_ptp_test_modernization_sr_checkpoint_2",
+                "idx": 1,
+                "state": "ran",
+                "is_first": true,
+                "is_last": true,
+                "strict_pass_rate": 0.95,
+                "structure_pass_rate": 1,
+                "core_pass_rate": 1,
+                "functionality_pass_rate": 1,
+                "isolated_pass_rate": 1,
+                "total_tests": 20,
+                "passed_tests": 19,
+                "structure_total": 1,
+                "structure_passed": 1,
+                "core_total": 7,
+                "core_passed": 7,
+                "functionality_total": 8,
+                "functionality_passed": 8,
+                "functionality_incremental_total": 1,
+                "functionality_incremental_passed": 1,
+                "error_total": 2,
+                "error_passed": 2,
+                "regression_total": 9,
+                "regression_passed": 8,
+                "started": "2026-08-24T16:23:40.769132",
+                "ended": "2026-08-24T16:28:30.258659",
+                "duration": 289.489527,
+                "cost": 0,
+                "steps": 37,
+                "cache_read": 523648,
+                "cache_write": 0,
+                "input": 618064,
+                "output": 8249,
+                "reasoning": 2810,
+                "loc": 1054,
+                "sloc": 705,
+                "total_lines": 1054,
+                "single_comments": 12,
+                "lint_errors": 127,
+                "lint_fixable": 0,
+                "files": 3,
+                "functions": 18,
+                "methods": 18,
+                "classes": 3,
+                "statements": 121,
+                "symbols_total": 51,
+                "cc_max": 25,
+                "cc_mean": 4,
+                "cc_std": 5.874886017131372,
+                "cc_high_count": 4,
+                "cc_extreme_count": 0,
+                "high_cc_mean": 17.75,
+                "cc_normalized": 0.05992063492063492,
+                "cc_concentration": 0.5864197530864198,
+                "cc_top20": 0.7083333333333334,
+                "max_nesting_depth": 3,
+                "lines_per_symbol": 21.97222222222222,
+                "single_use_functions": 18,
+                "trivial_wrappers": 3,
+                "unused_variables": 123,
+                "clone_lines": 110,
+                "cloned_sloc_lines": 88,
+                "ast_grep_violations": 0,
+                "verbosity_flagged_sloc_lines": 88,
+                "sg_slop_violations": 0,
+                "lint_per_loc": 0.1204933586337761,
+                "violation_pct": 0,
+                "cloned_pct": 0.08349146110056926,
+                "verbosity_flagged_pct": 0.08349146110056926,
+                "graph_cyclic_dependency_mass": 0,
+                "graph_propagation_cost": 0,
+                "graph_dependency_entropy": 0,
+                "lines_added": 1054,
+                "lines_removed": 0,
+                "mean_func_loc": 21.97222222222222,
+                "mass.cc": 888.36,
+                "mass.high_cc_pct": 0.6832483228628262
+              },
+              "code_snapshot": {
+                "file_count": 109,
+                "total_bytes": 1245558,
+                "tree_sha256": "35ce1fca9118eb6602bb689636cf7e92a885d4595bacb874ab027682474d1241",
+                "excluded_artifacts": [],
+                "archive": {
+                  "path": "problems/verilog-ethernet-t2/agent-results/artifacts/20260824t162335/checkpoint_1/agent-code.tar.gz",
+                  "sha256": "e67a1280faab82e007757a00b6aee2d3ea55755cf08736fdd455f31b706f0063",
+                  "size_bytes": 133437,
+                  "file_count": 109,
+                  "tree_sha256": "35ce1fca9118eb6602bb689636cf7e92a885d4595bacb874ab027682474d1241"
+                },
+                "manifest": {
+                  "path": "problems/verilog-ethernet-t2/agent-results/artifacts/20260824t162335/checkpoint_1/agent-code.manifest.json",
+                  "sha256": "ffd1ad8b071789d1a7357c3815bf4940a5951ec1ce7906d80317ffb499c8ed70",
+                  "size_bytes": 19985,
+                  "file_count": 109,
+                  "total_bytes": 1245558,
+                  "tree_sha256": "35ce1fca9118eb6602bb689636cf7e92a885d4595bacb874ab027682474d1241"
+                },
+                "changed_files": {
+                  "path": "problems/verilog-ethernet-t2/agent-results/artifacts/20260824t162335/checkpoint_1/changed-files.json",
+                  "sha256": "667ca0f3476dfcc5d4899015a33d8845a7d5485e8ab4e6d5faeaec5634943c58",
+                  "count": 25
+                },
+                "diff": {
+                  "path": "problems/verilog-ethernet-t2/agent-results/artifacts/20260824t162335/checkpoint_1/changes.patch",
+                  "sha256": "2b56261ebbffa64e29abd0b6dedad4d88bd50ae6d8295ceb0cd954fb3acc0f26",
+                  "size_bytes": 136037
+                },
+                "baseline_path": "problems/verilog-ethernet-t2/pipeline/static_assets/baseline_repo"
+              },
+              "evaluation": {
+                "pytest_exit_code": 1,
+                "infrastructure_failure": false,
+                "counts": {
+                  "structure": [
+                    1,
+                    1
+                  ],
+                  "core": [
+                    7,
+                    7
+                  ],
+                  "functionality": [
+                    1,
+                    1
+                  ],
+                  "regression": [
+                    8,
+                    9
+                  ],
+                  "error": [
+                    2,
+                    2
+                  ]
+                },
+                "core_gate_passed": true,
+                "sha256": "0c95031e6b7a6cb418758272f65912a205a55eabaad161a15a29c444cb1540e4",
+                "details": {
+                  "schema_version": 1,
+                  "problem_name": "verilog_ethernet_t2_mac_ptp_test_modernization_sr_checkpoint_2",
+                  "problem_version": 1,
+                  "checkpoint_name": "checkpoint_1",
+                  "checkpoint_version": 1,
+                  "duration": 2637.4659893512726,
+                  "entrypoint": "bash build_checkpoint.sh",
+                  "tests": {
+                    "checkpoint_1-Regression": {
+                      "passed": [
+                        "test_checkpoint_1_lfc_count_oracle_directed_regression",
+                        "test_checkpoint_1_pause_control_frame_mutation_is_killed_regression",
+                        "test_checkpoint_1_payload_fcs_oracle_directed_regression",
+                        "test_checkpoint_1_pfc_range_oracle_directed_regression",
+                        "test_checkpoint_1_ptp_association_oracle_directed_regression",
+                        "test_checkpoint_1_ptp_timestamp_mutation_is_killed_regression",
+                        "test_checkpoint_1_reset_and_final_drain_oracles_are_directed_regression",
+                        "test_checkpoint_2_preserves_ptp_mutation_detection"
+                      ],
+                      "failed": [
+                        "test_checkpoint_1_candidate_runner_executes_all_focused_components_regression"
+                      ],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Structure": {
+                      "passed": [
+                        "test_checkpoint_2_candidate_surface_is_tb_only"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Functionality": {
+                      "passed": [
+                        "test_checkpoint_2_candidate_tb_passes_trusted_target"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Core": {
+                      "passed": [
+                        "test_checkpoint_2_drives_endpoint_configuration_signals",
+                        "test_checkpoint_2_preserves_directed_pause_count_oracles",
+                        "test_checkpoint_2_rejects_legacy_ptp_clock_keyword",
+                        "test_checkpoint_2_rejects_weakened_pause_count_assertion",
+                        "test_checkpoint_2_targets_cocotbext_eth_0_1_22",
+                        "test_checkpoint_2_uses_new_ptp_clock_api",
+                        "test_single_round_entrypoint_accepts_checkpoint_name"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Error": {
+                      "passed": [
+                        "test_single_round_entrypoint_does_not_vendor_dependencies",
+                        "test_single_round_has_no_generated_artifacts"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    }
+                  },
+                  "pass_counts": {
+                    "Structure": 1,
+                    "Core": 7,
+                    "Functionality": 1,
+                    "Regression": 8,
+                    "Error": 2
+                  },
+                  "total_counts": {
+                    "Structure": 1,
+                    "Core": 7,
+                    "Functionality": 1,
+                    "Regression": 9,
+                    "Error": 2
+                  },
+                  "detail_metrics": {},
+                  "pytest_exit_code": 1,
+                  "pytest_collected": 20,
+                  "test_collection_hash": "9740a4b21c4ca017b9d3670ab663641b4889b3a0fb286852d46cce0f3ae0427f",
+                  "infrastructure_failure": false,
+                  "infrastructure_reason": null
+                }
+              },
+              "localCheckpoint": "checkpoint_1",
+              "targetCheckpoint": "checkpoint_1"
+            }
+          ],
+          "experimentType": "pipeline",
+          "targetCheckpoint": "",
+          "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-ethernet-t2/agent-results/runs/20260824t162335.json"
+        },
+        {
+          "schema_version": 3,
+          "run_id": "20260824t134753",
+          "exported_at": "2026-08-24T06:14:29.286504+00:00",
+          "published_problem": "verilog-ethernet-t2",
+          "source_problem": "verilog_ethernet_t2_mac_ptp_test_modernization_sr_checkpoint_1",
+          "release_commit": "65fc951529f00dbcf1a59816b913c9c6428ab360",
+          "definition_sha256": {
+            "config.yaml": "22ee00c21490355c2a3255503a45aa1d34303a619cf62573a5f886314efe1993",
+            "checkpoint_1.md": "b5dfe609be754b15651d237df2f3dff7c5a8c7b56641f2f511db462c0ea15077",
+            "checkpoint_2.md": "fabc94e931248def8773b8165130c50a9eb61a06fc48af59b851d718f1236645",
+            "checkpoint_3.md": "2d0ced3f4ba468b678271552db917e40837066be77a916809b44a8ad1f7c0d23"
+          },
+          "source_run": {
+            "directory": "codex-0.141.0_rtl-plan-and-test_high_20260824T134755883379_rtl_verilog_ethernet_t2_codex_gpt-5.6-luna_sr_checkpoint_1_20260824t134753",
+            "result_json_sha256": "3c7edf21c732700b09537d4f00f9c695071f324c838bc5800f86650396918bbd",
+            "checkpoint_results_sha256": "09f540f592023b9088e585aa23876165e84f0debc231f27e96bb4759d45142af"
+          },
+          "agent": {
+            "type": "codex",
+            "version": "0.141.0"
+          },
+          "model": "agicto-gpt-5.6-luna",
+          "prompt": "rtl-plan-and-test",
+          "thinking": "high",
+          "run_metrics": {
+            "costs": {
+              "checkpoint": {
+                "mean": 0,
+                "stddev": null,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 1
+              },
+              "problem": {
+                "mean": 0,
+                "stddev": null,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 1
+              },
+              "total": 0
+            },
+            "time": {
+              "checkpoint": {
+                "mean": 652.67673,
+                "stddev": null,
+                "min": 652.67673,
+                "max": 652.67673,
+                "median": 652.67673,
+                "count": 1
+              },
+              "problem": {
+                "mean": 652.67673,
+                "stddev": null,
+                "min": 652.67673,
+                "max": 652.67673,
+                "median": 652.67673,
+                "count": 1
+              }
+            },
+            "tokens": {
+              "input": 2449778,
+              "output": 16441,
+              "cache_read": 2338048,
+              "cache_write": 0,
+              "reasoning": 3744,
+              "problem": {
+                "input": 2449778,
+                "output": 16441,
+                "cache_read": 2338048,
+                "cache_write": 0,
+                "reasoning": 3744
+              },
+              "checkpoint": {
+                "input": 2449778,
+                "output": 16441,
+                "cache_read": 2338048,
+                "cache_write": 0,
+                "reasoning": 3744
+              }
+            },
+            "steps": {
+              "checkpoint": {
+                "mean": 44,
+                "stddev": null,
+                "min": 44,
+                "max": 44,
+                "median": 44,
+                "count": 1
+              },
+              "problem": {
+                "mean": 44,
+                "stddev": null,
+                "min": 44,
+                "max": 44,
+                "median": 44,
+                "count": 1
+              }
+            },
+            "pass_rates": {
+              "problem": {
+                "structure": 1,
+                "core": 0.4444444444444444,
+                "total": 0.5384615384615384,
+                "error": 0.5,
+                "functionality": 0.5,
+                "regression": 0
+              },
+              "checkpoint": {
+                "structure": 1,
+                "core": 0.4444444444444444,
+                "total": 0.5384615384615384,
+                "error": 0.5,
+                "functionality": 0.5,
+                "regression": 0
+              }
+            }
+          },
+          "expected_checkpoints": 1,
+          "completed_checkpoints": 1,
+          "outcome": "failed",
+          "checkpoints": [
+            {
+              "checkpoint": "checkpoint_1",
+              "state": "ran",
+              "started_at": "2026-08-24T13:47:57.173762",
+              "ended_at": "2026-08-24T13:58:49.850492",
+              "duration_seconds": 652.67673,
+              "steps": 44,
+              "run_result": {
+                "problem": "verilog_ethernet_t2_mac_ptp_test_modernization_sr_checkpoint_1",
+                "version": 1,
+                "checkpoint": "checkpoint_1",
+                "path": "$RUN_DIR/verilog_ethernet_t2_mac_ptp_test_modernization_sr_checkpoint_1",
+                "idx": 1,
+                "state": "ran",
+                "is_first": true,
+                "is_last": true,
+                "strict_pass_rate": 0.5384615384615384,
+                "structure_pass_rate": 1,
+                "core_pass_rate": 0.4444444444444444,
+                "functionality_pass_rate": 0.5,
+                "isolated_pass_rate": 0.5384615384615384,
+                "total_tests": 13,
+                "passed_tests": 7,
+                "structure_total": 1,
+                "structure_passed": 1,
+                "core_total": 9,
+                "core_passed": 4,
+                "functionality_total": 10,
+                "functionality_passed": 5,
+                "functionality_incremental_total": 1,
+                "functionality_incremental_passed": 1,
+                "error_total": 2,
+                "error_passed": 1,
+                "regression_total": 0,
+                "regression_passed": 0,
+                "started": "2026-08-24T13:47:57.173762",
+                "ended": "2026-08-24T13:58:49.850492",
+                "duration": 652.67673,
+                "cost": 0,
+                "steps": 44,
+                "cache_read": 2338048,
+                "cache_write": 0,
+                "input": 2449778,
+                "output": 16441,
+                "reasoning": 3744,
+                "loc": 545,
+                "sloc": 444,
+                "total_lines": 545,
+                "single_comments": 3,
+                "lint_errors": 85,
+                "lint_fixable": 0,
+                "files": 3,
+                "functions": 19,
+                "methods": 24,
+                "classes": 3,
+                "statements": 130,
+                "symbols_total": 52,
+                "cc_max": 11,
+                "cc_mean": 2.8372093023255816,
+                "cc_std": 2.810949954308275,
+                "cc_high_count": 2,
+                "cc_extreme_count": 0,
+                "high_cc_mean": 11,
+                "cc_normalized": 0.022827324963847404,
+                "cc_concentration": 0.4407167365611895,
+                "cc_top20": 0.5409836065573771,
+                "max_nesting_depth": 1,
+                "lines_per_symbol": 8.720930232558139,
+                "single_use_functions": 18,
+                "trivial_wrappers": 3,
+                "unused_variables": 56,
+                "clone_lines": 49,
+                "cloned_sloc_lines": 49,
+                "ast_grep_violations": 0,
+                "verbosity_flagged_sloc_lines": 49,
+                "sg_slop_violations": 0,
+                "lint_per_loc": 0.1559633027522936,
+                "violation_pct": 0,
+                "cloned_pct": 0.08990825688073395,
+                "verbosity_flagged_pct": 0.08990825688073395,
+                "graph_cyclic_dependency_mass": 0,
+                "graph_propagation_cost": 0,
+                "graph_dependency_entropy": 0,
+                "lines_added": 545,
+                "lines_removed": 0,
+                "mean_func_loc": 8.720930232558139,
+                "mass.cc": 415.28,
+                "mass.high_cc_pct": 0.27007748768973455
+              },
+              "code_snapshot": {
+                "file_count": 105,
+                "total_bytes": 1145104,
+                "tree_sha256": "39675acba1e323cb1a9b37baad19b1e78cee1ff6fb8f8df1d8d11a58d957b535",
+                "excluded_artifacts": [],
+                "archive": {
+                  "path": "problems/verilog-ethernet-t2/agent-results/artifacts/20260824t134753/checkpoint_1/agent-code.tar.gz",
+                  "sha256": "a4f54a02fe3ab0f7e728e218f85c2363a2ea7de9356286f846dfeb8024234c20",
+                  "size_bytes": 120855,
+                  "file_count": 105,
+                  "tree_sha256": "39675acba1e323cb1a9b37baad19b1e78cee1ff6fb8f8df1d8d11a58d957b535"
+                },
+                "manifest": {
+                  "path": "problems/verilog-ethernet-t2/agent-results/artifacts/20260824t134753/checkpoint_1/agent-code.manifest.json",
+                  "sha256": "d0e7474ea0f78d24c80976046f18300aa19bb7110fd818da7933853da40ef475",
+                  "size_bytes": 19253,
+                  "file_count": 105,
+                  "total_bytes": 1145104,
+                  "tree_sha256": "39675acba1e323cb1a9b37baad19b1e78cee1ff6fb8f8df1d8d11a58d957b535"
+                },
+                "changed_files": {
+                  "path": "problems/verilog-ethernet-t2/agent-results/artifacts/20260824t134753/checkpoint_1/changed-files.json",
+                  "sha256": "1d1b35bdef3ae6690542d0766b9eaaca1dc74ee996377f1c7e848453211f676e",
+                  "count": 4
+                },
+                "diff": {
+                  "path": "problems/verilog-ethernet-t2/agent-results/artifacts/20260824t134753/checkpoint_1/changes.patch",
+                  "sha256": "82aec60450293089ad50971f80e5034b4a21a426411c351296230cc5f113a4f2",
+                  "size_bytes": 32671
+                },
+                "baseline_path": "problems/verilog-ethernet-t2/pipeline/static_assets/baseline_repo"
+              },
+              "evaluation": {
+                "pytest_exit_code": 1,
+                "infrastructure_failure": false,
+                "counts": {
+                  "structure": [
+                    1,
+                    1
+                  ],
+                  "core": [
+                    4,
+                    9
+                  ],
+                  "functionality": [
+                    1,
+                    1
+                  ],
+                  "regression": [
+                    0,
+                    0
+                  ],
+                  "error": [
+                    1,
+                    2
+                  ]
+                },
+                "core_gate_passed": false,
+                "sha256": "a9ab99e47a1e4da477bceab0feb956f50707f842c63b7a6e8f984603dc94b068",
+                "details": {
+                  "schema_version": 1,
+                  "problem_name": "verilog_ethernet_t2_mac_ptp_test_modernization_sr_checkpoint_1",
+                  "problem_version": 1,
+                  "checkpoint_name": "checkpoint_1",
+                  "checkpoint_version": 1,
+                  "duration": 929.8888709545135,
+                  "entrypoint": "bash build_checkpoint.sh",
+                  "tests": {
+                    "checkpoint_1-Core": {
+                      "passed": [
+                        "test_checkpoint_1_candidate_runner_executes_all_focused_components",
+                        "test_checkpoint_1_payload_fcs_oracle_directed",
+                        "test_checkpoint_1_ptp_association_oracle_directed",
+                        "test_checkpoint_1_ptp_timestamp_mutation_is_killed"
+                      ],
+                      "failed": [
+                        "test_checkpoint_1_entrypoint_accepts_checkpoint_name",
+                        "test_checkpoint_1_lfc_count_oracle_directed",
+                        "test_checkpoint_1_pause_control_frame_mutation_is_killed",
+                        "test_checkpoint_1_pfc_range_oracle_directed",
+                        "test_checkpoint_1_reset_and_final_drain_oracles_are_directed"
+                      ],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Structure": {
+                      "passed": [
+                        "test_checkpoint_1_candidate_surface_is_tb_only"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Functionality": {
+                      "passed": [
+                        "test_checkpoint_1_candidate_tb_passes_trusted_target"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Error": {
+                      "passed": [
+                        "test_checkpoint_1_has_no_generated_artifacts"
+                      ],
+                      "failed": [
+                        "test_checkpoint_1_entrypoint_does_not_vendor_dependencies"
+                      ],
+                      "skipped": []
+                    }
+                  },
+                  "pass_counts": {
+                    "Structure": 1,
+                    "Core": 4,
+                    "Functionality": 1,
+                    "Regression": 0,
+                    "Error": 1
+                  },
+                  "total_counts": {
+                    "Structure": 1,
+                    "Core": 9,
+                    "Functionality": 1,
+                    "Regression": 0,
+                    "Error": 2
+                  },
+                  "detail_metrics": {},
+                  "pytest_exit_code": 1,
+                  "pytest_collected": 13,
+                  "test_collection_hash": "9456cbdeef47214992ca84d5df6c7607e3cd44634bb9b9008fe9545116ef86ef",
+                  "infrastructure_failure": false,
+                  "infrastructure_reason": null
+                }
+              },
+              "localCheckpoint": "checkpoint_1",
+              "targetCheckpoint": "checkpoint_1"
+            }
+          ],
+          "experimentType": "pipeline",
+          "targetCheckpoint": "",
+          "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-ethernet-t2/agent-results/runs/20260824t134753.json"
+        },
         {
           "schema_version": 3,
           "run_id": "20260819t112320",
