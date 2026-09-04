@@ -1,10 +1,10 @@
 {
   "schemaVersion": 5,
-  "generatedAt": "2026-09-04T05:57:28.029Z",
+  "generatedAt": "2026-09-04T11:03:30.909Z",
   "source": {
     "repository": "carterlu0/scbench-rtl-problems",
     "branch": "main",
-    "commit": "5c5233cc740014361c6adf7dacd4a8ccde5a9fa9"
+    "commit": "3c192de3556cb4c049189a65381f12a2fb81b31d"
   },
   "problems": [
     {
@@ -23732,6 +23732,2146 @@
     },
     {
       "number": "06",
+      "id": "verilog-ef-uart-t1",
+      "title": "EF_UART",
+      "type": "T1",
+      "family": "verilog_ef_uart",
+      "tags": "rtl / verilog / ef / uart",
+      "checkpoints": 6,
+      "summary": "Release status: published\nSource family: `ef_uart_t1`\nDifficulty: medium\nTags: rtl, verilog, iverilog, uart, checkpointed",
+      "overview": "# EF_UART T1\n\nRelease status: published\nSource family: `ef_uart_t1`\nDifficulty: medium\nTags: rtl, verilog, iverilog, uart, checkpointed\n\nEF_UART T1 is a six-checkpoint SCBench RTL benchmark derived from the efabless/EF_UART component history. Agents extend a writable UART baseline across APB, AHB-Lite, UART data-format and glitch-filter behavior, Wishbone, FIFO/interrupt, and DFT/utility-library integration while preserving earlier behavior.\n\n## Included checkpoints\n\n- `checkpoint_1`: APB bus wrapper and core register map\n- `checkpoint_2`: AHB-Lite bus wrapper support\n- `checkpoint_3`: glitch-filter enable and 9-bit UART behavior\n- `checkpoint_4`: Wishbone wrapper and bus-wrap unification\n- `checkpoint_5`: high-address register remapping and FIFO thresholds\n- `checkpoint_6`: DFT support and EF_IP_UTIL migration\n\n## Package layout\n\n- `pipeline/`: canonical six-checkpoint definition, tests, runtime and evaluator assets\n- `sr-checkpoint-1/` through `sr-checkpoint-6/`: isolated single-checkpoint wrappers\n- `evidence/`: certification and requirement-alignment records\n- `agent-results/`: publishable schema-v3 Agent run records and final-code artifacts\n\n## Latest Agent Measurement\n\nThe latest independent measurements used `agicto/gpt-5.6-luna`, Codex `0.141.0`, thinking `high`, serial execution, and the `core-cases` policy. All six runs completed with `infrastructure_failure=false`; the known missing `scb-check` auxiliary report did not affect evaluator results.\n\n| SR | Outcome | Tests | Core | Regression | Failed test |\n|---|---|---:|---:|---:|---|\n| SR1 | failed | 3/4 | 1/2 | 0/0 | `test_checkpoint_1_apb_core` |\n| SR2 | passed | 6/6 | 2/2 | 2/2 | none |\n| SR3 | failed | 4/5 | 1/2 | 1/1 | `test_checkpoint_3_glitch_filter_and_9bit_core` |\n| SR4 | passed | 7/7 | 2/2 | 3/3 | none |\n| SR5 | passed | 7/7 | 2/2 | 3/3 | none |\n| SR6 | passed | 10/10 | 3/3 | 5/5 | none |\n\nThe failed runs are valid model-behavior evidence, not infrastructure failures. Structure and unmapped-error checks passed in every SR. The SR6 result uses dependency-visible definition version 7; it must not be conflated with the earlier pipeline C6 candidate-library experiment.",
+      "prompt": "# Checkpoint 6: DFT Support & Modern IP Util Migration\n\n## Background & Objective\nPrepare the UART IP for silicon tapeout and manufacturing scan test by adding dedicated Design-for-Test (DFT) wrappers (`EF_UART_APB_DFT`, `EF_UART_AHBL_DFT`, `EF_UART_WB_DFT`), and migrate internal helper primitives to the consolidated `EF_IP_UTIL` standard library (`ef_util_lib.v`).\n\n## Requirements & Public Contract\n\n### 1. DFT Wrapper Modules\nIn addition to the standard functional wrappers, the design must provide DFT-enabled wrappers in `hdl/rtl/bus_wrappers/dft/`:\n- `EF_UART_APB_DFT.v` (module `EF_UART_APB_DFT`)\n- `EF_UART_AHBL_DFT.v` (module `EF_UART_AHBL_DFT`)\n- `EF_UART_WB_DFT.v` (module `EF_UART_WB_DFT`)\n\nEach DFT wrapper must expose the dedicated scan test mode control port:\n- `input wire sc_testmode`: Scan test mode enable pin.\n\n### 2. DFT Clock Gating Bypass Semantics\n- In DFT wrappers, when `sc_testmode == 1'b1`, the internal clock gating cell's clock enable (`clk_gated_en`) must be forced active (`1'b1`), ensuring the main bus clock passes through without being gated by `GCLK_REG[0]`.\n- When `sc_testmode == 1'b0`, clock gating behaves normally and is controlled by `GCLK_REG[0]` (offset `0xFF10`).\n\n### 3. EF_IP_UTIL Migration\n- Migrate internal synchronizers, glitch filters, FIFOs, and clock gating cells to `EF_IP_UTIL` primitives (`ef_util_sync`, `ef_util_glitch_filter`, `ef_util_fifo`, `ef_util_ped`, `ef_util_gating_cell`).\n- Standard functional wrappers (`EF_UART_APB`, `EF_UART_AHBL`, `EF_UART_WB`) and all DFT wrappers must compile and elaborate cleanly with `EF_IP_UTIL/hdl/ef_util_lib.v`.\n- The candidate deliverable must include `EF_IP_UTIL/hdl/ef_util_lib.v` at that exact path. The evaluator stages only the files listed for this checkpoint, so this library file is part of the candidate-controlled output and must be present in the staged `repo/` before the entrypoint is run.\n- Because `hdl/rtl/bus_wrappers/EF_UART_ahbl.v` is a baseline file that must be removed, declare that path through the checkpoint's candidate deletion manifest; the evaluator applies declared deletions before overlaying candidate outputs.\n\n### 4. Unmapped APB Accesses\n- An APB read outside the active C6 map must return `PRDATA = 32'hDEADBEEF` with `PREADY = 1'b1`, and it must not modify UART, FIFO, interrupt, or DFT state.\n\nThe submitted tree must contain only one AHB-Lite wrapper implementation,\n`hdl/rtl/bus_wrappers/EF_UART_AHBL.v`; remove any differently cased duplicate\nsuch as `EF_UART_ahbl.v`.",
+      "certDate": "2026-09-04",
+      "certSummary": "**2026-09-03 SR6 locked dependency visibility 与 public signature 修订重认证**：此前 current-definition Agent rollout 表明 Agent workspace 只可见 baseline repo，无法读取 Prompt 所要求使用的 locked `EF_IP_UTIL` 实际源码；轨迹因而以本地 compatibility stub 代替真实 dependency 验证，最终在 evaluator 的真实 `ef_util_gating_cell` 上因 `.en`/`.gclk` 不存在而使三项 DFT Core 失败。为消除这一 Prompt/runtime 公平性缺口，SR6 `checkpoint_1` 升级为 `version: 7`：`dependencies` 现在是 Agent-visible read-only static asset，物化到 workspace `dependencies/`；Prompt 公开 `dependencies/EF_IP_UTIL/hdl/ef_util_lib.v`、BusW\n\n[Excerpt. Open the source artifact for the complete content.]",
+      "readmePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-ef-uart-t1/README.md",
+      "certPath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-ef-uart-t1/evidence/certification.md",
+      "promptPath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-ef-uart-t1/pipeline/checkpoint_6.md",
+      "checkpointLinks": [
+        [
+          "checkpoint_1",
+          "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-ef-uart-t1/pipeline/checkpoint_1.md"
+        ],
+        [
+          "checkpoint_2",
+          "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-ef-uart-t1/pipeline/checkpoint_2.md"
+        ],
+        [
+          "checkpoint_3",
+          "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-ef-uart-t1/pipeline/checkpoint_3.md"
+        ],
+        [
+          "checkpoint_4",
+          "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-ef-uart-t1/pipeline/checkpoint_4.md"
+        ],
+        [
+          "checkpoint_5",
+          "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-ef-uart-t1/pipeline/checkpoint_5.md"
+        ],
+        [
+          "checkpoint_6",
+          "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-ef-uart-t1/pipeline/checkpoint_6.md"
+        ]
+      ],
+      "checkpointPrompts": [
+        {
+          "label": "checkpoint_1",
+          "prompt": "# Checkpoint 1: APB Bus Wrapper & Register Map\n\n## Background & Objective\nImplement the APB3 bus wrapper `EF_UART_APB` for the core UART controller `EF_UART`. The wrapper adapts generic APB transfer cycles (`PCLK`, `PRESETn`, `PSEL`, `PENABLE`, `PWRITE`, `PADDR`, `PWDATA`, `PRDATA`, `PREADY`) to the internal UART registers and control signals.\n\n## Requirements & Public Contract\n\n### 1. Module Interfaces\nThe module `EF_UART_APB` must have the following port declarations:\n- Clock & Reset: `input wire PCLK`, `input wire PRESETn`\n- APB Control: `input wire PSEL`, `input wire PENABLE`, `input wire PWRITE`, `input wire [31:0] PADDR`, `input wire [31:0] PWDATA`\n- APB Response: `output wire [31:0] PRDATA`, `output wire PREADY`\n- External UART IO: `input wire rx`, `output wire tx`\n- Interrupt Output: `output wire [2:0] irq` (or top interrupt line)\n\n### 1.1 Candidate File Contract\nThe evaluator stages only the following candidate-controlled files. The paths are\ncase-sensitive and must match exactly:\n- `hdl/rtl/EF_UART.v`\n- `hdl/rtl/bus_wrappers/EF_UART_APB.v`\n\nKeep the required APB wrapper module named `EF_UART_APB` in the second path.\n\n### 2. Register Map & Offsets (Word Offsets)\nThe APB slave interface must support 32-bit register read/write at the following address offsets:\n- `0x0000` (RXDATA / TXDATA): Reading returns received byte (and pops RX FIFO); writing pushes byte to TX FIFO.\n- `0x0004` (TXDATA): Write byte to TX FIFO.\n- `0x0008` (CTRL): Control register (Bit 0: UART enable, Bit 1: TX enable, Bit 2: RX enable).\n- `0x000C` (PR): Prescaler register for baud rate generation.\n- `0x0010` (CFG): Configuration register (Bit 0: Data size 7/8-bit, Bit 1: Stop bits 1/2, Bit 2: Parity enable, Bit 3: Even/Odd parity).\n- `0x0014` (FIFOCTRL): FIFO Control register.\n- `0x0018` (FIFOS): FIFO status flags (RX/TX empty and full).\n- `0x001C` (MATCH): Data match register.\n- `0x0F00` (IM): Interrupt Mask register.\n- `0x0F04` (MIS): Masked Interrupt Status register (`RIS & IM`).\n- `0x0F08` (RIS): Raw Interrupt Status register (Bit 0: TX Empty, Bit 1: RX Full, Bit 2: RX Level / Timeout).\n- `0x0F0C` (ICR): Interrupt Clear Register (write 1 to clear corresponding interrupt bit).\n\n### 3. Bus Protocol Behavior\n- Transfers with `PSEL && PENABLE` must be acknowledged (`PREADY = 1'b1`).\n- Unselected cycles or idle cycles must not corrupt register state or trigger unintended FIFO pops/pushes.\n- Reads from unmapped APB offsets, including `0x00FC` and `0x5000`, must return `32'hDEADBEEF` while `PREADY` remains asserted. Such reads must not modify UART or interrupt state.",
+          "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-ef-uart-t1/pipeline/checkpoint_1.md"
+        },
+        {
+          "label": "checkpoint_2",
+          "prompt": "# Checkpoint 2: AHB-Lite Bus Wrapper\n\n## Background & Objective\nAdd an AHB-Lite bus wrapper `EF_UART_AHBL` for the UART controller, enabling integration into ARM Cortex-M or high-performance SoC buses while preserving the APB wrapper's bus protocol, module interface, and register functionality.\n\nThis checkpoint supersedes the C1 numeric address assignment for the prescaler and\ncontrol registers. The C1 APB address assignment (`CTRL=0x0008`, `PR=0x000C`)\nis historical and is not required to remain available after C2. All APB, AHB-Lite,\nand later bus wrappers use the C2 standardized assignment below. \"Backward\ncompatibility\" in this checkpoint therefore applies to APB transaction behavior,\nwrapper interface, and register semantics, not to retaining the superseded C1\nnumeric aliases.\n\n## Requirements & Public Contract\n\n### 0. Candidate Files and Delivery Integrity\n- Create the new wrapper at exactly `hdl/rtl/bus_wrappers/EF_UART_AHBL.v`. File\n\tnames are case-sensitive; `EF_UART_ahbl.v` or any other spelling does not\n\tsatisfy this contract.\n- `EF_UART_AHBL.v` must be the only AHB-Lite wrapper implementation in the\n\tsubmitted tree. Do not keep an `EF_UART_ahbl.v` or other differently cased\n\tduplicate alongside it.\n- Preserve the C1 candidate files `hdl/rtl/EF_UART.v` and\n\t`hdl/rtl/bus_wrappers/EF_UART_APB.v` in the submitted repository. Do not\n\treplace them with differently cased filenames or remove them while adding the\n\tAHB-Lite wrapper.\n- Before finishing, verify that all three candidate files exist at these exact\n\tpaths and that the new AHB-Lite file declares the `EF_UART_AHBL` module.\n\n### 1. Module Interfaces\nThe module `EF_UART_AHBL` must declare the checkpoint AHB-Lite slave interface:\n- Clock & Reset: `input wire HCLK`, `input wire HRESETn`\n- AHB-Lite Select & Control: `input wire HSEL`, `input wire [31:0] HADDR`, `input wire [1:0] HTRANS`, `input wire HWRITE`, `input wire [31:0] HWDATA`, `input wire HREADY`\n- AHB-Lite Response: `output wire HREADYOUT`, `output wire [31:0] HRDATA`\n- External UART IO: `input wire rx`, `output wire tx`\n- Interrupt: `output wire IRQ`\n\n### 2. Pipelined Address/Data Phase Handling\n- AHB-Lite uses pipelined address and data phases. `HSEL`, `HTRANS` (NONSEQ `2'b10` or SEQ `2'b11`), `HADDR`, and `HWRITE` during the address phase must be registered to execute the read or write during the subsequent data phase when `HREADY` is asserted.\n- `HREADYOUT` must remain `1'b1` (zero wait-state).\n\n### 3. Register Compatibility\n\nThe C2 register map is the active map for the remainder of the pipeline. The\nsuperseded C1 `CTRL=0x0008` and `PR=0x000C` assignment must not be inferred from\nthe phrase \"backward compatibility\" above.\n\nThe register addresses and bitfield functionality are standardized as: `0x0008` (PR), `0x000C` (CTRL), `0x0010` (CFG), `0x0014` (FIFOCTRL), `0x0018` (FIFOS), `0x001C` (MATCH), `0x0F00` (IM), `0x0F04` (MIS), `0x0F08` (RIS), `0x0F0C` (ICR).\n\n### 4. Unmapped Accesses\n- An AHB-Lite read from an unmapped address must complete with `HREADYOUT = 1'b1`, `HRESP = 2'b00`, and `HRDATA = 32'hDEADBEEF`. It must not modify UART or interrupt state.",
+          "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-ef-uart-t1/pipeline/checkpoint_2.md"
+        },
+        {
+          "label": "checkpoint_3",
+          "prompt": "# Checkpoint 3: Glitch Filter Enable Control\n\n## Background & Objective\nEnhance the core UART RX input path by adding configurable glitch filtering. This prevents spurious noise pulses on the `rx` pin from triggering false start-bit detection in noisy environments.\n\n## Requirements & Public Contract\n\n### 1. Glitch Filter Behavior\n- The `EF_UART` core must instantiate or wire the evaluator-supplied `aucohl_glitch_filter` primitive from `IP_Utilities/rtl/aucohl_lib.v` with an explicit enable control (`en`). Do not add a separate `IP_Utilities/glitch_filter.v` candidate dependency.\n- When glitch filtering is enabled in the configuration / control register, fast transitions on `rx` shorter than the filter clock threshold must be suppressed.\n- When glitch filtering is bypassed or disabled, the `rx` line is passed directly to the UART RX deserializer logic with minimum latency.\n\n### 2. Interface and Regression Stability\n- Both APB (`EF_UART_APB`) and AHB-Lite (`EF_UART_AHBL`) wrappers must continue to pass all APB and AHBL functional tests.\n- Prescaler, baud-rate timing, and FIFO interrupt semantics must remain intact.\n\n### 3. Unmapped APB Accesses\n- An APB read from an unmapped address must return `PRDATA = 32'hDEADBEEF` with `PREADY = 1'b1`, and it must not modify UART or interrupt state.\n\nThe submitted tree must contain only one AHB-Lite wrapper implementation,\n`hdl/rtl/bus_wrappers/EF_UART_AHBL.v`; remove any differently cased duplicate\nsuch as `EF_UART_ahbl.v`.",
+          "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-ef-uart-t1/pipeline/checkpoint_3.md"
+        },
+        {
+          "label": "checkpoint_4",
+          "prompt": "# Checkpoint 4: Wishbone Bus Wrapper & BusWrap Unification\n\n## Background & Objective\nAdd a Wishbone classic/pipelined slave bus wrapper `EF_UART_WB`, and unify all bus wrappers (APB, AHB-Lite, Wishbone) under the modern `BusWrap` standardized macro/task architecture.\n\nThis checkpoint is a multi-bus wrapper extension. The C1-C3 UART behavior,\nAPB/AHB-Lite interfaces, register semantics, reset behavior, and unmapped-access\nbehavior remain active unless this checkpoint explicitly changes them below.\n\n## Requirements & Public Contract\n\n### 1. Wishbone Wrapper Interface\nThe module `EF_UART_WB` must provide:\n- Clock & Reset: `input wire wb_clk_i`, `input wire wb_rst_i`\n- Wishbone Control: `input wire [15:0] adr_i`, `input wire [31:0] dat_i`, `input wire [3:0] sel_i`, `input wire we_i`, `input wire cyc_i`, `input wire stb_i`\n- Wishbone Response: `output wire [31:0] dat_o`, `output wire ack_o`\n- External UART IO: `input wire rx`, `output wire tx`\n- Interrupts: `output wire [2:0] irq`\n\n### 2. Wishbone Handshake Protocol\n- Read and write operations complete when `cyc_i && stb_i` are asserted on the\n\tactive clock edge.\n- `ack_o` must be asserted for the completed transfer and must return low on the\n\tfollowing cycle, even if the master keeps the request signals asserted. The\n\tslave must not wait indefinitely for a response.\n- A valid write to `adr_i=16'h0008` must update the prescaler register and a\n\tfollowing read at the same address must return the written 16-bit value in\n\t`dat_o[15:0]`.\n- The wrapper must use the supplied BusWrap transaction conventions and remain\n\tcompatible with both classic and pipelined request presentation; do not\n\tassume a private testbench implementation.\n\n### 3. Tri-Bus Regression\n- The design must now provide all three wrappers (`EF_UART_APB`, `EF_UART_AHBL`, `EF_UART_WB`) concurrently.\n- The new C4 Core behavior is the Wishbone wrapper and its protocol behavior.\n\tThe existing APB and AHB-Lite wrappers must continue to pass their complete\n\tregression flows, including their existing register semantics and UART\n\ttransfer behavior.\n- Preserve the public APB and AHB-Lite module names, ports, reset polarity,\n\taddress widths, and register semantics established by earlier checkpoints.\n\n### 4. Unmapped Wishbone Accesses\n- An unmapped Wishbone read, including `adr_i=16'h00FC`, must acknowledge the\n\trequest without a stall and return `dat_o = 32'hDEADBEEF`.\n- An unmapped read must not modify UART, FIFO, prescaler, or interrupt state.\n\n## Candidate and Validation Contract\n\nThe evaluator stages only these candidate-controlled files, with case-sensitive\npaths:\n\nThe submitted tree must contain only one AHB-Lite wrapper implementation,\n`hdl/rtl/bus_wrappers/EF_UART_AHBL.v`; remove any differently cased duplicate\nsuch as `EF_UART_ahbl.v`.\n\n- `hdl/rtl/EF_UART.v`\n- `hdl/rtl/bus_wrappers/EF_UART_APB.v`\n- `hdl/rtl/bus_wrappers/EF_UART_AHBL.v`\n- `hdl/rtl/bus_wrappers/EF_UART_WB.v`\n\nKeep `build_checkpoint.sh` as the checkpoint entrypoint. It must prepare the\nstaged `./repo` and must not install packages, require network access, copy a\ngolden snapshot, or depend on files outside the staged candidate set. Do not\nmodify evaluator-owned tests or static assets, and do not submit simulator\noutputs, caches, `.venv`, `sim_build`, `.vvp`, `.vcd`, or other generated\nartifacts.\n\nUse the supplied Icarus/Verilog environment and validate the wrapper from a\nclean invocation with `bash build_checkpoint.sh checkpoint_4`. Correct\nimplementations may use a different internal RTL structure from the reference;\nfunctional grading is behavior-based rather than source-byte equality.",
+          "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-ef-uart-t1/pipeline/checkpoint_4.md"
+        },
+        {
+          "label": "checkpoint_5",
+          "prompt": "# Checkpoint 5: Register Address Remapping & FIFO Thresholds\n\n## Background & Objective\nTo standardize memory-mapped register space across heterogeneous SoCs, the register map is reorganized into dedicated functional blocks:\n1. Low address space (`0x0000` - `0x001C`) for core data and basic UART configuration;\n2. Extended FIFO control space (`0xFE00` - `0xFE18`) for threshold monitoring and flush control;\n3. High address interrupt block (`0xFF00` - `0xFF0C`) for standardized interrupt handling.\n\nThis checkpoint is a register-map correction and FIFO/interrupt behavior\nextension. The C1-C4 UART, APB, AHB-Lite, and Wishbone interfaces and transfer\nsemantics remain active. Only the numeric location of the interrupt block is\nsuperseded as stated below.\n\n## Requirements & Public Contract\n\nCheckpoint 5 supersedes the C1-C4 interrupt-register address assignment. The\nearlier `IM/MIS/RIS/ICR` block at `0x0F00/0x0F04/0x0F08/0x0F0C` is historical and\nis not required to remain available after this checkpoint. The active interrupt\nblock is the `0xFF00` range defined below; this migration does not remove the\ninterrupt register semantics, only their numeric address assignment. Pipeline\nregression must therefore use the active C5 map for the endpoint, while tests\nfor earlier checkpoints remain historical version-specific checks rather than\nrequirements on the C5 endpoint.\n\n### 1. Updated Register Memory Map (16-bit word-aligned offsets)\nAll bus wrappers (`EF_UART_APB`, `EF_UART_AHBL`, `EF_UART_WB`) must decode the following register offsets:\n- `0x0000` (RXDATA): Read received byte from RX FIFO.\n- `0x0004` (TXDATA): Write byte to TX FIFO.\n- `0x0008` (PR): Prescaler register for baud rate generation.\n- `0x000C` (CTRL): Control register (Bit 0: UART enable, Bit 1: TX enable, Bit 2: RX enable, Bit 3: Loopback, Bit 4: Glitch filter enable).\n- `0x0010` (CFG): Configuration register (Data size, Stop bits, Parity type, Timeout bits).\n- `0x001C` (MATCH): Data Match pattern register for character matching.\n- `0xFE00` (RX_FIFO_LEVEL): Read current fill level of RX FIFO.\n- `0xFE04` (RX_FIFO_THRESHOLD): Configurable threshold for RX FIFO interrupt trigger.\n- `0xFE08` (RX_FIFO_FLUSH): Write 1 to clear/flush RX FIFO contents.\n- `0xFE10` (TX_FIFO_LEVEL): Read current fill level of TX FIFO.\n- `0xFE14` (TX_FIFO_THRESHOLD): Configurable threshold for TX FIFO interrupt trigger.\n- `0xFE18` (TX_FIFO_FLUSH): Write 1 to clear/flush TX FIFO contents.\n- `0xFF00` (IM): Interrupt Mask register.\n- `0xFF04` (MIS): Masked Interrupt Status register (`RIS & IM`).\n- `0xFF08` (RIS): Raw Interrupt Status register (Bit 0: TX Empty, Bit 1: RX Full, Bit 2: TX Below Threshold, Bit 3: RX Above Threshold, Bit 4: Break, Bit 5: Match, Bit 6: Frame Error, Bit 7: Parity Error, Bit 8: Overrun, Bit 9: Timeout).\n- `0xFF0C` (ICR / IC): Interrupt Clear Register (write 1 to clear corresponding interrupt bit).\n\nThe following observable behaviors are part of the C5 contract:\n\n- After reset, `RX_FIFO_LEVEL` and `TX_FIFO_LEVEL` read as zero.\n- Writes to `RX_FIFO_THRESHOLD` and `TX_FIFO_THRESHOLD` must be readable at\n\tthe same active addresses and must control the corresponding threshold\n\tstatus behavior. Threshold values use the FIFO address width; bits outside\n\tthe implemented field are not required to affect the FIFO.\n- With `TX_FIFO_THRESHOLD=1` and an empty TX FIFO, `RIS[2]` (TX below\n\tthreshold) must be observable. Writing `IM[2]=1` must make `MIS[2]` and the\n\texternal interrupt output assert.\n- Writing `ICR[2]=1` must clear the corresponding raw and masked interrupt\n\tstate, including the external interrupt output after the mask is enabled.\n- Writing `TX_FIFO_FLUSH=1` must clear the TX FIFO level. With loopback enabled\n\tthrough `CTRL[3]` and UART TX/RX enables active, a transmitted byte must\n\tbecome observable in the RX FIFO level; writing `RX_FIFO_FLUSH=1` must then\n\tclear that level.\n- The C5-owned direct behavior acceptance is exercised through the APB wrapper.\n\tThe AHB-Lite and Wishbone wrappers must still decode the active C5 map and\n\tpreserve their UART transfer behavior through the explicit regression flows.\n\n### 2. Bus Wrapper Conformance\n- APB, AHB-Lite, and Wishbone wrappers must decode `0xFE00..0xFE18` and `0xFF00..0xFF0C` cleanly.\n- Prescaler, framing, and UART transfer functionality must remain fully operational.\n\n### 3. Unmapped APB Accesses\n- An APB read outside the active C5 map must return `PRDATA = 32'hDEADBEEF` with `PREADY = 1'b1`, and it must not modify UART, FIFO, or interrupt state.\n\n## Candidate and Validation Contract\n\nThe evaluator stages only these candidate-controlled files, with case-sensitive\npaths:\n\nThe submitted tree must contain only one AHB-Lite wrapper implementation,\n`hdl/rtl/bus_wrappers/EF_UART_AHBL.v`; remove any differently cased duplicate\nsuch as `EF_UART_ahbl.v`.\n\n- `hdl/rtl/EF_UART.v`\n- `hdl/rtl/bus_wrappers/EF_UART_APB.v`\n- `hdl/rtl/bus_wrappers/EF_UART_AHBL.v`\n- `hdl/rtl/bus_wrappers/EF_UART_WB.v`\n\nKeep `build_checkpoint.sh` as the checkpoint entrypoint. It must prepare the\nstaged `./repo` and must not install packages, require network access, copy a\ngolden snapshot, or depend on files outside the staged candidate set. Do not\nmodify evaluator-owned tests or static assets, and do not submit simulator\noutputs, caches, `.venv`, `sim_build`, `.vvp`, `.vcd`, or other generated\nartifacts.\n\nUse the supplied Icarus/Verilog environment and validate the staged repository\nwith `bash build_checkpoint.sh checkpoint_5`. Correct implementations may use\na different internal RTL structure from the reference; functional grading is\nbehavior-based rather than source-byte equality.",
+          "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-ef-uart-t1/pipeline/checkpoint_5.md"
+        },
+        {
+          "label": "checkpoint_6",
+          "prompt": "# Checkpoint 6: DFT Support & Modern IP Util Migration\n\n## Background & Objective\nPrepare the UART IP for silicon tapeout and manufacturing scan test by adding dedicated Design-for-Test (DFT) wrappers (`EF_UART_APB_DFT`, `EF_UART_AHBL_DFT`, `EF_UART_WB_DFT`), and migrate internal helper primitives to the consolidated `EF_IP_UTIL` standard library (`ef_util_lib.v`).\n\n## Requirements & Public Contract\n\n### 1. DFT Wrapper Modules\nIn addition to the standard functional wrappers, the design must provide DFT-enabled wrappers in `hdl/rtl/bus_wrappers/dft/`:\n- `EF_UART_APB_DFT.v` (module `EF_UART_APB_DFT`)\n- `EF_UART_AHBL_DFT.v` (module `EF_UART_AHBL_DFT`)\n- `EF_UART_WB_DFT.v` (module `EF_UART_WB_DFT`)\n\nEach DFT wrapper must expose the dedicated scan test mode control port:\n- `input wire sc_testmode`: Scan test mode enable pin.\n\n### 2. DFT Clock Gating Bypass Semantics\n- In DFT wrappers, when `sc_testmode == 1'b1`, the internal clock gating cell's clock enable (`clk_gated_en`) must be forced active (`1'b1`), ensuring the main bus clock passes through without being gated by `GCLK_REG[0]`.\n- When `sc_testmode == 1'b0`, clock gating behaves normally and is controlled by `GCLK_REG[0]` (offset `0xFF10`).\n\n### 3. EF_IP_UTIL Migration\n- Migrate internal synchronizers, glitch filters, FIFOs, and clock gating cells to `EF_IP_UTIL` primitives (`ef_util_sync`, `ef_util_glitch_filter`, `ef_util_fifo`, `ef_util_ped`, `ef_util_gating_cell`).\n- Standard functional wrappers (`EF_UART_APB`, `EF_UART_AHBL`, `EF_UART_WB`) and all DFT wrappers must compile and elaborate cleanly with `EF_IP_UTIL/hdl/ef_util_lib.v`.\n- The candidate deliverable must include `EF_IP_UTIL/hdl/ef_util_lib.v` at that exact path. The evaluator stages only the files listed for this checkpoint, so this library file is part of the candidate-controlled output and must be present in the staged `repo/` before the entrypoint is run.\n- Because `hdl/rtl/bus_wrappers/EF_UART_ahbl.v` is a baseline file that must be removed, declare that path through the checkpoint's candidate deletion manifest; the evaluator applies declared deletions before overlaying candidate outputs.\n\n### 4. Unmapped APB Accesses\n- An APB read outside the active C6 map must return `PRDATA = 32'hDEADBEEF` with `PREADY = 1'b1`, and it must not modify UART, FIFO, interrupt, or DFT state.\n\nThe submitted tree must contain only one AHB-Lite wrapper implementation,\n`hdl/rtl/bus_wrappers/EF_UART_AHBL.v`; remove any differently cased duplicate\nsuch as `EF_UART_ahbl.v`.",
+          "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-ef-uart-t1/pipeline/checkpoint_6.md"
+        }
+      ],
+      "evaluationRuns": [
+        {
+          "schema_version": 3,
+          "run_id": "20260904t180348",
+          "exported_at": "2026-09-04T10:24:25.833435+00:00",
+          "published_problem": "verilog-ef-uart-t1",
+          "source_problem": "ef_uart_t1_pipeline_sr_checkpoint_6",
+          "release_commit": "65fc951529f00dbcf1a59816b913c9c6428ab360",
+          "definition_sha256": {
+            "config.yaml": "fa9d55ba9fc3586d9511f43e705d15ff875cf7467c1d92503e9f9275e393e35b",
+            "checkpoint_1.md": "b0da3cfa352b7ac976ecb72afda94bfbe4041ff06901438092e870074b85baf1",
+            "checkpoint_2.md": "71ac00c2554a023af46ae9e5a96922447094e4dfe693fe427bd38c110daebffa",
+            "checkpoint_3.md": "f45889db613abe16f0789f88a41788ccfcef30b917033e7565d0ff5e9d883814",
+            "checkpoint_4.md": "2837fd094a9635e3f91337d11b8a92c93aa0a78167e8899655431c1a0f9225d7",
+            "checkpoint_5.md": "9744e5100567e081bf1a7cf2b74b42a8382a54c89d48d4b33391b4f400e3f379",
+            "checkpoint_6.md": "4af2d182db186d79a7ec9f4b0b2899603adb0be4435d25004562df8889e8a3b4"
+          },
+          "source_run": {
+            "directory": "codex-0.141.0_rtl-plan-and-test_high_20260904T180349995232_rtl_ef_uart_t1_codex_gpt-5.6-luna_sr_20260904t180348",
+            "result_json_sha256": "41c4d3332f5c01a2e1f86972285c1d63785c1990ee1ed49e3ecc832d8cebcf5d",
+            "checkpoint_results_sha256": "1a3152a7b35e160716e619f6e01675010aa928423ba9ad419cd8107f89ae0cae"
+          },
+          "agent": {
+            "type": "codex",
+            "version": "0.141.0"
+          },
+          "model": "agicto-gpt-5.6-luna",
+          "prompt": "rtl-plan-and-test",
+          "thinking": "high",
+          "run_metrics": {
+            "costs": {
+              "checkpoint": {
+                "mean": 0,
+                "stddev": null,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 1
+              },
+              "problem": {
+                "mean": 0,
+                "stddev": null,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 1
+              },
+              "total": 0
+            },
+            "time": {
+              "checkpoint": {
+                "mean": 876.048049,
+                "stddev": null,
+                "min": 876.048049,
+                "max": 876.048049,
+                "median": 876.048049,
+                "count": 1
+              },
+              "problem": {
+                "mean": 876.048049,
+                "stddev": null,
+                "min": 876.048049,
+                "max": 876.048049,
+                "median": 876.048049,
+                "count": 1
+              }
+            },
+            "tokens": {
+              "input": 1677516,
+              "output": 18329,
+              "cache_read": 1511680,
+              "cache_write": 0,
+              "reasoning": 6614,
+              "problem": {
+                "input": 1677516,
+                "output": 18329,
+                "cache_read": 1511680,
+                "cache_write": 0,
+                "reasoning": 6614
+              },
+              "checkpoint": {
+                "input": 1677516,
+                "output": 18329,
+                "cache_read": 1511680,
+                "cache_write": 0,
+                "reasoning": 6614
+              }
+            },
+            "steps": {
+              "checkpoint": {
+                "mean": 49,
+                "stddev": null,
+                "min": 49,
+                "max": 49,
+                "median": 49,
+                "count": 1
+              },
+              "problem": {
+                "mean": 49,
+                "stddev": null,
+                "min": 49,
+                "max": 49,
+                "median": 49,
+                "count": 1
+              }
+            },
+            "pass_rates": {
+              "problem": {
+                "structure": 1,
+                "core": 1,
+                "total": 1,
+                "error": 1,
+                "functionality": 1,
+                "regression": 1
+              },
+              "checkpoint": {
+                "structure": 1,
+                "core": 1,
+                "total": 1,
+                "error": 1,
+                "functionality": 1,
+                "regression": 1
+              }
+            }
+          },
+          "expected_checkpoints": 1,
+          "completed_checkpoints": 1,
+          "outcome": "passed",
+          "checkpoints": [
+            {
+              "checkpoint": "checkpoint_1",
+              "state": "ran",
+              "started_at": "2026-09-04T18:03:51.329439",
+              "ended_at": "2026-09-04T18:18:27.377488",
+              "duration_seconds": 876.048049,
+              "steps": 49,
+              "run_result": {
+                "problem": "ef_uart_t1_pipeline_sr_checkpoint_6",
+                "version": 1,
+                "checkpoint": "checkpoint_1",
+                "path": "$RUN_DIR/ef_uart_t1_pipeline_sr_checkpoint_6",
+                "idx": 1,
+                "state": "ran",
+                "is_first": true,
+                "is_last": true,
+                "strict_pass_rate": 1,
+                "structure_pass_rate": 1,
+                "core_pass_rate": 1,
+                "functionality_pass_rate": 1,
+                "isolated_pass_rate": 1,
+                "total_tests": 10,
+                "passed_tests": 10,
+                "structure_total": 1,
+                "structure_passed": 1,
+                "core_total": 3,
+                "core_passed": 3,
+                "functionality_total": 3,
+                "functionality_passed": 3,
+                "functionality_incremental_total": 0,
+                "functionality_incremental_passed": 0,
+                "error_total": 1,
+                "error_passed": 1,
+                "regression_total": 5,
+                "regression_passed": 5,
+                "started": "2026-09-04T18:03:51.329439",
+                "ended": "2026-09-04T18:18:27.377488",
+                "duration": 876.048049,
+                "cost": 0,
+                "steps": 49,
+                "cache_read": 1511680,
+                "cache_write": 0,
+                "input": 1677516,
+                "output": 18329,
+                "reasoning": 6614,
+                "loc": 2098,
+                "sloc": 1722,
+                "total_lines": 2098,
+                "single_comments": 98,
+                "lint_errors": 323,
+                "lint_fixable": 145,
+                "files": 22,
+                "functions": 3,
+                "methods": 142,
+                "classes": 33,
+                "statements": 348,
+                "symbols_total": 179,
+                "cc_max": 15,
+                "cc_mean": 2.2758620689655173,
+                "cc_std": 2.4022060423143974,
+                "cc_high_count": 3,
+                "cc_extreme_count": 0,
+                "high_cc_mean": 15,
+                "cc_normalized": 0.0076835271911029485,
+                "cc_concentration": 0.4069383490073145,
+                "cc_top20": 0.5060606060606061,
+                "max_nesting_depth": 4,
+                "lines_per_symbol": 10.420689655172414,
+                "single_use_functions": 3,
+                "trivial_wrappers": 0,
+                "unused_variables": 98,
+                "clone_lines": 183,
+                "cloned_sloc_lines": 183,
+                "ast_grep_violations": 0,
+                "verbosity_flagged_sloc_lines": 183,
+                "sg_slop_violations": 0,
+                "lint_per_loc": 0.15395614871306007,
+                "violation_pct": 0,
+                "cloned_pct": 0.08722592945662536,
+                "verbosity_flagged_pct": 0.08722592945662536,
+                "graph_cyclic_dependency_mass": 0,
+                "graph_propagation_cost": 0,
+                "graph_dependency_entropy": 0,
+                "lines_added": 2098,
+                "lines_removed": 0,
+                "mean_func_loc": 10.420689655172414,
+                "mass.cc": 1321.89,
+                "mass.high_cc_pct": 0.2735886743382058
+              },
+              "code_snapshot": {
+                "file_count": 213,
+                "total_bytes": 2283800,
+                "tree_sha256": "73871e48daa8beaed73ddd7166791c3e3a3f0b23dadffaa9b32ae2dab88702b8",
+                "excluded_artifacts": [],
+                "archive": {
+                  "path": "problems/verilog-ef-uart-t1/agent-results/artifacts/20260904t180348/checkpoint_1/agent-code.tar.gz",
+                  "sha256": "30419a83ce74319294125bf7105a3b31579f9e7e43d205b9777f823306c6e3ea",
+                  "size_bytes": 370642,
+                  "file_count": 213,
+                  "tree_sha256": "73871e48daa8beaed73ddd7166791c3e3a3f0b23dadffaa9b32ae2dab88702b8"
+                },
+                "manifest": {
+                  "path": "problems/verilog-ef-uart-t1/agent-results/artifacts/20260904t180348/checkpoint_1/agent-code.manifest.json",
+                  "sha256": "fb42f589de52c356ec5d323751fb882733e450707efafa11cedae679cb1941bf",
+                  "size_bytes": 41523,
+                  "file_count": 213,
+                  "total_bytes": 2283800,
+                  "tree_sha256": "73871e48daa8beaed73ddd7166791c3e3a3f0b23dadffaa9b32ae2dab88702b8"
+                },
+                "changed_files": {
+                  "path": "problems/verilog-ef-uart-t1/agent-results/artifacts/20260904t180348/checkpoint_1/changed-files.json",
+                  "sha256": "b42f3d7761350f74bdd65821f9f498c85149f872615873e67f53859f83d00ef4",
+                  "count": 211
+                },
+                "diff": {
+                  "path": "problems/verilog-ef-uart-t1/agent-results/artifacts/20260904t180348/checkpoint_1/changes.patch",
+                  "sha256": "923472831aa7837b47662fde0783ad1bc5c3ff9a23f9ac92ce09cd611df3d6e7",
+                  "size_bytes": 2802198
+                },
+                "baseline_path": "problems/verilog-ef-uart-t1/pipeline/static_assets/golden_snapshots/c0_baseline_b7f4573"
+              },
+              "evaluation": {
+                "pytest_exit_code": 0,
+                "infrastructure_failure": false,
+                "counts": {
+                  "structure": [
+                    1,
+                    1
+                  ],
+                  "core": [
+                    3,
+                    3
+                  ],
+                  "functionality": [
+                    0,
+                    0
+                  ],
+                  "regression": [
+                    5,
+                    5
+                  ],
+                  "error": [
+                    1,
+                    1
+                  ]
+                },
+                "core_gate_passed": true,
+                "sha256": "35c61e22f20eeb5130683e2433812969719270dd832450bd585af25e60a29b32",
+                "details": {
+                  "schema_version": 1,
+                  "problem_name": "ef_uart_t1_pipeline_sr_checkpoint_6",
+                  "problem_version": 1,
+                  "checkpoint_name": "checkpoint_1",
+                  "checkpoint_version": 7,
+                  "duration": 2.0655012130737305,
+                  "entrypoint": "bash build_checkpoint.sh",
+                  "tests": {
+                    "checkpoint_1-Structure": {
+                      "passed": [
+                        "test_checkpoint_1_structure"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Regression": {
+                      "passed": [
+                        "test_checkpoint_6_ahbl_regression",
+                        "test_checkpoint_6_apb_regression",
+                        "test_checkpoint_6_c3_glitch_filter_regression",
+                        "test_checkpoint_6_c5_fifo_interrupt_regression",
+                        "test_checkpoint_6_wb_regression"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Core": {
+                      "passed": [
+                        "test_checkpoint_6_dft_core[ahbl]",
+                        "test_checkpoint_6_dft_core[apb]",
+                        "test_checkpoint_6_dft_core[wb]"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Error": {
+                      "passed": [
+                        "test_checkpoint_6_error_unmapped"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    }
+                  },
+                  "pass_counts": {
+                    "Structure": 1,
+                    "Core": 3,
+                    "Functionality": 0,
+                    "Regression": 5,
+                    "Error": 1
+                  },
+                  "total_counts": {
+                    "Structure": 1,
+                    "Core": 3,
+                    "Functionality": 0,
+                    "Regression": 5,
+                    "Error": 1
+                  },
+                  "detail_metrics": {},
+                  "pytest_exit_code": 0,
+                  "pytest_collected": 10,
+                  "test_collection_hash": "ea0af84d01a49ed82c07e72ad4a50e4fe49314ae364e938563ebb10aab30029a",
+                  "infrastructure_failure": false,
+                  "infrastructure_reason": null
+                }
+              },
+              "localCheckpoint": "checkpoint_1",
+              "targetCheckpoint": "checkpoint_6"
+            }
+          ],
+          "experimentType": "sr",
+          "targetCheckpoint": "checkpoint_6",
+          "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-ef-uart-t1/agent-results/runs/20260904t180348.json"
+        },
+        {
+          "schema_version": 3,
+          "run_id": "20260904t180346",
+          "exported_at": "2026-09-04T10:24:25.308317+00:00",
+          "published_problem": "verilog-ef-uart-t1",
+          "source_problem": "ef_uart_t1_pipeline_sr_checkpoint_5",
+          "release_commit": "65fc951529f00dbcf1a59816b913c9c6428ab360",
+          "definition_sha256": {
+            "config.yaml": "fa9d55ba9fc3586d9511f43e705d15ff875cf7467c1d92503e9f9275e393e35b",
+            "checkpoint_1.md": "b0da3cfa352b7ac976ecb72afda94bfbe4041ff06901438092e870074b85baf1",
+            "checkpoint_2.md": "71ac00c2554a023af46ae9e5a96922447094e4dfe693fe427bd38c110daebffa",
+            "checkpoint_3.md": "f45889db613abe16f0789f88a41788ccfcef30b917033e7565d0ff5e9d883814",
+            "checkpoint_4.md": "2837fd094a9635e3f91337d11b8a92c93aa0a78167e8899655431c1a0f9225d7",
+            "checkpoint_5.md": "9744e5100567e081bf1a7cf2b74b42a8382a54c89d48d4b33391b4f400e3f379",
+            "checkpoint_6.md": "4af2d182db186d79a7ec9f4b0b2899603adb0be4435d25004562df8889e8a3b4"
+          },
+          "source_run": {
+            "directory": "codex-0.141.0_rtl-plan-and-test_high_20260904T180348192763_rtl_ef_uart_t1_codex_gpt-5.6-luna_sr_20260904t180346",
+            "result_json_sha256": "281a6c78e171fe36b52d607b0229cb4e42a7163ace683da87843f2384ef09eb8",
+            "checkpoint_results_sha256": "75fb61020df29ab126454fd66ff7643aec0fd51fd048d0faad2e28928b54f91a"
+          },
+          "agent": {
+            "type": "codex",
+            "version": "0.141.0"
+          },
+          "model": "agicto-gpt-5.6-luna",
+          "prompt": "rtl-plan-and-test",
+          "thinking": "high",
+          "run_metrics": {
+            "costs": {
+              "checkpoint": {
+                "mean": 0,
+                "stddev": null,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 1
+              },
+              "problem": {
+                "mean": 0,
+                "stddev": null,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 1
+              },
+              "total": 0
+            },
+            "time": {
+              "checkpoint": {
+                "mean": 765.313892,
+                "stddev": null,
+                "min": 765.313892,
+                "max": 765.313892,
+                "median": 765.313892,
+                "count": 1
+              },
+              "problem": {
+                "mean": 765.313892,
+                "stddev": null,
+                "min": 765.313892,
+                "max": 765.313892,
+                "median": 765.313892,
+                "count": 1
+              }
+            },
+            "tokens": {
+              "input": 1744888,
+              "output": 14499,
+              "cache_read": 1607936,
+              "cache_write": 0,
+              "reasoning": 3864,
+              "problem": {
+                "input": 1744888,
+                "output": 14499,
+                "cache_read": 1607936,
+                "cache_write": 0,
+                "reasoning": 3864
+              },
+              "checkpoint": {
+                "input": 1744888,
+                "output": 14499,
+                "cache_read": 1607936,
+                "cache_write": 0,
+                "reasoning": 3864
+              }
+            },
+            "steps": {
+              "checkpoint": {
+                "mean": 50,
+                "stddev": null,
+                "min": 50,
+                "max": 50,
+                "median": 50,
+                "count": 1
+              },
+              "problem": {
+                "mean": 50,
+                "stddev": null,
+                "min": 50,
+                "max": 50,
+                "median": 50,
+                "count": 1
+              }
+            },
+            "pass_rates": {
+              "problem": {
+                "structure": 1,
+                "core": 1,
+                "total": 1,
+                "error": 1,
+                "functionality": 1,
+                "regression": 1
+              },
+              "checkpoint": {
+                "structure": 1,
+                "core": 1,
+                "total": 1,
+                "error": 1,
+                "functionality": 1,
+                "regression": 1
+              }
+            }
+          },
+          "expected_checkpoints": 1,
+          "completed_checkpoints": 1,
+          "outcome": "passed",
+          "checkpoints": [
+            {
+              "checkpoint": "checkpoint_1",
+              "state": "ran",
+              "started_at": "2026-09-04T18:03:49.552655",
+              "ended_at": "2026-09-04T18:16:34.866547",
+              "duration_seconds": 765.313892,
+              "steps": 50,
+              "run_result": {
+                "problem": "ef_uart_t1_pipeline_sr_checkpoint_5",
+                "version": 1,
+                "checkpoint": "checkpoint_1",
+                "path": "$RUN_DIR/ef_uart_t1_pipeline_sr_checkpoint_5",
+                "idx": 1,
+                "state": "ran",
+                "is_first": true,
+                "is_last": true,
+                "strict_pass_rate": 1,
+                "structure_pass_rate": 1,
+                "core_pass_rate": 1,
+                "functionality_pass_rate": 1,
+                "isolated_pass_rate": 1,
+                "total_tests": 7,
+                "passed_tests": 7,
+                "structure_total": 1,
+                "structure_passed": 1,
+                "core_total": 2,
+                "core_passed": 2,
+                "functionality_total": 2,
+                "functionality_passed": 2,
+                "functionality_incremental_total": 0,
+                "functionality_incremental_passed": 0,
+                "error_total": 1,
+                "error_passed": 1,
+                "regression_total": 3,
+                "regression_passed": 3,
+                "started": "2026-09-04T18:03:49.552655",
+                "ended": "2026-09-04T18:16:34.866547",
+                "duration": 765.313892,
+                "cost": 0,
+                "steps": 50,
+                "cache_read": 1607936,
+                "cache_write": 0,
+                "input": 1744888,
+                "output": 14499,
+                "reasoning": 3864,
+                "loc": 1777,
+                "sloc": 1415,
+                "total_lines": 1777,
+                "single_comments": 79,
+                "lint_errors": 300,
+                "lint_fixable": 133,
+                "files": 22,
+                "functions": 3,
+                "methods": 147,
+                "classes": 33,
+                "statements": 360,
+                "symbols_total": 184,
+                "cc_max": 15,
+                "cc_mean": 2.2866666666666666,
+                "cc_std": 2.4200966941319817,
+                "cc_high_count": 4,
+                "cc_extreme_count": 0,
+                "high_cc_mean": 14,
+                "cc_normalized": 0.007467383499581652,
+                "cc_concentration": 0.4079883381924198,
+                "cc_top20": 0.5072886297376094,
+                "max_nesting_depth": 4,
+                "lines_per_symbol": 8.146666666666667,
+                "single_use_functions": 3,
+                "trivial_wrappers": 0,
+                "unused_variables": 110,
+                "clone_lines": 157,
+                "cloned_sloc_lines": 157,
+                "ast_grep_violations": 0,
+                "verbosity_flagged_sloc_lines": 157,
+                "sg_slop_violations": 0,
+                "lint_per_loc": 0.16882386043894204,
+                "violation_pct": 0,
+                "cloned_pct": 0.088351153629713,
+                "verbosity_flagged_pct": 0.088351153629713,
+                "graph_cyclic_dependency_mass": 0,
+                "graph_propagation_cost": 0,
+                "graph_dependency_entropy": 0,
+                "lines_added": 1777,
+                "lines_removed": 0,
+                "mean_func_loc": 8.146666666666667,
+                "mass.cc": 1165.75,
+                "mass.high_cc_pct": 0.28022825384955136
+              },
+              "code_snapshot": {
+                "file_count": 211,
+                "total_bytes": 2278141,
+                "tree_sha256": "c1f9ed4fe78b0883b74134d5255a4d5670351ea889cf79be3571e47f325520cc",
+                "excluded_artifacts": [],
+                "archive": {
+                  "path": "problems/verilog-ef-uart-t1/agent-results/artifacts/20260904t180346/checkpoint_1/agent-code.tar.gz",
+                  "sha256": "0a8c0e4e7d4e4ad4306eca3b2e20122a9a5736ed7eab15a90b60f50538b2259b",
+                  "size_bytes": 371159,
+                  "file_count": 211,
+                  "tree_sha256": "c1f9ed4fe78b0883b74134d5255a4d5670351ea889cf79be3571e47f325520cc"
+                },
+                "manifest": {
+                  "path": "problems/verilog-ef-uart-t1/agent-results/artifacts/20260904t180346/checkpoint_1/agent-code.manifest.json",
+                  "sha256": "b3244fe6d7f82af206c2942500d3220016d87ca92e93e3c9db93875fbd02a12b",
+                  "size_bytes": 41109,
+                  "file_count": 211,
+                  "total_bytes": 2278141,
+                  "tree_sha256": "c1f9ed4fe78b0883b74134d5255a4d5670351ea889cf79be3571e47f325520cc"
+                },
+                "changed_files": {
+                  "path": "problems/verilog-ef-uart-t1/agent-results/artifacts/20260904t180346/checkpoint_1/changed-files.json",
+                  "sha256": "ff0418c7108bed638830b3eaa6c2252892a88ad674d235bb2de2165cba4e0818",
+                  "count": 206
+                },
+                "diff": {
+                  "path": "problems/verilog-ef-uart-t1/agent-results/artifacts/20260904t180346/checkpoint_1/changes.patch",
+                  "sha256": "4ea7e3af143a73120369b12ac594f696dd3f7e2ebefb0e8dfe2d6b73158faed9",
+                  "size_bytes": 2785505
+                },
+                "baseline_path": "problems/verilog-ef-uart-t1/pipeline/static_assets/golden_snapshots/c0_baseline_b7f4573"
+              },
+              "evaluation": {
+                "pytest_exit_code": 0,
+                "infrastructure_failure": false,
+                "counts": {
+                  "structure": [
+                    1,
+                    1
+                  ],
+                  "core": [
+                    2,
+                    2
+                  ],
+                  "functionality": [
+                    0,
+                    0
+                  ],
+                  "regression": [
+                    3,
+                    3
+                  ],
+                  "error": [
+                    1,
+                    1
+                  ]
+                },
+                "core_gate_passed": true,
+                "sha256": "164ff6a500fe3f32a585bb85bde3e8c52cf1f8e3bb4157df6e14bf249a9c7463",
+                "details": {
+                  "schema_version": 1,
+                  "problem_name": "ef_uart_t1_pipeline_sr_checkpoint_5",
+                  "problem_version": 1,
+                  "checkpoint_name": "checkpoint_1",
+                  "checkpoint_version": 2,
+                  "duration": 1.617295503616333,
+                  "entrypoint": "bash build_checkpoint.sh",
+                  "tests": {
+                    "checkpoint_1-Structure": {
+                      "passed": [
+                        "test_checkpoint_1_structure"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Regression": {
+                      "passed": [
+                        "test_checkpoint_5_ahbl_regression",
+                        "test_checkpoint_5_c3_glitch_filter_regression",
+                        "test_checkpoint_5_wb_regression"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Error": {
+                      "passed": [
+                        "test_checkpoint_5_error_unmapped"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Core": {
+                      "passed": [
+                        "test_checkpoint_5_fifo_core",
+                        "test_checkpoint_5_fifo_interrupt_core"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    }
+                  },
+                  "pass_counts": {
+                    "Structure": 1,
+                    "Core": 2,
+                    "Functionality": 0,
+                    "Regression": 3,
+                    "Error": 1
+                  },
+                  "total_counts": {
+                    "Structure": 1,
+                    "Core": 2,
+                    "Functionality": 0,
+                    "Regression": 3,
+                    "Error": 1
+                  },
+                  "detail_metrics": {},
+                  "pytest_exit_code": 0,
+                  "pytest_collected": 7,
+                  "test_collection_hash": "fd55532b964e312f147d0af8a44b8476ec47b100153fbe841fc0a5313f64d384",
+                  "infrastructure_failure": false,
+                  "infrastructure_reason": null
+                }
+              },
+              "localCheckpoint": "checkpoint_1",
+              "targetCheckpoint": "checkpoint_5"
+            }
+          ],
+          "experimentType": "sr",
+          "targetCheckpoint": "checkpoint_5",
+          "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-ef-uart-t1/agent-results/runs/20260904t180346.json"
+        },
+        {
+          "schema_version": 3,
+          "run_id": "20260904t180345",
+          "exported_at": "2026-09-04T10:24:24.768044+00:00",
+          "published_problem": "verilog-ef-uart-t1",
+          "source_problem": "ef_uart_t1_pipeline_sr_checkpoint_4",
+          "release_commit": "65fc951529f00dbcf1a59816b913c9c6428ab360",
+          "definition_sha256": {
+            "config.yaml": "fa9d55ba9fc3586d9511f43e705d15ff875cf7467c1d92503e9f9275e393e35b",
+            "checkpoint_1.md": "b0da3cfa352b7ac976ecb72afda94bfbe4041ff06901438092e870074b85baf1",
+            "checkpoint_2.md": "71ac00c2554a023af46ae9e5a96922447094e4dfe693fe427bd38c110daebffa",
+            "checkpoint_3.md": "f45889db613abe16f0789f88a41788ccfcef30b917033e7565d0ff5e9d883814",
+            "checkpoint_4.md": "2837fd094a9635e3f91337d11b8a92c93aa0a78167e8899655431c1a0f9225d7",
+            "checkpoint_5.md": "9744e5100567e081bf1a7cf2b74b42a8382a54c89d48d4b33391b4f400e3f379",
+            "checkpoint_6.md": "4af2d182db186d79a7ec9f4b0b2899603adb0be4435d25004562df8889e8a3b4"
+          },
+          "source_run": {
+            "directory": "codex-0.141.0_rtl-plan-and-test_high_20260904T180346827440_rtl_ef_uart_t1_codex_gpt-5.6-luna_sr_20260904t180345",
+            "result_json_sha256": "ec0bde9ab89fff0b0f0fbf9840d94e6ef004db214353c83908d09c3bcd661696",
+            "checkpoint_results_sha256": "1853cf39f253f5e622606e9eb3c4dd0b9c99e95e9139041b96bee6cad22ab1ec"
+          },
+          "agent": {
+            "type": "codex",
+            "version": "0.141.0"
+          },
+          "model": "agicto-gpt-5.6-luna",
+          "prompt": "rtl-plan-and-test",
+          "thinking": "high",
+          "run_metrics": {
+            "costs": {
+              "checkpoint": {
+                "mean": 0,
+                "stddev": null,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 1
+              },
+              "problem": {
+                "mean": 0,
+                "stddev": null,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 1
+              },
+              "total": 0
+            },
+            "time": {
+              "checkpoint": {
+                "mean": 744.421836,
+                "stddev": null,
+                "min": 744.421836,
+                "max": 744.421836,
+                "median": 744.421836,
+                "count": 1
+              },
+              "problem": {
+                "mean": 744.421836,
+                "stddev": null,
+                "min": 744.421836,
+                "max": 744.421836,
+                "median": 744.421836,
+                "count": 1
+              }
+            },
+            "tokens": {
+              "input": 1107333,
+              "output": 15280,
+              "cache_read": 997120,
+              "cache_write": 0,
+              "reasoning": 4848,
+              "problem": {
+                "input": 1107333,
+                "output": 15280,
+                "cache_read": 997120,
+                "cache_write": 0,
+                "reasoning": 4848
+              },
+              "checkpoint": {
+                "input": 1107333,
+                "output": 15280,
+                "cache_read": 997120,
+                "cache_write": 0,
+                "reasoning": 4848
+              }
+            },
+            "steps": {
+              "checkpoint": {
+                "mean": 42,
+                "stddev": null,
+                "min": 42,
+                "max": 42,
+                "median": 42,
+                "count": 1
+              },
+              "problem": {
+                "mean": 42,
+                "stddev": null,
+                "min": 42,
+                "max": 42,
+                "median": 42,
+                "count": 1
+              }
+            },
+            "pass_rates": {
+              "problem": {
+                "structure": 1,
+                "core": 1,
+                "total": 1,
+                "error": 1,
+                "functionality": 1,
+                "regression": 1
+              },
+              "checkpoint": {
+                "structure": 1,
+                "core": 1,
+                "total": 1,
+                "error": 1,
+                "functionality": 1,
+                "regression": 1
+              }
+            }
+          },
+          "expected_checkpoints": 1,
+          "completed_checkpoints": 1,
+          "outcome": "passed",
+          "checkpoints": [
+            {
+              "checkpoint": "checkpoint_1",
+              "state": "ran",
+              "started_at": "2026-09-04T18:03:48.199760",
+              "ended_at": "2026-09-04T18:16:12.621596",
+              "duration_seconds": 744.421836,
+              "steps": 42,
+              "run_result": {
+                "problem": "ef_uart_t1_pipeline_sr_checkpoint_4",
+                "version": 1,
+                "checkpoint": "checkpoint_1",
+                "path": "$RUN_DIR/ef_uart_t1_pipeline_sr_checkpoint_4",
+                "idx": 1,
+                "state": "ran",
+                "is_first": true,
+                "is_last": true,
+                "strict_pass_rate": 1,
+                "structure_pass_rate": 1,
+                "core_pass_rate": 1,
+                "functionality_pass_rate": 1,
+                "isolated_pass_rate": 1,
+                "total_tests": 7,
+                "passed_tests": 7,
+                "structure_total": 1,
+                "structure_passed": 1,
+                "core_total": 2,
+                "core_passed": 2,
+                "functionality_total": 2,
+                "functionality_passed": 2,
+                "functionality_incremental_total": 0,
+                "functionality_incremental_passed": 0,
+                "error_total": 1,
+                "error_passed": 1,
+                "regression_total": 3,
+                "regression_passed": 3,
+                "started": "2026-09-04T18:03:48.199760",
+                "ended": "2026-09-04T18:16:12.621596",
+                "duration": 744.421836,
+                "cost": 0,
+                "steps": 42,
+                "cache_read": 997120,
+                "cache_write": 0,
+                "input": 1107333,
+                "output": 15280,
+                "reasoning": 4848,
+                "loc": 1773,
+                "sloc": 1412,
+                "total_lines": 1773,
+                "single_comments": 80,
+                "lint_errors": 290,
+                "lint_fixable": 135,
+                "files": 23,
+                "functions": 3,
+                "methods": 146,
+                "classes": 34,
+                "statements": 359,
+                "symbols_total": 184,
+                "cc_max": 15,
+                "cc_mean": 2.2416107382550337,
+                "cc_std": 2.3870455750113377,
+                "cc_high_count": 4,
+                "cc_extreme_count": 0,
+                "high_cc_mean": 14,
+                "cc_normalized": 0.007610527448097816,
+                "cc_concentration": 0.4018406140738657,
+                "cc_top20": 0.5029940119760479,
+                "max_nesting_depth": 4,
+                "lines_per_symbol": 8.154362416107382,
+                "single_use_functions": 3,
+                "trivial_wrappers": 0,
+                "unused_variables": 114,
+                "clone_lines": 165,
+                "cloned_sloc_lines": 165,
+                "ast_grep_violations": 0,
+                "verbosity_flagged_sloc_lines": 165,
+                "sg_slop_violations": 0,
+                "lint_per_loc": 0.16356457980823463,
+                "violation_pct": 0,
+                "cloned_pct": 0.09306260575296109,
+                "verbosity_flagged_pct": 0.09306260575296109,
+                "graph_cyclic_dependency_mass": 0,
+                "graph_propagation_cost": 0,
+                "graph_dependency_entropy": 0,
+                "lines_added": 1773,
+                "lines_removed": 0,
+                "mean_func_loc": 8.154362416107382,
+                "mass.cc": 1131.62,
+                "mass.high_cc_pct": 0.2886792074153581
+              },
+              "code_snapshot": {
+                "file_count": 181,
+                "total_bytes": 1992661,
+                "tree_sha256": "8a2d29e9d5379a8476a1cb9f87f79eb6b1036e52f69086204e9ff76dbfebb87f",
+                "excluded_artifacts": [],
+                "archive": {
+                  "path": "problems/verilog-ef-uart-t1/agent-results/artifacts/20260904t180345/checkpoint_1/agent-code.tar.gz",
+                  "sha256": "e698c789e6f61b0e1833aa54ccc424a6309f8941ef346489fe6da1dccbbe66a5",
+                  "size_bytes": 346486,
+                  "file_count": 181,
+                  "tree_sha256": "8a2d29e9d5379a8476a1cb9f87f79eb6b1036e52f69086204e9ff76dbfebb87f"
+                },
+                "manifest": {
+                  "path": "problems/verilog-ef-uart-t1/agent-results/artifacts/20260904t180345/checkpoint_1/agent-code.manifest.json",
+                  "sha256": "de8f3be4d6abe63b1eb9d6c8967f7e274aed9662deef684b5315614096ee1734",
+                  "size_bytes": 34333,
+                  "file_count": 181,
+                  "total_bytes": 1992661,
+                  "tree_sha256": "8a2d29e9d5379a8476a1cb9f87f79eb6b1036e52f69086204e9ff76dbfebb87f"
+                },
+                "changed_files": {
+                  "path": "problems/verilog-ef-uart-t1/agent-results/artifacts/20260904t180345/checkpoint_1/changed-files.json",
+                  "sha256": "790cceaeb5babfe76c6c57f68f29543131f260d0201efc3e51369cb8dc3725a5",
+                  "count": 164
+                },
+                "diff": {
+                  "path": "problems/verilog-ef-uart-t1/agent-results/artifacts/20260904t180345/checkpoint_1/changes.patch",
+                  "sha256": "019ae3e4151c40c6f848747f354e15a9d69063f725cf7c6947ea765ec625520c",
+                  "size_bytes": 1601499
+                },
+                "baseline_path": "problems/verilog-ef-uart-t1/pipeline/static_assets/golden_snapshots/c0_baseline_b7f4573"
+              },
+              "evaluation": {
+                "pytest_exit_code": 0,
+                "infrastructure_failure": false,
+                "counts": {
+                  "structure": [
+                    1,
+                    1
+                  ],
+                  "core": [
+                    2,
+                    2
+                  ],
+                  "functionality": [
+                    0,
+                    0
+                  ],
+                  "regression": [
+                    3,
+                    3
+                  ],
+                  "error": [
+                    1,
+                    1
+                  ]
+                },
+                "core_gate_passed": true,
+                "sha256": "fce03eb9556ca893dbe0f40ed1715624f5a767539b117fdbf6b756a54cc904ce",
+                "details": {
+                  "schema_version": 1,
+                  "problem_name": "ef_uart_t1_pipeline_sr_checkpoint_4",
+                  "problem_version": 1,
+                  "checkpoint_name": "checkpoint_1",
+                  "checkpoint_version": 2,
+                  "duration": 1.4774553775787354,
+                  "entrypoint": "bash build_checkpoint.sh",
+                  "tests": {
+                    "checkpoint_1-Structure": {
+                      "passed": [
+                        "test_checkpoint_1_structure"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Regression": {
+                      "passed": [
+                        "test_checkpoint_4_ahbl_regression",
+                        "test_checkpoint_4_apb_regression",
+                        "test_checkpoint_4_c3_glitch_filter_regression"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Core": {
+                      "passed": [
+                        "test_checkpoint_4_wb_core",
+                        "test_checkpoint_4_wb_protocol_core"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Error": {
+                      "passed": [
+                        "test_checkpoint_4_wb_error_unmapped"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    }
+                  },
+                  "pass_counts": {
+                    "Structure": 1,
+                    "Core": 2,
+                    "Functionality": 0,
+                    "Regression": 3,
+                    "Error": 1
+                  },
+                  "total_counts": {
+                    "Structure": 1,
+                    "Core": 2,
+                    "Functionality": 0,
+                    "Regression": 3,
+                    "Error": 1
+                  },
+                  "detail_metrics": {},
+                  "pytest_exit_code": 0,
+                  "pytest_collected": 7,
+                  "test_collection_hash": "e3bad3583b049ea22a08404adc1034405dc13698fc757ba4db8db51a4406ebeb",
+                  "infrastructure_failure": false,
+                  "infrastructure_reason": null
+                }
+              },
+              "localCheckpoint": "checkpoint_1",
+              "targetCheckpoint": "checkpoint_4"
+            }
+          ],
+          "experimentType": "sr",
+          "targetCheckpoint": "checkpoint_4",
+          "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-ef-uart-t1/agent-results/runs/20260904t180345.json"
+        },
+        {
+          "schema_version": 3,
+          "run_id": "20260904t180343",
+          "exported_at": "2026-09-04T10:24:24.278291+00:00",
+          "published_problem": "verilog-ef-uart-t1",
+          "source_problem": "ef_uart_t1_pipeline_sr_checkpoint_3",
+          "release_commit": "65fc951529f00dbcf1a59816b913c9c6428ab360",
+          "definition_sha256": {
+            "config.yaml": "fa9d55ba9fc3586d9511f43e705d15ff875cf7467c1d92503e9f9275e393e35b",
+            "checkpoint_1.md": "b0da3cfa352b7ac976ecb72afda94bfbe4041ff06901438092e870074b85baf1",
+            "checkpoint_2.md": "71ac00c2554a023af46ae9e5a96922447094e4dfe693fe427bd38c110daebffa",
+            "checkpoint_3.md": "f45889db613abe16f0789f88a41788ccfcef30b917033e7565d0ff5e9d883814",
+            "checkpoint_4.md": "2837fd094a9635e3f91337d11b8a92c93aa0a78167e8899655431c1a0f9225d7",
+            "checkpoint_5.md": "9744e5100567e081bf1a7cf2b74b42a8382a54c89d48d4b33391b4f400e3f379",
+            "checkpoint_6.md": "4af2d182db186d79a7ec9f4b0b2899603adb0be4435d25004562df8889e8a3b4"
+          },
+          "source_run": {
+            "directory": "codex-0.141.0_rtl-plan-and-test_high_20260904T180345300839_rtl_ef_uart_t1_codex_gpt-5.6-luna_sr_20260904t180343",
+            "result_json_sha256": "1c6e025da49237696160e33102eb9a71d5949e5f8efc04b465d0893285932467",
+            "checkpoint_results_sha256": "4f4574195b61a7f03fd387ef4828b66b0642a9eb1a098589fa1d0bef251323fe"
+          },
+          "agent": {
+            "type": "codex",
+            "version": "0.141.0"
+          },
+          "model": "agicto-gpt-5.6-luna",
+          "prompt": "rtl-plan-and-test",
+          "thinking": "high",
+          "run_metrics": {
+            "costs": {
+              "checkpoint": {
+                "mean": 0,
+                "stddev": null,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 1
+              },
+              "problem": {
+                "mean": 0,
+                "stddev": null,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 1
+              },
+              "total": 0
+            },
+            "time": {
+              "checkpoint": {
+                "mean": 680.487907,
+                "stddev": null,
+                "min": 680.487907,
+                "max": 680.487907,
+                "median": 680.487907,
+                "count": 1
+              },
+              "problem": {
+                "mean": 680.487907,
+                "stddev": null,
+                "min": 680.487907,
+                "max": 680.487907,
+                "median": 680.487907,
+                "count": 1
+              }
+            },
+            "tokens": {
+              "input": 1124939,
+              "output": 8709,
+              "cache_read": 993536,
+              "cache_write": 0,
+              "reasoning": 3219,
+              "problem": {
+                "input": 1124939,
+                "output": 8709,
+                "cache_read": 993536,
+                "cache_write": 0,
+                "reasoning": 3219
+              },
+              "checkpoint": {
+                "input": 1124939,
+                "output": 8709,
+                "cache_read": 993536,
+                "cache_write": 0,
+                "reasoning": 3219
+              }
+            },
+            "steps": {
+              "checkpoint": {
+                "mean": 37,
+                "stddev": null,
+                "min": 37,
+                "max": 37,
+                "median": 37,
+                "count": 1
+              },
+              "problem": {
+                "mean": 37,
+                "stddev": null,
+                "min": 37,
+                "max": 37,
+                "median": 37,
+                "count": 1
+              }
+            },
+            "pass_rates": {
+              "problem": {
+                "structure": 1,
+                "core": 0.5,
+                "total": 0.8,
+                "error": 1,
+                "functionality": 0.5,
+                "regression": 1
+              },
+              "checkpoint": {
+                "structure": 1,
+                "core": 0.5,
+                "total": 0.8,
+                "error": 1,
+                "functionality": 0.5,
+                "regression": 1
+              }
+            }
+          },
+          "expected_checkpoints": 1,
+          "completed_checkpoints": 1,
+          "outcome": "failed",
+          "checkpoints": [
+            {
+              "checkpoint": "checkpoint_1",
+              "state": "ran",
+              "started_at": "2026-09-04T18:03:46.622046",
+              "ended_at": "2026-09-04T18:15:07.109953",
+              "duration_seconds": 680.487907,
+              "steps": 37,
+              "run_result": {
+                "problem": "ef_uart_t1_pipeline_sr_checkpoint_3",
+                "version": 1,
+                "checkpoint": "checkpoint_1",
+                "path": "$RUN_DIR/ef_uart_t1_pipeline_sr_checkpoint_3",
+                "idx": 1,
+                "state": "ran",
+                "is_first": true,
+                "is_last": true,
+                "strict_pass_rate": 0.8,
+                "structure_pass_rate": 1,
+                "core_pass_rate": 0.5,
+                "functionality_pass_rate": 0.5,
+                "isolated_pass_rate": 0.75,
+                "total_tests": 5,
+                "passed_tests": 4,
+                "structure_total": 1,
+                "structure_passed": 1,
+                "core_total": 2,
+                "core_passed": 1,
+                "functionality_total": 2,
+                "functionality_passed": 1,
+                "functionality_incremental_total": 0,
+                "functionality_incremental_passed": 0,
+                "error_total": 1,
+                "error_passed": 1,
+                "regression_total": 1,
+                "regression_passed": 1,
+                "started": "2026-09-04T18:03:46.622046",
+                "ended": "2026-09-04T18:15:07.109953",
+                "duration": 680.487907,
+                "cost": 0,
+                "steps": 37,
+                "cache_read": 993536,
+                "cache_write": 0,
+                "input": 1124939,
+                "output": 8709,
+                "reasoning": 3219,
+                "loc": 0,
+                "sloc": 0,
+                "total_lines": 0,
+                "single_comments": 0,
+                "lint_errors": 0,
+                "lint_fixable": 0,
+                "files": 0,
+                "functions": 0,
+                "methods": 0,
+                "classes": 0,
+                "statements": 0,
+                "symbols_total": 0,
+                "cc_max": 0,
+                "cc_mean": 0,
+                "cc_std": 0,
+                "cc_high_count": 0,
+                "cc_extreme_count": 0,
+                "high_cc_mean": 0,
+                "cc_normalized": 0,
+                "cc_concentration": 0,
+                "cc_top20": 0,
+                "max_nesting_depth": 0,
+                "lines_per_symbol": 0,
+                "single_use_functions": 0,
+                "trivial_wrappers": 0,
+                "unused_variables": 0,
+                "clone_lines": 0,
+                "cloned_sloc_lines": 0,
+                "ast_grep_violations": 0,
+                "verbosity_flagged_sloc_lines": 0,
+                "sg_slop_violations": 0,
+                "graph_cyclic_dependency_mass": 0,
+                "graph_propagation_cost": 0,
+                "graph_dependency_entropy": 0,
+                "lines_added": 0,
+                "lines_removed": 0,
+                "mean_func_loc": 0,
+                "mass.cc": 0,
+                "mass.high_cc_pct": 0
+              },
+              "code_snapshot": {
+                "file_count": 42,
+                "total_bytes": 645835,
+                "tree_sha256": "ec4ba0b1df6826e998f0c2a20c02fbda02403457f3c8e6c22cf3f908228b11b2",
+                "excluded_artifacts": [],
+                "archive": {
+                  "path": "problems/verilog-ef-uart-t1/agent-results/artifacts/20260904t180343/checkpoint_1/agent-code.tar.gz",
+                  "sha256": "80972091edb1d2bd2529c0f20c6ce3ea159ecae886370f0f88ad05df87b665f0",
+                  "size_bytes": 73272,
+                  "file_count": 42,
+                  "tree_sha256": "ec4ba0b1df6826e998f0c2a20c02fbda02403457f3c8e6c22cf3f908228b11b2"
+                },
+                "manifest": {
+                  "path": "problems/verilog-ef-uart-t1/agent-results/artifacts/20260904t180343/checkpoint_1/agent-code.manifest.json",
+                  "sha256": "ddf14640e2014edb876106577608de323b08050071d30996671852729dc38036",
+                  "size_bytes": 7930,
+                  "file_count": 42,
+                  "total_bytes": 645835,
+                  "tree_sha256": "ec4ba0b1df6826e998f0c2a20c02fbda02403457f3c8e6c22cf3f908228b11b2"
+                },
+                "changed_files": {
+                  "path": "problems/verilog-ef-uart-t1/agent-results/artifacts/20260904t180343/checkpoint_1/changed-files.json",
+                  "sha256": "8192cefa0bba3ff1be694f93baae6707816ab6ce52d088be110be4e9ec46cdbc",
+                  "count": 19
+                },
+                "diff": {
+                  "path": "problems/verilog-ef-uart-t1/agent-results/artifacts/20260904t180343/checkpoint_1/changes.patch",
+                  "sha256": "925c1bdeaab2bd27ccdb5af11b2c4d597bc58d9b7e2ad98005c516d5ed64f6dd",
+                  "size_bytes": 191800
+                },
+                "baseline_path": "problems/verilog-ef-uart-t1/pipeline/static_assets/golden_snapshots/c0_baseline_b7f4573"
+              },
+              "evaluation": {
+                "pytest_exit_code": 1,
+                "infrastructure_failure": false,
+                "counts": {
+                  "structure": [
+                    1,
+                    1
+                  ],
+                  "core": [
+                    1,
+                    2
+                  ],
+                  "functionality": [
+                    0,
+                    0
+                  ],
+                  "regression": [
+                    1,
+                    1
+                  ],
+                  "error": [
+                    1,
+                    1
+                  ]
+                },
+                "core_gate_passed": false,
+                "sha256": "091f7c56452c202396f49f4e21af083426e0d0a2b1852b2a360689521d31626e",
+                "details": {
+                  "schema_version": 1,
+                  "problem_name": "ef_uart_t1_pipeline_sr_checkpoint_3",
+                  "problem_version": 1,
+                  "checkpoint_name": "checkpoint_1",
+                  "checkpoint_version": 1,
+                  "duration": 1.16058349609375,
+                  "entrypoint": "bash build_checkpoint.sh",
+                  "tests": {
+                    "checkpoint_1-Structure": {
+                      "passed": [
+                        "test_checkpoint_1_structure"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Regression": {
+                      "passed": [
+                        "test_checkpoint_3_ahbl_regression"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Error": {
+                      "passed": [
+                        "test_checkpoint_3_apb_error_unmapped"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Core": {
+                      "passed": [
+                        "test_checkpoint_3_word_length_core"
+                      ],
+                      "failed": [
+                        "test_checkpoint_3_glitch_filter_and_9bit_core"
+                      ],
+                      "skipped": []
+                    }
+                  },
+                  "pass_counts": {
+                    "Structure": 1,
+                    "Core": 1,
+                    "Functionality": 0,
+                    "Regression": 1,
+                    "Error": 1
+                  },
+                  "total_counts": {
+                    "Structure": 1,
+                    "Core": 2,
+                    "Functionality": 0,
+                    "Regression": 1,
+                    "Error": 1
+                  },
+                  "detail_metrics": {},
+                  "pytest_exit_code": 1,
+                  "pytest_collected": 5,
+                  "test_collection_hash": "82d33b667a03fc1c9bcc09be5e756b7a5b89ca24020729358403d397d9d2a850",
+                  "infrastructure_failure": false,
+                  "infrastructure_reason": null
+                }
+              },
+              "localCheckpoint": "checkpoint_1",
+              "targetCheckpoint": "checkpoint_3"
+            }
+          ],
+          "experimentType": "sr",
+          "targetCheckpoint": "checkpoint_3",
+          "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-ef-uart-t1/agent-results/runs/20260904t180343.json"
+        },
+        {
+          "schema_version": 3,
+          "run_id": "20260904t180342",
+          "exported_at": "2026-09-04T10:24:23.972694+00:00",
+          "published_problem": "verilog-ef-uart-t1",
+          "source_problem": "ef_uart_t1_pipeline_sr_checkpoint_2",
+          "release_commit": "65fc951529f00dbcf1a59816b913c9c6428ab360",
+          "definition_sha256": {
+            "config.yaml": "fa9d55ba9fc3586d9511f43e705d15ff875cf7467c1d92503e9f9275e393e35b",
+            "checkpoint_1.md": "b0da3cfa352b7ac976ecb72afda94bfbe4041ff06901438092e870074b85baf1",
+            "checkpoint_2.md": "71ac00c2554a023af46ae9e5a96922447094e4dfe693fe427bd38c110daebffa",
+            "checkpoint_3.md": "f45889db613abe16f0789f88a41788ccfcef30b917033e7565d0ff5e9d883814",
+            "checkpoint_4.md": "2837fd094a9635e3f91337d11b8a92c93aa0a78167e8899655431c1a0f9225d7",
+            "checkpoint_5.md": "9744e5100567e081bf1a7cf2b74b42a8382a54c89d48d4b33391b4f400e3f379",
+            "checkpoint_6.md": "4af2d182db186d79a7ec9f4b0b2899603adb0be4435d25004562df8889e8a3b4"
+          },
+          "source_run": {
+            "directory": "codex-0.141.0_rtl-plan-and-test_high_20260904T180343961349_rtl_ef_uart_t1_codex_gpt-5.6-luna_sr_20260904t180342",
+            "result_json_sha256": "6057e721834b98be67391b1c27dbe229a0f1e5bb2b02c9d91e9a311b03cf4beb",
+            "checkpoint_results_sha256": "401c19279ad4205a25d7f5aa598318651cf3e131212197928ea49c9df8a4a128"
+          },
+          "agent": {
+            "type": "codex",
+            "version": "0.141.0"
+          },
+          "model": "agicto-gpt-5.6-luna",
+          "prompt": "rtl-plan-and-test",
+          "thinking": "high",
+          "run_metrics": {
+            "costs": {
+              "checkpoint": {
+                "mean": 0,
+                "stddev": null,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 1
+              },
+              "problem": {
+                "mean": 0,
+                "stddev": null,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 1
+              },
+              "total": 0
+            },
+            "time": {
+              "checkpoint": {
+                "mean": 705.835587,
+                "stddev": null,
+                "min": 705.835587,
+                "max": 705.835587,
+                "median": 705.835587,
+                "count": 1
+              },
+              "problem": {
+                "mean": 705.835587,
+                "stddev": null,
+                "min": 705.835587,
+                "max": 705.835587,
+                "median": 705.835587,
+                "count": 1
+              }
+            },
+            "tokens": {
+              "input": 906061,
+              "output": 14347,
+              "cache_read": 816896,
+              "cache_write": 0,
+              "reasoning": 5337,
+              "problem": {
+                "input": 906061,
+                "output": 14347,
+                "cache_read": 816896,
+                "cache_write": 0,
+                "reasoning": 5337
+              },
+              "checkpoint": {
+                "input": 906061,
+                "output": 14347,
+                "cache_read": 816896,
+                "cache_write": 0,
+                "reasoning": 5337
+              }
+            },
+            "steps": {
+              "checkpoint": {
+                "mean": 34,
+                "stddev": null,
+                "min": 34,
+                "max": 34,
+                "median": 34,
+                "count": 1
+              },
+              "problem": {
+                "mean": 34,
+                "stddev": null,
+                "min": 34,
+                "max": 34,
+                "median": 34,
+                "count": 1
+              }
+            },
+            "pass_rates": {
+              "problem": {
+                "structure": 1,
+                "core": 1,
+                "total": 1,
+                "error": 1,
+                "functionality": 1,
+                "regression": 1
+              },
+              "checkpoint": {
+                "structure": 1,
+                "core": 1,
+                "total": 1,
+                "error": 1,
+                "functionality": 1,
+                "regression": 1
+              }
+            }
+          },
+          "expected_checkpoints": 1,
+          "completed_checkpoints": 1,
+          "outcome": "passed",
+          "checkpoints": [
+            {
+              "checkpoint": "checkpoint_1",
+              "state": "ran",
+              "started_at": "2026-09-04T18:03:45.232844",
+              "ended_at": "2026-09-04T18:15:31.068431",
+              "duration_seconds": 705.835587,
+              "steps": 34,
+              "run_result": {
+                "problem": "ef_uart_t1_pipeline_sr_checkpoint_2",
+                "version": 1,
+                "checkpoint": "checkpoint_1",
+                "path": "$RUN_DIR/ef_uart_t1_pipeline_sr_checkpoint_2",
+                "idx": 1,
+                "state": "ran",
+                "is_first": true,
+                "is_last": true,
+                "strict_pass_rate": 1,
+                "structure_pass_rate": 1,
+                "core_pass_rate": 1,
+                "functionality_pass_rate": 1,
+                "isolated_pass_rate": 1,
+                "total_tests": 6,
+                "passed_tests": 6,
+                "structure_total": 1,
+                "structure_passed": 1,
+                "core_total": 2,
+                "core_passed": 2,
+                "functionality_total": 2,
+                "functionality_passed": 2,
+                "functionality_incremental_total": 0,
+                "functionality_incremental_passed": 0,
+                "error_total": 1,
+                "error_passed": 1,
+                "regression_total": 2,
+                "regression_passed": 2,
+                "started": "2026-09-04T18:03:45.232844",
+                "ended": "2026-09-04T18:15:31.068431",
+                "duration": 705.835587,
+                "cost": 0,
+                "steps": 34,
+                "cache_read": 816896,
+                "cache_write": 0,
+                "input": 906061,
+                "output": 14347,
+                "reasoning": 5337,
+                "loc": 0,
+                "sloc": 0,
+                "total_lines": 0,
+                "single_comments": 0,
+                "lint_errors": 0,
+                "lint_fixable": 0,
+                "files": 0,
+                "functions": 0,
+                "methods": 0,
+                "classes": 0,
+                "statements": 0,
+                "symbols_total": 0,
+                "cc_max": 0,
+                "cc_mean": 0,
+                "cc_std": 0,
+                "cc_high_count": 0,
+                "cc_extreme_count": 0,
+                "high_cc_mean": 0,
+                "cc_normalized": 0,
+                "cc_concentration": 0,
+                "cc_top20": 0,
+                "max_nesting_depth": 0,
+                "lines_per_symbol": 0,
+                "single_use_functions": 0,
+                "trivial_wrappers": 0,
+                "unused_variables": 0,
+                "clone_lines": 0,
+                "cloned_sloc_lines": 0,
+                "ast_grep_violations": 0,
+                "verbosity_flagged_sloc_lines": 0,
+                "sg_slop_violations": 0,
+                "graph_cyclic_dependency_mass": 0,
+                "graph_propagation_cost": 0,
+                "graph_dependency_entropy": 0,
+                "lines_added": 0,
+                "lines_removed": 0,
+                "mean_func_loc": 0,
+                "mass.cc": 0,
+                "mass.high_cc_pct": 0
+              },
+              "code_snapshot": {
+                "file_count": 40,
+                "total_bytes": 587836,
+                "tree_sha256": "23e7b427b84715604093875fc9e94f018f1a21e085d083b19e3d53527d7787f9",
+                "excluded_artifacts": [],
+                "archive": {
+                  "path": "problems/verilog-ef-uart-t1/agent-results/artifacts/20260904t180342/checkpoint_1/agent-code.tar.gz",
+                  "sha256": "d25cb2f8acb5c476f641dd72d267bc132e9b2a67807d1b63a682ebd410c4a2c4",
+                  "size_bytes": 68952,
+                  "file_count": 40,
+                  "tree_sha256": "23e7b427b84715604093875fc9e94f018f1a21e085d083b19e3d53527d7787f9"
+                },
+                "manifest": {
+                  "path": "problems/verilog-ef-uart-t1/agent-results/artifacts/20260904t180342/checkpoint_1/agent-code.manifest.json",
+                  "sha256": "41ca29635be62f420ea9bb8c3aa841efba6622810145717b54bdd63527fb1948",
+                  "size_bytes": 7545,
+                  "file_count": 40,
+                  "total_bytes": 587836,
+                  "tree_sha256": "23e7b427b84715604093875fc9e94f018f1a21e085d083b19e3d53527d7787f9"
+                },
+                "changed_files": {
+                  "path": "problems/verilog-ef-uart-t1/agent-results/artifacts/20260904t180342/checkpoint_1/changed-files.json",
+                  "sha256": "17fd872c061ac0c3d00c21e581df5b6de961f27491e338713821810d140bb4c2",
+                  "count": 14
+                },
+                "diff": {
+                  "path": "problems/verilog-ef-uart-t1/agent-results/artifacts/20260904t180342/checkpoint_1/changes.patch",
+                  "sha256": "f0ff37d94cbb95831012d7bf2d07b9b72871e3423f57f15d6b1efb314e797dd1",
+                  "size_bytes": 96913
+                },
+                "baseline_path": "problems/verilog-ef-uart-t1/pipeline/static_assets/golden_snapshots/c0_baseline_b7f4573"
+              },
+              "evaluation": {
+                "pytest_exit_code": 0,
+                "infrastructure_failure": false,
+                "counts": {
+                  "structure": [
+                    1,
+                    1
+                  ],
+                  "core": [
+                    2,
+                    2
+                  ],
+                  "functionality": [
+                    0,
+                    0
+                  ],
+                  "regression": [
+                    2,
+                    2
+                  ],
+                  "error": [
+                    1,
+                    1
+                  ]
+                },
+                "core_gate_passed": true,
+                "sha256": "0f7627f896e6d6959917aed692aae35dfdcacb192c2cb0bb369cee749acdfd77",
+                "details": {
+                  "schema_version": 1,
+                  "problem_name": "ef_uart_t1_pipeline_sr_checkpoint_2",
+                  "problem_version": 1,
+                  "checkpoint_name": "checkpoint_1",
+                  "checkpoint_version": 1,
+                  "duration": 0.9794845581054688,
+                  "entrypoint": "bash build_checkpoint.sh",
+                  "tests": {
+                    "checkpoint_1-Structure": {
+                      "passed": [
+                        "test_checkpoint_1_structure"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Core": {
+                      "passed": [
+                        "test_checkpoint_2_ahbl_core",
+                        "test_checkpoint_2_ahbl_protocol"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Error": {
+                      "passed": [
+                        "test_checkpoint_2_ahbl_error_unmapped"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Regression": {
+                      "passed": [
+                        "test_checkpoint_2_apb_compatibility_regression",
+                        "test_checkpoint_2_apb_regression"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    }
+                  },
+                  "pass_counts": {
+                    "Structure": 1,
+                    "Core": 2,
+                    "Functionality": 0,
+                    "Regression": 2,
+                    "Error": 1
+                  },
+                  "total_counts": {
+                    "Structure": 1,
+                    "Core": 2,
+                    "Functionality": 0,
+                    "Regression": 2,
+                    "Error": 1
+                  },
+                  "detail_metrics": {},
+                  "pytest_exit_code": 0,
+                  "pytest_collected": 6,
+                  "test_collection_hash": "e5dd33aa398cc27b6b89158af9fbb78f2b4837a654dd4c4ce04a289db2a14305",
+                  "infrastructure_failure": false,
+                  "infrastructure_reason": null
+                }
+              },
+              "localCheckpoint": "checkpoint_1",
+              "targetCheckpoint": "checkpoint_2"
+            }
+          ],
+          "experimentType": "sr",
+          "targetCheckpoint": "checkpoint_2",
+          "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-ef-uart-t1/agent-results/runs/20260904t180342.json"
+        },
+        {
+          "schema_version": 3,
+          "run_id": "20260904t180340",
+          "exported_at": "2026-09-04T10:24:23.709371+00:00",
+          "published_problem": "verilog-ef-uart-t1",
+          "source_problem": "ef_uart_t1_pipeline_sr_checkpoint_1",
+          "release_commit": "65fc951529f00dbcf1a59816b913c9c6428ab360",
+          "definition_sha256": {
+            "config.yaml": "fa9d55ba9fc3586d9511f43e705d15ff875cf7467c1d92503e9f9275e393e35b",
+            "checkpoint_1.md": "b0da3cfa352b7ac976ecb72afda94bfbe4041ff06901438092e870074b85baf1",
+            "checkpoint_2.md": "71ac00c2554a023af46ae9e5a96922447094e4dfe693fe427bd38c110daebffa",
+            "checkpoint_3.md": "f45889db613abe16f0789f88a41788ccfcef30b917033e7565d0ff5e9d883814",
+            "checkpoint_4.md": "2837fd094a9635e3f91337d11b8a92c93aa0a78167e8899655431c1a0f9225d7",
+            "checkpoint_5.md": "9744e5100567e081bf1a7cf2b74b42a8382a54c89d48d4b33391b4f400e3f379",
+            "checkpoint_6.md": "4af2d182db186d79a7ec9f4b0b2899603adb0be4435d25004562df8889e8a3b4"
+          },
+          "source_run": {
+            "directory": "codex-0.141.0_rtl-plan-and-test_high_20260904T180342504425_rtl_ef_uart_t1_codex_gpt-5.6-luna_sr_20260904t180340",
+            "result_json_sha256": "46c6fe0bedca5ca9c21ed23062d603b0a3d9dc73994410b3cbdde4779a2f3f8c",
+            "checkpoint_results_sha256": "b92b9c67367e2ead2fe3b6cfa7ae4399eb9308809c4ceae4ba3a3deef6ff938b"
+          },
+          "agent": {
+            "type": "codex",
+            "version": "0.141.0"
+          },
+          "model": "agicto-gpt-5.6-luna",
+          "prompt": "rtl-plan-and-test",
+          "thinking": "high",
+          "run_metrics": {
+            "costs": {
+              "checkpoint": {
+                "mean": 0,
+                "stddev": null,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 1
+              },
+              "problem": {
+                "mean": 0,
+                "stddev": null,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 1
+              },
+              "total": 0
+            },
+            "time": {
+              "checkpoint": {
+                "mean": 761.213038,
+                "stddev": null,
+                "min": 761.213038,
+                "max": 761.213038,
+                "median": 761.213038,
+                "count": 1
+              },
+              "problem": {
+                "mean": 761.213038,
+                "stddev": null,
+                "min": 761.213038,
+                "max": 761.213038,
+                "median": 761.213038,
+                "count": 1
+              }
+            },
+            "tokens": {
+              "input": 955632,
+              "output": 16204,
+              "cache_read": 844800,
+              "cache_write": 0,
+              "reasoning": 4869,
+              "problem": {
+                "input": 955632,
+                "output": 16204,
+                "cache_read": 844800,
+                "cache_write": 0,
+                "reasoning": 4869
+              },
+              "checkpoint": {
+                "input": 955632,
+                "output": 16204,
+                "cache_read": 844800,
+                "cache_write": 0,
+                "reasoning": 4869
+              }
+            },
+            "steps": {
+              "checkpoint": {
+                "mean": 40,
+                "stddev": null,
+                "min": 40,
+                "max": 40,
+                "median": 40,
+                "count": 1
+              },
+              "problem": {
+                "mean": 40,
+                "stddev": null,
+                "min": 40,
+                "max": 40,
+                "median": 40,
+                "count": 1
+              }
+            },
+            "pass_rates": {
+              "problem": {
+                "structure": 1,
+                "core": 0.5,
+                "total": 0.75,
+                "error": 1,
+                "functionality": 0.5,
+                "regression": 0
+              },
+              "checkpoint": {
+                "structure": 1,
+                "core": 0.5,
+                "total": 0.75,
+                "error": 1,
+                "functionality": 0.5,
+                "regression": 0
+              }
+            }
+          },
+          "expected_checkpoints": 1,
+          "completed_checkpoints": 1,
+          "outcome": "failed",
+          "checkpoints": [
+            {
+              "checkpoint": "checkpoint_1",
+              "state": "ran",
+              "started_at": "2026-09-04T18:03:43.939023",
+              "ended_at": "2026-09-04T18:16:25.152061",
+              "duration_seconds": 761.213038,
+              "steps": 40,
+              "run_result": {
+                "problem": "ef_uart_t1_pipeline_sr_checkpoint_1",
+                "version": 1,
+                "checkpoint": "checkpoint_1",
+                "path": "$RUN_DIR/ef_uart_t1_pipeline_sr_checkpoint_1",
+                "idx": 1,
+                "state": "ran",
+                "is_first": true,
+                "is_last": true,
+                "strict_pass_rate": 0.75,
+                "structure_pass_rate": 1,
+                "core_pass_rate": 0.5,
+                "functionality_pass_rate": 0.5,
+                "isolated_pass_rate": 0.75,
+                "total_tests": 4,
+                "passed_tests": 3,
+                "structure_total": 1,
+                "structure_passed": 1,
+                "core_total": 2,
+                "core_passed": 1,
+                "functionality_total": 2,
+                "functionality_passed": 1,
+                "functionality_incremental_total": 0,
+                "functionality_incremental_passed": 0,
+                "error_total": 1,
+                "error_passed": 1,
+                "regression_total": 0,
+                "regression_passed": 0,
+                "started": "2026-09-04T18:03:43.939023",
+                "ended": "2026-09-04T18:16:25.152061",
+                "duration": 761.213038,
+                "cost": 0,
+                "steps": 40,
+                "cache_read": 844800,
+                "cache_write": 0,
+                "input": 955632,
+                "output": 16204,
+                "reasoning": 4869,
+                "loc": 0,
+                "sloc": 0,
+                "total_lines": 0,
+                "single_comments": 0,
+                "lint_errors": 0,
+                "lint_fixable": 0,
+                "files": 0,
+                "functions": 0,
+                "methods": 0,
+                "classes": 0,
+                "statements": 0,
+                "symbols_total": 0,
+                "cc_max": 0,
+                "cc_mean": 0,
+                "cc_std": 0,
+                "cc_high_count": 0,
+                "cc_extreme_count": 0,
+                "high_cc_mean": 0,
+                "cc_normalized": 0,
+                "cc_concentration": 0,
+                "cc_top20": 0,
+                "max_nesting_depth": 0,
+                "lines_per_symbol": 0,
+                "single_use_functions": 0,
+                "trivial_wrappers": 0,
+                "unused_variables": 0,
+                "clone_lines": 0,
+                "cloned_sloc_lines": 0,
+                "ast_grep_violations": 0,
+                "verbosity_flagged_sloc_lines": 0,
+                "sg_slop_violations": 0,
+                "graph_cyclic_dependency_mass": 0,
+                "graph_propagation_cost": 0,
+                "graph_dependency_entropy": 0,
+                "lines_added": 0,
+                "lines_removed": 0,
+                "mean_func_loc": 0,
+                "mass.cc": 0,
+                "mass.high_cc_pct": 0
+              },
+              "code_snapshot": {
+                "file_count": 40,
+                "total_bytes": 564321,
+                "tree_sha256": "7071eda55896b424f77b11b1a93b34f1f0afdcf9e4ee080fd2c3cd0fc6dcfc61",
+                "excluded_artifacts": [],
+                "archive": {
+                  "path": "problems/verilog-ef-uart-t1/agent-results/artifacts/20260904t180340/checkpoint_1/agent-code.tar.gz",
+                  "sha256": "2a0c816b91cc3fd53dcb4bc2ae77e7f3e59a6c043e8dd033013c8f62ddf165a0",
+                  "size_bytes": 62981,
+                  "file_count": 40,
+                  "tree_sha256": "7071eda55896b424f77b11b1a93b34f1f0afdcf9e4ee080fd2c3cd0fc6dcfc61"
+                },
+                "manifest": {
+                  "path": "problems/verilog-ef-uart-t1/agent-results/artifacts/20260904t180340/checkpoint_1/agent-code.manifest.json",
+                  "sha256": "46396929ba724028368689d4204391317721cf542295ccfed647edefd618b7bc",
+                  "size_bytes": 7555,
+                  "file_count": 40,
+                  "total_bytes": 564321,
+                  "tree_sha256": "7071eda55896b424f77b11b1a93b34f1f0afdcf9e4ee080fd2c3cd0fc6dcfc61"
+                },
+                "changed_files": {
+                  "path": "problems/verilog-ef-uart-t1/agent-results/artifacts/20260904t180340/checkpoint_1/changed-files.json",
+                  "sha256": "505624253c8e591addd9fc91e04416f1097c31b1045b2c96d6236c4319a40e51",
+                  "count": 1
+                },
+                "diff": {
+                  "path": "problems/verilog-ef-uart-t1/agent-results/artifacts/20260904t180340/checkpoint_1/changes.patch",
+                  "sha256": "b95670182a8ccc1e152b48f103175d1eb6ae45b26d7c95305fb3286d3b0c90b9",
+                  "size_bytes": 5102
+                },
+                "baseline_path": "problems/verilog-ef-uart-t1/pipeline/static_assets/golden_snapshots/c0_baseline_b7f4573"
+              },
+              "evaluation": {
+                "pytest_exit_code": 1,
+                "infrastructure_failure": false,
+                "counts": {
+                  "structure": [
+                    1,
+                    1
+                  ],
+                  "core": [
+                    1,
+                    2
+                  ],
+                  "functionality": [
+                    0,
+                    0
+                  ],
+                  "regression": [
+                    0,
+                    0
+                  ],
+                  "error": [
+                    1,
+                    1
+                  ]
+                },
+                "core_gate_passed": false,
+                "sha256": "14f2983ec492518f96d6c2cc6e41bdb912e1fd9015c87757e5d1e8e5ab564a1e",
+                "details": {
+                  "schema_version": 1,
+                  "problem_name": "ef_uart_t1_pipeline_sr_checkpoint_1",
+                  "problem_version": 1,
+                  "checkpoint_name": "checkpoint_1",
+                  "checkpoint_version": 1,
+                  "duration": 0.693701982498169,
+                  "entrypoint": "bash build_checkpoint.sh",
+                  "tests": {
+                    "checkpoint_1-Core": {
+                      "passed": [
+                        "test_checkpoint_1_apb_register_map"
+                      ],
+                      "failed": [
+                        "test_checkpoint_1_apb_core"
+                      ],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Error": {
+                      "passed": [
+                        "test_checkpoint_1_apb_error_unmapped"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Structure": {
+                      "passed": [
+                        "test_checkpoint_1_structure"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    }
+                  },
+                  "pass_counts": {
+                    "Structure": 1,
+                    "Core": 1,
+                    "Functionality": 0,
+                    "Regression": 0,
+                    "Error": 1
+                  },
+                  "total_counts": {
+                    "Structure": 1,
+                    "Core": 2,
+                    "Functionality": 0,
+                    "Regression": 0,
+                    "Error": 1
+                  },
+                  "detail_metrics": {},
+                  "pytest_exit_code": 1,
+                  "pytest_collected": 4,
+                  "test_collection_hash": "39928c4431a221c6ddfde6643585da8127d28351401d3e27811ce2151a503e64",
+                  "infrastructure_failure": false,
+                  "infrastructure_reason": null
+                }
+              },
+              "localCheckpoint": "checkpoint_1",
+              "targetCheckpoint": "checkpoint_1"
+            }
+          ],
+          "experimentType": "sr",
+          "targetCheckpoint": "checkpoint_1",
+          "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-ef-uart-t1/agent-results/runs/20260904t180340.json"
+        }
+      ]
+    },
+    {
+      "number": "07",
       "id": "verilog-ethernet-t2",
       "title": "Verilog Ethernet",
       "type": "T2",
