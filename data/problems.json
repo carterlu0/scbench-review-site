@@ -1,14 +1,2412 @@
 {
   "schemaVersion": 5,
-  "generatedAt": "2026-09-08T06:00:30.901Z",
+  "generatedAt": "2026-09-08T11:20:02.150Z",
   "source": {
     "repository": "carterlu0/scbench-rtl-problems",
     "branch": "main",
-    "commit": "9539068f261e79cbea8a21928e9e655ebb0e7b6d"
+    "commit": "76142863c9d144415c247fbe7dd1d90c6e16fc8a"
   },
   "problems": [
     {
       "number": "01",
+      "id": "clint-t1",
+      "title": "CLINT",
+      "type": "T1",
+      "family": "clint",
+      "tags": "rtl / verilog / clint / testbench",
+      "checkpoints": 4,
+      "summary": "Release status: published\nSource family: `clint_t1`\nDifficulty: hard\nTags: RTL, Verilog, CLINT, APB, SystemRDL, checkpointed, component evolution",
+      "overview": "# CLINT T1\n\nRelease status: published\nSource family: `clint_t1`\nDifficulty: hard\nTags: RTL, Verilog, CLINT, APB, SystemRDL, checkpointed, component evolution\n\nCLINT T1 是一个 SCBench 风格的 RTL 基准题，基于 PULP CLINT 从固定双 hart\nRegBus 实现演进到 typed APB，再演进到通过 SystemRDL 生成的参数化 APB\n寄存器块。Agent 在一个可写的基线仓库中实现每个 checkpoint 的公开 RTL\n行为，同时保持此前已验证的行为正确。评测使用 evaluator 拥有的独立\nVerilator 行为 oracle，不依赖 Agent 自带 testbench、源码字节相等或内部实现细节。\n\n## Checkpoint Chain\n\n```text\nprovided: c0_initial_workspace\n  -> checkpoint_1: c1_v0.1.0\n  -> checkpoint_2: c2_v0.2.0\n  -> checkpoint_3: c3_apb_fixed2\n  -> checkpoint_4: c4_v0.3.0\n```\n\n每个 checkpoint 都是累计契约：Agent 从紧邻前序快照开始，通过入口脚本\n`build_checkpoint.sh <checkpoint_N>` 修改 `repo/`，最终脚本必须接受所有已生效\ncheckpoint 参数。前序 checkpoint 的公开行为由 evaluator 以 Regression 重新验证。\n\n当前题目定义已经完成 Functionality 分组清理、C2 regression scope 修正和\nSR3 endpoint/predecessor selector 分离，并于 2026-09-08 完成 pipeline 与\n四个 SR wrapper 的正式 terminal qualification。详情见\n[`evidence/certification.md`](evidence/certification.md)。\n\n## 各 Checkpoint 功能主题\n\n- **checkpoint_1（initial workspace → c1_v0.1.0）**：实现固定双 hart\n  CLINT RegBus 基线，包括 MSIP、MTIMECMP、MTIME、hart IRQ/IPI 状态以及公开\n  仓库结构。\n- **checkpoint_2（c1_v0.1.0 → c2_v0.2.0）**：修正每个 hart 独立的 MSIP\n  映射，同时保持 checkpoint 1 的 RegBus 访问行为。\n- **checkpoint_3（c2_v0.2.0 → c3_apb_fixed2）**：用 typed APB request/response\n  接口替换固定 RegBus transport，保留 C2 的可观察行为；APB 地址对齐、byte\n  strobe、mapped/unmapped 访问和两 hart 状态行为均由独立 oracle 检查。\n- **checkpoint_4（c3_apb_fixed2 → c4_v0.3.0）**：通过 SystemRDL 生成参数化\n  APB register block，验证 `NumCores=1/2/3/2048`、默认双 hart 行为，并拒绝\n  不支持的 `NumCores=0/4096`。\n\n## 测试分组\n\n每个 checkpoint 的测试按互斥分组统计：Structure（入口、文件、公共 ABI 与制品\n卫生）、Core（当前 checkpoint 文档直接要求的必须行为）、Regression（仍有效的\n前序行为）、Error（非法配置与预期失败）。CLINT 当前没有 Functionality-only\n测试组；Functionality 计数在正式 qualification 中为 0。\n\n### Pipeline\n\n| checkpoint | 版本区间 | Structure | Core | Error | Regression | 总计 |\n|---|---|---:|---:|---:|---:|---:|\n| checkpoint_1 | initial workspace → c1_v0.1.0 | 2 | 1 | 0 | 0 | 3 |\n| checkpoint_2 | c1_v0.1.0 → c2_v0.2.0 | 1 | 1 | 0 | 1 | 3 |\n| checkpoint_3 | c2_v0.2.0 → c3_apb_fixed2 | 1 | 1 | 0 | 1 | 3 |\n| checkpoint_4 | c3_apb_fixed2 → c4_v0.3.0 | 1 | 5 | 2 | 1 | 9 |\n\n### Single-round wrappers\n\n| SR wrapper | 版本区间 | Structure | Core | Error | Regression | 总计 |\n|---|---|---:|---:|---:|---:|---:|\n| sr_checkpoint_1 | initial workspace → c1_v0.1.0 | 2 | 1 | 0 | 0 | 3 |\n| sr_checkpoint_2 | c1_v0.1.0 → c2_v0.2.0 | 1 | 1 | 0 | 1 | 3 |\n| sr_checkpoint_3 | c2_v0.2.0 → c3_apb_fixed2 | 1 | 1 | 0 | 1 | 3 |\n| sr_checkpoint_4 | c3_apb_fixed2 → c4_v0.3.0 | 1 | 5 | 2 | 1 | 9 |\n\nSR 单轮 wrapper 从紧邻前序快照开始，只解决目标 checkpoint；其 Regression\n集合由该 SR 自己定义的 prior-test 集合决定。SR3 的 C2 RegBus transport\n测试仅用于 predecessor qualification，不在 C3 endpoint 测试表中重复收集。\n\n## Evaluation Semantics\n\n- 起点 RTL 仓库物化在 `repo/`，Agent 通过 `build_checkpoint.sh` 修改它。\n- 最终测试把结构检查与行为级 evaluator oracle 结合：RegBus、APB 和\n  SystemRDL 生成行为均由固定 CLINT Docker runtime 中的 evaluator-owned\n  Verilator oracle 执行。\n- 正式通过门槛为 `core-cases`：Structure 与 Core 全绿。当前定义已通过\n  pipeline 与 SR 的独立 terminal qualification；可测性认证见\n  [`evidence/certification.md`](evidence/certification.md)。\n- Agent rollout brief 与 reference qualification 分开记录。pipeline 与 SR4\n  的 Agent 结果为 `failed`，SR1-SR3 为 `passed`；失败 rollout 保留原始结果，\n  不被改写为题目 evaluator 失败。\n\n## Included checkpoints\n\n- checkpoint_1\n- checkpoint_2\n- checkpoint_3\n- checkpoint_4\n\n## Files\n\n- `pipeline/`：canonical cumulative problem definition copied from the generated problems tree\n- `evidence/`：certification and terminal qualification evidence\n- `environment/`：runtime environment definition\n- `agent-results/`：schema-v3 agent rollout briefs（与认证分开记录）",
+      "prompt": "# checkpoint_4: Parameterize APB CLINT through SystemRDL\n\nYou are given a writable baseline RTL repository in `repo/`. Your task is to implement the public behavior for this checkpoint while preserving prior behavior.\n\n## Public Goal\n\nExtend the APB CLINT to the parameterized SystemRDL-based register implementation while preserving all prior multi-hart behavior.\n\n## Candidate Modules\n\n```text\nclint, clint_reg, clint_reg_pkg\n```\n\n## Public Repository Layout\n\nThe submitted repository must provide these public source and test paths:\n\n```text\nrdl/clint.rdl\nsrc/clint.sv\nsrc/clint_reg.sv\nsrc/clint_reg_pkg.sv\ntest/clint_tb.sv\n```\n\n`rdl/clint.rdl` is the SystemRDL source of the parameterized register map. It\nmust regenerate compatible `src/clint_reg.sv` and `src/clint_reg_pkg.sv` for\neach scored `NumCores` value using the offline PeakRDL tool provided by the\nruntime. The evaluator regenerates these files before parameterized simulation.\n\n## Entrypoint Contract\n\nCreate or update `%%%ENTRYPOINT:entry_file%%%` so it can be run from the workspace root as:\n\n```bash\nThe entrypoint must validate at least one non-default scored configuration by\nrunning the runtime-provided offline `peakrdl regblock` command on\n`rdl/clint.rdl` before simulation. It must not require network access.\n%%%ENTRYPOINT:entry_command%%% checkpoint_4\n```\n\nThe script must modify `repo/` in the current working directory and should be idempotent. Do not assume the entrypoint file is located in `$PWD`.\n\n## Required Repository Behavior\n\nStarting from the C3 APB CLINT, make the hart count a compile-time `NumCores`\nparameter with default 2. The scored values are `1`, `2`, `3`, and `2048`.\n\n- `ipi_o` and `timer_irq_o` have `NumCores` elements.\n- MSIP entry `i` is at `0x0000 + 4*i`, with bit 0 controlling hart `i`.\n- MTIMECMP entry `i` has low/high words at `0x4000 + 8*i` and `+4`.\n- MTIME remains at `0xbff8`/`0xbffc`; all C3 APB, reset, RTC, and IRQ behavior\n remains unchanged.\n- `NumCores=0` and `NumCores=4096` are unsupported. Values other than `1`,\n `2`, `3`, and `2048` are outside the scored contract.\n\n## Local Validation\n\n```bash\n%%%ENTRYPOINT:entry_command%%% checkpoint_4\n```\n\n## Scope Restrictions\n\n- Do not require network access during tests.\n- Do not require submodule checkout during tests.\n- Do not add local simulation artifacts to `repo/`.\n- Do not change the APB transport or require behavior for unscored `NumCores`\n values.\n\n## Internal Generation Notes\n\nThese notes must be reviewed before promotion and may be moved out of the public prompt:\n\n- Direct oracle must exercise non-default CLINT_CORES values and generated register maps.\n- Separate generated-file and toolchain checks from behavioral Core tests.\n- PeakRDL, Bender, and uv dependencies require a frozen offline-capable runtime before promotion.",
+      "certDate": "2026-09-08",
+      "certSummary": "The current release package contains the five terminal reference batches used\nfor this certification:",
+      "readmePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/clint-t1/README.md",
+      "certPath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/clint-t1/evidence/certification.md",
+      "promptPath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/clint-t1/pipeline/checkpoint_4.md",
+      "checkpointLinks": [
+        [
+          "checkpoint_1",
+          "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/clint-t1/pipeline/checkpoint_1.md"
+        ],
+        [
+          "checkpoint_2",
+          "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/clint-t1/pipeline/checkpoint_2.md"
+        ],
+        [
+          "checkpoint_3",
+          "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/clint-t1/pipeline/checkpoint_3.md"
+        ],
+        [
+          "checkpoint_4",
+          "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/clint-t1/pipeline/checkpoint_4.md"
+        ]
+      ],
+      "checkpointPrompts": [
+        {
+          "label": "checkpoint_1",
+          "prompt": "# checkpoint_1: Implement the baseline two-hart CLINT\n\nYou are given a writable baseline RTL repository in `repo/`. Your task is to implement the public behavior for this checkpoint while preserving prior behavior.\n\n## Public Goal\n\nImplement the baseline two-hart RISC-V CLINT behavior with the historical register-bus interface, MSIP/IPI, MTIME, MTIMECMP, and timer IRQ behavior.\n\n## Candidate Modules\n\n```text\nclint, clint_reg_top\n```\n\n## Public Repository Layout\n\nThe submitted repository must contain these public source and test paths:\n\n```text\nsrc/clint_reg_pkg.sv\nsrc/clint_reg_top.sv\nsrc/clint.sv\ntest/clint_tb.sv\n```\n\nThe evaluator compiles the CLINT modules from `src/` together with its\nindependent endpoint testbench. `clint_reg_pkg.sv` is the public package/API\nneeded by the RegBus top level; its internal generated type organization is\nnot prescribed. `test/clint_tb.sv` is the repository-local smoke-test entry\npoint. These paths and module names are required, but source text need not\nmatch the endpoint implementation.\n\nThe public `clint` and `clint_reg_top` modules must expose the RegBus types as\nSystemVerilog type parameters named `reg_req_t` and `reg_rsp_t`, with the\nfollowing shape:\n\n```systemverilog\nmodule clint #(\n\tparameter type reg_req_t = logic,\n\tparameter type reg_rsp_t = logic\n) (... input reg_req_t reg_req_i, output reg_rsp_t reg_rsp_o, ...);\n```\n\n`clint_reg_top` uses the same two type parameters and request/response port\nnames. The request type provides `valid`, `write`, `addr`, `wdata`, and\n`wstrb`; the response type provides `ready`, `rdata`, and `error`. The\nevaluator supplies the concrete RegBus typedefs, so do not hard-code a private\nrequest or response struct in the module ports.\n\n## Entrypoint Contract\n\nCreate or update `%%%ENTRYPOINT:entry_file%%%` so it can be run from the workspace root as:\n\n```bash\n%%%ENTRYPOINT:entry_command%%% checkpoint_1\n```\n\nThe script must modify `repo/` in the current working directory and should be idempotent. Do not assume the entrypoint file is located in `$PWD`.\n\n## Required Repository Behavior\n\nImplement a fixed two-hart CLINT with top-level `clk_i`, asynchronous active-low\n`rst_ni`, `rtc_i`, `testmode_i`, RegBus request/response ports, and two-bit\n`timer_irq_o` and `ipi_o` outputs. `testmode_i` has no scored functional effect.\n\n- `reg_rsp_o.ready` is continuously asserted to `1'b1`, including when\n\t`reg_req_i.valid` is `1'b0`; valid requests complete without an additional\n\twait state.\n- The RegBus response is ready for a valid request. The local block address uses\n\tthe low 16 bits; unaligned addresses do not select a word.\n- MSIP is one shared word at `0x0000`: bit 0 controls hart 0 and bit 1 controls\n\thart 1. Reserved bits read as zero.\n- MTIMECMP hart 0 is at `0x4000`/`0x4004`, hart 1 is at\n\t`0x4008`/`0x400c`, and MTIME is at `0xbff8`/`0xbffc`. Each value is exposed as\n\tindependently writable 32-bit low and high words.\n- Reset clears MSIP, MTIME, and MTIMECMP. `ipi_o` reflects MSIP and\n\t`timer_irq_o[i]` is the level `mtime >= mtimecmp[i]`.\n- A synchronized rising `rtc_i` edge increments MTIME once; falling edges do\n\tnot increment it, and MTIME wraps modulo 64 bits. A same-edge software MTIME\n\twrite takes priority over the RTC increment.\n- A permitted MSIP write requires byte lane 0. MTIME and MTIMECMP require all\n\tfour lanes; a disallowed write reports an error and leaves state unchanged.\n- Unmapped reads return `32'hffff_ffff` with no error; unmapped writes have no\n\tstate effect and no error.\n\n## Local Validation\n\n```bash\n%%%ENTRYPOINT:entry_command%%% checkpoint_1\n```\n\n## Scope Restrictions\n\n- Do not require network access during tests.\n- Do not require submodule checkout during tests.\n- Do not add local simulation artifacts to `repo/`.\n- Do not introduce the C2 per-hart MSIP address map, the C3 APB interface, or\n\tC4 hart-count parameterization.\n\n## Internal Generation Notes\n\nThese notes must be reviewed before promotion and may be moved out of the public prompt:\n\n- C0 is an empty initial workspace using the C1 runtime and layout; C0 is not a scored checkpoint.\n- Direct oracle must cover APB/regbus access, 64-bit split registers, RTC-driven MTIME, and two-hart IRQ/IPI behavior.",
+          "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/clint-t1/pipeline/checkpoint_1.md"
+        },
+        {
+          "label": "checkpoint_2",
+          "prompt": "# checkpoint_2: Correct independent MSIP hart mapping\n\nYou are given a writable baseline RTL repository in `repo/`. Your task is to implement the public behavior for this checkpoint while preserving prior behavior.\n\n## Public Goal\n\nCorrect the MSIP register layout so each hart has an independent address and bit-0 state while preserving all baseline CLINT behavior.\n\n## Candidate Modules\n\n```text\nclint, clint_reg_top\n```\n\n## Public Repository Layout and Interface\n\nThe submitted repository must retain these public paths from the C1 baseline:\n\n```text\nsrc/clint_reg_pkg.sv\nsrc/clint_reg_top.sv\nsrc/clint.sv\ntest/clint_tb.sv\n```\n\nBoth `clint` and `clint_reg_top` must retain SystemVerilog type parameters\nnamed `reg_req_t` and `reg_rsp_t`. The request type provides `valid`, `write`,\n`addr`, `wdata`, and `wstrb`; the response type provides `ready`, `rdata`, and\n`error`. Preserve the existing top-level clock, reset, RTC, testmode, RegBus,\ntimer IRQ, and IPI port names and directions. The evaluator supplies concrete\nRegBus typedefs; do not hard-code a private bus struct in the module ports.\n\nThe baseline is generated-register based. If you update generated register\nsource or output files, keep the checked-in HJSON/template and generated\npackage/top consistent. The evaluator checks the public behavior and interface,\nnot a particular generator, wrapper relationship, or source-text layout.\n\n## Entrypoint Contract\n\nCreate or update `%%%ENTRYPOINT:entry_file%%%` so it can be run from the workspace root as:\n\n```bash\n%%%ENTRYPOINT:entry_command%%% checkpoint_2\n```\n\nThe script must modify `repo/` in the current working directory and should be idempotent. Do not assume the entrypoint file is located in `$PWD`.\n\n## Required Repository Behavior\n\nRetain the C1 fixed two-hart RegBus CLINT interface, timing, MTIME, MTIMECMP,\nRTC, reset, and timer IRQ behavior. Change the public MSIP layout:\n\n- Hart 0 MSIP is at `0x0000`, and hart 1 MSIP is at `0x0004`.\n- Each MSIP word uses bit 0 for its addressed hart; bits 31:1 read as zero and\n\tdo not affect either output.\n- The two MSIP words are independently writable and each corresponding\n\t`ipi_o` bit reflects its own stored state.\n- Every C2 MSIP, MTIME, and MTIMECMP word requires all four write byte lanes.\n\tAn incomplete write reports an error and leaves state unchanged.\n- Unmapped reads return `32'hffff_ffff` with no error, and unmapped writes have\n\tno state effect and no error.\n\n## Local Validation\n\n```bash\n%%%ENTRYPOINT:entry_command%%% checkpoint_2\n```\n\nThis command is the repository-local entrypoint smoke check. The final C2\nbehavior check is an evaluator-owned Verilator RegBus oracle; do not copy or\nrecreate evaluator-only oracle, endpoint, or dependency assets in `repo/`.\nIcarus is optional for local checks and is not the compatibility authority for\nthe generated typed-parameter flow.\n\n## Scope Restrictions\n\n- Do not require network access during tests.\n- Do not require submodule checkout during tests.\n- Do not add local simulation artifacts to `repo/`.\n- Do not replace RegBus with APB or add C4 hart-count parameterization.\n\n## Internal Generation Notes\n\nThese notes must be reviewed before promotion and may be moved out of the public prompt:\n\n- Direct oracle must fail on C1 and pass on C2 for hart isolation, address mapping, reserved bits, and byte enables.\n- Regression oracle must preserve MTIME, MTIMECMP, timer IRQ, and existing hart-0 behavior.",
+          "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/clint-t1/pipeline/checkpoint_2.md"
+        },
+        {
+          "label": "checkpoint_3",
+          "prompt": "# checkpoint_3: Migrate the fixed two-hart CLINT to APB\n\nYou are given a writable baseline RTL repository in `repo/`. Your task is to implement the public behavior for this checkpoint while preserving prior behavior.\n\n## Public Goal\n\nMigrate the two-hart CLINT register access path to the public APB interface while preserving the C2 CLINT behavior.\n\n## Candidate Modules\n\n```text\nclint, clint_reg, clint_reg_pkg\n```\n\n## Public Repository Layout and Interface\n\nThe submitted repository must provide these public source and test paths:\n\n```text\nsrc/clint.sv\nsrc/clint_reg.sv\nsrc/clint_reg_pkg.sv\ntest/clint_tb.sv\n```\n\n`clint_reg` is the APB register block used by the C3 endpoint. The C2\n`clint_reg_top` RegBus transport is not the C3 top-level transport and does not\nneed to be retained. Keep the APB ports and the fixed two-hart state wiring\ncompatible with the public behavior below; the evaluator supplies its own APB\noracle and dependencies.\n\nThe public `clint` module uses typed APB request/response parameters named\n`apb_req_t` and `apb_rsp_t`, with ports named `apb_req_i` and `apb_rsp_o`.\nThe request bundle provides `psel`, `penable`, `pwrite`, `pprot`, `paddr`,\n`pwdata`, and `pstrb`; the response bundle provides `pready`, `prdata`, and\n`pslverr`. Preserve this typed-bundle ABI when connecting the APB transport;\ndo not replace it with separate top-level APB signal ports.\n\n## Entrypoint Contract\n\nCreate or update `%%%ENTRYPOINT:entry_file%%%` so it can be run from the workspace root as:\n\n```bash\n%%%ENTRYPOINT:entry_command%%% checkpoint_3\n```\n\nThe script must modify `repo/` in the current working directory and should be idempotent. Do not assume the entrypoint file is located in `$PWD`.\n\n## Required Repository Behavior\n\nReplace the C2 RegBus transport with an APB interface using `PSEL`, `PENABLE`,\n`PWRITE`, `PADDR`, `PWDATA`, `PSTRB`, `PREADY`, `PRDATA`, and `PSLVERR`.\nPreserve the C2 independent MSIP map and all common CLINT state behavior.\n\n- A well-formed APB transfer completes without an extra wait state.\n- The block aligns addresses to words by ignoring `PADDR[1:0]`; only the low 16\n\taddress bits are part of the scored block address contract.\n- `PPROT` has no scored functional effect.\n- Writes merge enabled bytes using `PSTRB`; a disabled byte leaves its previous\n\tvalue unchanged. MSIP bit 0 changes only when byte lane 0 is enabled.\n- Mapped reads return the addressed word. Unmapped reads return zero and\n\tunmapped writes have no state effect; both complete with `PSLVERR=0`.\n- The endpoint remains fixed to two harts, using C2 addresses for MSIP,\n\tMTIMECMP, and MTIME.\n\n## Local Validation\n\n```bash\n%%%ENTRYPOINT:entry_command%%% checkpoint_3\n```\n\n## Scope Restrictions\n\n- Do not require network access during tests.\n- Do not require submodule checkout during tests.\n- Do not add local simulation artifacts to `repo/`.\n- Do not retain the RegBus top-level transport or add a configurable hart count.\n\n## Internal Generation Notes\n\nThese notes must be reviewed before promotion and may be moved out of the public prompt:\n\n- This is a derived intermediate endpoint between upstream v0.2.0 and v0.3.0, not an upstream commit.\n- C3 intentionally fixes the design to two harts and defers SystemRDL regeneration and configurable hart count to C4.\n- C3 needs its own APB behavior oracle, runtime identity, snapshot identity, and reference qualification.",
+          "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/clint-t1/pipeline/checkpoint_3.md"
+        },
+        {
+          "label": "checkpoint_4",
+          "prompt": "# checkpoint_4: Parameterize APB CLINT through SystemRDL\n\nYou are given a writable baseline RTL repository in `repo/`. Your task is to implement the public behavior for this checkpoint while preserving prior behavior.\n\n## Public Goal\n\nExtend the APB CLINT to the parameterized SystemRDL-based register implementation while preserving all prior multi-hart behavior.\n\n## Candidate Modules\n\n```text\nclint, clint_reg, clint_reg_pkg\n```\n\n## Public Repository Layout\n\nThe submitted repository must provide these public source and test paths:\n\n```text\nrdl/clint.rdl\nsrc/clint.sv\nsrc/clint_reg.sv\nsrc/clint_reg_pkg.sv\ntest/clint_tb.sv\n```\n\n`rdl/clint.rdl` is the SystemRDL source of the parameterized register map. It\nmust regenerate compatible `src/clint_reg.sv` and `src/clint_reg_pkg.sv` for\neach scored `NumCores` value using the offline PeakRDL tool provided by the\nruntime. The evaluator regenerates these files before parameterized simulation.\n\n## Entrypoint Contract\n\nCreate or update `%%%ENTRYPOINT:entry_file%%%` so it can be run from the workspace root as:\n\n```bash\nThe entrypoint must validate at least one non-default scored configuration by\nrunning the runtime-provided offline `peakrdl regblock` command on\n`rdl/clint.rdl` before simulation. It must not require network access.\n%%%ENTRYPOINT:entry_command%%% checkpoint_4\n```\n\nThe script must modify `repo/` in the current working directory and should be idempotent. Do not assume the entrypoint file is located in `$PWD`.\n\n## Required Repository Behavior\n\nStarting from the C3 APB CLINT, make the hart count a compile-time `NumCores`\nparameter with default 2. The scored values are `1`, `2`, `3`, and `2048`.\n\n- `ipi_o` and `timer_irq_o` have `NumCores` elements.\n- MSIP entry `i` is at `0x0000 + 4*i`, with bit 0 controlling hart `i`.\n- MTIMECMP entry `i` has low/high words at `0x4000 + 8*i` and `+4`.\n- MTIME remains at `0xbff8`/`0xbffc`; all C3 APB, reset, RTC, and IRQ behavior\n\tremains unchanged.\n- `NumCores=0` and `NumCores=4096` are unsupported. Values other than `1`,\n\t`2`, `3`, and `2048` are outside the scored contract.\n\n## Local Validation\n\n```bash\n%%%ENTRYPOINT:entry_command%%% checkpoint_4\n```\n\n## Scope Restrictions\n\n- Do not require network access during tests.\n- Do not require submodule checkout during tests.\n- Do not add local simulation artifacts to `repo/`.\n- Do not change the APB transport or require behavior for unscored `NumCores`\n\tvalues.\n\n## Internal Generation Notes\n\nThese notes must be reviewed before promotion and may be moved out of the public prompt:\n\n- Direct oracle must exercise non-default CLINT_CORES values and generated register maps.\n- Separate generated-file and toolchain checks from behavioral Core tests.\n- PeakRDL, Bender, and uv dependencies require a frozen offline-capable runtime before promotion.",
+          "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/clint-t1/pipeline/checkpoint_4.md"
+        }
+      ],
+      "evaluationRuns": [
+        {
+          "schema_version": 3,
+          "run_id": "20260908t153951",
+          "exported_at": "2026-09-08T09:01:56.095482+00:00",
+          "published_problem": "clint-t1",
+          "source_problem": "clint_t1_pipeline_sr_checkpoint_3",
+          "release_commit": "e431edd4f71a505538703986e27af4a920c9b969",
+          "definition_sha256": {
+            "config.yaml": "bee05209ce772c636e10a95ee62c6f8a5f5985ec7c7e9370e4bd170b03f5e124",
+            "checkpoint_1.md": "a9650ce74fbe6aad9b763a841d9d07c2c27edeba4b4e287e9852c2a3db4266dc",
+            "checkpoint_2.md": "872a88d50d5cdd04b1784bb5ae7a307cf000740e0534dc1a05bd4494bf9b3692",
+            "checkpoint_3.md": "467f76b25c5e8beb06535ba82858ffc3e20d6408b7e06a2251106ceb11a955fa",
+            "checkpoint_4.md": "dd85793dfd23168cdc6ab32a84fdf190a9460c388290cc3e3423a1ca64ee97f0"
+          },
+          "source_run": {
+            "directory": "codex-0.141.0_rtl-plan-and-test_high_20260908T153952707161_rtl_clint_t1_codex_gpt-5.6-luna_sr_20260908t153951",
+            "result_json_sha256": "bc94485ee9e609875ddc059140d4d0bf6f0a50a8982980d8d4f0b771a7b26156",
+            "checkpoint_results_sha256": "573a9347e8f02333dada4b4ad0f0a5ade2927207b8bccef94387dc464c56ace8"
+          },
+          "agent": {
+            "type": "codex",
+            "version": "0.141.0"
+          },
+          "model": "agicto-gpt-5.6-luna",
+          "prompt": "rtl-plan-and-test",
+          "thinking": "high",
+          "run_metrics": {
+            "costs": {
+              "checkpoint": {
+                "mean": 0,
+                "stddev": null,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 1
+              },
+              "problem": {
+                "mean": 0,
+                "stddev": null,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 1
+              },
+              "total": 0
+            },
+            "time": {
+              "checkpoint": {
+                "mean": 1340.338111,
+                "stddev": null,
+                "min": 1340.338111,
+                "max": 1340.338111,
+                "median": 1340.338111,
+                "count": 1
+              },
+              "problem": {
+                "mean": 1340.338111,
+                "stddev": null,
+                "min": 1340.338111,
+                "max": 1340.338111,
+                "median": 1340.338111,
+                "count": 1
+              }
+            },
+            "tokens": {
+              "input": 783448,
+              "output": 11269,
+              "cache_read": 688128,
+              "cache_write": 0,
+              "reasoning": 3417,
+              "problem": {
+                "input": 783448,
+                "output": 11269,
+                "cache_read": 688128,
+                "cache_write": 0,
+                "reasoning": 3417
+              },
+              "checkpoint": {
+                "input": 783448,
+                "output": 11269,
+                "cache_read": 688128,
+                "cache_write": 0,
+                "reasoning": 3417
+              }
+            },
+            "steps": {
+              "checkpoint": {
+                "mean": 31,
+                "stddev": null,
+                "min": 31,
+                "max": 31,
+                "median": 31,
+                "count": 1
+              },
+              "problem": {
+                "mean": 31,
+                "stddev": null,
+                "min": 31,
+                "max": 31,
+                "median": 31,
+                "count": 1
+              }
+            },
+            "pass_rates": {
+              "problem": {
+                "structure": 1,
+                "core": 1,
+                "total": 1,
+                "error": 0,
+                "functionality": 1,
+                "regression": 1
+              },
+              "checkpoint": {
+                "structure": 1,
+                "core": 1,
+                "total": 1,
+                "error": 0,
+                "functionality": 1,
+                "regression": 1
+              }
+            }
+          },
+          "expected_checkpoints": 1,
+          "completed_checkpoints": 1,
+          "outcome": "passed",
+          "checkpoints": [
+            {
+              "checkpoint": "checkpoint_1",
+              "state": "ran",
+              "started_at": "2026-09-08T15:39:54.225407",
+              "ended_at": "2026-09-08T16:02:14.563518",
+              "duration_seconds": 1340.338111,
+              "steps": 31,
+              "run_result": {
+                "problem": "clint_t1_pipeline_sr_checkpoint_3",
+                "version": 1,
+                "checkpoint": "checkpoint_1",
+                "path": "$RUN_DIR/clint_t1_pipeline_sr_checkpoint_3",
+                "idx": 1,
+                "state": "ran",
+                "is_first": true,
+                "is_last": true,
+                "strict_pass_rate": 1,
+                "structure_pass_rate": 1,
+                "core_pass_rate": 1,
+                "functionality_pass_rate": 1,
+                "isolated_pass_rate": 1,
+                "total_tests": 3,
+                "passed_tests": 3,
+                "structure_total": 1,
+                "structure_passed": 1,
+                "core_total": 1,
+                "core_passed": 1,
+                "functionality_total": 1,
+                "functionality_passed": 1,
+                "functionality_incremental_total": 0,
+                "functionality_incremental_passed": 0,
+                "error_total": 0,
+                "error_passed": 0,
+                "regression_total": 1,
+                "regression_passed": 1,
+                "started": "2026-09-08T15:39:54.225407",
+                "ended": "2026-09-08T16:02:14.563518",
+                "duration": 1340.338111,
+                "cost": 0,
+                "steps": 31,
+                "cache_read": 688128,
+                "cache_write": 0,
+                "input": 783448,
+                "output": 11269,
+                "reasoning": 3417,
+                "loc": 38,
+                "sloc": 21,
+                "total_lines": 38,
+                "single_comments": 5,
+                "lint_errors": 2,
+                "lint_fixable": 0,
+                "files": 1,
+                "functions": 1,
+                "methods": 0,
+                "classes": 0,
+                "statements": 0,
+                "symbols_total": 1,
+                "cc_max": 1,
+                "cc_mean": 1,
+                "cc_std": 0,
+                "cc_high_count": 0,
+                "cc_extreme_count": 0,
+                "high_cc_mean": 0,
+                "cc_normalized": 0,
+                "cc_concentration": 0,
+                "cc_top20": 0,
+                "max_nesting_depth": 0,
+                "lines_per_symbol": 21,
+                "single_use_functions": 1,
+                "trivial_wrappers": 0,
+                "unused_variables": 0,
+                "clone_lines": 0,
+                "cloned_sloc_lines": 0,
+                "ast_grep_violations": 0,
+                "verbosity_flagged_sloc_lines": 0,
+                "sg_slop_violations": 0,
+                "lint_per_loc": 0.05263157894736842,
+                "violation_pct": 0,
+                "cloned_pct": 0,
+                "verbosity_flagged_pct": 0,
+                "graph_cyclic_dependency_mass": 0,
+                "graph_propagation_cost": 0,
+                "graph_dependency_entropy": 0,
+                "lines_added": 38,
+                "lines_removed": 0,
+                "mean_func_loc": 21,
+                "mass.cc": 3.87,
+                "mass.high_cc_pct": 0
+              },
+              "code_snapshot": {
+                "file_count": 24,
+                "total_bytes": 40086,
+                "tree_sha256": "194417a89b0aefb5b68d46836df1eae61474512be28f3ac7fe037fa86d1e240d",
+                "excluded_artifacts": [],
+                "archive": {
+                  "path": "problems/clint-t1/agent-results/artifacts/20260908t153951/checkpoint_1/agent-code.tar.gz",
+                  "sha256": "9a9d614d83e6d0e983932f8928ae703ac0b7315accc75efab7b1b132cfb3f2d6",
+                  "size_bytes": 12733,
+                  "file_count": 24,
+                  "tree_sha256": "194417a89b0aefb5b68d46836df1eae61474512be28f3ac7fe037fa86d1e240d"
+                },
+                "manifest": {
+                  "path": "problems/clint-t1/agent-results/artifacts/20260908t153951/checkpoint_1/agent-code.manifest.json",
+                  "sha256": "377b6a1c99367c3d9b0988a6aed885867e85ba62feaa85609917379a5583bd58",
+                  "size_bytes": 4463,
+                  "file_count": 24,
+                  "total_bytes": 40086,
+                  "tree_sha256": "194417a89b0aefb5b68d46836df1eae61474512be28f3ac7fe037fa86d1e240d"
+                },
+                "changed_files": {
+                  "path": "problems/clint-t1/agent-results/artifacts/20260908t153951/checkpoint_1/changed-files.json",
+                  "sha256": "4af67aea470e2344f88d551810513a5f4f446b078a7a64ab0cfd71c48482634d",
+                  "count": 23
+                },
+                "diff": {
+                  "path": "problems/clint-t1/agent-results/artifacts/20260908t153951/checkpoint_1/changes.patch",
+                  "sha256": "16f0750cb9f1061d264cabd4ac6e9f6b1f70ad81a388e29b4ff3a6155601281a",
+                  "size_bytes": 43005
+                },
+                "baseline_path": "problems/clint-t1/pipeline/static_assets/golden_snapshots/c0_initial_workspace"
+              },
+              "evaluation": {
+                "pytest_exit_code": 0,
+                "infrastructure_failure": false,
+                "counts": {
+                  "structure": [
+                    1,
+                    1
+                  ],
+                  "core": [
+                    1,
+                    1
+                  ],
+                  "functionality": [
+                    0,
+                    0
+                  ],
+                  "regression": [
+                    1,
+                    1
+                  ],
+                  "error": [
+                    0,
+                    0
+                  ]
+                },
+                "core_gate_passed": true,
+                "sha256": "f09c401f9dff89674cb501a9c266190f231efbedf8731f8ea00f348bbd3092cc",
+                "details": {
+                  "schema_version": 1,
+                  "problem_name": "clint_t1_pipeline_sr_checkpoint_3",
+                  "problem_version": 1,
+                  "checkpoint_name": "checkpoint_1",
+                  "checkpoint_version": 1,
+                  "duration": 13.39665675163269,
+                  "entrypoint": "bash build_checkpoint.sh",
+                  "tests": {
+                    "checkpoint_1-Core": {
+                      "passed": [
+                        "test_checkpoint_1_apb_behavior"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Regression": {
+                      "passed": [
+                        "test_checkpoint_1_c2_behavior_regression"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Structure": {
+                      "passed": [
+                        "test_checkpoint_1_structure"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    }
+                  },
+                  "pass_counts": {
+                    "Structure": 1,
+                    "Core": 1,
+                    "Functionality": 0,
+                    "Regression": 1,
+                    "Error": 0
+                  },
+                  "total_counts": {
+                    "Structure": 1,
+                    "Core": 1,
+                    "Functionality": 0,
+                    "Regression": 1,
+                    "Error": 0
+                  },
+                  "detail_metrics": {},
+                  "pytest_exit_code": 0,
+                  "pytest_collected": 3,
+                  "test_collection_hash": "96f940a39b6b23fbcf98f06f781f2dd25158ad835e5f1d4916b6777c8ad2bd8f",
+                  "infrastructure_failure": false,
+                  "infrastructure_reason": null
+                }
+              },
+              "localCheckpoint": "checkpoint_1",
+              "targetCheckpoint": "checkpoint_3"
+            }
+          ],
+          "experimentType": "sr",
+          "targetCheckpoint": "checkpoint_3",
+          "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/clint-t1/agent-results/runs/20260908t153951.json"
+        },
+        {
+          "schema_version": 3,
+          "run_id": "20260908t141706",
+          "exported_at": "2026-09-08T09:01:56.235629+00:00",
+          "published_problem": "clint-t1",
+          "source_problem": "clint_t1_pipeline_sr_checkpoint_4",
+          "release_commit": "e431edd4f71a505538703986e27af4a920c9b969",
+          "definition_sha256": {
+            "config.yaml": "bee05209ce772c636e10a95ee62c6f8a5f5985ec7c7e9370e4bd170b03f5e124",
+            "checkpoint_1.md": "a9650ce74fbe6aad9b763a841d9d07c2c27edeba4b4e287e9852c2a3db4266dc",
+            "checkpoint_2.md": "872a88d50d5cdd04b1784bb5ae7a307cf000740e0534dc1a05bd4494bf9b3692",
+            "checkpoint_3.md": "467f76b25c5e8beb06535ba82858ffc3e20d6408b7e06a2251106ceb11a955fa",
+            "checkpoint_4.md": "dd85793dfd23168cdc6ab32a84fdf190a9460c388290cc3e3423a1ca64ee97f0"
+          },
+          "source_run": {
+            "directory": "codex-0.141.0_rtl-plan-and-test_high_20260908T141708406386_rtl_clint_t1_codex_gpt-5.6-luna_sr_20260908t141706",
+            "result_json_sha256": "37692724ae5a0b25fb59086fb6b7627db3da59b007754ce1afe6d94f3c8bdb62",
+            "checkpoint_results_sha256": "77a1e3f049d0cb1b3e6690aeeaebebc2486995cacd1858a04d4f362f2208ffa4"
+          },
+          "agent": {
+            "type": "codex",
+            "version": "0.141.0"
+          },
+          "model": "agicto-gpt-5.6-luna",
+          "prompt": "rtl-plan-and-test",
+          "thinking": "high",
+          "run_metrics": {
+            "costs": {
+              "checkpoint": {
+                "mean": 0,
+                "stddev": null,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 1
+              },
+              "problem": {
+                "mean": 0,
+                "stddev": null,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 1
+              },
+              "total": 0
+            },
+            "time": {
+              "checkpoint": {
+                "mean": 997.833198,
+                "stddev": null,
+                "min": 997.833198,
+                "max": 997.833198,
+                "median": 997.833198,
+                "count": 1
+              },
+              "problem": {
+                "mean": 997.833198,
+                "stddev": null,
+                "min": 997.833198,
+                "max": 997.833198,
+                "median": 997.833198,
+                "count": 1
+              }
+            },
+            "tokens": {
+              "input": 2184574,
+              "output": 19403,
+              "cache_read": 2059136,
+              "cache_write": 0,
+              "reasoning": 6301,
+              "problem": {
+                "input": 2184574,
+                "output": 19403,
+                "cache_read": 2059136,
+                "cache_write": 0,
+                "reasoning": 6301
+              },
+              "checkpoint": {
+                "input": 2184574,
+                "output": 19403,
+                "cache_read": 2059136,
+                "cache_write": 0,
+                "reasoning": 6301
+              }
+            },
+            "steps": {
+              "checkpoint": {
+                "mean": 60,
+                "stddev": null,
+                "min": 60,
+                "max": 60,
+                "median": 60,
+                "count": 1
+              },
+              "problem": {
+                "mean": 60,
+                "stddev": null,
+                "min": 60,
+                "max": 60,
+                "median": 60,
+                "count": 1
+              }
+            },
+            "pass_rates": {
+              "problem": {
+                "structure": 1,
+                "core": 0.4,
+                "total": 0.6666666666666666,
+                "error": 1,
+                "functionality": 0.4,
+                "regression": 1
+              },
+              "checkpoint": {
+                "structure": 1,
+                "core": 0.4,
+                "total": 0.6666666666666666,
+                "error": 1,
+                "functionality": 0.4,
+                "regression": 1
+              }
+            }
+          },
+          "expected_checkpoints": 1,
+          "completed_checkpoints": 1,
+          "outcome": "failed",
+          "checkpoints": [
+            {
+              "checkpoint": "checkpoint_1",
+              "state": "ran",
+              "started_at": "2026-09-08T14:17:09.910580",
+              "ended_at": "2026-09-08T14:33:47.743778",
+              "duration_seconds": 997.833198,
+              "steps": 60,
+              "run_result": {
+                "problem": "clint_t1_pipeline_sr_checkpoint_4",
+                "version": 1,
+                "checkpoint": "checkpoint_1",
+                "path": "$RUN_DIR/clint_t1_pipeline_sr_checkpoint_4",
+                "idx": 1,
+                "state": "ran",
+                "is_first": true,
+                "is_last": true,
+                "strict_pass_rate": 0.6666666666666666,
+                "structure_pass_rate": 1,
+                "core_pass_rate": 0.4,
+                "functionality_pass_rate": 0.4,
+                "isolated_pass_rate": 0.625,
+                "total_tests": 9,
+                "passed_tests": 6,
+                "structure_total": 1,
+                "structure_passed": 1,
+                "core_total": 5,
+                "core_passed": 2,
+                "functionality_total": 5,
+                "functionality_passed": 2,
+                "functionality_incremental_total": 0,
+                "functionality_incremental_passed": 0,
+                "error_total": 2,
+                "error_passed": 2,
+                "regression_total": 1,
+                "regression_passed": 1,
+                "started": "2026-09-08T14:17:09.910580",
+                "ended": "2026-09-08T14:33:47.743778",
+                "duration": 997.833198,
+                "cost": 0,
+                "steps": 60,
+                "cache_read": 2059136,
+                "cache_write": 0,
+                "input": 2184574,
+                "output": 19403,
+                "reasoning": 6301,
+                "loc": 0,
+                "sloc": 0,
+                "total_lines": 0,
+                "single_comments": 0,
+                "lint_errors": 0,
+                "lint_fixable": 0,
+                "files": 0,
+                "functions": 0,
+                "methods": 0,
+                "classes": 0,
+                "statements": 0,
+                "symbols_total": 0,
+                "cc_max": 0,
+                "cc_mean": 0,
+                "cc_std": 0,
+                "cc_high_count": 0,
+                "cc_extreme_count": 0,
+                "high_cc_mean": 0,
+                "cc_normalized": 0,
+                "cc_concentration": 0,
+                "cc_top20": 0,
+                "max_nesting_depth": 0,
+                "lines_per_symbol": 0,
+                "single_use_functions": 0,
+                "trivial_wrappers": 0,
+                "unused_variables": 0,
+                "clone_lines": 0,
+                "cloned_sloc_lines": 0,
+                "ast_grep_violations": 0,
+                "verbosity_flagged_sloc_lines": 0,
+                "sg_slop_violations": 0,
+                "graph_cyclic_dependency_mass": 0,
+                "graph_propagation_cost": 0,
+                "graph_dependency_entropy": 0,
+                "lines_added": 0,
+                "lines_removed": 0,
+                "mean_func_loc": 0,
+                "mass.cc": 0,
+                "mass.high_cc_pct": 0
+              },
+              "code_snapshot": {
+                "file_count": 42,
+                "total_bytes": 96865,
+                "tree_sha256": "697dc112d63e7aac445d6001230d89a49a96e7ccbfbd3253cc49e808395b0e9a",
+                "excluded_artifacts": [],
+                "archive": {
+                  "path": "problems/clint-t1/agent-results/artifacts/20260908t141706/checkpoint_1/agent-code.tar.gz",
+                  "sha256": "32d82d6ec189ee00c39f9bb816746a384ba685fea7f9fc6564b1138823fa80e9",
+                  "size_bytes": 25616,
+                  "file_count": 42,
+                  "tree_sha256": "697dc112d63e7aac445d6001230d89a49a96e7ccbfbd3253cc49e808395b0e9a"
+                },
+                "manifest": {
+                  "path": "problems/clint-t1/agent-results/artifacts/20260908t141706/checkpoint_1/agent-code.manifest.json",
+                  "sha256": "ad8fbe3fdf4bca5454746d7de3d50018b05437606ee5319720a00653b273361b",
+                  "size_bytes": 8437,
+                  "file_count": 42,
+                  "total_bytes": 96865,
+                  "tree_sha256": "697dc112d63e7aac445d6001230d89a49a96e7ccbfbd3253cc49e808395b0e9a"
+                },
+                "changed_files": {
+                  "path": "problems/clint-t1/agent-results/artifacts/20260908t141706/checkpoint_1/changed-files.json",
+                  "sha256": "3a8e77fd40c700bbf9d882fd99854d6ae85f33b9db6fe507a5fdcda91341c0f2",
+                  "count": 41
+                },
+                "diff": {
+                  "path": "problems/clint-t1/agent-results/artifacts/20260908t141706/checkpoint_1/changes.patch",
+                  "sha256": "04935dbe67bd16bdf90f44f2bf9e2a8acd745e83a512116e3271a3bc0e7a7b8e",
+                  "size_bytes": 103344
+                },
+                "baseline_path": "problems/clint-t1/pipeline/static_assets/golden_snapshots/c0_initial_workspace"
+              },
+              "evaluation": {
+                "pytest_exit_code": 1,
+                "infrastructure_failure": false,
+                "counts": {
+                  "structure": [
+                    1,
+                    1
+                  ],
+                  "core": [
+                    2,
+                    5
+                  ],
+                  "functionality": [
+                    0,
+                    0
+                  ],
+                  "regression": [
+                    1,
+                    1
+                  ],
+                  "error": [
+                    2,
+                    2
+                  ]
+                },
+                "core_gate_passed": false,
+                "sha256": "1331ee56f4650aa54626fbb31c0739cf77e8c8e59dfc4a2c5aadecce9c8291c9",
+                "details": {
+                  "schema_version": 1,
+                  "problem_name": "clint_t1_pipeline_sr_checkpoint_4",
+                  "problem_version": 1,
+                  "checkpoint_name": "checkpoint_1",
+                  "checkpoint_version": 1,
+                  "duration": 192.81657242774963,
+                  "entrypoint": "bash build_checkpoint.sh",
+                  "tests": {
+                    "checkpoint_1-Regression": {
+                      "passed": [
+                        "test_checkpoint_1_c3_apb_regression"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Core": {
+                      "passed": [
+                        "test_checkpoint_1_default_two_hart_behavior",
+                        "test_checkpoint_1_parameterized_behavior[2]"
+                      ],
+                      "failed": [
+                        "test_checkpoint_1_parameterized_behavior[1]",
+                        "test_checkpoint_1_parameterized_behavior[2048]",
+                        "test_checkpoint_1_parameterized_behavior[3]"
+                      ],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Structure": {
+                      "passed": [
+                        "test_checkpoint_1_structure"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Error": {
+                      "passed": [
+                        "test_checkpoint_1_unsupported_num_cores[0]",
+                        "test_checkpoint_1_unsupported_num_cores[4096]"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    }
+                  },
+                  "pass_counts": {
+                    "Structure": 1,
+                    "Core": 2,
+                    "Functionality": 0,
+                    "Regression": 1,
+                    "Error": 2
+                  },
+                  "total_counts": {
+                    "Structure": 1,
+                    "Core": 5,
+                    "Functionality": 0,
+                    "Regression": 1,
+                    "Error": 2
+                  },
+                  "detail_metrics": {},
+                  "pytest_exit_code": 1,
+                  "pytest_collected": 9,
+                  "test_collection_hash": "9896a1939e858c61258a6c70700dfda3f9b00faecee8dd407e53414c68f8ec74",
+                  "infrastructure_failure": false,
+                  "infrastructure_reason": null
+                }
+              },
+              "localCheckpoint": "checkpoint_1",
+              "targetCheckpoint": "checkpoint_4"
+            }
+          ],
+          "experimentType": "sr",
+          "targetCheckpoint": "checkpoint_4",
+          "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/clint-t1/agent-results/runs/20260908t141706.json"
+        },
+        {
+          "schema_version": 3,
+          "run_id": "20260908t141703",
+          "exported_at": "2026-09-08T09:01:55.969919+00:00",
+          "published_problem": "clint-t1",
+          "source_problem": "clint_t1_pipeline_sr_checkpoint_2",
+          "release_commit": "e431edd4f71a505538703986e27af4a920c9b969",
+          "definition_sha256": {
+            "config.yaml": "bee05209ce772c636e10a95ee62c6f8a5f5985ec7c7e9370e4bd170b03f5e124",
+            "checkpoint_1.md": "a9650ce74fbe6aad9b763a841d9d07c2c27edeba4b4e287e9852c2a3db4266dc",
+            "checkpoint_2.md": "872a88d50d5cdd04b1784bb5ae7a307cf000740e0534dc1a05bd4494bf9b3692",
+            "checkpoint_3.md": "467f76b25c5e8beb06535ba82858ffc3e20d6408b7e06a2251106ceb11a955fa",
+            "checkpoint_4.md": "dd85793dfd23168cdc6ab32a84fdf190a9460c388290cc3e3423a1ca64ee97f0"
+          },
+          "source_run": {
+            "directory": "codex-0.141.0_rtl-plan-and-test_high_20260908T141705668068_rtl_clint_t1_codex_gpt-5.6-luna_sr_20260908t141703",
+            "result_json_sha256": "960b97ca37b12e27bf37a715e5e21428c2dbe60df9f0f56f5da135ed8d194c16",
+            "checkpoint_results_sha256": "9d986300c2c7e7e016970862d4963d3d6cb0aa0fc591ad9ee96de964a720a5c5"
+          },
+          "agent": {
+            "type": "codex",
+            "version": "0.141.0"
+          },
+          "model": "agicto-gpt-5.6-luna",
+          "prompt": "rtl-plan-and-test",
+          "thinking": "high",
+          "run_metrics": {
+            "costs": {
+              "checkpoint": {
+                "mean": 0,
+                "stddev": null,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 1
+              },
+              "problem": {
+                "mean": 0,
+                "stddev": null,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 1
+              },
+              "total": 0
+            },
+            "time": {
+              "checkpoint": {
+                "mean": 711.237347,
+                "stddev": null,
+                "min": 711.237347,
+                "max": 711.237347,
+                "median": 711.237347,
+                "count": 1
+              },
+              "problem": {
+                "mean": 711.237347,
+                "stddev": null,
+                "min": 711.237347,
+                "max": 711.237347,
+                "median": 711.237347,
+                "count": 1
+              }
+            },
+            "tokens": {
+              "input": 1574826,
+              "output": 18195,
+              "cache_read": 1494144,
+              "cache_write": 0,
+              "reasoning": 4516,
+              "problem": {
+                "input": 1574826,
+                "output": 18195,
+                "cache_read": 1494144,
+                "cache_write": 0,
+                "reasoning": 4516
+              },
+              "checkpoint": {
+                "input": 1574826,
+                "output": 18195,
+                "cache_read": 1494144,
+                "cache_write": 0,
+                "reasoning": 4516
+              }
+            },
+            "steps": {
+              "checkpoint": {
+                "mean": 47,
+                "stddev": null,
+                "min": 47,
+                "max": 47,
+                "median": 47,
+                "count": 1
+              },
+              "problem": {
+                "mean": 47,
+                "stddev": null,
+                "min": 47,
+                "max": 47,
+                "median": 47,
+                "count": 1
+              }
+            },
+            "pass_rates": {
+              "problem": {
+                "structure": 1,
+                "core": 1,
+                "total": 1,
+                "error": 0,
+                "functionality": 1,
+                "regression": 1
+              },
+              "checkpoint": {
+                "structure": 1,
+                "core": 1,
+                "total": 1,
+                "error": 0,
+                "functionality": 1,
+                "regression": 1
+              }
+            }
+          },
+          "expected_checkpoints": 1,
+          "completed_checkpoints": 1,
+          "outcome": "passed",
+          "checkpoints": [
+            {
+              "checkpoint": "checkpoint_1",
+              "state": "ran",
+              "started_at": "2026-09-08T14:17:07.096531",
+              "ended_at": "2026-09-08T14:28:58.333878",
+              "duration_seconds": 711.237347,
+              "steps": 47,
+              "run_result": {
+                "problem": "clint_t1_pipeline_sr_checkpoint_2",
+                "version": 1,
+                "checkpoint": "checkpoint_1",
+                "path": "$RUN_DIR/clint_t1_pipeline_sr_checkpoint_2",
+                "idx": 1,
+                "state": "ran",
+                "is_first": true,
+                "is_last": true,
+                "strict_pass_rate": 1,
+                "structure_pass_rate": 1,
+                "core_pass_rate": 1,
+                "functionality_pass_rate": 1,
+                "isolated_pass_rate": 1,
+                "total_tests": 3,
+                "passed_tests": 3,
+                "structure_total": 1,
+                "structure_passed": 1,
+                "core_total": 1,
+                "core_passed": 1,
+                "functionality_total": 1,
+                "functionality_passed": 1,
+                "functionality_incremental_total": 0,
+                "functionality_incremental_passed": 0,
+                "error_total": 0,
+                "error_passed": 0,
+                "regression_total": 1,
+                "regression_passed": 1,
+                "started": "2026-09-08T14:17:07.096531",
+                "ended": "2026-09-08T14:28:58.333878",
+                "duration": 711.237347,
+                "cost": 0,
+                "steps": 47,
+                "cache_read": 1494144,
+                "cache_write": 0,
+                "input": 1574826,
+                "output": 18195,
+                "reasoning": 4516,
+                "loc": 38,
+                "sloc": 21,
+                "total_lines": 38,
+                "single_comments": 5,
+                "lint_errors": 2,
+                "lint_fixable": 0,
+                "files": 1,
+                "functions": 1,
+                "methods": 0,
+                "classes": 0,
+                "statements": 0,
+                "symbols_total": 1,
+                "cc_max": 1,
+                "cc_mean": 1,
+                "cc_std": 0,
+                "cc_high_count": 0,
+                "cc_extreme_count": 0,
+                "high_cc_mean": 0,
+                "cc_normalized": 0,
+                "cc_concentration": 0,
+                "cc_top20": 0,
+                "max_nesting_depth": 0,
+                "lines_per_symbol": 21,
+                "single_use_functions": 1,
+                "trivial_wrappers": 0,
+                "unused_variables": 0,
+                "clone_lines": 0,
+                "cloned_sloc_lines": 0,
+                "ast_grep_violations": 0,
+                "verbosity_flagged_sloc_lines": 0,
+                "sg_slop_violations": 0,
+                "lint_per_loc": 0.05263157894736842,
+                "violation_pct": 0,
+                "cloned_pct": 0,
+                "verbosity_flagged_pct": 0,
+                "graph_cyclic_dependency_mass": 0,
+                "graph_propagation_cost": 0,
+                "graph_dependency_entropy": 0,
+                "lines_added": 38,
+                "lines_removed": 0,
+                "mean_func_loc": 21,
+                "mass.cc": 3.87,
+                "mass.high_cc_pct": 0
+              },
+              "code_snapshot": {
+                "file_count": 25,
+                "total_bytes": 50462,
+                "tree_sha256": "ed3a3fe470a96ea798db5896529cf53cae8a22e7eece220dc750e974b0988919",
+                "excluded_artifacts": [],
+                "archive": {
+                  "path": "problems/clint-t1/agent-results/artifacts/20260908t141703/checkpoint_1/agent-code.tar.gz",
+                  "sha256": "3203f2b6369d32e85db7f17951f6f30b090ac1e696a0072e27a12a62d4546920",
+                  "size_bytes": 13952,
+                  "file_count": 25,
+                  "tree_sha256": "ed3a3fe470a96ea798db5896529cf53cae8a22e7eece220dc750e974b0988919"
+                },
+                "manifest": {
+                  "path": "problems/clint-t1/agent-results/artifacts/20260908t141703/checkpoint_1/agent-code.manifest.json",
+                  "sha256": "f9b8798c6b72f14d2b67f18effc9bb1bd0bdc384cb3eac4edad7c2550de1256c",
+                  "size_bytes": 4652,
+                  "file_count": 25,
+                  "total_bytes": 50462,
+                  "tree_sha256": "ed3a3fe470a96ea798db5896529cf53cae8a22e7eece220dc750e974b0988919"
+                },
+                "changed_files": {
+                  "path": "problems/clint-t1/agent-results/artifacts/20260908t141703/checkpoint_1/changed-files.json",
+                  "sha256": "789d688fb01e0b3bbf64844da86e576749a64d1cb1ddc44417e4b650a25636a1",
+                  "count": 24
+                },
+                "diff": {
+                  "path": "problems/clint-t1/agent-results/artifacts/20260908t141703/checkpoint_1/changes.patch",
+                  "sha256": "ec2247dd41e70ec34193664207bb55e16785fd045d59e4b84d923b406d7b88b0",
+                  "size_bytes": 53879
+                },
+                "baseline_path": "problems/clint-t1/pipeline/static_assets/golden_snapshots/c0_initial_workspace"
+              },
+              "evaluation": {
+                "pytest_exit_code": 0,
+                "infrastructure_failure": false,
+                "counts": {
+                  "structure": [
+                    1,
+                    1
+                  ],
+                  "core": [
+                    1,
+                    1
+                  ],
+                  "functionality": [
+                    0,
+                    0
+                  ],
+                  "regression": [
+                    1,
+                    1
+                  ],
+                  "error": [
+                    0,
+                    0
+                  ]
+                },
+                "core_gate_passed": true,
+                "sha256": "080974f80fb5ef302414aa2d29f92b65ce979bc6dfb2deb37de812b0f2a034f8",
+                "details": {
+                  "schema_version": 1,
+                  "problem_name": "clint_t1_pipeline_sr_checkpoint_2",
+                  "problem_version": 1,
+                  "checkpoint_name": "checkpoint_1",
+                  "checkpoint_version": 1,
+                  "duration": 13.648706436157227,
+                  "entrypoint": "bash build_checkpoint.sh",
+                  "tests": {
+                    "checkpoint_1-Regression": {
+                      "passed": [
+                        "test_checkpoint_1_c1_behavior_regression"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Core": {
+                      "passed": [
+                        "test_checkpoint_1_independent_msip_behavior"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Structure": {
+                      "passed": [
+                        "test_checkpoint_1_structure"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    }
+                  },
+                  "pass_counts": {
+                    "Structure": 1,
+                    "Core": 1,
+                    "Functionality": 0,
+                    "Regression": 1,
+                    "Error": 0
+                  },
+                  "total_counts": {
+                    "Structure": 1,
+                    "Core": 1,
+                    "Functionality": 0,
+                    "Regression": 1,
+                    "Error": 0
+                  },
+                  "detail_metrics": {},
+                  "pytest_exit_code": 0,
+                  "pytest_collected": 3,
+                  "test_collection_hash": "6f154cfa04c7dd77e38526dc6995b30f0ecc5284ffd7aac774d96f7cafe7dc86",
+                  "infrastructure_failure": false,
+                  "infrastructure_reason": null
+                }
+              },
+              "localCheckpoint": "checkpoint_1",
+              "targetCheckpoint": "checkpoint_2"
+            }
+          ],
+          "experimentType": "sr",
+          "targetCheckpoint": "checkpoint_2",
+          "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/clint-t1/agent-results/runs/20260908t141703.json"
+        },
+        {
+          "schema_version": 3,
+          "run_id": "20260908t141702",
+          "exported_at": "2026-09-08T09:01:55.846919+00:00",
+          "published_problem": "clint-t1",
+          "source_problem": "clint_t1_pipeline_sr_checkpoint_1",
+          "release_commit": "e431edd4f71a505538703986e27af4a920c9b969",
+          "definition_sha256": {
+            "config.yaml": "bee05209ce772c636e10a95ee62c6f8a5f5985ec7c7e9370e4bd170b03f5e124",
+            "checkpoint_1.md": "a9650ce74fbe6aad9b763a841d9d07c2c27edeba4b4e287e9852c2a3db4266dc",
+            "checkpoint_2.md": "872a88d50d5cdd04b1784bb5ae7a307cf000740e0534dc1a05bd4494bf9b3692",
+            "checkpoint_3.md": "467f76b25c5e8beb06535ba82858ffc3e20d6408b7e06a2251106ceb11a955fa",
+            "checkpoint_4.md": "dd85793dfd23168cdc6ab32a84fdf190a9460c388290cc3e3423a1ca64ee97f0"
+          },
+          "source_run": {
+            "directory": "codex-0.141.0_rtl-plan-and-test_high_20260908T141704271011_rtl_clint_t1_codex_gpt-5.6-luna_sr_20260908t141702",
+            "result_json_sha256": "098a6459250362e8e59957caa59f9ddab3ad2a6d01e6ef0c02bd5361cae72364",
+            "checkpoint_results_sha256": "822737de06d48d6baaddca2af8a4c0f184f7ec185f93f9b3fd3aa206c66879fe"
+          },
+          "agent": {
+            "type": "codex",
+            "version": "0.141.0"
+          },
+          "model": "agicto-gpt-5.6-luna",
+          "prompt": "rtl-plan-and-test",
+          "thinking": "high",
+          "run_metrics": {
+            "costs": {
+              "checkpoint": {
+                "mean": 0,
+                "stddev": null,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 1
+              },
+              "problem": {
+                "mean": 0,
+                "stddev": null,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 1
+              },
+              "total": 0
+            },
+            "time": {
+              "checkpoint": {
+                "mean": 460.90931,
+                "stddev": null,
+                "min": 460.90931,
+                "max": 460.90931,
+                "median": 460.90931,
+                "count": 1
+              },
+              "problem": {
+                "mean": 460.90931,
+                "stddev": null,
+                "min": 460.90931,
+                "max": 460.90931,
+                "median": 460.90931,
+                "count": 1
+              }
+            },
+            "tokens": {
+              "input": 579891,
+              "output": 11416,
+              "cache_read": 514048,
+              "cache_write": 0,
+              "reasoning": 3113,
+              "problem": {
+                "input": 579891,
+                "output": 11416,
+                "cache_read": 514048,
+                "cache_write": 0,
+                "reasoning": 3113
+              },
+              "checkpoint": {
+                "input": 579891,
+                "output": 11416,
+                "cache_read": 514048,
+                "cache_write": 0,
+                "reasoning": 3113
+              }
+            },
+            "steps": {
+              "checkpoint": {
+                "mean": 34,
+                "stddev": null,
+                "min": 34,
+                "max": 34,
+                "median": 34,
+                "count": 1
+              },
+              "problem": {
+                "mean": 34,
+                "stddev": null,
+                "min": 34,
+                "max": 34,
+                "median": 34,
+                "count": 1
+              }
+            },
+            "pass_rates": {
+              "problem": {
+                "structure": 1,
+                "core": 1,
+                "total": 1,
+                "error": 0,
+                "functionality": 1,
+                "regression": 0
+              },
+              "checkpoint": {
+                "structure": 1,
+                "core": 1,
+                "total": 1,
+                "error": 0,
+                "functionality": 1,
+                "regression": 0
+              }
+            }
+          },
+          "expected_checkpoints": 1,
+          "completed_checkpoints": 1,
+          "outcome": "passed",
+          "checkpoints": [
+            {
+              "checkpoint": "checkpoint_1",
+              "state": "ran",
+              "started_at": "2026-09-08T14:17:05.783929",
+              "ended_at": "2026-09-08T14:24:46.693239",
+              "duration_seconds": 460.90931,
+              "steps": 34,
+              "run_result": {
+                "problem": "clint_t1_pipeline_sr_checkpoint_1",
+                "version": 1,
+                "checkpoint": "checkpoint_1",
+                "path": "$RUN_DIR/clint_t1_pipeline_sr_checkpoint_1",
+                "idx": 1,
+                "state": "ran",
+                "is_first": true,
+                "is_last": true,
+                "strict_pass_rate": 1,
+                "structure_pass_rate": 1,
+                "core_pass_rate": 1,
+                "functionality_pass_rate": 1,
+                "isolated_pass_rate": 1,
+                "total_tests": 3,
+                "passed_tests": 3,
+                "structure_total": 2,
+                "structure_passed": 2,
+                "core_total": 1,
+                "core_passed": 1,
+                "functionality_total": 1,
+                "functionality_passed": 1,
+                "functionality_incremental_total": 0,
+                "functionality_incremental_passed": 0,
+                "error_total": 0,
+                "error_passed": 0,
+                "regression_total": 0,
+                "regression_passed": 0,
+                "started": "2026-09-08T14:17:05.783929",
+                "ended": "2026-09-08T14:24:46.693239",
+                "duration": 460.90931,
+                "cost": 0,
+                "steps": 34,
+                "cache_read": 514048,
+                "cache_write": 0,
+                "input": 579891,
+                "output": 11416,
+                "reasoning": 3113,
+                "loc": 0,
+                "sloc": 0,
+                "total_lines": 0,
+                "single_comments": 0,
+                "lint_errors": 0,
+                "lint_fixable": 0,
+                "files": 0,
+                "functions": 0,
+                "methods": 0,
+                "classes": 0,
+                "statements": 0,
+                "symbols_total": 0,
+                "cc_max": 0,
+                "cc_mean": 0,
+                "cc_std": 0,
+                "cc_high_count": 0,
+                "cc_extreme_count": 0,
+                "high_cc_mean": 0,
+                "cc_normalized": 0,
+                "cc_concentration": 0,
+                "cc_top20": 0,
+                "max_nesting_depth": 0,
+                "lines_per_symbol": 0,
+                "single_use_functions": 0,
+                "trivial_wrappers": 0,
+                "unused_variables": 0,
+                "clone_lines": 0,
+                "cloned_sloc_lines": 0,
+                "ast_grep_violations": 0,
+                "verbosity_flagged_sloc_lines": 0,
+                "sg_slop_violations": 0,
+                "graph_cyclic_dependency_mass": 0,
+                "graph_propagation_cost": 0,
+                "graph_dependency_entropy": 0,
+                "lines_added": 0,
+                "lines_removed": 0,
+                "mean_func_loc": 0,
+                "mass.cc": 0,
+                "mass.high_cc_pct": 0
+              },
+              "code_snapshot": {
+                "file_count": 6,
+                "total_bytes": 7757,
+                "tree_sha256": "6a4541d8e5e23330c44253f87d75f827e33d5475bda91e4da6d2a2dcf7ab09f3",
+                "excluded_artifacts": [],
+                "archive": {
+                  "path": "problems/clint-t1/agent-results/artifacts/20260908t141702/checkpoint_1/agent-code.tar.gz",
+                  "sha256": "401cff3bfba0d7e9d3871d359f4263e9a4469aad2c82b468a30e74ffb13c0287",
+                  "size_bytes": 2235,
+                  "file_count": 6,
+                  "tree_sha256": "6a4541d8e5e23330c44253f87d75f827e33d5475bda91e4da6d2a2dcf7ab09f3"
+                },
+                "manifest": {
+                  "path": "problems/clint-t1/agent-results/artifacts/20260908t141702/checkpoint_1/agent-code.manifest.json",
+                  "sha256": "6f4970737ff8cab2564a5e2f2b93372ddcaee4958269a753fb2a804d54c2661c",
+                  "size_bytes": 1256,
+                  "file_count": 6,
+                  "total_bytes": 7757,
+                  "tree_sha256": "6a4541d8e5e23330c44253f87d75f827e33d5475bda91e4da6d2a2dcf7ab09f3"
+                },
+                "changed_files": {
+                  "path": "problems/clint-t1/agent-results/artifacts/20260908t141702/checkpoint_1/changed-files.json",
+                  "sha256": "64f9faef150183bcf6136b2c678691b3a3d6f293d09f0a1934d9e0149c3f2aa4",
+                  "count": 5
+                },
+                "diff": {
+                  "path": "problems/clint-t1/agent-results/artifacts/20260908t141702/checkpoint_1/changes.patch",
+                  "sha256": "00caf0f46dc27e023be59f951dd58a1b0c05097e918ce842ed819c3bd0219aa1",
+                  "size_bytes": 8635
+                },
+                "baseline_path": "problems/clint-t1/pipeline/static_assets/golden_snapshots/c0_initial_workspace"
+              },
+              "evaluation": {
+                "pytest_exit_code": 0,
+                "infrastructure_failure": false,
+                "counts": {
+                  "structure": [
+                    2,
+                    2
+                  ],
+                  "core": [
+                    1,
+                    1
+                  ],
+                  "functionality": [
+                    0,
+                    0
+                  ],
+                  "regression": [
+                    0,
+                    0
+                  ],
+                  "error": [
+                    0,
+                    0
+                  ]
+                },
+                "core_gate_passed": true,
+                "sha256": "dff0dc5449ca2d91a04680c60f25060e48de3dabba4f7f796b5cb1150c81d386",
+                "details": {
+                  "schema_version": 1,
+                  "problem_name": "clint_t1_pipeline_sr_checkpoint_1",
+                  "problem_version": 1,
+                  "checkpoint_name": "checkpoint_1",
+                  "checkpoint_version": 1,
+                  "duration": 7.21187162399292,
+                  "entrypoint": "bash build_checkpoint.sh",
+                  "tests": {
+                    "checkpoint_1-Structure": {
+                      "passed": [
+                        "test_checkpoint_1_artifact_hygiene",
+                        "test_checkpoint_1_structure"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Core": {
+                      "passed": [
+                        "test_checkpoint_1_regbus_behavior"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    }
+                  },
+                  "pass_counts": {
+                    "Structure": 2,
+                    "Core": 1,
+                    "Functionality": 0,
+                    "Regression": 0,
+                    "Error": 0
+                  },
+                  "total_counts": {
+                    "Structure": 2,
+                    "Core": 1,
+                    "Functionality": 0,
+                    "Regression": 0,
+                    "Error": 0
+                  },
+                  "detail_metrics": {},
+                  "pytest_exit_code": 0,
+                  "pytest_collected": 3,
+                  "test_collection_hash": "241eda27338da5b29e8b1b0b97092cc4e98ff6b9ad468d6f3fcf94541def59bb",
+                  "infrastructure_failure": false,
+                  "infrastructure_reason": null
+                }
+              },
+              "localCheckpoint": "checkpoint_1",
+              "targetCheckpoint": "checkpoint_1"
+            }
+          ],
+          "experimentType": "sr",
+          "targetCheckpoint": "checkpoint_1",
+          "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/clint-t1/agent-results/runs/20260908t141702.json"
+        },
+        {
+          "schema_version": 3,
+          "run_id": "20260908t095649",
+          "exported_at": "2026-09-08T09:01:55.748783+00:00",
+          "published_problem": "clint-t1",
+          "source_problem": "clint_t1_pipeline",
+          "release_commit": "e431edd4f71a505538703986e27af4a920c9b969",
+          "definition_sha256": {
+            "config.yaml": "bee05209ce772c636e10a95ee62c6f8a5f5985ec7c7e9370e4bd170b03f5e124",
+            "checkpoint_1.md": "a9650ce74fbe6aad9b763a841d9d07c2c27edeba4b4e287e9852c2a3db4266dc",
+            "checkpoint_2.md": "872a88d50d5cdd04b1784bb5ae7a307cf000740e0534dc1a05bd4494bf9b3692",
+            "checkpoint_3.md": "467f76b25c5e8beb06535ba82858ffc3e20d6408b7e06a2251106ceb11a955fa",
+            "checkpoint_4.md": "dd85793dfd23168cdc6ab32a84fdf190a9460c388290cc3e3423a1ca64ee97f0"
+          },
+          "source_run": {
+            "directory": "codex-0.141.0_rtl-plan-and-test_high_20260908T095650995629_rtl_clint_t1_codex_gpt-5.6-luna_pipeline_20260908t095649",
+            "result_json_sha256": "19506d6c6b448aad023c03cb187aef3d70c2bb97cf726cd4226ca860db1641a6",
+            "checkpoint_results_sha256": "ceb10c54c06445f78de0d5e001174432030515c3b54d77a8ea118e5462a8a259"
+          },
+          "agent": {
+            "type": "codex",
+            "version": "0.141.0"
+          },
+          "model": "agicto-gpt-5.6-luna",
+          "prompt": "rtl-plan-and-test",
+          "thinking": "high",
+          "run_metrics": {
+            "costs": {
+              "checkpoint": {
+                "mean": 0,
+                "stddev": 0,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 4
+              },
+              "problem": {
+                "mean": 0,
+                "stddev": null,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 1
+              },
+              "total": 0
+            },
+            "time": {
+              "checkpoint": {
+                "mean": 952.9926325,
+                "stddev": 1010.5079920943404,
+                "min": 274.105486,
+                "max": 2453.787687,
+                "median": 542.0386785000001,
+                "count": 4
+              },
+              "problem": {
+                "mean": 3811.97053,
+                "stddev": null,
+                "min": 3811.97053,
+                "max": 3811.97053,
+                "median": 3811.97053,
+                "count": 1
+              }
+            },
+            "tokens": {
+              "input": 2857785,
+              "output": 45425,
+              "cache_read": 2575104,
+              "cache_write": 0,
+              "reasoning": 12079,
+              "problem": {
+                "input": 2857785,
+                "output": 45425,
+                "cache_read": 2575104,
+                "cache_write": 0,
+                "reasoning": 12079
+              },
+              "checkpoint": {
+                "input": 714446.25,
+                "output": 11356.25,
+                "cache_read": 643776,
+                "cache_write": 0,
+                "reasoning": 3019.75
+              }
+            },
+            "steps": {
+              "checkpoint": {
+                "mean": 30.75,
+                "stddev": 10.436314802968846,
+                "min": 21,
+                "max": 44,
+                "median": 29,
+                "count": 4
+              },
+              "problem": {
+                "mean": 123,
+                "stddev": null,
+                "min": 123,
+                "max": 123,
+                "median": 123,
+                "count": 1
+              }
+            },
+            "pass_rates": {
+              "problem": {
+                "structure": 1,
+                "core": 0.75,
+                "total": 0.5138888888888888,
+                "error": 1,
+                "functionality": 0.75,
+                "regression": 0.16428571428571428
+              },
+              "checkpoint": {
+                "structure": 1,
+                "core": 0.75,
+                "total": 0.5138888888888888,
+                "error": 1,
+                "functionality": 0.75,
+                "regression": 0.16428571428571428
+              }
+            }
+          },
+          "expected_checkpoints": 4,
+          "completed_checkpoints": 4,
+          "outcome": "failed",
+          "checkpoints": [
+            {
+              "checkpoint": "checkpoint_1",
+              "state": "ran",
+              "started_at": "2026-09-08T09:56:52.465422",
+              "ended_at": "2026-09-08T10:07:13.051374",
+              "duration_seconds": 620.585952,
+              "steps": 34,
+              "run_result": {
+                "problem": "clint_t1_pipeline",
+                "version": 1,
+                "checkpoint": "checkpoint_1",
+                "path": "$RUN_DIR/clint_t1_pipeline",
+                "idx": 1,
+                "state": "ran",
+                "is_first": true,
+                "is_last": false,
+                "strict_pass_rate": 1,
+                "structure_pass_rate": 1,
+                "core_pass_rate": 1,
+                "functionality_pass_rate": 1,
+                "isolated_pass_rate": 1,
+                "total_tests": 3,
+                "passed_tests": 3,
+                "structure_total": 2,
+                "structure_passed": 2,
+                "core_total": 1,
+                "core_passed": 1,
+                "functionality_total": 1,
+                "functionality_passed": 1,
+                "functionality_incremental_total": 0,
+                "functionality_incremental_passed": 0,
+                "error_total": 0,
+                "error_passed": 0,
+                "regression_total": 0,
+                "regression_passed": 0,
+                "started": "2026-09-08T09:56:52.465422",
+                "ended": "2026-09-08T10:07:13.051374",
+                "duration": 620.585952,
+                "cost": 0,
+                "steps": 34,
+                "cache_read": 605696,
+                "cache_write": 0,
+                "input": 686564,
+                "output": 11097,
+                "reasoning": 3559,
+                "loc": 0,
+                "sloc": 0,
+                "total_lines": 0,
+                "single_comments": 0,
+                "lint_errors": 0,
+                "lint_fixable": 0,
+                "files": 0,
+                "functions": 0,
+                "methods": 0,
+                "classes": 0,
+                "statements": 0,
+                "symbols_total": 0,
+                "cc_max": 0,
+                "cc_mean": 0,
+                "cc_std": 0,
+                "cc_high_count": 0,
+                "cc_extreme_count": 0,
+                "high_cc_mean": 0,
+                "cc_normalized": 0,
+                "cc_concentration": 0,
+                "cc_top20": 0,
+                "max_nesting_depth": 0,
+                "lines_per_symbol": 0,
+                "single_use_functions": 0,
+                "trivial_wrappers": 0,
+                "unused_variables": 0,
+                "clone_lines": 0,
+                "cloned_sloc_lines": 0,
+                "ast_grep_violations": 0,
+                "verbosity_flagged_sloc_lines": 0,
+                "sg_slop_violations": 0,
+                "graph_cyclic_dependency_mass": 0,
+                "graph_propagation_cost": 0,
+                "graph_dependency_entropy": 0,
+                "lines_added": 0,
+                "lines_removed": 0,
+                "mean_func_loc": 0,
+                "mass.cc": 0,
+                "mass.high_cc_pct": 0
+              },
+              "code_snapshot": {
+                "file_count": 6,
+                "total_bytes": 9181,
+                "tree_sha256": "84c07b8411dbe84af9e3c06ccb6688a149dd4a52124e83cd6785e476386f99aa",
+                "excluded_artifacts": [],
+                "archive": {
+                  "path": "problems/clint-t1/agent-results/artifacts/20260908t095649/checkpoint_1/agent-code.tar.gz",
+                  "sha256": "7c964827bb57ca83dc90110721101256d330ce80f94f992e6e90cc891efe2d20",
+                  "size_bytes": 2460,
+                  "file_count": 6,
+                  "tree_sha256": "84c07b8411dbe84af9e3c06ccb6688a149dd4a52124e83cd6785e476386f99aa"
+                },
+                "manifest": {
+                  "path": "problems/clint-t1/agent-results/artifacts/20260908t095649/checkpoint_1/agent-code.manifest.json",
+                  "sha256": "b85f925d1b9952d681c09dc00248be1097f037233eb68184d59884b3bb34115f",
+                  "size_bytes": 1256,
+                  "file_count": 6,
+                  "total_bytes": 9181,
+                  "tree_sha256": "84c07b8411dbe84af9e3c06ccb6688a149dd4a52124e83cd6785e476386f99aa"
+                },
+                "changed_files": {
+                  "path": "problems/clint-t1/agent-results/artifacts/20260908t095649/checkpoint_1/changed-files.json",
+                  "sha256": "1b412e8c3388bf74f11a452cab5408a07442a337be5b99c2559410216fecc50f",
+                  "count": 4
+                },
+                "diff": {
+                  "path": "problems/clint-t1/agent-results/artifacts/20260908t095649/checkpoint_1/changes.patch",
+                  "sha256": "bd28a78fc663e6de630edc0aec279b3a493b509a3dc5e005222582086e2cf6d4",
+                  "size_bytes": 9288
+                },
+                "baseline_path": "problems/clint-t1/pipeline/static_assets/golden_snapshots/c0_initial_workspace"
+              },
+              "evaluation": {
+                "pytest_exit_code": 0,
+                "infrastructure_failure": false,
+                "counts": {
+                  "structure": [
+                    2,
+                    2
+                  ],
+                  "core": [
+                    1,
+                    1
+                  ],
+                  "functionality": [
+                    0,
+                    0
+                  ],
+                  "regression": [
+                    0,
+                    0
+                  ],
+                  "error": [
+                    0,
+                    0
+                  ]
+                },
+                "core_gate_passed": true,
+                "sha256": "eef4f0ed75b3c0c915dc12da0b7a91e20d1a570bd7563aa61af8404aa54dad31",
+                "details": {
+                  "schema_version": 1,
+                  "problem_name": "clint_t1_pipeline",
+                  "problem_version": 1,
+                  "checkpoint_name": "checkpoint_1",
+                  "checkpoint_version": 1,
+                  "duration": 7.009304523468018,
+                  "entrypoint": "bash build_checkpoint.sh",
+                  "tests": {
+                    "checkpoint_1-Structure": {
+                      "passed": [
+                        "test_checkpoint_1_artifact_hygiene",
+                        "test_checkpoint_1_structure"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Core": {
+                      "passed": [
+                        "test_checkpoint_1_regbus_behavior"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    }
+                  },
+                  "pass_counts": {
+                    "Structure": 2,
+                    "Core": 1,
+                    "Functionality": 0,
+                    "Regression": 0,
+                    "Error": 0
+                  },
+                  "total_counts": {
+                    "Structure": 2,
+                    "Core": 1,
+                    "Functionality": 0,
+                    "Regression": 0,
+                    "Error": 0
+                  },
+                  "detail_metrics": {},
+                  "pytest_exit_code": 0,
+                  "pytest_collected": 3,
+                  "test_collection_hash": "241eda27338da5b29e8b1b0b97092cc4e98ff6b9ad468d6f3fcf94541def59bb",
+                  "infrastructure_failure": false,
+                  "infrastructure_reason": null
+                }
+              },
+              "localCheckpoint": "checkpoint_1",
+              "targetCheckpoint": "checkpoint_1"
+            },
+            {
+              "checkpoint": "checkpoint_2",
+              "state": "ran",
+              "started_at": "2026-09-08T10:07:24.484516",
+              "ended_at": "2026-09-08T10:11:58.590002",
+              "duration_seconds": 274.105486,
+              "steps": 24,
+              "run_result": {
+                "problem": "clint_t1_pipeline",
+                "version": 1,
+                "checkpoint": "checkpoint_2",
+                "path": "$RUN_DIR/clint_t1_pipeline",
+                "idx": 2,
+                "state": "ran",
+                "is_first": false,
+                "is_last": false,
+                "strict_pass_rate": 0.5,
+                "structure_pass_rate": 1,
+                "core_pass_rate": 1,
+                "functionality_pass_rate": 1,
+                "isolated_pass_rate": 1,
+                "total_tests": 6,
+                "passed_tests": 3,
+                "structure_total": 1,
+                "structure_passed": 1,
+                "core_total": 1,
+                "core_passed": 1,
+                "functionality_total": 1,
+                "functionality_passed": 1,
+                "functionality_incremental_total": 0,
+                "functionality_incremental_passed": 0,
+                "error_total": 0,
+                "error_passed": 0,
+                "regression_total": 4,
+                "regression_passed": 1,
+                "started": "2026-09-08T10:07:24.484516",
+                "ended": "2026-09-08T10:11:58.590002",
+                "duration": 274.105486,
+                "cost": 0,
+                "steps": 24,
+                "cache_read": 375424,
+                "cache_write": 0,
+                "input": 414343,
+                "output": 6274,
+                "reasoning": 1292,
+                "loc": 0,
+                "sloc": 0,
+                "total_lines": 0,
+                "single_comments": 0,
+                "lint_errors": 0,
+                "lint_fixable": 0,
+                "files": 0,
+                "functions": 0,
+                "methods": 0,
+                "classes": 0,
+                "statements": 0,
+                "symbols_total": 0,
+                "cc_max": 0,
+                "cc_mean": 0,
+                "cc_std": 0,
+                "cc_high_count": 0,
+                "cc_extreme_count": 0,
+                "high_cc_mean": 0,
+                "cc_normalized": 0,
+                "cc_concentration": 0,
+                "cc_top20": 0,
+                "max_nesting_depth": 0,
+                "lines_per_symbol": 0,
+                "single_use_functions": 0,
+                "trivial_wrappers": 0,
+                "unused_variables": 0,
+                "clone_lines": 0,
+                "cloned_sloc_lines": 0,
+                "ast_grep_violations": 0,
+                "verbosity_flagged_sloc_lines": 0,
+                "sg_slop_violations": 0,
+                "graph_cyclic_dependency_mass": 0,
+                "graph_propagation_cost": 0,
+                "graph_dependency_entropy": 0,
+                "lines_added": 0,
+                "lines_removed": 0,
+                "mean_func_loc": 0,
+                "mass.cc": 0,
+                "mass.high_cc_pct": 0,
+                "delta.loc": 0,
+                "delta.ast_grep_violations": 0,
+                "delta.churn_ratio": 0
+              },
+              "code_snapshot": {
+                "file_count": 6,
+                "total_bytes": 10383,
+                "tree_sha256": "52e4000a416cfca26d7bee9be2d3931cc17b857ed7421b182320c169b27a0868",
+                "excluded_artifacts": [],
+                "archive": {
+                  "path": "problems/clint-t1/agent-results/artifacts/20260908t095649/checkpoint_2/agent-code.tar.gz",
+                  "sha256": "06f750c8cfd25c794d87743a6da9a51ccb3ff1fd2b1948a0195e50d66a9fc472",
+                  "size_bytes": 2566,
+                  "file_count": 6,
+                  "tree_sha256": "52e4000a416cfca26d7bee9be2d3931cc17b857ed7421b182320c169b27a0868"
+                },
+                "manifest": {
+                  "path": "problems/clint-t1/agent-results/artifacts/20260908t095649/checkpoint_2/agent-code.manifest.json",
+                  "sha256": "d8ee15066c69fcae240eca7dd0e1afafef3244104a9bd394f885c6ecc8e55c85",
+                  "size_bytes": 1257,
+                  "file_count": 6,
+                  "total_bytes": 10383,
+                  "tree_sha256": "52e4000a416cfca26d7bee9be2d3931cc17b857ed7421b182320c169b27a0868"
+                },
+                "changed_files": {
+                  "path": "problems/clint-t1/agent-results/artifacts/20260908t095649/checkpoint_2/changed-files.json",
+                  "sha256": "66e0fa3aabc194dc56bd96ba47975c2b6607bc7f4c6a09e0032721c338951409",
+                  "count": 4
+                },
+                "diff": {
+                  "path": "problems/clint-t1/agent-results/artifacts/20260908t095649/checkpoint_2/changes.patch",
+                  "sha256": "8af843a7e2cf2a0f4a65f7ed417cd0657523305acecf3d634be20f3bce726aaa",
+                  "size_bytes": 10510
+                },
+                "baseline_path": "problems/clint-t1/pipeline/static_assets/golden_snapshots/c0_initial_workspace"
+              },
+              "evaluation": {
+                "pytest_exit_code": 0,
+                "infrastructure_failure": false,
+                "counts": {
+                  "structure": [
+                    1,
+                    1
+                  ],
+                  "core": [
+                    1,
+                    1
+                  ],
+                  "functionality": [
+                    0,
+                    0
+                  ],
+                  "regression": [
+                    1,
+                    4
+                  ],
+                  "error": [
+                    0,
+                    0
+                  ]
+                },
+                "core_gate_passed": true,
+                "sha256": "4b017bc81e41f3a9cf003bec7f2602d1345348028e60077a343aa27754f5109a",
+                "details": {
+                  "schema_version": 1,
+                  "problem_name": "clint_t1_pipeline",
+                  "problem_version": 1,
+                  "checkpoint_name": "checkpoint_2",
+                  "checkpoint_version": 1,
+                  "duration": 13.149519681930542,
+                  "entrypoint": "bash build_checkpoint.sh",
+                  "tests": {
+                    "checkpoint_1-Regression": {
+                      "passed": [],
+                      "failed": [],
+                      "skipped": [
+                        "test_checkpoint_1_artifact_hygiene",
+                        "test_checkpoint_1_regbus_behavior",
+                        "test_checkpoint_1_structure"
+                      ]
+                    },
+                    "checkpoint_2-Regression": {
+                      "passed": [
+                        "test_checkpoint_2_c1_behavior_regression"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_2-Core": {
+                      "passed": [
+                        "test_checkpoint_2_msip_behavior"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_2-Structure": {
+                      "passed": [
+                        "test_checkpoint_2_structure"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    }
+                  },
+                  "pass_counts": {
+                    "Structure": 1,
+                    "Core": 1,
+                    "Functionality": 0,
+                    "Regression": 1,
+                    "Error": 0
+                  },
+                  "total_counts": {
+                    "Structure": 1,
+                    "Core": 1,
+                    "Functionality": 0,
+                    "Regression": 4,
+                    "Error": 0
+                  },
+                  "detail_metrics": {},
+                  "pytest_exit_code": 0,
+                  "pytest_collected": 6,
+                  "test_collection_hash": "13b747b1a9559fd6661fc24d8e0b2a2477b645eb48946d5bbe31004404e9d6dd",
+                  "infrastructure_failure": false,
+                  "infrastructure_reason": null
+                }
+              },
+              "localCheckpoint": "checkpoint_2",
+              "targetCheckpoint": "checkpoint_2"
+            },
+            {
+              "checkpoint": "checkpoint_3",
+              "state": "ran",
+              "started_at": "2026-09-08T10:12:18.361417",
+              "ended_at": "2026-09-08T10:20:01.852822",
+              "duration_seconds": 463.491405,
+              "steps": 21,
+              "run_result": {
+                "problem": "clint_t1_pipeline",
+                "version": 1,
+                "checkpoint": "checkpoint_3",
+                "path": "$RUN_DIR/clint_t1_pipeline",
+                "idx": 3,
+                "state": "ran",
+                "is_first": false,
+                "is_last": false,
+                "strict_pass_rate": 0.3333333333333333,
+                "structure_pass_rate": 1,
+                "core_pass_rate": 1,
+                "functionality_pass_rate": 1,
+                "isolated_pass_rate": 1,
+                "total_tests": 9,
+                "passed_tests": 3,
+                "structure_total": 1,
+                "structure_passed": 1,
+                "core_total": 1,
+                "core_passed": 1,
+                "functionality_total": 1,
+                "functionality_passed": 1,
+                "functionality_incremental_total": 0,
+                "functionality_incremental_passed": 0,
+                "error_total": 0,
+                "error_passed": 0,
+                "regression_total": 7,
+                "regression_passed": 1,
+                "started": "2026-09-08T10:12:18.361417",
+                "ended": "2026-09-08T10:20:01.852822",
+                "duration": 463.491405,
+                "cost": 0,
+                "steps": 21,
+                "cache_read": 341376,
+                "cache_write": 0,
+                "input": 388704,
+                "output": 10605,
+                "reasoning": 1682,
+                "loc": 0,
+                "sloc": 0,
+                "total_lines": 0,
+                "single_comments": 0,
+                "lint_errors": 0,
+                "lint_fixable": 0,
+                "files": 0,
+                "functions": 0,
+                "methods": 0,
+                "classes": 0,
+                "statements": 0,
+                "symbols_total": 0,
+                "cc_max": 0,
+                "cc_mean": 0,
+                "cc_std": 0,
+                "cc_high_count": 0,
+                "cc_extreme_count": 0,
+                "high_cc_mean": 0,
+                "cc_normalized": 0,
+                "cc_concentration": 0,
+                "cc_top20": 0,
+                "max_nesting_depth": 0,
+                "lines_per_symbol": 0,
+                "single_use_functions": 0,
+                "trivial_wrappers": 0,
+                "unused_variables": 0,
+                "clone_lines": 0,
+                "cloned_sloc_lines": 0,
+                "ast_grep_violations": 0,
+                "verbosity_flagged_sloc_lines": 0,
+                "sg_slop_violations": 0,
+                "graph_cyclic_dependency_mass": 0,
+                "graph_propagation_cost": 0,
+                "graph_dependency_entropy": 0,
+                "lines_added": 0,
+                "lines_removed": 0,
+                "mean_func_loc": 0,
+                "mass.cc": 0,
+                "mass.high_cc_pct": 0,
+                "delta.loc": 0,
+                "delta.ast_grep_violations": 0,
+                "delta.churn_ratio": 0
+              },
+              "code_snapshot": {
+                "file_count": 6,
+                "total_bytes": 10709,
+                "tree_sha256": "18361492fd016979db4e87c3d145902a8ae65cabe50c1d812384baa98fc0a174",
+                "excluded_artifacts": [],
+                "archive": {
+                  "path": "problems/clint-t1/agent-results/artifacts/20260908t095649/checkpoint_3/agent-code.tar.gz",
+                  "sha256": "f9ef0e5b6c3a0bcc9842afbb1bedf075870aca0be6546e8a22a0c4ec3919cf8a",
+                  "size_bytes": 2536,
+                  "file_count": 6,
+                  "tree_sha256": "18361492fd016979db4e87c3d145902a8ae65cabe50c1d812384baa98fc0a174"
+                },
+                "manifest": {
+                  "path": "problems/clint-t1/agent-results/artifacts/20260908t095649/checkpoint_3/agent-code.manifest.json",
+                  "sha256": "21985c4b0f234ff36b99dab910fd6ad59219018da0ebf3cb615a1ea6ca6503bb",
+                  "size_bytes": 1253,
+                  "file_count": 6,
+                  "total_bytes": 10709,
+                  "tree_sha256": "18361492fd016979db4e87c3d145902a8ae65cabe50c1d812384baa98fc0a174"
+                },
+                "changed_files": {
+                  "path": "problems/clint-t1/agent-results/artifacts/20260908t095649/checkpoint_3/changed-files.json",
+                  "sha256": "03aa3617ef89ae4c96d4f09de3a35cb6dbe7f26d630e9eff2888c7a55ed062f9",
+                  "count": 4
+                },
+                "diff": {
+                  "path": "problems/clint-t1/agent-results/artifacts/20260908t095649/checkpoint_3/changes.patch",
+                  "sha256": "7f1f0a77982215dc79cff554d3d83c2c8278eca460cd2488d35e2abd6d1facae",
+                  "size_bytes": 10824
+                },
+                "baseline_path": "problems/clint-t1/pipeline/static_assets/golden_snapshots/c0_initial_workspace"
+              },
+              "evaluation": {
+                "pytest_exit_code": 0,
+                "infrastructure_failure": false,
+                "counts": {
+                  "structure": [
+                    1,
+                    1
+                  ],
+                  "core": [
+                    1,
+                    1
+                  ],
+                  "functionality": [
+                    0,
+                    0
+                  ],
+                  "regression": [
+                    1,
+                    7
+                  ],
+                  "error": [
+                    0,
+                    0
+                  ]
+                },
+                "core_gate_passed": true,
+                "sha256": "9185eae21f1912515c51d9c34fd11b682f1cefe84cb6643b9efb9253f72ffc4a",
+                "details": {
+                  "schema_version": 1,
+                  "problem_name": "clint_t1_pipeline",
+                  "problem_version": 1,
+                  "checkpoint_name": "checkpoint_3",
+                  "checkpoint_version": 1,
+                  "duration": 13.226335525512695,
+                  "entrypoint": "bash build_checkpoint.sh",
+                  "tests": {
+                    "checkpoint_1-Regression": {
+                      "passed": [],
+                      "failed": [],
+                      "skipped": [
+                        "test_checkpoint_1_artifact_hygiene",
+                        "test_checkpoint_1_regbus_behavior",
+                        "test_checkpoint_1_structure"
+                      ]
+                    },
+                    "checkpoint_2-Regression": {
+                      "passed": [],
+                      "failed": [],
+                      "skipped": [
+                        "test_checkpoint_2_c1_behavior_regression",
+                        "test_checkpoint_2_msip_behavior",
+                        "test_checkpoint_2_structure"
+                      ]
+                    },
+                    "checkpoint_3-Core": {
+                      "passed": [
+                        "test_checkpoint_3_apb_behavior"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_3-Regression": {
+                      "passed": [
+                        "test_checkpoint_3_c2_behavior_regression"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_3-Structure": {
+                      "passed": [
+                        "test_checkpoint_3_structure"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    }
+                  },
+                  "pass_counts": {
+                    "Structure": 1,
+                    "Core": 1,
+                    "Functionality": 0,
+                    "Regression": 1,
+                    "Error": 0
+                  },
+                  "total_counts": {
+                    "Structure": 1,
+                    "Core": 1,
+                    "Functionality": 0,
+                    "Regression": 7,
+                    "Error": 0
+                  },
+                  "detail_metrics": {},
+                  "pytest_exit_code": 0,
+                  "pytest_collected": 9,
+                  "test_collection_hash": "88481ff457bf9b4601d647fed2ef07a79cbaa8b3d52c1a34a64c3673fc5c41e1",
+                  "infrastructure_failure": false,
+                  "infrastructure_reason": null
+                }
+              },
+              "localCheckpoint": "checkpoint_3",
+              "targetCheckpoint": "checkpoint_3"
+            },
+            {
+              "checkpoint": "checkpoint_4",
+              "state": "ran",
+              "started_at": "2026-09-08T10:20:24.000563",
+              "ended_at": "2026-09-08T11:01:17.788250",
+              "duration_seconds": 2453.787687,
+              "steps": 44,
+              "run_result": {
+                "problem": "clint_t1_pipeline",
+                "version": 1,
+                "checkpoint": "checkpoint_4",
+                "path": "$RUN_DIR/clint_t1_pipeline",
+                "idx": 4,
+                "state": "ran",
+                "is_first": false,
+                "is_last": true,
+                "strict_pass_rate": 0.2222222222222222,
+                "structure_pass_rate": 1,
+                "core_pass_rate": 0,
+                "functionality_pass_rate": 0,
+                "isolated_pass_rate": 0.375,
+                "total_tests": 18,
+                "passed_tests": 4,
+                "structure_total": 1,
+                "structure_passed": 1,
+                "core_total": 5,
+                "core_passed": 0,
+                "functionality_total": 5,
+                "functionality_passed": 0,
+                "functionality_incremental_total": 0,
+                "functionality_incremental_passed": 0,
+                "error_total": 2,
+                "error_passed": 2,
+                "regression_total": 10,
+                "regression_passed": 1,
+                "started": "2026-09-08T10:20:24.000563",
+                "ended": "2026-09-08T11:01:17.788250",
+                "duration": 2453.787687,
+                "cost": 0,
+                "steps": 44,
+                "cache_read": 1252608,
+                "cache_write": 0,
+                "input": 1368174,
+                "output": 17449,
+                "reasoning": 5546,
+                "loc": 0,
+                "sloc": 0,
+                "total_lines": 0,
+                "single_comments": 0,
+                "lint_errors": 0,
+                "lint_fixable": 0,
+                "files": 0,
+                "functions": 0,
+                "methods": 0,
+                "classes": 0,
+                "statements": 0,
+                "symbols_total": 0,
+                "cc_max": 0,
+                "cc_mean": 0,
+                "cc_std": 0,
+                "cc_high_count": 0,
+                "cc_extreme_count": 0,
+                "high_cc_mean": 0,
+                "cc_normalized": 0,
+                "cc_concentration": 0,
+                "cc_top20": 0,
+                "max_nesting_depth": 0,
+                "lines_per_symbol": 0,
+                "single_use_functions": 0,
+                "trivial_wrappers": 0,
+                "unused_variables": 0,
+                "clone_lines": 0,
+                "cloned_sloc_lines": 0,
+                "ast_grep_violations": 0,
+                "verbosity_flagged_sloc_lines": 0,
+                "sg_slop_violations": 0,
+                "graph_cyclic_dependency_mass": 0,
+                "graph_propagation_cost": 0,
+                "graph_dependency_entropy": 0,
+                "lines_added": 0,
+                "lines_removed": 0,
+                "mean_func_loc": 0,
+                "mass.cc": 0,
+                "mass.high_cc_pct": 0,
+                "delta.loc": 0,
+                "delta.ast_grep_violations": 0,
+                "delta.churn_ratio": 0
+              },
+              "code_snapshot": {
+                "file_count": 7,
+                "total_bytes": 11460,
+                "tree_sha256": "884600d1829d10c25371dc43bc1e13e7beadc0d08261b2a46eb72c7062a0f7e7",
+                "excluded_artifacts": [],
+                "archive": {
+                  "path": "problems/clint-t1/agent-results/artifacts/20260908t095649/checkpoint_4/agent-code.tar.gz",
+                  "sha256": "5d3a008974430850b851d6222a8b0d9a46907941650f14b1f77dd564e8389d00",
+                  "size_bytes": 2851,
+                  "file_count": 7,
+                  "tree_sha256": "884600d1829d10c25371dc43bc1e13e7beadc0d08261b2a46eb72c7062a0f7e7"
+                },
+                "manifest": {
+                  "path": "problems/clint-t1/agent-results/artifacts/20260908t095649/checkpoint_4/agent-code.manifest.json",
+                  "sha256": "2975a428bf43139df0748b4d3bac742f52faf5f227b0c8722346f93acdcb6f29",
+                  "size_bytes": 1427,
+                  "file_count": 7,
+                  "total_bytes": 11460,
+                  "tree_sha256": "884600d1829d10c25371dc43bc1e13e7beadc0d08261b2a46eb72c7062a0f7e7"
+                },
+                "changed_files": {
+                  "path": "problems/clint-t1/agent-results/artifacts/20260908t095649/checkpoint_4/changed-files.json",
+                  "sha256": "aa3fea0cc99aeb22f14a7bee9d766eca266d21aca84b19a4cd30e2fd56edfc83",
+                  "count": 5
+                },
+                "diff": {
+                  "path": "problems/clint-t1/agent-results/artifacts/20260908t095649/checkpoint_4/changes.patch",
+                  "sha256": "6c2f4a6d975bdc5637b7833f41623887f7fbfdaf691dd6e6907c3d37aa36c909",
+                  "size_bytes": 11671
+                },
+                "baseline_path": "problems/clint-t1/pipeline/static_assets/golden_snapshots/c0_initial_workspace"
+              },
+              "evaluation": {
+                "pytest_exit_code": 1,
+                "infrastructure_failure": false,
+                "counts": {
+                  "structure": [
+                    1,
+                    1
+                  ],
+                  "core": [
+                    0,
+                    5
+                  ],
+                  "functionality": [
+                    0,
+                    0
+                  ],
+                  "regression": [
+                    1,
+                    10
+                  ],
+                  "error": [
+                    2,
+                    2
+                  ]
+                },
+                "core_gate_passed": false,
+                "sha256": "38241e8c262fa905b94b5dd00289adc5e22d52794cc2a99c145acca12431b592",
+                "details": {
+                  "schema_version": 1,
+                  "problem_name": "clint_t1_pipeline",
+                  "problem_version": 1,
+                  "checkpoint_name": "checkpoint_4",
+                  "checkpoint_version": 1,
+                  "duration": 14.305968523025513,
+                  "entrypoint": "bash build_checkpoint.sh",
+                  "tests": {
+                    "checkpoint_1-Regression": {
+                      "passed": [],
+                      "failed": [],
+                      "skipped": [
+                        "test_checkpoint_1_artifact_hygiene",
+                        "test_checkpoint_1_regbus_behavior",
+                        "test_checkpoint_1_structure"
+                      ]
+                    },
+                    "checkpoint_2-Regression": {
+                      "passed": [],
+                      "failed": [],
+                      "skipped": [
+                        "test_checkpoint_2_c1_behavior_regression",
+                        "test_checkpoint_2_msip_behavior",
+                        "test_checkpoint_2_structure"
+                      ]
+                    },
+                    "checkpoint_3-Regression": {
+                      "passed": [],
+                      "failed": [],
+                      "skipped": [
+                        "test_checkpoint_3_apb_behavior",
+                        "test_checkpoint_3_c2_behavior_regression",
+                        "test_checkpoint_3_structure"
+                      ]
+                    },
+                    "checkpoint_4-Regression": {
+                      "passed": [
+                        "test_checkpoint_4_c3_apb_regression"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_4-Core": {
+                      "passed": [],
+                      "failed": [
+                        "test_checkpoint_4_default_two_hart_behavior",
+                        "test_checkpoint_4_parameterized_behavior[1]",
+                        "test_checkpoint_4_parameterized_behavior[2048]",
+                        "test_checkpoint_4_parameterized_behavior[2]",
+                        "test_checkpoint_4_parameterized_behavior[3]"
+                      ],
+                      "skipped": []
+                    },
+                    "checkpoint_4-Structure": {
+                      "passed": [
+                        "test_checkpoint_4_structure"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_4-Error": {
+                      "passed": [
+                        "test_checkpoint_4_unsupported_num_cores[0]",
+                        "test_checkpoint_4_unsupported_num_cores[4096]"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    }
+                  },
+                  "pass_counts": {
+                    "Structure": 1,
+                    "Core": 0,
+                    "Functionality": 0,
+                    "Regression": 1,
+                    "Error": 2
+                  },
+                  "total_counts": {
+                    "Structure": 1,
+                    "Core": 5,
+                    "Functionality": 0,
+                    "Regression": 10,
+                    "Error": 2
+                  },
+                  "detail_metrics": {},
+                  "pytest_exit_code": 1,
+                  "pytest_collected": 18,
+                  "test_collection_hash": "834e97dc9f4504d89c50ac73864910f1fb9715efd45405ff378690ff4bd16ea0",
+                  "infrastructure_failure": false,
+                  "infrastructure_reason": null
+                }
+              },
+              "localCheckpoint": "checkpoint_4",
+              "targetCheckpoint": "checkpoint_4"
+            }
+          ],
+          "experimentType": "pipeline",
+          "targetCheckpoint": "",
+          "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/clint-t1/agent-results/runs/20260908t095649.json"
+        }
+      ]
+    },
+    {
+      "number": "02",
       "id": "common-cells-t1",
       "title": "Common Cells",
       "type": "T1",
@@ -7094,7 +9492,7 @@
       ]
     },
     {
-      "number": "02",
+      "number": "03",
       "id": "ef-uart-t1",
       "title": "EF_UART",
       "type": "T1",
@@ -12196,7 +14594,7 @@
       ]
     },
     {
-      "number": "03",
+      "number": "04",
       "id": "taxi-axi-t3",
       "title": "Taxi AXI",
       "type": "T3",
@@ -20691,7 +23089,7 @@
       ]
     },
     {
-      "number": "04",
+      "number": "05",
       "id": "verilog-axis-fifo-t1",
       "title": "Verilog AXIS FIFO",
       "type": "T1",
@@ -24697,7 +27095,7 @@
       ]
     },
     {
-      "number": "05",
+      "number": "06",
       "id": "verilog-axis-fifo-t2",
       "title": "AXIS FIFO",
       "type": "T2",
@@ -25806,7 +28204,7 @@
       ]
     },
     {
-      "number": "06",
+      "number": "07",
       "id": "verilog-ef-uart-t1",
       "title": "EF_UART",
       "type": "T1",
@@ -27946,7 +30344,7 @@
       ]
     },
     {
-      "number": "07",
+      "number": "08",
       "id": "verilog-ethernet-t2",
       "title": "Verilog Ethernet",
       "type": "T2",
