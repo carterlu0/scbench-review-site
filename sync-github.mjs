@@ -90,8 +90,21 @@ function trimExcerpt(value, limit) {
   return text.length > limit ? `${text.slice(0, limit).trim()}\n\n[Excerpt. Open the source artifact for the complete content.]` : text;
 }
 
+function problemType(id) {
+  return String(id).match(/[-_]t([1-3])$/i)?.[1] || "";
+}
+
+function problemBase(id) {
+  return String(id).replace(/[-_]t[1-3]$/i, "");
+}
+
+function isTypedProblemDirectory(name) {
+  return Boolean(problemType(name));
+}
+
 function titleFor(id, readme) {
   const knownTitles = {
+    "clic_t2": "CLIC",
     "common-cells-t1": "Common Cells",
     "verilog-axis-fifo-t1": "Verilog AXIS FIFO",
     "verilog-axis-fifo-t2": "AXIS FIFO",
@@ -99,7 +112,7 @@ function titleFor(id, readme) {
     "taxi-axi-t3": "Taxi AXI"
   };
   if (knownTitles[id]) return knownTitles[id];
-  const heading = readme.match(/^#\s+(.+)$/m)?.[1] || id.replace(/-t[1-3]$/i, "").replace(/-/g, " ");
+  const heading = readme.match(/^#\s+(.+)$/m)?.[1] || problemBase(id).replace(/[-_]/g, " ");
   return heading
     .replace(/\s+T[1-3]\b/gi, "")
     .replace(/\s+(?:Test|Legacy)\s+Modernization\b.*$/i, "")
@@ -127,8 +140,8 @@ function certificationDate(certification) {
 }
 
 function problemTags(id, readme) {
-  const base = id.replace(/-t[1-3]$/i, "");
-  const tags = ["rtl", "verilog", ...base.split("-")];
+  const base = problemBase(id);
+  const tags = ["rtl", "verilog", ...base.split(/[-_]/)];
   if (/cocotb|myhdl|testbench|verification/i.test(readme)) tags.push("testbench");
   return [...new Set(tags)].join(" / ");
 }
@@ -164,9 +177,9 @@ async function agentResultsFor(root) {
 
 async function buildProblem(entry, index) {
   const id = entry.name;
-  const typeMatch = id.match(/-t([1-3])$/i);
-  const type = typeMatch ? `T${typeMatch[1]}` : "";
-  const base = id.replace(/-t[1-3]$/i, "");
+  const typeValue = problemType(id);
+  const type = typeValue ? `T${typeValue}` : "";
+  const base = problemBase(id);
   const family = base.replace(/-/g, "_");
   const root = `problems/${id}`;
   const readmePath = `${root}/README.md`;
@@ -219,7 +232,7 @@ async function main() {
   contentRef = sourceCommit;
   const problemEntries = await listDirectory("problems");
   const entries = problemEntries
-    .filter((entry) => entry.type === "dir" && /-t[1-3]$/i.test(entry.name))
+    .filter((entry) => entry.type === "dir" && isTypedProblemDirectory(entry.name))
     .sort((left, right) => left.name.localeCompare(right.name, undefined, { numeric: true }));
   if (!entries.length) throw new Error("No typed problem directories found");
   const problems = [];

@@ -59,6 +59,20 @@ assert.match(overviewMarkdown, /<h1>Overview<\/h1>/, "README headings must rende
 assert.match(syncSource, /overview:\s*cleanPrompt\(readme\)/, "sync payload must include the README overview");
 assert.match(syncSource, /schemaVersion:\s*5/, "overview data requires the current schema version");
 
+const syncHelpersStart = syncSource.indexOf("function cleanText");
+const syncHelpersEnd = syncSource.indexOf("function blobUrl", syncHelpersStart);
+assert.notEqual(syncHelpersStart, -1, "sync helpers must exist");
+assert.notEqual(syncHelpersEnd, -1, "sync helpers must end before GitHub URL construction");
+const syncHelpersContext = {};
+vm.runInNewContext(`${syncSource.slice(syncHelpersStart, syncHelpersEnd)}; globalThis.syncHelpers = { problemType, problemBase, isTypedProblemDirectory, titleFor, problemTags };`, syncHelpersContext);
+const { problemType, problemBase, isTypedProblemDirectory, titleFor, problemTags } = syncHelpersContext.syncHelpers;
+assert.equal(problemType("clic_t2"), "2", "underscore T suffixes must retain their type");
+assert.equal(problemBase("clic_t2"), "clic", "underscore T suffixes must be removed from the problem family");
+assert.equal(isTypedProblemDirectory("clic_t2"), true, "underscore T suffix directories must be synchronized");
+assert.equal(isTypedProblemDirectory("clic"), false, "untyped directories must remain excluded");
+assert.equal(titleFor("clic_t2", "# CLIC T2 Verification Enhancement\n"), "CLIC", "underscore-form titles must remove the type suffix");
+assert.equal(problemTags("clic_t2", "verification"), "rtl / verilog / clic / testbench", "underscore-form IDs must produce clean tags");
+
 const syncWithoutImports = syncSource
   .replace(/^import[^\n]+\n/gm, "")
   .replace(/const SCRIPT_DIR[^\n]+\n/, 'const SCRIPT_DIR = ".";\n')
