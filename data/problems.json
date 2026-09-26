@@ -1,14 +1,1457 @@
 {
   "schemaVersion": 5,
-  "generatedAt": "2026-09-26T07:42:39.845Z",
+  "generatedAt": "2026-09-26T12:29:12.640Z",
   "source": {
     "repository": "carterlu0/scbench-rtl-problems",
     "branch": "main",
-    "commit": "4c23a35259690c63f8b848222750e49ce7221397"
+    "commit": "31efe75586bd8d91fb61d559b719f9b9fca6626e"
   },
   "problems": [
     {
       "number": "01",
+      "id": "clic_t2",
+      "title": "CLIC",
+      "type": "T2",
+      "family": "clic",
+      "tags": "rtl / verilog / clic / testbench",
+      "checkpoints": 3,
+      "summary": "Release status: published\nSource family: `clic_t2`\nDifficulty: hard\nTags: rtl, systemverilog, clic, apb, interrupt-controller, t2, checkpointed",
+      "overview": "# CLIC T2 Verification Enhancement\n\nRelease status: published\nSource family: `clic_t2`\nDifficulty: hard\nTags: rtl, systemverilog, clic, apb, interrupt-controller, t2, checkpointed\n\nCLIC T2 是一个 SCBench 风格的 T2 RTL 验证增强题族，基于\n[pulp-platform/clic](https://github.com/pulp-platform/clic) 固定 endpoint 的\n真实协议与边界行为。Agent 不修改 evaluator 固定的 CLIC RTL，而是在逐步演进的\n验证基线中交付 SystemVerilog testbench 和离线 Verilator 构建流程，证明 interrupt\noffer、优先级选择、背压、kill/ack、level withdrawal 和 APB 边界行为，并保留前序\ncheckpoint 的回归覆盖。\n\n评测使用 evaluator 独占的 hash-bound trusted endpoint、mutation 和 oracle 资产；\n候选只能修改公开 allowlist 中的验证文件。所有 pipeline 与 SR wrapper 都使用\nUbuntu 24.04、Verilator 5.020、Bender 0.32.1 的固定 `docker-t2v-clic` runtime。\n\n## Checkpoint Chain\n\n```text\nfixed endpoint: pulp-platform/clic @ fb9e40e46607387d65fb455d6432c7007e67f278\ncheckpoint_1: directed behavior and interrupt offer\ncheckpoint_2: shadow reference model and regression\ncheckpoint_3: protocol boundaries and mutation detection\n```\n\nPipeline 从 seeded verification baseline 累积推进，必须通过\n`build_checkpoint.sh checkpoint_N` 更新 `repo/`。三个 SR wrapper 分别从紧邻\n前序快照单轮解决 checkpoint_1、checkpoint_2 和 checkpoint_3；SR 的 evaluator\n公开 checkpoint 名统一为 `checkpoint_1`，但其 deliverable contract 对应目标\npipeline checkpoint。\n\n## Checkpoint Themes\n\n- **checkpoint_1**：APB、reset、interrupt offer、ready handshake 和基础 directed\n  行为检查，并验证强制 `irq_valid_o` 为低时测试失败。\n- **checkpoint_2**：可计算的 interrupt selection reference model，覆盖 enable\n  gating、多源优先级、相同优先级 tie-break、backpressure 和 checkpoint_1 回归。\n- **checkpoint_3**：stall、kill/ack、level withdrawal、APB 地址边界与典型 RTL\n  mutation 检出，同时保留 checkpoint_1 和 checkpoint_2 的测试面。\n\n## Evaluation Results\n\n正式 `core-cases` pipeline rollout `20260915t010000` 完整通过：\n\n| 节点 | Structure | Core | Regression | 总计 |\n|---|---:|---:|---:|---:|\n| pipeline checkpoint_1 | 1/1 | 2/2 | 0/0 | 3/3 |\n| pipeline checkpoint_2 | 1/1 | 2/2 | 3/3 | 6/6 |\n| pipeline checkpoint_3 | 1/1 | 2/2 | 6/6 | 9/9 |\n\n总计为 18/18，`infrastructure_failure=false`，平均 test/core/regression pass\nrate 均为 1.000。当前 Prompt identity 下的 pipeline、SR1、SR2、SR3 reference\nqualification 均已通过；详细证据见 [`evidence/certification.md`](evidence/certification.md)。\n\n## Evaluation Semantics\n\n- 正式通过门槛为 `core-cases`：Structure 与 Core 必须全绿；Regression 继续\n  记录前序行为保留情况。\n- 离线构建必须使用 `BENDER_LOCAL=true bender update --no-progress`，再使用\n  `BENDER_LOCAL=true bender script verilator -t rtl` 的 source list。\n- evaluator 从 fixed endpoint snapshot 重建 RTL，只 overlay candidate-owned\n  verification files；Agent 不得修改 `repo/src/`。\n- `make vlt-sim` 必须在 fixed endpoint 上返回 0，并在指定 interrupt-offer\n  mutation 上返回非 0。\n- runtime、endpoint、reference archive 和 evaluator identity 的完整记录位于\n  `environment/` 与 `evidence/`。\n\n## Included Checkpoints\n\n- `pipeline/checkpoint_1.md` 至 `pipeline/checkpoint_3.md`\n\n## Files\n\n- `pipeline/`：canonical cumulative problem definition、tests、mutations 和静态资产\n- `evidence/`：当前 Prompt identity 的 reference qualification 与 certification\n- `environment/`：固定 RTL runtime 配置\n- `agent-results/`：最新通过 pipeline rollout 的 schema-v3 runs 与完整 artifacts",
+      "prompt": "# checkpoint_3: 协议、边界与故障检出\n\n## Public Goal\n\n覆盖 stall、kill/ack、level withdrawal、APB 边界，并使测试能够检出典型 RTL mutation。\n\nThe RTL is fixed at the CLIC endpoint supplied in `repo/`. This task evaluates\nthe verification system, not a change to the CLIC RTL.\n\n## Public Test Contract\n\n- Use SystemVerilog and the supplied Verilator runner.\n- Keep `make vlt-sim` runnable from the repository root.\n- Observe the public `clic_apb` interface and report deterministic PASS/FAIL.\n- Preserve all earlier checkpoint tests.\n- Tests must fail on the relevant DUT mutation; a compile-only or unconditional\n PASS result is insufficient.\n\nThe evaluator invokes the candidate entrypoint from the workspace root and\nthen runs the candidate repository's `make vlt-sim` target. A successful\nsubmission must return exit code 0 on the fixed endpoint and a non-zero exit\ncode when the endpoint's `irq_valid_o` offer is forced low. The testbench must\ntherefore assert or otherwise observe the interrupt offer; printing PASS alone\nis not sufficient.\n\nThe supplied runtime provides the pinned CLIC dependencies offline. Before\ncompiling, the Makefile must use:\n\n```bash\nBENDER_LOCAL=true bender update --no-progress\nBENDER_LOCAL=true bender script verilator -t rtl\n```\n\nUse the second command's source list for Verilator. Do not invent a Bender\ntarget name or use a standalone replacement for `clic_apb`; the fixed endpoint\nunder `repo/src/` is the design under test.\n\n## Required Deliverables\n\nThe evaluator retains only these candidate-owned files after this checkpoint:\n\n- `Makefile`\n- `test/tb_clic_c1.sv`\n- `test/tb_clic_c2.sv`\n- `test/tb_clic_c3.sv`\n\n`test/tb_clic_seed.sv` is the immutable seeded baseline. Do not replace it to\nimplement checkpoint behavior. Helper files are permitted, but any helper needed\nby `make vlt-sim` must be included by one of the listed candidate testbenches.\n\n## Entrypoint Contract\n\nRun `%%%ENTRYPOINT:entry_file%%%` from the workspace root as:\n\n```bash\n%%%ENTRYPOINT:entry_command%%% checkpoint_3\n```\n\nThe evaluator stages the seeded predecessor at `./repo`. Update it in place.\nDo not fetch from the network, copy from hidden assets, or modify evaluator-owned\noracle and mutation files.\n\nThe evaluator owns the endpoint RTL under `repo/src/`. Treat every existing\nSystemVerilog file there as immutable: do not edit, delete, replace, or add RTL\nunder `repo/src/`. The only candidate-owned submission files for this\ncheckpoint are the files listed above; helper content must be embedded in or\nincluded by those files and must not introduce future-checkpoint artifacts.\n\n## Scope Restrictions\n\n- Do not modify CLIC RTL under `repo/src/`.\n- Do not weaken or remove earlier verification checks.\n- Do not add simulator outputs, waveforms, caches, or compiled objects to `repo/`.\n- Before finishing, remove `build/`, `.bender/`, `sim_build/`, `.pytest_cache/`,\n waveform files, and compiled simulator outputs from `repo/`.\n- The internal organization of the testbench is open; the public runner and\n observable behavior are the contract.",
+      "certDate": "",
+      "certSummary": "| problem | batch archive | endpoint | predecessor | state |\n| --- | --- | --- | --- | --- |\n| `clic_t2_pipeline` | `formal_evidence/reference_batches/archive/clic-t2-prompt-pipeline-20260914-01` | C1 3/3，C2 6/6，C3 9/9 | C1 1/2，C2 3/3 regression，C3 6/6 regression | `passed` |\n| `clic_t2_pipeline_sr_checkpoint_1` | `formal_evidence/reference_batches/archive/clic-t2-prompt-sr1-20260914-01` | Core 2/2 | Core 1/2，预期拒绝 | `passed` |\n| `clic_t2_pipeline_sr_checkpoint_1`（当前 Prompt 修订） | `formal_evidence/reference_batches/a\n\n[Excerpt. Open the source artifact for the complete content.]",
+      "readmePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/clic_t2/README.md",
+      "certPath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/clic_t2/evidence/certification.md",
+      "promptPath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/clic_t2/pipeline/checkpoint_3.md",
+      "checkpointLinks": [
+        [
+          "checkpoint_1",
+          "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/clic_t2/pipeline/checkpoint_1.md"
+        ],
+        [
+          "checkpoint_2",
+          "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/clic_t2/pipeline/checkpoint_2.md"
+        ],
+        [
+          "checkpoint_3",
+          "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/clic_t2/pipeline/checkpoint_3.md"
+        ]
+      ],
+      "checkpointPrompts": [
+        {
+          "label": "checkpoint_1",
+          "prompt": "# checkpoint_1: 基础 directed SystemVerilog 行为测试\n\n## Public Goal\n\n在 seeded runner 上补充 APB、reset、interrupt offer 和 ready handshake 的可失败行为检查。\n\nThe RTL is fixed at the CLIC endpoint supplied in `repo/`. This task evaluates\nthe verification system, not a change to the CLIC RTL.\n\n## Public Test Contract\n\n- Use SystemVerilog and the supplied Verilator runner.\n- Keep `make vlt-sim` runnable from the repository root.\n- Observe the public `clic_apb` interface and report deterministic PASS/FAIL.\n- Preserve all earlier checkpoint tests.\n- Tests must fail on the relevant DUT mutation; a compile-only or unconditional\n  PASS result is insufficient.\n\nThe evaluator invokes the candidate entrypoint from the workspace root and\nthen runs the candidate repository's `make vlt-sim` target. A successful\nsubmission must return exit code 0 on the fixed endpoint and a non-zero exit\ncode when the endpoint's `irq_valid_o` offer is forced low. The testbench must\ntherefore assert or otherwise observe the interrupt offer; printing PASS alone\nis not sufficient.\n\nThe supplied runtime provides the pinned CLIC dependencies offline. Before\ncompiling, the Makefile must use:\n\n```bash\nBENDER_LOCAL=true bender update --no-progress\nBENDER_LOCAL=true bender script verilator -t rtl\n```\n\nUse the second command's source list for Verilator. Do not invent a Bender\ntarget name or use a standalone replacement for `clic_apb`; the fixed endpoint\nunder `repo/src/` is the design under test.\n\n## Required Deliverables\n\nThe evaluator retains only these candidate-owned files after this checkpoint:\n\n- `Makefile`\n- `test/tb_clic_c1.sv`\n\n`test/tb_clic_seed.sv` is the immutable seeded baseline. Do not replace it to\nimplement checkpoint behavior. Helper files are permitted, but any helper needed\nby `make vlt-sim` must be included by one of the listed candidate testbenches.\n\n## Entrypoint Contract\n\nRun `%%%ENTRYPOINT:entry_file%%%` from the workspace root as:\n\n```bash\n%%%ENTRYPOINT:entry_command%%% checkpoint_1\n```\n\nThe evaluator stages the seeded predecessor at `./repo`. Update it in place.\nDo not fetch from the network, copy from hidden assets, or modify evaluator-owned\noracle and mutation files.\n\nThe evaluator owns the endpoint RTL under `repo/src/`. Treat every existing\nSystemVerilog file there as immutable: do not edit, delete, replace, or add RTL\nunder `repo/src/`. The only candidate-owned submission files for this\ncheckpoint are the files listed above; helper content must be embedded in or\nincluded by those files and must not introduce future-checkpoint artifacts.\n\n## Scope Restrictions\n\n- Do not modify CLIC RTL under `repo/src/`.\n- Do not weaken or remove earlier verification checks.\n- Do not add simulator outputs, waveforms, caches, or compiled objects to `repo/`.\n- Before finishing, remove `build/`, `.bender/`, `sim_build/`, `.pytest_cache/`,\n    waveform files, and compiled simulator outputs from `repo/`.\n- The internal organization of the testbench is open; the public runner and\n  observable behavior are the contract.",
+          "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/clic_t2/pipeline/checkpoint_1.md"
+        },
+        {
+          "label": "checkpoint_2",
+          "prompt": "# checkpoint_2: shadow reference model 与回归\n\n## Public Goal\n\n增加可计算的 interrupt selection reference model，并保留 checkpoint_1 的回归覆盖。\n\nThe RTL is fixed at the CLIC endpoint supplied in `repo/`. This task evaluates\nthe verification system, not a change to the CLIC RTL.\n\n## Public Test Contract\n\n- Use SystemVerilog and the supplied Verilator runner.\n- Keep `make vlt-sim` runnable from the repository root.\n- Observe the public `clic_apb` interface and report deterministic PASS/FAIL.\n- Preserve all earlier checkpoint tests.\n- Tests must fail on the relevant DUT mutation; a compile-only or unconditional\n  PASS result is insufficient.\n\nThe evaluator invokes the candidate entrypoint from the workspace root and\nthen runs the candidate repository's `make vlt-sim` target. A successful\nsubmission must return exit code 0 on the fixed endpoint and a non-zero exit\ncode when the endpoint's `irq_valid_o` offer is forced low. The testbench must\ntherefore assert or otherwise observe the interrupt offer; printing PASS alone\nis not sufficient.\n\nThe supplied runtime provides the pinned CLIC dependencies offline. Before\ncompiling, the Makefile must use:\n\n```bash\nBENDER_LOCAL=true bender update --no-progress\nBENDER_LOCAL=true bender script verilator -t rtl\n```\n\nUse the second command's source list for Verilator. Do not invent a Bender\ntarget name or use a standalone replacement for `clic_apb`; the fixed endpoint\nunder `repo/src/` is the design under test.\n\n## Required Deliverables\n\nThe evaluator retains only these candidate-owned files after this checkpoint:\n\n- `Makefile`\n- `test/tb_clic_c1.sv`\n- `test/tb_clic_c2.sv`\n\n`test/tb_clic_seed.sv` is the immutable seeded baseline. Do not replace it to\nimplement checkpoint behavior. Helper files are permitted, but any helper needed\nby `make vlt-sim` must be included by one of the listed candidate testbenches.\n\n## Entrypoint Contract\n\nRun `%%%ENTRYPOINT:entry_file%%%` from the workspace root as:\n\n```bash\n%%%ENTRYPOINT:entry_command%%% checkpoint_2\n```\n\nThe evaluator stages the seeded predecessor at `./repo`. Update it in place.\nDo not fetch from the network, copy from hidden assets, or modify evaluator-owned\noracle and mutation files.\n\nThe evaluator owns the endpoint RTL under `repo/src/`. Treat every existing\nSystemVerilog file there as immutable: do not edit, delete, replace, or add RTL\nunder `repo/src/`. The only candidate-owned submission files for this\ncheckpoint are the files listed above; helper content must be embedded in or\nincluded by those files and must not introduce future-checkpoint artifacts.\n\n## Scope Restrictions\n\n- Do not modify CLIC RTL under `repo/src/`.\n- Do not weaken or remove earlier verification checks.\n- Do not add simulator outputs, waveforms, caches, or compiled objects to `repo/`.\n- Before finishing, remove `build/`, `.bender/`, `sim_build/`, `.pytest_cache/`,\n    waveform files, and compiled simulator outputs from `repo/`.\n- The internal organization of the testbench is open; the public runner and\n  observable behavior are the contract.",
+          "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/clic_t2/pipeline/checkpoint_2.md"
+        },
+        {
+          "label": "checkpoint_3",
+          "prompt": "# checkpoint_3: 协议、边界与故障检出\n\n## Public Goal\n\n覆盖 stall、kill/ack、level withdrawal、APB 边界，并使测试能够检出典型 RTL mutation。\n\nThe RTL is fixed at the CLIC endpoint supplied in `repo/`. This task evaluates\nthe verification system, not a change to the CLIC RTL.\n\n## Public Test Contract\n\n- Use SystemVerilog and the supplied Verilator runner.\n- Keep `make vlt-sim` runnable from the repository root.\n- Observe the public `clic_apb` interface and report deterministic PASS/FAIL.\n- Preserve all earlier checkpoint tests.\n- Tests must fail on the relevant DUT mutation; a compile-only or unconditional\n  PASS result is insufficient.\n\nThe evaluator invokes the candidate entrypoint from the workspace root and\nthen runs the candidate repository's `make vlt-sim` target. A successful\nsubmission must return exit code 0 on the fixed endpoint and a non-zero exit\ncode when the endpoint's `irq_valid_o` offer is forced low. The testbench must\ntherefore assert or otherwise observe the interrupt offer; printing PASS alone\nis not sufficient.\n\nThe supplied runtime provides the pinned CLIC dependencies offline. Before\ncompiling, the Makefile must use:\n\n```bash\nBENDER_LOCAL=true bender update --no-progress\nBENDER_LOCAL=true bender script verilator -t rtl\n```\n\nUse the second command's source list for Verilator. Do not invent a Bender\ntarget name or use a standalone replacement for `clic_apb`; the fixed endpoint\nunder `repo/src/` is the design under test.\n\n## Required Deliverables\n\nThe evaluator retains only these candidate-owned files after this checkpoint:\n\n- `Makefile`\n- `test/tb_clic_c1.sv`\n- `test/tb_clic_c2.sv`\n- `test/tb_clic_c3.sv`\n\n`test/tb_clic_seed.sv` is the immutable seeded baseline. Do not replace it to\nimplement checkpoint behavior. Helper files are permitted, but any helper needed\nby `make vlt-sim` must be included by one of the listed candidate testbenches.\n\n## Entrypoint Contract\n\nRun `%%%ENTRYPOINT:entry_file%%%` from the workspace root as:\n\n```bash\n%%%ENTRYPOINT:entry_command%%% checkpoint_3\n```\n\nThe evaluator stages the seeded predecessor at `./repo`. Update it in place.\nDo not fetch from the network, copy from hidden assets, or modify evaluator-owned\noracle and mutation files.\n\nThe evaluator owns the endpoint RTL under `repo/src/`. Treat every existing\nSystemVerilog file there as immutable: do not edit, delete, replace, or add RTL\nunder `repo/src/`. The only candidate-owned submission files for this\ncheckpoint are the files listed above; helper content must be embedded in or\nincluded by those files and must not introduce future-checkpoint artifacts.\n\n## Scope Restrictions\n\n- Do not modify CLIC RTL under `repo/src/`.\n- Do not weaken or remove earlier verification checks.\n- Do not add simulator outputs, waveforms, caches, or compiled objects to `repo/`.\n- Before finishing, remove `build/`, `.bender/`, `sim_build/`, `.pytest_cache/`,\n    waveform files, and compiled simulator outputs from `repo/`.\n- The internal organization of the testbench is open; the public runner and\n  observable behavior are the contract.",
+          "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/clic_t2/pipeline/checkpoint_3.md"
+        }
+      ],
+      "evaluationRuns": [
+        {
+          "schema_version": 3,
+          "run_id": "20260915t010000",
+          "exported_at": "2026-09-19T04:55:25.070845+00:00",
+          "published_problem": "clic_t2",
+          "source_problem": "clic_t2_pipeline",
+          "release_commit": "866bc5e68f05265b06c21b50138c9b7ac17721b7",
+          "definition_sha256": {
+            "config.yaml": "d49c74ea766b3cc318d20417f554e2784855d9b24501bfb51a5a081b0c9b1718",
+            "checkpoint_1.md": "1923c1a127d35a6cc99894bc33fd592ee5b66e0b5cf5de42cf087c1e25bfc71b",
+            "checkpoint_2.md": "cd452e9951422e19a63c03af98688287afe94832f11492131b705e7ad9ab9da8",
+            "checkpoint_3.md": "c47401201ab09af5e85ac8351debb6d8e17dad899b11c48db3daedcf0bd68c39"
+          },
+          "source_run": {
+            "directory": "codex-0.141.0_rtl-plan-and-test_high_20260915T093340807579_rtl_clic_t2v_codex_gpt-5.6-luna_20260915t010000",
+            "result_json_sha256": "d8239502480b5f77ca0165face5574c48fe0fc55bc454e2ff2575a265e5b5c67",
+            "checkpoint_results_sha256": "ba9b855ec3f3a8d13abc35b05224837fa1ccaf7da1b4cb9a3dbea509d4687cfc"
+          },
+          "agent": {
+            "type": "codex",
+            "version": "0.141.0"
+          },
+          "model": "agicto-gpt-5.6-luna",
+          "prompt": "rtl-plan-and-test",
+          "thinking": "high",
+          "run_metrics": {
+            "costs": {
+              "checkpoint": {
+                "mean": 0,
+                "stddev": 0,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 3
+              },
+              "problem": {
+                "mean": 0,
+                "stddev": null,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 1
+              },
+              "total": 0
+            },
+            "time": {
+              "checkpoint": {
+                "mean": 489.0259213333333,
+                "stddev": 103.33912711623356,
+                "min": 418.804571,
+                "max": 607.68716,
+                "median": 440.586033,
+                "count": 3
+              },
+              "problem": {
+                "mean": 1467.077764,
+                "stddev": null,
+                "min": 1467.077764,
+                "max": 1467.077764,
+                "median": 1467.077764,
+                "count": 1
+              }
+            },
+            "tokens": {
+              "input": 5414079,
+              "output": 39036,
+              "cache_read": 5094400,
+              "cache_write": 0,
+              "reasoning": 14448,
+              "problem": {
+                "input": 5414079,
+                "output": 39036,
+                "cache_read": 5094400,
+                "cache_write": 0,
+                "reasoning": 14448
+              },
+              "checkpoint": {
+                "input": 1804693,
+                "output": 13012,
+                "cache_read": 1698133.3333333333,
+                "cache_write": 0,
+                "reasoning": 4816
+              }
+            },
+            "steps": {
+              "checkpoint": {
+                "mean": 44,
+                "stddev": 9.539392014169456,
+                "min": 35,
+                "max": 54,
+                "median": 43,
+                "count": 3
+              },
+              "problem": {
+                "mean": 132,
+                "stddev": null,
+                "min": 132,
+                "max": 132,
+                "median": 132,
+                "count": 1
+              }
+            },
+            "pass_rates": {
+              "problem": {
+                "structure": 1,
+                "core": 1,
+                "total": 1,
+                "error": 0,
+                "functionality": 1,
+                "regression": 1
+              },
+              "checkpoint": {
+                "structure": 1,
+                "core": 1,
+                "total": 1,
+                "error": 0,
+                "functionality": 1,
+                "regression": 1
+              }
+            }
+          },
+          "expected_checkpoints": 3,
+          "completed_checkpoints": 3,
+          "outcome": "passed",
+          "checkpoints": [
+            {
+              "checkpoint": "checkpoint_1",
+              "state": "ran",
+              "started_at": "2026-09-15T09:33:42.177682",
+              "ended_at": "2026-09-15T09:41:02.763715",
+              "duration_seconds": 440.586033,
+              "steps": 43,
+              "run_result": {
+                "problem": "clic_t2_pipeline",
+                "version": 1,
+                "checkpoint": "checkpoint_1",
+                "path": "$RUN_DIR/clic_t2_pipeline",
+                "idx": 1,
+                "state": "ran",
+                "is_first": true,
+                "is_last": false,
+                "strict_pass_rate": 1,
+                "structure_pass_rate": 1,
+                "core_pass_rate": 1,
+                "functionality_pass_rate": 1,
+                "isolated_pass_rate": 1,
+                "total_tests": 3,
+                "passed_tests": 3,
+                "structure_total": 1,
+                "structure_passed": 1,
+                "core_total": 2,
+                "core_passed": 2,
+                "functionality_total": 2,
+                "functionality_passed": 2,
+                "functionality_incremental_total": 0,
+                "functionality_incremental_passed": 0,
+                "error_total": 0,
+                "error_passed": 0,
+                "regression_total": 0,
+                "regression_passed": 0,
+                "started": "2026-09-15T09:33:42.177682",
+                "ended": "2026-09-15T09:41:02.763715",
+                "duration": 440.586033,
+                "cost": 0,
+                "steps": 43,
+                "cache_read": 1674496,
+                "cache_write": 0,
+                "input": 1772044,
+                "output": 12267,
+                "reasoning": 4473,
+                "loc": 0,
+                "sloc": 0,
+                "total_lines": 0,
+                "single_comments": 0,
+                "lint_errors": 0,
+                "lint_fixable": 0,
+                "files": 0,
+                "functions": 0,
+                "methods": 0,
+                "classes": 0,
+                "statements": 0,
+                "symbols_total": 0,
+                "cc_max": 0,
+                "cc_mean": 0,
+                "cc_std": 0,
+                "cc_high_count": 0,
+                "cc_extreme_count": 0,
+                "high_cc_mean": 0,
+                "cc_normalized": 0,
+                "cc_concentration": 0,
+                "cc_top20": 0,
+                "max_nesting_depth": 0,
+                "lines_per_symbol": 0,
+                "single_use_functions": 0,
+                "trivial_wrappers": 0,
+                "unused_variables": 0,
+                "clone_lines": 0,
+                "cloned_sloc_lines": 0,
+                "ast_grep_violations": 0,
+                "verbosity_flagged_sloc_lines": 0,
+                "sg_slop_violations": 0,
+                "graph_cyclic_dependency_mass": 0,
+                "graph_propagation_cost": 0,
+                "graph_dependency_entropy": 0,
+                "lines_added": 0,
+                "lines_removed": 0,
+                "mean_func_loc": 0,
+                "mass.cc": 0,
+                "mass.high_cc_pct": 0
+              },
+              "code_snapshot": {
+                "file_count": 34,
+                "total_bytes": 230160,
+                "tree_sha256": "aa33d526d36563cf210ef400208bad8ad671fbe813738ba9885964fd5cc1a64d",
+                "excluded_artifacts": [],
+                "archive": {
+                  "path": "problems/clic_t2/agent-results/artifacts/20260915t010000/checkpoint_1/agent-code.tar.gz",
+                  "sha256": "5679b03698924c3429fb282b3f0f50d7dffd1e7a0090d7a20ffc74f25a72686c",
+                  "size_bytes": 56240,
+                  "file_count": 34,
+                  "tree_sha256": "aa33d526d36563cf210ef400208bad8ad671fbe813738ba9885964fd5cc1a64d"
+                },
+                "manifest": {
+                  "path": "problems/clic_t2/agent-results/artifacts/20260915t010000/checkpoint_1/agent-code.manifest.json",
+                  "sha256": "9def813a464e448fbb9b2024266051c599e8caf7d4812cd18ccb7f2dce9f0400",
+                  "size_bytes": 6265,
+                  "file_count": 34,
+                  "total_bytes": 230160,
+                  "tree_sha256": "aa33d526d36563cf210ef400208bad8ad671fbe813738ba9885964fd5cc1a64d"
+                },
+                "changed_files": {
+                  "path": "problems/clic_t2/agent-results/artifacts/20260915t010000/checkpoint_1/changed-files.json",
+                  "sha256": "58c8f9ad64dc29924c56f56a8ff2459a674f705a61036a00ad95702d3d2f9e86",
+                  "count": 3
+                },
+                "diff": {
+                  "path": "problems/clic_t2/agent-results/artifacts/20260915t010000/checkpoint_1/changes.patch",
+                  "sha256": "5600930bf09831807f99b805367ba5d5c2c17f2df16d14e22041b126c3a8e8c9",
+                  "size_bytes": 7540
+                },
+                "baseline_path": "problems/clic_t2/pipeline/static_assets/golden_snapshots/seeded_baseline"
+              },
+              "evaluation": {
+                "pytest_exit_code": 0,
+                "infrastructure_failure": false,
+                "counts": {
+                  "structure": [
+                    1,
+                    1
+                  ],
+                  "core": [
+                    2,
+                    2
+                  ],
+                  "functionality": [
+                    0,
+                    0
+                  ],
+                  "regression": [
+                    0,
+                    0
+                  ],
+                  "error": [
+                    0,
+                    0
+                  ]
+                },
+                "core_gate_passed": true,
+                "sha256": "fe984f1a758f1c03082d2d640e6c948821b9cb11bf6e78e67c4d214b293974a8",
+                "details": {
+                  "schema_version": 1,
+                  "problem_name": "clic_t2_pipeline",
+                  "problem_version": 1,
+                  "checkpoint_name": "checkpoint_1",
+                  "checkpoint_version": 1,
+                  "duration": 17.912500858306885,
+                  "entrypoint": "bash build_checkpoint.sh",
+                  "tests": {
+                    "checkpoint_1-Core": {
+                      "passed": [
+                        "test_checkpoint_1_candidate_suite_passes_golden",
+                        "test_checkpoint_1_candidate_suite_rejects_missing_irq_offer"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Structure": {
+                      "passed": [
+                        "test_checkpoint_1_preserves_fixed_rtl"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    }
+                  },
+                  "pass_counts": {
+                    "Structure": 1,
+                    "Core": 2,
+                    "Functionality": 0,
+                    "Regression": 0,
+                    "Error": 0
+                  },
+                  "total_counts": {
+                    "Structure": 1,
+                    "Core": 2,
+                    "Functionality": 0,
+                    "Regression": 0,
+                    "Error": 0
+                  },
+                  "detail_metrics": {},
+                  "pytest_exit_code": 0,
+                  "pytest_collected": 3,
+                  "test_collection_hash": "20628d6b7c6e7036d39d8bf9ff52734ded9f9d09770d0393901a5cfba2d4e43c",
+                  "infrastructure_failure": false,
+                  "infrastructure_reason": null
+                }
+              },
+              "localCheckpoint": "checkpoint_1",
+              "targetCheckpoint": "checkpoint_1"
+            },
+            {
+              "checkpoint": "checkpoint_2",
+              "state": "ran",
+              "started_at": "2026-09-15T09:41:24.935154",
+              "ended_at": "2026-09-15T09:51:32.622314",
+              "duration_seconds": 607.68716,
+              "steps": 54,
+              "run_result": {
+                "problem": "clic_t2_pipeline",
+                "version": 1,
+                "checkpoint": "checkpoint_2",
+                "path": "$RUN_DIR/clic_t2_pipeline",
+                "idx": 2,
+                "state": "ran",
+                "is_first": false,
+                "is_last": false,
+                "strict_pass_rate": 1,
+                "structure_pass_rate": 1,
+                "core_pass_rate": 1,
+                "functionality_pass_rate": 1,
+                "isolated_pass_rate": 1,
+                "total_tests": 6,
+                "passed_tests": 6,
+                "structure_total": 1,
+                "structure_passed": 1,
+                "core_total": 2,
+                "core_passed": 2,
+                "functionality_total": 2,
+                "functionality_passed": 2,
+                "functionality_incremental_total": 0,
+                "functionality_incremental_passed": 0,
+                "error_total": 0,
+                "error_passed": 0,
+                "regression_total": 3,
+                "regression_passed": 3,
+                "started": "2026-09-15T09:41:24.935154",
+                "ended": "2026-09-15T09:51:32.622314",
+                "duration": 607.68716,
+                "cost": 0,
+                "steps": 54,
+                "cache_read": 2165376,
+                "cache_write": 0,
+                "input": 2312246,
+                "output": 15029,
+                "reasoning": 5839,
+                "loc": 0,
+                "sloc": 0,
+                "total_lines": 0,
+                "single_comments": 0,
+                "lint_errors": 0,
+                "lint_fixable": 0,
+                "files": 0,
+                "functions": 0,
+                "methods": 0,
+                "classes": 0,
+                "statements": 0,
+                "symbols_total": 0,
+                "cc_max": 0,
+                "cc_mean": 0,
+                "cc_std": 0,
+                "cc_high_count": 0,
+                "cc_extreme_count": 0,
+                "high_cc_mean": 0,
+                "cc_normalized": 0,
+                "cc_concentration": 0,
+                "cc_top20": 0,
+                "max_nesting_depth": 0,
+                "lines_per_symbol": 0,
+                "single_use_functions": 0,
+                "trivial_wrappers": 0,
+                "unused_variables": 0,
+                "clone_lines": 0,
+                "cloned_sloc_lines": 0,
+                "ast_grep_violations": 0,
+                "verbosity_flagged_sloc_lines": 0,
+                "sg_slop_violations": 0,
+                "graph_cyclic_dependency_mass": 0,
+                "graph_propagation_cost": 0,
+                "graph_dependency_entropy": 0,
+                "lines_added": 0,
+                "lines_removed": 0,
+                "mean_func_loc": 0,
+                "mass.cc": 0,
+                "mass.high_cc_pct": 0,
+                "delta.loc": 0,
+                "delta.ast_grep_violations": 0,
+                "delta.churn_ratio": 0
+              },
+              "code_snapshot": {
+                "file_count": 35,
+                "total_bytes": 235196,
+                "tree_sha256": "cf68c5a14bcbf8fc373eccd425685e3f3b77102db22eb25ee4bcd7ed3779c518",
+                "excluded_artifacts": [],
+                "archive": {
+                  "path": "problems/clic_t2/agent-results/artifacts/20260915t010000/checkpoint_2/agent-code.tar.gz",
+                  "sha256": "c30102ed1b86318650c42f21c0c2c014199b0feba0b9a81444fcdad8888de793",
+                  "size_bytes": 57027,
+                  "file_count": 35,
+                  "tree_sha256": "cf68c5a14bcbf8fc373eccd425685e3f3b77102db22eb25ee4bcd7ed3779c518"
+                },
+                "manifest": {
+                  "path": "problems/clic_t2/agent-results/artifacts/20260915t010000/checkpoint_2/agent-code.manifest.json",
+                  "sha256": "f53c70304a985a4f0689550051b75afb03fd46bd6eba1fa178729745baa37032",
+                  "size_bytes": 6445,
+                  "file_count": 35,
+                  "total_bytes": 235196,
+                  "tree_sha256": "cf68c5a14bcbf8fc373eccd425685e3f3b77102db22eb25ee4bcd7ed3779c518"
+                },
+                "changed_files": {
+                  "path": "problems/clic_t2/agent-results/artifacts/20260915t010000/checkpoint_2/changed-files.json",
+                  "sha256": "4b51c2be3ffa1e9cdedb7f5c73efe512f9bb682333d5fecea0d27c8fde8eabdf",
+                  "count": 4
+                },
+                "diff": {
+                  "path": "problems/clic_t2/agent-results/artifacts/20260915t010000/checkpoint_2/changes.patch",
+                  "sha256": "20f990c1886d0df2878e2265730740792833939f15ee188095e198a2ce46c595",
+                  "size_bytes": 12836
+                },
+                "baseline_path": "problems/clic_t2/pipeline/static_assets/golden_snapshots/seeded_baseline"
+              },
+              "evaluation": {
+                "pytest_exit_code": 0,
+                "infrastructure_failure": false,
+                "counts": {
+                  "structure": [
+                    1,
+                    1
+                  ],
+                  "core": [
+                    2,
+                    2
+                  ],
+                  "functionality": [
+                    0,
+                    0
+                  ],
+                  "regression": [
+                    3,
+                    3
+                  ],
+                  "error": [
+                    0,
+                    0
+                  ]
+                },
+                "core_gate_passed": true,
+                "sha256": "56a26c7b8c9271a53ce7d3b7fc71a77cd6cb013f607dc7d30afe03b4433dee6d",
+                "details": {
+                  "schema_version": 1,
+                  "problem_name": "clic_t2_pipeline",
+                  "problem_version": 1,
+                  "checkpoint_name": "checkpoint_2",
+                  "checkpoint_version": 1,
+                  "duration": 57.18162488937378,
+                  "entrypoint": "bash build_checkpoint.sh",
+                  "tests": {
+                    "checkpoint_1-Regression": {
+                      "passed": [
+                        "test_checkpoint_1_candidate_suite_passes_golden",
+                        "test_checkpoint_1_candidate_suite_rejects_missing_irq_offer",
+                        "test_checkpoint_1_preserves_fixed_rtl"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_2-Structure": {
+                      "passed": [
+                        "test_checkpoint_2_preserves_fixed_rtl"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_2-Core": {
+                      "passed": [
+                        "test_checkpoint_2_reference_model_and_c1_regression",
+                        "test_checkpoint_2_rejects_reversed_priority_selection"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    }
+                  },
+                  "pass_counts": {
+                    "Structure": 1,
+                    "Core": 2,
+                    "Functionality": 0,
+                    "Regression": 3,
+                    "Error": 0
+                  },
+                  "total_counts": {
+                    "Structure": 1,
+                    "Core": 2,
+                    "Functionality": 0,
+                    "Regression": 3,
+                    "Error": 0
+                  },
+                  "detail_metrics": {},
+                  "pytest_exit_code": 0,
+                  "pytest_collected": 6,
+                  "test_collection_hash": "969edc00388fabb64f44939bdecefae8f26223a849cdb931eed967a97924a0cd",
+                  "infrastructure_failure": false,
+                  "infrastructure_reason": null
+                }
+              },
+              "localCheckpoint": "checkpoint_2",
+              "targetCheckpoint": "checkpoint_2"
+            },
+            {
+              "checkpoint": "checkpoint_3",
+              "state": "ran",
+              "started_at": "2026-09-15T09:52:34.559384",
+              "ended_at": "2026-09-15T09:59:33.363955",
+              "duration_seconds": 418.804571,
+              "steps": 35,
+              "run_result": {
+                "problem": "clic_t2_pipeline",
+                "version": 1,
+                "checkpoint": "checkpoint_3",
+                "path": "$RUN_DIR/clic_t2_pipeline",
+                "idx": 3,
+                "state": "ran",
+                "is_first": false,
+                "is_last": true,
+                "strict_pass_rate": 1,
+                "structure_pass_rate": 1,
+                "core_pass_rate": 1,
+                "functionality_pass_rate": 1,
+                "isolated_pass_rate": 1,
+                "total_tests": 9,
+                "passed_tests": 9,
+                "structure_total": 1,
+                "structure_passed": 1,
+                "core_total": 2,
+                "core_passed": 2,
+                "functionality_total": 2,
+                "functionality_passed": 2,
+                "functionality_incremental_total": 0,
+                "functionality_incremental_passed": 0,
+                "error_total": 0,
+                "error_passed": 0,
+                "regression_total": 6,
+                "regression_passed": 6,
+                "started": "2026-09-15T09:52:34.559384",
+                "ended": "2026-09-15T09:59:33.363955",
+                "duration": 418.804571,
+                "cost": 0,
+                "steps": 35,
+                "cache_read": 1254528,
+                "cache_write": 0,
+                "input": 1329789,
+                "output": 11740,
+                "reasoning": 4136,
+                "loc": 0,
+                "sloc": 0,
+                "total_lines": 0,
+                "single_comments": 0,
+                "lint_errors": 0,
+                "lint_fixable": 0,
+                "files": 0,
+                "functions": 0,
+                "methods": 0,
+                "classes": 0,
+                "statements": 0,
+                "symbols_total": 0,
+                "cc_max": 0,
+                "cc_mean": 0,
+                "cc_std": 0,
+                "cc_high_count": 0,
+                "cc_extreme_count": 0,
+                "high_cc_mean": 0,
+                "cc_normalized": 0,
+                "cc_concentration": 0,
+                "cc_top20": 0,
+                "max_nesting_depth": 0,
+                "lines_per_symbol": 0,
+                "single_use_functions": 0,
+                "trivial_wrappers": 0,
+                "unused_variables": 0,
+                "clone_lines": 0,
+                "cloned_sloc_lines": 0,
+                "ast_grep_violations": 0,
+                "verbosity_flagged_sloc_lines": 0,
+                "sg_slop_violations": 0,
+                "graph_cyclic_dependency_mass": 0,
+                "graph_propagation_cost": 0,
+                "graph_dependency_entropy": 0,
+                "lines_added": 0,
+                "lines_removed": 0,
+                "mean_func_loc": 0,
+                "mass.cc": 0,
+                "mass.high_cc_pct": 0,
+                "delta.loc": 0,
+                "delta.ast_grep_violations": 0,
+                "delta.churn_ratio": 0
+              },
+              "code_snapshot": {
+                "file_count": 36,
+                "total_bytes": 241348,
+                "tree_sha256": "37ff323a04a3c5c0972ce4b147fc600bed72df612f9d6018c2266368fda88034",
+                "excluded_artifacts": [],
+                "archive": {
+                  "path": "problems/clic_t2/agent-results/artifacts/20260915t010000/checkpoint_3/agent-code.tar.gz",
+                  "sha256": "3a23c4452070b7a347ac1e7c3c92ff3fce91a9e1d2c1e0209d05d534e92be752",
+                  "size_bytes": 57797,
+                  "file_count": 36,
+                  "tree_sha256": "37ff323a04a3c5c0972ce4b147fc600bed72df612f9d6018c2266368fda88034"
+                },
+                "manifest": {
+                  "path": "problems/clic_t2/agent-results/artifacts/20260915t010000/checkpoint_3/agent-code.manifest.json",
+                  "sha256": "92028f12dc1a13dde1ac0435ee6efdf4e654c013642c1c7ea389728d9baacec3",
+                  "size_bytes": 6625,
+                  "file_count": 36,
+                  "total_bytes": 241348,
+                  "tree_sha256": "37ff323a04a3c5c0972ce4b147fc600bed72df612f9d6018c2266368fda88034"
+                },
+                "changed_files": {
+                  "path": "problems/clic_t2/agent-results/artifacts/20260915t010000/checkpoint_3/changed-files.json",
+                  "sha256": "503a5dac4c626dce5ab5216905dc092dd23e703a4ad54eef26c39bdd27682a09",
+                  "count": 5
+                },
+                "diff": {
+                  "path": "problems/clic_t2/agent-results/artifacts/20260915t010000/checkpoint_3/changes.patch",
+                  "sha256": "1409c11a2d573f5e01f1bc78c95bb2f74c427d62ac7c83ea6b9ccaa8b4d4c842",
+                  "size_bytes": 19257
+                },
+                "baseline_path": "problems/clic_t2/pipeline/static_assets/golden_snapshots/seeded_baseline"
+              },
+              "evaluation": {
+                "pytest_exit_code": 0,
+                "infrastructure_failure": false,
+                "counts": {
+                  "structure": [
+                    1,
+                    1
+                  ],
+                  "core": [
+                    2,
+                    2
+                  ],
+                  "functionality": [
+                    0,
+                    0
+                  ],
+                  "regression": [
+                    6,
+                    6
+                  ],
+                  "error": [
+                    0,
+                    0
+                  ]
+                },
+                "core_gate_passed": true,
+                "sha256": "2221beedcad611621b00a90e9040350b0c06e41f423e3af6bd3ace10fd0894b3",
+                "details": {
+                  "schema_version": 1,
+                  "problem_name": "clic_t2_pipeline",
+                  "problem_version": 1,
+                  "checkpoint_name": "checkpoint_3",
+                  "checkpoint_version": 1,
+                  "duration": 136.3122160434723,
+                  "entrypoint": "bash build_checkpoint.sh",
+                  "tests": {
+                    "checkpoint_1-Regression": {
+                      "passed": [
+                        "test_checkpoint_1_candidate_suite_passes_golden",
+                        "test_checkpoint_1_candidate_suite_rejects_missing_irq_offer",
+                        "test_checkpoint_1_preserves_fixed_rtl"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_2-Regression": {
+                      "passed": [
+                        "test_checkpoint_2_preserves_fixed_rtl",
+                        "test_checkpoint_2_reference_model_and_c1_regression",
+                        "test_checkpoint_2_rejects_reversed_priority_selection"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_3-Structure": {
+                      "passed": [
+                        "test_checkpoint_3_preserves_fixed_rtl"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_3-Core": {
+                      "passed": [
+                        "test_checkpoint_3_protocol_boundary_suite_and_regression",
+                        "test_checkpoint_3_rejects_missing_preemption"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    }
+                  },
+                  "pass_counts": {
+                    "Structure": 1,
+                    "Core": 2,
+                    "Functionality": 0,
+                    "Regression": 6,
+                    "Error": 0
+                  },
+                  "total_counts": {
+                    "Structure": 1,
+                    "Core": 2,
+                    "Functionality": 0,
+                    "Regression": 6,
+                    "Error": 0
+                  },
+                  "detail_metrics": {},
+                  "pytest_exit_code": 0,
+                  "pytest_collected": 9,
+                  "test_collection_hash": "2f49aa69802da0a2d2e7197b8bae378b4a321a8a616400d08b33a8a2fdabc078",
+                  "infrastructure_failure": false,
+                  "infrastructure_reason": null
+                }
+              },
+              "localCheckpoint": "checkpoint_3",
+              "targetCheckpoint": "checkpoint_3"
+            }
+          ],
+          "experimentType": "pipeline",
+          "targetCheckpoint": "",
+          "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/clic_t2/agent-results/runs/20260915t010000.json"
+        },
+        {
+          "schema_version": 3,
+          "run_id": "20260914t230000",
+          "exported_at": "2026-09-19T04:55:24.806481+00:00",
+          "published_problem": "clic_t2",
+          "source_problem": "clic_t2_pipeline_sr_checkpoint_3",
+          "release_commit": "866bc5e68f05265b06c21b50138c9b7ac17721b7",
+          "definition_sha256": {
+            "config.yaml": "d49c74ea766b3cc318d20417f554e2784855d9b24501bfb51a5a081b0c9b1718",
+            "checkpoint_1.md": "1923c1a127d35a6cc99894bc33fd592ee5b66e0b5cf5de42cf087c1e25bfc71b",
+            "checkpoint_2.md": "cd452e9951422e19a63c03af98688287afe94832f11492131b705e7ad9ab9da8",
+            "checkpoint_3.md": "c47401201ab09af5e85ac8351debb6d8e17dad899b11c48db3daedcf0bd68c39"
+          },
+          "source_run": {
+            "directory": "codex-0.141.0_rtl-plan-and-test_high_20260914T214132522915_rtl_clic_t2v_codex_gpt-5.6-luna_20260914t230000",
+            "result_json_sha256": "4c14d51e2ddabfddab9e456b9d45354371b8af33edf2c2ed829b30e9c35f0402",
+            "checkpoint_results_sha256": "599ed082d4a5b80f03dc1bdfd97a6848a3d4cacdea6df91d4cac4c6ffce161a6"
+          },
+          "agent": {
+            "type": "codex",
+            "version": "0.141.0"
+          },
+          "model": "agicto-gpt-5.6-luna",
+          "prompt": "rtl-plan-and-test",
+          "thinking": "high",
+          "run_metrics": {
+            "costs": {
+              "checkpoint": {
+                "mean": 0,
+                "stddev": null,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 1
+              },
+              "problem": {
+                "mean": 0,
+                "stddev": null,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 1
+              },
+              "total": 0
+            },
+            "time": {
+              "checkpoint": {
+                "mean": 1738.62454,
+                "stddev": null,
+                "min": 1738.62454,
+                "max": 1738.62454,
+                "median": 1738.62454,
+                "count": 1
+              },
+              "problem": {
+                "mean": 1738.62454,
+                "stddev": null,
+                "min": 1738.62454,
+                "max": 1738.62454,
+                "median": 1738.62454,
+                "count": 1
+              }
+            },
+            "tokens": {
+              "input": 1355880,
+              "output": 8549,
+              "cache_read": 1016448,
+              "cache_write": 0,
+              "reasoning": 2569,
+              "problem": {
+                "input": 1355880,
+                "output": 8549,
+                "cache_read": 1016448,
+                "cache_write": 0,
+                "reasoning": 2569
+              },
+              "checkpoint": {
+                "input": 1355880,
+                "output": 8549,
+                "cache_read": 1016448,
+                "cache_write": 0,
+                "reasoning": 2569
+              }
+            },
+            "steps": {
+              "checkpoint": {
+                "mean": 36,
+                "stddev": null,
+                "min": 36,
+                "max": 36,
+                "median": 36,
+                "count": 1
+              },
+              "problem": {
+                "mean": 36,
+                "stddev": null,
+                "min": 36,
+                "max": 36,
+                "median": 36,
+                "count": 1
+              }
+            },
+            "pass_rates": {
+              "problem": {
+                "structure": 1,
+                "core": 1,
+                "total": 1,
+                "error": 0,
+                "functionality": 1,
+                "regression": 0
+              },
+              "checkpoint": {
+                "structure": 1,
+                "core": 1,
+                "total": 1,
+                "error": 0,
+                "functionality": 1,
+                "regression": 0
+              }
+            }
+          },
+          "expected_checkpoints": 1,
+          "completed_checkpoints": 1,
+          "outcome": "passed",
+          "checkpoints": [
+            {
+              "checkpoint": "checkpoint_1",
+              "state": "ran",
+              "started_at": "2026-09-14T21:41:33.872463",
+              "ended_at": "2026-09-14T22:10:32.497003",
+              "duration_seconds": 1738.62454,
+              "steps": 36,
+              "run_result": {
+                "problem": "clic_t2_pipeline_sr_checkpoint_3",
+                "version": 1,
+                "checkpoint": "checkpoint_1",
+                "path": "$RUN_DIR/clic_t2_pipeline_sr_checkpoint_3",
+                "idx": 1,
+                "state": "ran",
+                "is_first": true,
+                "is_last": true,
+                "strict_pass_rate": 1,
+                "structure_pass_rate": 1,
+                "core_pass_rate": 1,
+                "functionality_pass_rate": 1,
+                "isolated_pass_rate": 1,
+                "total_tests": 3,
+                "passed_tests": 3,
+                "structure_total": 1,
+                "structure_passed": 1,
+                "core_total": 2,
+                "core_passed": 2,
+                "functionality_total": 2,
+                "functionality_passed": 2,
+                "functionality_incremental_total": 0,
+                "functionality_incremental_passed": 0,
+                "error_total": 0,
+                "error_passed": 0,
+                "regression_total": 0,
+                "regression_passed": 0,
+                "started": "2026-09-14T21:41:33.872463",
+                "ended": "2026-09-14T22:10:32.497003",
+                "duration": 1738.62454,
+                "cost": 0,
+                "steps": 36,
+                "cache_read": 1016448,
+                "cache_write": 0,
+                "input": 1355880,
+                "output": 8549,
+                "reasoning": 2569,
+                "loc": 0,
+                "sloc": 0,
+                "total_lines": 0,
+                "single_comments": 0,
+                "lint_errors": 0,
+                "lint_fixable": 0,
+                "files": 0,
+                "functions": 0,
+                "methods": 0,
+                "classes": 0,
+                "statements": 0,
+                "symbols_total": 0,
+                "cc_max": 0,
+                "cc_mean": 0,
+                "cc_std": 0,
+                "cc_high_count": 0,
+                "cc_extreme_count": 0,
+                "high_cc_mean": 0,
+                "cc_normalized": 0,
+                "cc_concentration": 0,
+                "cc_top20": 0,
+                "max_nesting_depth": 0,
+                "lines_per_symbol": 0,
+                "single_use_functions": 0,
+                "trivial_wrappers": 0,
+                "unused_variables": 0,
+                "clone_lines": 0,
+                "cloned_sloc_lines": 0,
+                "ast_grep_violations": 0,
+                "verbosity_flagged_sloc_lines": 0,
+                "sg_slop_violations": 0,
+                "graph_cyclic_dependency_mass": 0,
+                "graph_propagation_cost": 0,
+                "graph_dependency_entropy": 0,
+                "lines_added": 0,
+                "lines_removed": 0,
+                "mean_func_loc": 0,
+                "mass.cc": 0,
+                "mass.high_cc_pct": 0
+              },
+              "code_snapshot": {
+                "file_count": 36,
+                "total_bytes": 387849,
+                "tree_sha256": "5ce455d3232a2985b0e0d853b59889ebbbf3100c1aea7c60a02d7c094ced2673",
+                "excluded_artifacts": [],
+                "archive": {
+                  "path": "problems/clic_t2/agent-results/artifacts/20260914t230000/checkpoint_1/agent-code.tar.gz",
+                  "sha256": "c611999348c23a4983d430c1a0978b9040d9c855a9e10fbcd484dba1524a6f57",
+                  "size_bytes": 75541,
+                  "file_count": 36,
+                  "tree_sha256": "5ce455d3232a2985b0e0d853b59889ebbbf3100c1aea7c60a02d7c094ced2673"
+                },
+                "manifest": {
+                  "path": "problems/clic_t2/agent-results/artifacts/20260914t230000/checkpoint_1/agent-code.manifest.json",
+                  "sha256": "2558ff0817c63c4e5027326a799f4e7a73dd874b8ffc4e458a9110b43d58bcef",
+                  "size_bytes": 6616,
+                  "file_count": 36,
+                  "total_bytes": 387849,
+                  "tree_sha256": "5ce455d3232a2985b0e0d853b59889ebbbf3100c1aea7c60a02d7c094ced2673"
+                },
+                "changed_files": {
+                  "path": "problems/clic_t2/agent-results/artifacts/20260914t230000/checkpoint_1/changed-files.json",
+                  "sha256": "f73b876d2270575b06f4fe5d65d8f9587c0c49af1bf80c906b75e0b756f5dab5",
+                  "count": 10
+                },
+                "diff": {
+                  "path": "problems/clic_t2/agent-results/artifacts/20260914t230000/checkpoint_1/changes.patch",
+                  "sha256": "c92b3a0acbefef304064a9b86b5d49511dc3b39810fb37cbf7c99fffe096c98e",
+                  "size_bytes": 169351
+                },
+                "baseline_path": "problems/clic_t2/pipeline/static_assets/golden_snapshots/seeded_baseline"
+              },
+              "evaluation": {
+                "pytest_exit_code": 0,
+                "infrastructure_failure": false,
+                "counts": {
+                  "structure": [
+                    1,
+                    1
+                  ],
+                  "core": [
+                    2,
+                    2
+                  ],
+                  "functionality": [
+                    0,
+                    0
+                  ],
+                  "regression": [
+                    0,
+                    0
+                  ],
+                  "error": [
+                    0,
+                    0
+                  ]
+                },
+                "core_gate_passed": true,
+                "sha256": "ba006a930a0066f119d5cde29247e6e3cea07e3c03a91b8f352f7e513fb0a460",
+                "details": {
+                  "schema_version": 1,
+                  "problem_name": "clic_t2_pipeline_sr_checkpoint_3",
+                  "problem_version": 1,
+                  "checkpoint_name": "checkpoint_1",
+                  "checkpoint_version": 1,
+                  "duration": 43.75511813163757,
+                  "entrypoint": "bash build_checkpoint.sh",
+                  "tests": {
+                    "checkpoint_1-Structure": {
+                      "passed": [
+                        "test_checkpoint_1_preserves_fixed_rtl"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Core": {
+                      "passed": [
+                        "test_checkpoint_1_protocol_boundary_suite_and_regression",
+                        "test_checkpoint_1_rejects_missing_preemption"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    }
+                  },
+                  "pass_counts": {
+                    "Structure": 1,
+                    "Core": 2,
+                    "Functionality": 0,
+                    "Regression": 0,
+                    "Error": 0
+                  },
+                  "total_counts": {
+                    "Structure": 1,
+                    "Core": 2,
+                    "Functionality": 0,
+                    "Regression": 0,
+                    "Error": 0
+                  },
+                  "detail_metrics": {},
+                  "pytest_exit_code": 0,
+                  "pytest_collected": 3,
+                  "test_collection_hash": "d0538f5a7b9e7cc1682d496faf5b4e96955f8778cb060177b22371a196b01514",
+                  "infrastructure_failure": false,
+                  "infrastructure_reason": null
+                }
+              },
+              "localCheckpoint": "checkpoint_1",
+              "targetCheckpoint": "checkpoint_3"
+            }
+          ],
+          "experimentType": "sr",
+          "targetCheckpoint": "checkpoint_3",
+          "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/clic_t2/agent-results/runs/20260914t230000.json"
+        },
+        {
+          "schema_version": 3,
+          "run_id": "20260914t204500",
+          "exported_at": "2026-09-19T04:54:39.176704+00:00",
+          "published_problem": "clic_t2",
+          "source_problem": "clic_t2_pipeline_sr_checkpoint_2",
+          "release_commit": "866bc5e68f05265b06c21b50138c9b7ac17721b7",
+          "definition_sha256": {
+            "config.yaml": "d49c74ea766b3cc318d20417f554e2784855d9b24501bfb51a5a081b0c9b1718",
+            "checkpoint_1.md": "1923c1a127d35a6cc99894bc33fd592ee5b66e0b5cf5de42cf087c1e25bfc71b",
+            "checkpoint_2.md": "cd452e9951422e19a63c03af98688287afe94832f11492131b705e7ad9ab9da8",
+            "checkpoint_3.md": "c47401201ab09af5e85ac8351debb6d8e17dad899b11c48db3daedcf0bd68c39"
+          },
+          "source_run": {
+            "directory": "codex-0.141.0_rtl-plan-and-test_high_20260914T205137248557_rtl_clic_t2v_codex_gpt-5.6-luna_20260914t204500",
+            "result_json_sha256": "d91edcaf3558d70d56515661551d3fd239d6493cecdf57c2a21013505c488026",
+            "checkpoint_results_sha256": "d7588ebbf115ea481779fd1f0a49529226c644c9fe77e2f543bf9704923129c1"
+          },
+          "agent": {
+            "type": "codex",
+            "version": "0.141.0"
+          },
+          "model": "agicto-gpt-5.6-luna",
+          "prompt": "rtl-plan-and-test",
+          "thinking": "high",
+          "run_metrics": {
+            "costs": {
+              "checkpoint": {
+                "mean": 0,
+                "stddev": null,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 1
+              },
+              "problem": {
+                "mean": 0,
+                "stddev": null,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 1
+              },
+              "total": 0
+            },
+            "time": {
+              "checkpoint": {
+                "mean": 1508.79994,
+                "stddev": null,
+                "min": 1508.79994,
+                "max": 1508.79994,
+                "median": 1508.79994,
+                "count": 1
+              },
+              "problem": {
+                "mean": 1508.79994,
+                "stddev": null,
+                "min": 1508.79994,
+                "max": 1508.79994,
+                "median": 1508.79994,
+                "count": 1
+              }
+            },
+            "tokens": {
+              "input": 764055,
+              "output": 7159,
+              "cache_read": 557184,
+              "cache_write": 0,
+              "reasoning": 2542,
+              "problem": {
+                "input": 764055,
+                "output": 7159,
+                "cache_read": 557184,
+                "cache_write": 0,
+                "reasoning": 2542
+              },
+              "checkpoint": {
+                "input": 764055,
+                "output": 7159,
+                "cache_read": 557184,
+                "cache_write": 0,
+                "reasoning": 2542
+              }
+            },
+            "steps": {
+              "checkpoint": {
+                "mean": 28,
+                "stddev": null,
+                "min": 28,
+                "max": 28,
+                "median": 28,
+                "count": 1
+              },
+              "problem": {
+                "mean": 28,
+                "stddev": null,
+                "min": 28,
+                "max": 28,
+                "median": 28,
+                "count": 1
+              }
+            },
+            "pass_rates": {
+              "problem": {
+                "structure": 1,
+                "core": 1,
+                "total": 1,
+                "error": 0,
+                "functionality": 1,
+                "regression": 0
+              },
+              "checkpoint": {
+                "structure": 1,
+                "core": 1,
+                "total": 1,
+                "error": 0,
+                "functionality": 1,
+                "regression": 0
+              }
+            }
+          },
+          "expected_checkpoints": 1,
+          "completed_checkpoints": 1,
+          "outcome": "passed",
+          "checkpoints": [
+            {
+              "checkpoint": "checkpoint_1",
+              "state": "ran",
+              "started_at": "2026-09-14T20:51:38.601501",
+              "ended_at": "2026-09-14T21:16:47.401441",
+              "duration_seconds": 1508.79994,
+              "steps": 28,
+              "run_result": {
+                "problem": "clic_t2_pipeline_sr_checkpoint_2",
+                "version": 1,
+                "checkpoint": "checkpoint_1",
+                "path": "$RUN_DIR/clic_t2_pipeline_sr_checkpoint_2",
+                "idx": 1,
+                "state": "ran",
+                "is_first": true,
+                "is_last": true,
+                "strict_pass_rate": 1,
+                "structure_pass_rate": 1,
+                "core_pass_rate": 1,
+                "functionality_pass_rate": 1,
+                "isolated_pass_rate": 1,
+                "total_tests": 3,
+                "passed_tests": 3,
+                "structure_total": 1,
+                "structure_passed": 1,
+                "core_total": 2,
+                "core_passed": 2,
+                "functionality_total": 2,
+                "functionality_passed": 2,
+                "functionality_incremental_total": 0,
+                "functionality_incremental_passed": 0,
+                "error_total": 0,
+                "error_passed": 0,
+                "regression_total": 0,
+                "regression_passed": 0,
+                "started": "2026-09-14T20:51:38.601501",
+                "ended": "2026-09-14T21:16:47.401441",
+                "duration": 1508.79994,
+                "cost": 0,
+                "steps": 28,
+                "cache_read": 557184,
+                "cache_write": 0,
+                "input": 764055,
+                "output": 7159,
+                "reasoning": 2542,
+                "loc": 0,
+                "sloc": 0,
+                "total_lines": 0,
+                "single_comments": 0,
+                "lint_errors": 0,
+                "lint_fixable": 0,
+                "files": 0,
+                "functions": 0,
+                "methods": 0,
+                "classes": 0,
+                "statements": 0,
+                "symbols_total": 0,
+                "cc_max": 0,
+                "cc_mean": 0,
+                "cc_std": 0,
+                "cc_high_count": 0,
+                "cc_extreme_count": 0,
+                "high_cc_mean": 0,
+                "cc_normalized": 0,
+                "cc_concentration": 0,
+                "cc_top20": 0,
+                "max_nesting_depth": 0,
+                "lines_per_symbol": 0,
+                "single_use_functions": 0,
+                "trivial_wrappers": 0,
+                "unused_variables": 0,
+                "clone_lines": 0,
+                "cloned_sloc_lines": 0,
+                "ast_grep_violations": 0,
+                "verbosity_flagged_sloc_lines": 0,
+                "sg_slop_violations": 0,
+                "graph_cyclic_dependency_mass": 0,
+                "graph_propagation_cost": 0,
+                "graph_dependency_entropy": 0,
+                "lines_added": 0,
+                "lines_removed": 0,
+                "mean_func_loc": 0,
+                "mass.cc": 0,
+                "mass.high_cc_pct": 0
+              },
+              "code_snapshot": {
+                "file_count": 34,
+                "total_bytes": 293480,
+                "tree_sha256": "59f8d139d2b4f257381c04490bb8b73340506650387f4aa5bb0c4c3e8f05edd5",
+                "excluded_artifacts": [],
+                "archive": {
+                  "path": "problems/clic_t2/agent-results/artifacts/20260914t204500/checkpoint_1/agent-code.tar.gz",
+                  "sha256": "0e237af7f0252ed4b24a8cc841f6908307e6710bffb29fce99328005f67d4027",
+                  "size_bytes": 72266,
+                  "file_count": 34,
+                  "tree_sha256": "59f8d139d2b4f257381c04490bb8b73340506650387f4aa5bb0c4c3e8f05edd5"
+                },
+                "manifest": {
+                  "path": "problems/clic_t2/agent-results/artifacts/20260914t204500/checkpoint_1/agent-code.manifest.json",
+                  "sha256": "222a0bed263084322ccd515396ca6a3f71718ecf24978d843b853e1361586f8f",
+                  "size_bytes": 6261,
+                  "file_count": 34,
+                  "total_bytes": 293480,
+                  "tree_sha256": "59f8d139d2b4f257381c04490bb8b73340506650387f4aa5bb0c4c3e8f05edd5"
+                },
+                "changed_files": {
+                  "path": "problems/clic_t2/agent-results/artifacts/20260914t204500/checkpoint_1/changed-files.json",
+                  "sha256": "ad8a2fc0d2050d9823570e4ba21a5823c36712a39a39148ad3a0e47be2c0d680",
+                  "count": 8
+                },
+                "diff": {
+                  "path": "problems/clic_t2/agent-results/artifacts/20260914t204500/checkpoint_1/changes.patch",
+                  "sha256": "5c85e44c1e9757e361cdd8ab680d61bd43bc6faffc4551a86475aeead4dcaa1d",
+                  "size_bytes": 74144
+                },
+                "baseline_path": "problems/clic_t2/pipeline/static_assets/golden_snapshots/seeded_baseline"
+              },
+              "evaluation": {
+                "pytest_exit_code": 0,
+                "infrastructure_failure": false,
+                "counts": {
+                  "structure": [
+                    1,
+                    1
+                  ],
+                  "core": [
+                    2,
+                    2
+                  ],
+                  "functionality": [
+                    0,
+                    0
+                  ],
+                  "regression": [
+                    0,
+                    0
+                  ],
+                  "error": [
+                    0,
+                    0
+                  ]
+                },
+                "core_gate_passed": true,
+                "sha256": "f3fc50968045874227e2061c604dad7e534893f4eb1ffaf7d853d0c59eab4c1b",
+                "details": {
+                  "schema_version": 1,
+                  "problem_name": "clic_t2_pipeline_sr_checkpoint_2",
+                  "problem_version": 1,
+                  "checkpoint_name": "checkpoint_1",
+                  "checkpoint_version": 1,
+                  "duration": 64.96649980545044,
+                  "entrypoint": "bash build_checkpoint.sh",
+                  "tests": {
+                    "checkpoint_1-Structure": {
+                      "passed": [
+                        "test_checkpoint_1_preserves_fixed_rtl"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Core": {
+                      "passed": [
+                        "test_checkpoint_1_reference_model_and_c1_regression",
+                        "test_checkpoint_1_rejects_reversed_priority_selection"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    }
+                  },
+                  "pass_counts": {
+                    "Structure": 1,
+                    "Core": 2,
+                    "Functionality": 0,
+                    "Regression": 0,
+                    "Error": 0
+                  },
+                  "total_counts": {
+                    "Structure": 1,
+                    "Core": 2,
+                    "Functionality": 0,
+                    "Regression": 0,
+                    "Error": 0
+                  },
+                  "detail_metrics": {},
+                  "pytest_exit_code": 0,
+                  "pytest_collected": 3,
+                  "test_collection_hash": "d0549f46a3e51dbd2813feb69c19e420b26b3b364d3254f18971ea3489ae6fdf",
+                  "infrastructure_failure": false,
+                  "infrastructure_reason": null
+                }
+              },
+              "localCheckpoint": "checkpoint_1",
+              "targetCheckpoint": "checkpoint_2"
+            }
+          ],
+          "experimentType": "sr",
+          "targetCheckpoint": "checkpoint_2",
+          "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/clic_t2/agent-results/runs/20260914t204500.json"
+        }
+      ]
+    },
+    {
+      "number": "02",
       "id": "clic-t1",
       "title": "CLIC",
       "type": "T1",
@@ -2537,7 +3980,7 @@
       ]
     },
     {
-      "number": "02",
+      "number": "03",
       "id": "clint-t1",
       "title": "CLINT",
       "type": "T1",
@@ -4935,7 +6378,7 @@
       ]
     },
     {
-      "number": "03",
+      "number": "04",
       "id": "common-cells-t1",
       "title": "Common Cells",
       "type": "T1",
@@ -12713,7 +14156,7 @@
       ]
     },
     {
-      "number": "04",
+      "number": "05",
       "id": "ef-uart-t1",
       "title": "EF_UART",
       "type": "T1",
@@ -17815,7 +19258,7 @@
       ]
     },
     {
-      "number": "05",
+      "number": "06",
       "id": "taxi-axi-t3",
       "title": "Taxi AXI",
       "type": "T3",
@@ -26310,7 +27753,7 @@
       ]
     },
     {
-      "number": "06",
+      "number": "07",
       "id": "verilog-axis-fifo-t1",
       "title": "Verilog AXIS FIFO",
       "type": "T1",
@@ -30316,7 +31759,7 @@
       ]
     },
     {
-      "number": "07",
+      "number": "08",
       "id": "verilog-axis-fifo-t2",
       "title": "AXIS FIFO",
       "type": "T2",
@@ -31792,7 +33235,7 @@
       ]
     },
     {
-      "number": "08",
+      "number": "09",
       "id": "verilog-ef-uart-t1",
       "title": "EF_UART",
       "type": "T1",
@@ -33932,7 +35375,7 @@
       ]
     },
     {
-      "number": "09",
+      "number": "10",
       "id": "verilog-ethernet-t2",
       "title": "Verilog Ethernet",
       "type": "T2",
@@ -36867,7 +38310,7 @@
       ]
     },
     {
-      "number": "10",
+      "number": "11",
       "id": "verilog-pcie-t3",
       "title": "PCIe",
       "type": "T3",
