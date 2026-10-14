@@ -1,10 +1,10 @@
 {
   "schemaVersion": 5,
-  "generatedAt": "2026-10-14T14:40:27.031Z",
+  "generatedAt": "2026-10-14T18:55:47.367Z",
   "source": {
     "repository": "carterlu0/scbench-rtl-problems",
     "branch": "main",
-    "commit": "8a621e59337d56b1bcceda452d9dc74aaadcf9de"
+    "commit": "54b4e1b3d8a128fe6a624d4a02bc77c702546069"
   },
   "problems": [
     {
@@ -49385,6 +49385,2597 @@
           "experimentType": "pipeline",
           "targetCheckpoint": "",
           "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-pcie-t3/agent-results/runs/20260918t141555.json"
+        }
+      ]
+    },
+    {
+      "number": "14",
+      "id": "wb2axip-t2",
+      "title": "wb2axip",
+      "type": "T2",
+      "family": "wb2axip",
+      "tags": "rtl / verilog / wb2axip / testbench",
+      "checkpoints": 4,
+      "summary": "Release status: published \nSource family: `wb2axip_t2` \nDifficulty: hard \nTags: RTL, Verilog, AXI-Lite, APB, formal, SymbiYosys, checkpointed, test modernization",
+      "overview": "# wb2axip T2\n\nRelease status: published  \nSource family: `wb2axip_t2`  \nDifficulty: hard  \nTags: RTL, Verilog, AXI-Lite, APB, formal, SymbiYosys, checkpointed, test modernization\n\nwb2axip T2 基于 [ZipCPU/wb2axip](https://github.com/ZipCPU/wb2axip)，是一道固定\nRTL endpoint 的验证套件现代化题目。Agent 在公开的 C0 工作区中逐步交付\nSystemVerilog 仿真、独立 scoreboard、协议断言、mutation 检查和真实 SymbiYosys\nrunner；评测固定 `axil2apb`/`skidbuffer` RTL，并由 evaluator-owned oracle 检查\nAXI-Lite 到 APB 的端到端行为、时序稳定性、响应错误映射、reset recovery、形式任务\n状态和制品边界。\n\n## Release and qualification status\n\n当前发布对应 merged v18 定义，Pipeline 有四个 checkpoint，SR 有四个对应 wrapper。\nR23 Pipeline 与 SR1-SR4 reference qualification 均已通过，所有 terminal batch 都是\n`validator_return_code=0`、`input_drift=false`、`infrastructure_failure=false`。\n严格可测性认证见 [`evidence/certification.md`](evidence/certification.md)。\n\nReference qualification 与 Agent rollout 分开记录。最新 Agent 结果是诊断性\n`core-cases` 实验，不构成正式模型成绩：Pipeline 为 `136/138`，SR1 为 `11/11`，\nSR2 为 `23/23`，SR3 为 `33/35`，SR4 为 `38/44`。Pipeline C4 的两个失败涉及候选\nrunner 的 formal status 记录和 artifact rejection；SR3/SR4 的剩余失败也属于候选\n验证实现行为。原始诊断报告和可复核 Agent artifacts 见 `evidence/` 与\n`agent-results/`。\n\n## Checkpoint chain\n\n```text\nC0 fixed axil2apb/skidbuffer endpoint\n  -> checkpoint_1: C1-C2 smoke, response loss, AW/W decoupling and backpressure\n  -> checkpoint_2: C3-C4 APB wait stability and independent AXI-derived scoreboard\n  -> checkpoint_3: C5 concurrent traffic, wait/error behavior and reset recovery\n  -> checkpoint_4: C6-C7 evaluator-owned assertions, SBY matrix and artifact hygiene\n```\n\nPipeline 是累计定义，从前一 checkpoint 的 Agent snapshot 继续；`sr/checkpoint_N/`\n是对应目标增量的独立 single-round wrapper。Pipeline 与 SR 使用相同的累计测试内容、\nhelpers、fixtures、markers 和行为 oracle；SR 另保留紧邻 predecessor Regression。\n\n## Checkpoint themes\n\n- **checkpoint_1**：真实 AXI-Lite 写读、响应消费、响应丢失检测，以及 AW/W 解耦和\n  ready/valid backpressure。\n- **checkpoint_2**：APB setup/access/wait 稳定性、WSTRB/读数据独立模型、scoreboard\n  和错误响应映射。\n- **checkpoint_3**：读写并发、有限等待、错误响应、skidbuffer 0/1 和 reset recovery。\n- **checkpoint_4**：真实仿真断言激活、三项 SBY formal task、timeout/tool/property\n  分类、累计 runner 和 artifact fail-closed 边界。\n\n## Reference evaluation counts\n\n计数来自 R23 独立 reference qualification；每行按 Structure/Core/Regression/Error\n分组，括号内为总数。\n\n### Pipeline\n\n| checkpoint | Structure | Core | Regression | Error | total |\n|---|---:|---:|---:|---:|---:|\n| checkpoint_1 | 3 | 5 | 0 | 5 | 13 |\n| checkpoint_2 | 6 | 9 | 7 | 5 | 27 |\n| checkpoint_3 | 7 | 5 | 18 | 5 | 35 |\n| checkpoint_4 | 10 | 6 | 31 | 16 | 63 |\n\n### Single-round wrappers\n\n| wrapper | Structure | Core | Regression | Error | total |\n|---|---:|---:|---:|---:|---:|\n| sr/checkpoint_1 | 3 | 5 | 0 | 5 | 13 |\n| sr/checkpoint_2 | 6 | 9 | 7 | 5 | 27 |\n| sr/checkpoint_3 | 7 | 5 | 18 | 5 | 35 |\n| sr/checkpoint_4 | 10 | 6 | 31 | 16 | 63 |\n\nSR wrapper 的 endpoint 集合与 Pipeline 对齐；其 predecessor negative/Regression 结果\n在独立 batch 中单独记录。\n\n## Evaluation semantics\n\n- Agent 只能修改 checkpoint 配置声明的 `verification/` 文件；固定 RTL、formal\n  reference、mutation oracle 和工具身份由 evaluator 管理。\n- evaluator 使用 `rtlbench-wb2axip-t2:verilator-5.034-formal`，包含 Verilator\n  5.034、Yosys 0.33、SymbiYosys 0.69、Z3 4.8.12 和 Icarus Verilog 12.0。\n- Core 测试要求真实 timed transaction；C6-C7 要求真实 SBY 调用、三项任务状态和\n  制品清理。runner 自报 PASS、solver-only 或缺少状态记录不能替代 evaluator 观察。\n- `core-cases` 用于 Agent 推进门槛；诊断 rollout 与 reference qualification、可测性\n  认证分开保存。\n\n## Files\n\n- `pipeline/`：canonical cumulative definition、prompts、tests、runner 和静态 endpoint assets\n- `sr/checkpoint_1/` 至 `sr/checkpoint_4/`：独立 single-round wrappers\n- `environment/`：固定 Docker runtime 定义\n- `evidence/`：R23 manifests、reference summaries、认证证书、parity 和 rollout reports\n- `agent-results/`：最新 Pipeline/SR Agent rollout 的 schema-v3 briefs 与 code artifacts\n\n完整 frozen Docker worktrees 和原始模型日志不随发布包携带；evidence 文件保存可复核\n的 batch identity、collection hash、结果计数和诊断结论。",
+      "prompt": "# checkpoint_4: formal integration and reproducible verification boundary\n\nStarting from the completed timed transaction/configuration suite at its C5 snapshot,\nintegrate evaluator-owned AXI-Lite/APB assertions and a reproducible bounded\nSymbiYosys proof/cover matrix. Simulation must execute self-checking assertions for the corresponding protocol\nobligations; the supplied upstream assertion modules must remain active in the SBY\ntasks. Assumptions must not mask DUT behavior. Focused and cumulative runner modes must\ncover both skidbuffer configurations and classify PASS, assertion failure, solver\ntimeout, tool error, and infrastructure failure distinctly. A timeout remains a\nnon-pass formal result. The runner must clean simulator, SMT, waveform, and temporary\nbuild products from the candidate tree while rejecting injected candidate artifacts.\n\nThe cumulative `--through checkpoint_7` invocation must actually run the C1-C6\ntimed behavior for each skidbuffer configuration before finishing the proof matrix;\nformal-only execution does not satisfy cumulative mode. Focused C7 may run the\nformal matrix alone while earlier focused simulations remain available.\nRetain the full C1-C5 timed and mutation contract as predecessor Regression. Use the\nevaluator-owned formal reference and status directory, propagate every nonzero\nresult, and keep all generated work under an external scratch directory. Do not edit\nthe fixed RTL or upstream property sources. Implement the C6 assertion/formal\nintegration in `verification/test_checkpoint_6.sv` and the C7 proof/cover,\nclassification, and artifact boundary behavior in `verification/test_checkpoint_7.sv`.\nThe candidate output must include both files together with the runner, top, and\nC1-C5 regression files.\nThe runner must accept any existing absolute paths supplied through\n`--rtl-root`, `--formal-root`, and `--status-root`; do not impose a `/workspace`\nor other prefix restriction. Accept `--skidbuffer 0|1` to select the simulation\nconfiguration; when omitted, exercise both configurations. `--rtl-root` names the\nstaged repository containing `rtl/`. C6 and C7 must invoke real SBY tasks `prf`,\n`prfskd`, and `cvr` using the supplied formal reference. Under `--status-root`,\nwrite `formal_status.jsonl` with one record per task containing `task`, `status`,\nand `returncode` for each task that can run. If required tools are unavailable,\nreport `infrastructure_failure` and return nonzero before task execution; task\nrecords may be absent in that case. Status values are `pass`, `timeout`, `tool_error`,\n`property_failure`, or `infrastructure_failure`; timeout must return 124 and every\nother failure must return nonzero. Reject candidate artifacts before running tools\nand report `artifact_failure`. Generated work belongs in external scratch storage.\n\nFor this pinned toolchain, run the scratch copy with engine\n`smtbmc --unroll z3 -- --noincr`, preserving all supplied tasks, depths, assertions,\nand assumptions. The normal proof/cover checks require all three tasks to complete\nwith PASS. Timeout classification is tested separately with `SBY_TIMEOUT` (positive\ninteger seconds per task, default 120); a timeout is never a positive proof result.\nRetain each task's SBY output as `<task>.log` under `--status-root` alongside JSONL.\n\nThe public simulation top `wb2axip_suite_top` must instantiate the fixed bridge\nas `dut`. The evaluator observes its public DUT ports independently of runner\noutput and checks request/response correspondence. This instance name is part of\nthe observer interface; internal candidate signal names and testbench structure\nare otherwise unrestricted.\nThe C6 focused simulation must actively complete both a write and a read,\nexercise multi-cycle APB wait, and stall both error responses for multiple cycles.\nAn idle/reset-only simulation does not satisfy assertion activation. Candidate\nSBY task statuses are checked against independently executed evaluator tasks.\n\nFor local smoke validation, the agent may use only the public baseline workspace:\nthe upstream formal sources and `bench/formal/axil2apb.sby` are available under\nthe baseline repository. A local tool smoke may be run from `bench/formal` with\nthe runtime `sby`/`yosys`/`z3` commands, but all generated work must stay in an\nexternal scratch directory and must be removed from `repo/`. The evaluator's\n`formal_reference`, mutation inputs, and status records are evaluator-owned and\nmust not be copied, inferred, or relied on during local validation. The submitted\nrunner must still honor the public `--formal-root` and `--status-root` options;\nthose paths are supplied only by the evaluator.\nFor example, from `/workspace`, a tool smoke using only public files is:\n```sh\nscratch=$(mktemp -d /workspace/wb2axip-formal.XXXXXX)\nmkdir -p \"$scratch/rtl\" \"$scratch/bench/formal\"\ncp repo/rtl/axil2apb.v repo/rtl/skidbuffer.v \"$scratch/rtl/\"\ncp repo/bench/formal/faxil_slave.v repo/bench/formal/fapb_master.v \"$scratch/bench/formal/\"\nsed 's/^smtbmc$/smtbmc --unroll z3 -- --noincr/' repo/bench/formal/axil2apb.sby > \"$scratch/bench/formal/axil2apb.sby\"\n(cd \"$scratch/bench/formal\" && sby -f axil2apb.sby prf)\n```\nRemove the scratch directory after validation. This checks local tool operation;\nthe evaluator separately verifies the submitted runner and its task statuses.\n\nUse the runtime's `iverilog`/`vvp`/`sby` tools through PATH. The evaluator may\nwrap tool invocation to observe the compiler arguments, then independently replay\nsimulation against the fixed DUT. Compiler macro names and candidate top parameters\nare not prescribed. Absolute tool paths that bypass these runtime hooks are unsupported.",
+      "certDate": "2026-10-14",
+      "certSummary": "| 项目 | 状态 | 判定依据 |\n|---|---|---|\n| endpoint 两种提交形态 | 已有且通过 | 全部 16 个 endpoint evaluation 全组通过，Structure/Core 非空，无基础设施失败 |\n| 紧邻 predecessor | 已有且通过 | 四轮新 Core 均失败；后续 Regression 7/18/31 全部保持；C0 无历史 Regression 合理 |\n| Pipeline/SR 内容严格相等 | 已有且通过 | shared suites/helpers/fixtures、selected predecessor 字节及实际 node/parameter/marker 对账相同 |\n| 独立行为 oracle | 已有且通过 | 实际 compiler argv 独立 replay + public DUT port observer；实际 SBY 固定任务独立运行 |\n| mutation 判别 | 已有且通过 | 先要求正常候选通过，再要求故障非零；C4 strobe/read_data 与 C6 error mapping 由候选自身断言检出 |\n|\n\n[Excerpt. Open the source artifact for the complete content.]",
+      "readmePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/wb2axip-t2/README.md",
+      "certPath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/wb2axip-t2/evidence/certification.md",
+      "promptPath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/wb2axip-t2/pipeline/checkpoint_4.md",
+      "checkpointLinks": [
+        [
+          "checkpoint_1",
+          "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/wb2axip-t2/pipeline/checkpoint_1.md"
+        ],
+        [
+          "checkpoint_2",
+          "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/wb2axip-t2/pipeline/checkpoint_2.md"
+        ],
+        [
+          "checkpoint_3",
+          "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/wb2axip-t2/pipeline/checkpoint_3.md"
+        ],
+        [
+          "checkpoint_4",
+          "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/wb2axip-t2/pipeline/checkpoint_4.md"
+        ]
+      ],
+      "checkpointPrompts": [
+        {
+          "label": "checkpoint_1",
+          "prompt": "# checkpoint_1: AXI-Lite transactions and channel backpressure\n\nBuild a self-checking timed simulation suite for the fixed `rtl/axil2apb.v` bridge and\n`rtl/skidbuffer.v`. Cover the directed AXI-Lite to APB write/read smoke contract and\nthe independent AXI AW/W channel contract in one coherent suite. Preserve VALID\npayloads while READY is low, accept AW and W in different cycles, keep BVALID and\nRVALID stable while their READY signals are low, and use finite watchdogs for every\nhandshake and response. The unchanged endpoint must pass, while evaluator-owned\nresponse-loss and backpressure mutations must fail.\n\nProvide exactly these public candidate files under `verification`: `run_suite.sh`,\n`suite_top.sv`, `test_checkpoint_1.sv`, and `test_checkpoint_2.sv`. The evaluator\nstages and invokes these exact names; alternate runner, top, or test filenames are\nnot accepted. The top file must define the public module `wb2axip_suite_top` so\nevaluator assertion probes can be injected into that module.\nThe runner must support the evaluator-owned `--rtl-root`, `--formal-root`, and\n`--status-root` options, plus the evaluator's `--through checkpoint_N` and\n`--only checkpoint_N` selectors. It must accept these options in any supported\nfocused invocation and return zero for an unchanged endpoint; compile, assertion,\nand timed-check failures must return nonzero. Work from an unrelated directory,\nand treat `--rtl-root` as the staged repository root, resolving DUT sources at\n`<rtl-root>/rtl/axil2apb.v` and `<rtl-root>/rtl/skidbuffer.v`. Propagate failures\nand remove temporary simulator products from the candidate tree. Every failed\nwatchdog, assertion, or mutation check must cause a nonzero process exit (use\n`$fatal(1, ...)` or an explicit nonzero runner return); do not use `$finish(1)` as\na failure mechanism because it may return success under Icarus.\nDo not edit RTL or upstream formal sources. This task combines the initial smoke\nand channel-decoupling increments; all behavior in both increments is required.\n\nThe public simulation top `wb2axip_suite_top` must instantiate the fixed bridge\nas `dut`. The evaluator observes its public DUT ports independently of runner\noutput and checks request/response correspondence. This instance name is part of\nthe observer interface; internal candidate signal names and testbench structure\nare otherwise unrestricted.\n\nUse the runtime's `iverilog`/`vvp`/`sby` tools through PATH. The evaluator may\nwrap tool invocation to observe the compiler arguments, then independently replay\nsimulation against the fixed DUT. Compiler macro names and candidate top parameters\nare not prescribed. Absolute tool paths that bypass these runtime hooks are unsupported.\n\nThe runner must accept `--skidbuffer 0|1` for a focused configuration; when\nomitted, run both configurations. Focused mode runs only the selected internal\ncheckpoint, while `--through` without `--only` runs the cumulative suite.\nExample local validation from the repository root:\n```sh\nbash verification/run_suite.sh --rtl-root \"$PWD\" --through checkpoint_2\n```",
+          "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/wb2axip-t2/pipeline/checkpoint_1.md"
+        },
+        {
+          "label": "checkpoint_2",
+          "prompt": "# checkpoint_2: APB timing and transaction-consistency model\n\nStarting from the completed AXI-Lite transaction and backpressure suite, extend the\nverification to cover APB setup followed by access and multi-cycle wait stability.\nDuring a wait, PSEL/PENABLE, address, direction, write data, and byte strobes must\nremain stable. Add a transaction reference model and response scoreboard that checks\nWSTRB byte merging, read-data correspondence, PSLVERR to BRESP/RRESP mapping, exactly\none response per accepted request, and no lost or swapped response. The timed suite\nmust actively drive both a PSLVERR write and a PSLVERR read, hold each AXI response\nunder backpressure, and assert the mapped error responses. Use finite watchdogs and\nreal timed simulation; evaluator-owned APB phase, error-mapping, and scoreboard\nmutations must fail.\n\nRetain all prior transaction/backpressure behavior as regression. The public\ncandidate surface is exactly `verification/run_suite.sh`, `suite_top.sv`, and\n`test_checkpoint_1.sv` through `test_checkpoint_4.sv`; the runner must accept the\nevaluator's `--through`, `--only`, `--rtl-root`, `--formal-root`, and `--status-root`\noptions. Treat `--rtl-root` as the staged repository root and resolve DUT files under\nits `rtl/` directory. Propagate failures with nonzero exit codes and keep generated\nproducts outside the candidate tree.\nThe fixed RTL and upstream formal reference are evaluator-owned.\n\nThe public simulation top `wb2axip_suite_top` must instantiate the fixed bridge\nas `dut`. The evaluator observes its public DUT ports independently of runner\noutput and checks request/response correspondence. This instance name is part of\nthe observer interface; internal candidate signal names and testbench structure\nare otherwise unrestricted.\nThe C4 transaction model must exercise at least three writes and two reads,\nincluding partial byte writes followed by readback to the same location, writes to\nanother location, both PSLVERR directions and both response channels stalled for\nmultiple cycles. Count accepted requests, APB handshakes, and consumed responses;\nrequire exactly one corresponding APB completion and response per request.\n\nUse the runtime's `iverilog`/`vvp`/`sby` tools through PATH. The evaluator may\nwrap tool invocation to observe the compiler arguments, then independently replay\nsimulation against the fixed DUT. Compiler macro names and candidate top parameters\nare not prescribed. Absolute tool paths that bypass these runtime hooks are unsupported.\n\nThe runner must accept `--skidbuffer 0|1` for a focused configuration; when\nomitted, run both configurations. Focused mode runs only the selected internal\ncheckpoint, while `--through` without `--only` runs the cumulative suite.\nExample local validation from the repository root:\n```sh\nbash verification/run_suite.sh --rtl-root \"$PWD\" --through checkpoint_4\n```",
+          "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/wb2axip-t2/pipeline/checkpoint_2.md"
+        },
+        {
+          "label": "checkpoint_3",
+          "prompt": "# checkpoint_3: concurrent protocol behavior and configuration matrix\n\nStarting from the completed APB timing and transaction-consistency suite, exercise\noverlapping pending read/write requests that compete for the APB bus, APB PREADY held low for multiple cycles, PSLVERR,\nreset recovery, and both `OPT_OUTGOING_SKIDBUFFER=0` and `1`. Verify that APB\ntransactions do not overlap, neither AXI response starves, and legal waits cannot\ndeadlock. Run the same timed checks for both configurations with finite watchdogs.\nAXI address and data channels remain independent; concurrency does not require\nAWVALID, WVALID, and ARVALID to be raised on one prescribed cycle.\nAfter reset has cleared the protocol outputs, complete a fresh write and a fresh\nread and check their APB transactions and AXI responses. Reset-only cleanup or\ntraffic completed only before reset does not demonstrate recovery.\n\nPreserve all earlier transaction, backpressure, APB stability, WSTRB, and response\nscoreboard behavior as regression. The evaluator owns the fixed endpoint and mutation\noracle; candidate verification files must not modify RTL or leave build products in\nthe repository. Implement the new C5 behavior in `verification/test_checkpoint_5.sv`;\nthe candidate output must include that file together with the runner, top, and C1-C4\nregression files. For each accepted request, observe exactly one APB handshake and\nthe APB bus returning idle before the next request; identify the second concurrent\nrequest by its address/direction and fail if a stalled APB transaction is merely\nre-observed.\n\nThe public simulation top `wb2axip_suite_top` must instantiate the fixed bridge\nas `dut`. The evaluator observes its public DUT ports independently of runner\noutput and checks request/response correspondence. This instance name is part of\nthe observer interface; internal candidate signal names and testbench structure\nare otherwise unrestricted.\n\nUse the runtime's `iverilog`/`vvp`/`sby` tools through PATH. The evaluator may\nwrap tool invocation to observe the compiler arguments, then independently replay\nsimulation against the fixed DUT. Compiler macro names and candidate top parameters\nare not prescribed. Absolute tool paths that bypass these runtime hooks are unsupported.\n\nThe runner must accept `--skidbuffer 0|1` for a focused configuration; when\nomitted, run both configurations. Focused mode runs only the selected internal\ncheckpoint, while `--through` without `--only` runs the cumulative suite.\nExample local validation from the repository root:\n```sh\nbash verification/run_suite.sh --rtl-root \"$PWD\" --through checkpoint_5\n```",
+          "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/wb2axip-t2/pipeline/checkpoint_3.md"
+        },
+        {
+          "label": "checkpoint_4",
+          "prompt": "# checkpoint_4: formal integration and reproducible verification boundary\n\nStarting from the completed timed transaction/configuration suite at its C5 snapshot,\nintegrate evaluator-owned AXI-Lite/APB assertions and a reproducible bounded\nSymbiYosys proof/cover matrix. Simulation must execute self-checking assertions for the corresponding protocol\nobligations; the supplied upstream assertion modules must remain active in the SBY\ntasks. Assumptions must not mask DUT behavior. Focused and cumulative runner modes must\ncover both skidbuffer configurations and classify PASS, assertion failure, solver\ntimeout, tool error, and infrastructure failure distinctly. A timeout remains a\nnon-pass formal result. The runner must clean simulator, SMT, waveform, and temporary\nbuild products from the candidate tree while rejecting injected candidate artifacts.\n\nThe cumulative `--through checkpoint_7` invocation must actually run the C1-C6\ntimed behavior for each skidbuffer configuration before finishing the proof matrix;\nformal-only execution does not satisfy cumulative mode. Focused C7 may run the\nformal matrix alone while earlier focused simulations remain available.\nRetain the full C1-C5 timed and mutation contract as predecessor Regression. Use the\nevaluator-owned formal reference and status directory, propagate every nonzero\nresult, and keep all generated work under an external scratch directory. Do not edit\nthe fixed RTL or upstream property sources. Implement the C6 assertion/formal\nintegration in `verification/test_checkpoint_6.sv` and the C7 proof/cover,\nclassification, and artifact boundary behavior in `verification/test_checkpoint_7.sv`.\nThe candidate output must include both files together with the runner, top, and\nC1-C5 regression files.\nThe runner must accept any existing absolute paths supplied through\n`--rtl-root`, `--formal-root`, and `--status-root`; do not impose a `/workspace`\nor other prefix restriction. Accept `--skidbuffer 0|1` to select the simulation\nconfiguration; when omitted, exercise both configurations. `--rtl-root` names the\nstaged repository containing `rtl/`. C6 and C7 must invoke real SBY tasks `prf`,\n`prfskd`, and `cvr` using the supplied formal reference. Under `--status-root`,\nwrite `formal_status.jsonl` with one record per task containing `task`, `status`,\nand `returncode` for each task that can run. If required tools are unavailable,\nreport `infrastructure_failure` and return nonzero before task execution; task\nrecords may be absent in that case. Status values are `pass`, `timeout`, `tool_error`,\n`property_failure`, or `infrastructure_failure`; timeout must return 124 and every\nother failure must return nonzero. Reject candidate artifacts before running tools\nand report `artifact_failure`. Generated work belongs in external scratch storage.\n\nFor this pinned toolchain, run the scratch copy with engine\n`smtbmc --unroll z3 -- --noincr`, preserving all supplied tasks, depths, assertions,\nand assumptions. The normal proof/cover checks require all three tasks to complete\nwith PASS. Timeout classification is tested separately with `SBY_TIMEOUT` (positive\ninteger seconds per task, default 120); a timeout is never a positive proof result.\nRetain each task's SBY output as `<task>.log` under `--status-root` alongside JSONL.\n\nThe public simulation top `wb2axip_suite_top` must instantiate the fixed bridge\nas `dut`. The evaluator observes its public DUT ports independently of runner\noutput and checks request/response correspondence. This instance name is part of\nthe observer interface; internal candidate signal names and testbench structure\nare otherwise unrestricted.\nThe C6 focused simulation must actively complete both a write and a read,\nexercise multi-cycle APB wait, and stall both error responses for multiple cycles.\nAn idle/reset-only simulation does not satisfy assertion activation. Candidate\nSBY task statuses are checked against independently executed evaluator tasks.\n\nFor local smoke validation, the agent may use only the public baseline workspace:\nthe upstream formal sources and `bench/formal/axil2apb.sby` are available under\nthe baseline repository. A local tool smoke may be run from `bench/formal` with\nthe runtime `sby`/`yosys`/`z3` commands, but all generated work must stay in an\nexternal scratch directory and must be removed from `repo/`. The evaluator's\n`formal_reference`, mutation inputs, and status records are evaluator-owned and\nmust not be copied, inferred, or relied on during local validation. The submitted\nrunner must still honor the public `--formal-root` and `--status-root` options;\nthose paths are supplied only by the evaluator.\nFor example, from `/workspace`, a tool smoke using only public files is:\n```sh\nscratch=$(mktemp -d /workspace/wb2axip-formal.XXXXXX)\nmkdir -p \"$scratch/rtl\" \"$scratch/bench/formal\"\ncp repo/rtl/axil2apb.v repo/rtl/skidbuffer.v \"$scratch/rtl/\"\ncp repo/bench/formal/faxil_slave.v repo/bench/formal/fapb_master.v \"$scratch/bench/formal/\"\nsed 's/^smtbmc$/smtbmc --unroll z3 -- --noincr/' repo/bench/formal/axil2apb.sby > \"$scratch/bench/formal/axil2apb.sby\"\n(cd \"$scratch/bench/formal\" && sby -f axil2apb.sby prf)\n```\nRemove the scratch directory after validation. This checks local tool operation;\nthe evaluator separately verifies the submitted runner and its task statuses.\n\nUse the runtime's `iverilog`/`vvp`/`sby` tools through PATH. The evaluator may\nwrap tool invocation to observe the compiler arguments, then independently replay\nsimulation against the fixed DUT. Compiler macro names and candidate top parameters\nare not prescribed. Absolute tool paths that bypass these runtime hooks are unsupported.",
+          "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/wb2axip-t2/pipeline/checkpoint_4.md"
+        }
+      ],
+      "evaluationRuns": [
+        {
+          "schema_version": 3,
+          "run_id": "sr4-20261013T100722",
+          "exported_at": "2026-10-14T15:50:02.547166+00:00",
+          "published_problem": "wb2axip-t2",
+          "source_problem": "wb2axip_t2_pipeline_sr_checkpoint_4",
+          "release_commit": "8a621e59337d56b1bcceda452d9dc74aaadcf9de",
+          "definition_sha256": {
+            "config.yaml": "1c2e2414136fe1c3165107c2f34bb8830d46abdc3a136726201f5583ac08f828",
+            "checkpoint_1.md": "8801ddc625d7e8fcbd91857e8761bfa4d6141da3787d9aa2f6d1ebf7f0f416ac",
+            "checkpoint_2.md": "e7d2ca27ea8206dfef4cc5548801e74ef59a4e6d6f0c5737ccf1ed4b42228034",
+            "checkpoint_3.md": "c85ef0ec9b10494753c5b17995a920c74df1afa50900c7b4dc8c5d6b632fc0e8",
+            "checkpoint_4.md": "7fb0f25d43a2a5051b696b451eb8782185aa00b72e0e33270a60208e08f5116a"
+          },
+          "source_run": {
+            "directory": "sr4-20261013T100722",
+            "result_json_sha256": "bd754a5ba1d3e642bb2df285d115ba1e8e77f0a103f01820cdf5d842a04a3ffc",
+            "checkpoint_results_sha256": "123135c4993f6a05e0a67bd3a520586d38cc378e17db56b76b409ace64c24f20"
+          },
+          "agent": {
+            "type": "opencode",
+            "version": "1.18.32"
+          },
+          "model": "agicto-gpt-5.6-luna",
+          "prompt": "rtl-plan-and-test-evaluator-owned",
+          "thinking": "high",
+          "run_metrics": {
+            "costs": {
+              "checkpoint": {
+                "mean": 0,
+                "stddev": null,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 1
+              },
+              "problem": {
+                "mean": 0,
+                "stddev": null,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 1
+              },
+              "total": 0
+            },
+            "time": {
+              "checkpoint": {
+                "mean": 347.603206,
+                "stddev": null,
+                "min": 347.603206,
+                "max": 347.603206,
+                "median": 347.603206,
+                "count": 1
+              },
+              "problem": {
+                "mean": 347.603206,
+                "stddev": null,
+                "min": 347.603206,
+                "max": 347.603206,
+                "median": 347.603206,
+                "count": 1
+              }
+            },
+            "tokens": {
+              "input": 139612,
+              "output": 6746,
+              "cache_read": 1060864,
+              "cache_write": 0,
+              "reasoning": 3342,
+              "problem": {
+                "input": 139612,
+                "output": 6746,
+                "cache_read": 1060864,
+                "cache_write": 0,
+                "reasoning": 3342
+              },
+              "checkpoint": {
+                "input": 139612,
+                "output": 6746,
+                "cache_read": 1060864,
+                "cache_write": 0,
+                "reasoning": 3342
+              }
+            },
+            "steps": {
+              "checkpoint": {
+                "mean": 26,
+                "stddev": null,
+                "min": 26,
+                "max": 26,
+                "median": 26,
+                "count": 1
+              },
+              "problem": {
+                "mean": 26,
+                "stddev": null,
+                "min": 26,
+                "max": 26,
+                "median": 26,
+                "count": 1
+              }
+            },
+            "pass_rates": {
+              "problem": {
+                "structure": 1,
+                "core": 0.7619047619047619,
+                "total": 0.8636363636363636,
+                "error": 0.8571428571428571,
+                "functionality": 0.7619047619047619,
+                "regression": 1
+              },
+              "checkpoint": {
+                "structure": 1,
+                "core": 0.7619047619047619,
+                "total": 0.8636363636363636,
+                "error": 0.8571428571428571,
+                "functionality": 0.7619047619047619,
+                "regression": 1
+              }
+            }
+          },
+          "expected_checkpoints": 1,
+          "completed_checkpoints": 1,
+          "outcome": "failed",
+          "checkpoints": [
+            {
+              "checkpoint": "checkpoint_1",
+              "state": "ran",
+              "started_at": "2026-10-13T10:07:24.196858",
+              "ended_at": "2026-10-13T10:13:11.800064",
+              "duration_seconds": 347.603206,
+              "steps": 26,
+              "run_result": {
+                "problem": "wb2axip_t2_pipeline_sr_checkpoint_4",
+                "version": 18,
+                "checkpoint": "checkpoint_1",
+                "path": "/home/carter/.cache/slop-code-bench/outputs/diagnostics/wb2axip_t2/checkpoint_4-20261013T100721-83HbSkmy/outputs/agicto-gpt-5.6-luna/opencode-1.18.32_rtl-plan-and-test-evaluator-owned_high_20261013T100722953524_wb2axip_t2_checkpoint_4_diagnostic/wb2axip_t2_pipeline_sr_checkpoint_4",
+                "idx": 1,
+                "state": "ran",
+                "is_first": true,
+                "is_last": true,
+                "strict_pass_rate": 0.8636363636363636,
+                "structure_pass_rate": 1,
+                "core_pass_rate": 0.7619047619047619,
+                "functionality_pass_rate": 0.7619047619047619,
+                "isolated_pass_rate": 0.7931034482758621,
+                "total_tests": 44,
+                "passed_tests": 38,
+                "structure_total": 1,
+                "structure_passed": 1,
+                "core_total": 21,
+                "core_passed": 16,
+                "functionality_total": 21,
+                "functionality_passed": 16,
+                "functionality_incremental_total": 0,
+                "functionality_incremental_passed": 0,
+                "error_total": 7,
+                "error_passed": 6,
+                "regression_total": 15,
+                "regression_passed": 15,
+                "started": "2026-10-13T10:07:24.196858",
+                "ended": "2026-10-13T10:13:11.800064",
+                "duration": 347.603206,
+                "cost": 0,
+                "steps": 26,
+                "cache_read": 1060864,
+                "cache_write": 0,
+                "input": 139612,
+                "output": 6746,
+                "reasoning": 3342,
+                "loc": 0,
+                "sloc": 0,
+                "total_lines": 0,
+                "single_comments": 0,
+                "lint_errors": 0,
+                "lint_fixable": 0,
+                "files": 0,
+                "functions": 0,
+                "methods": 0,
+                "classes": 0,
+                "statements": 0,
+                "symbols_total": 0,
+                "cc_max": 0,
+                "cc_mean": 0,
+                "cc_std": 0,
+                "cc_high_count": 0,
+                "cc_extreme_count": 0,
+                "high_cc_mean": 0,
+                "cc_normalized": 0,
+                "cc_concentration": 0,
+                "cc_top20": 0,
+                "max_nesting_depth": 0,
+                "lines_per_symbol": 0,
+                "single_use_functions": 0,
+                "trivial_wrappers": 0,
+                "unused_variables": 0,
+                "clone_lines": 0,
+                "cloned_sloc_lines": 0,
+                "ast_grep_violations": 0,
+                "verbosity_flagged_sloc_lines": 0,
+                "sg_slop_violations": 0,
+                "graph_cyclic_dependency_mass": 0,
+                "graph_propagation_cost": 0,
+                "graph_dependency_entropy": 0,
+                "lines_added": 0,
+                "lines_removed": 0,
+                "mean_func_loc": 0,
+                "mass.cc": 0,
+                "mass.high_cc_pct": 0
+              },
+              "code_snapshot": {
+                "file_count": 376,
+                "total_bytes": 13896763,
+                "tree_sha256": "e5f2d29eeef07614ac11802f7f08b8eb6bd9648301c20bb07e7639386d0899fa",
+                "excluded_artifacts": [],
+                "archive": {
+                  "path": "problems/wb2axip-t2/agent-results/artifacts/sr4-20261013T100722/checkpoint_1/agent-code.tar.gz",
+                  "sha256": "b5bc9215e9407072a7d83849adee666f275952d5b69dceedd42c9a2904a62e67",
+                  "size_bytes": 9051874,
+                  "file_count": 376,
+                  "tree_sha256": "e5f2d29eeef07614ac11802f7f08b8eb6bd9648301c20bb07e7639386d0899fa"
+                },
+                "manifest": {
+                  "path": "problems/wb2axip-t2/agent-results/artifacts/sr4-20261013T100722/checkpoint_1/agent-code.manifest.json",
+                  "sha256": "fad3a730bbdcc2a5b28753f4a59318d180096d9a7024f61df0dc905a5103af79",
+                  "size_bytes": 70447,
+                  "file_count": 376,
+                  "total_bytes": 13896763,
+                  "tree_sha256": "e5f2d29eeef07614ac11802f7f08b8eb6bd9648301c20bb07e7639386d0899fa"
+                },
+                "changed_files": {
+                  "path": "problems/wb2axip-t2/agent-results/artifacts/sr4-20261013T100722/checkpoint_1/changed-files.json",
+                  "sha256": "f457a276e0206e8f75354554c55313c7c3c4c1fdb25bb8fe39ef874ccc6433f6",
+                  "count": 9
+                },
+                "diff": {
+                  "path": "problems/wb2axip-t2/agent-results/artifacts/sr4-20261013T100722/checkpoint_1/changes.patch",
+                  "sha256": "81248ea9cddb4ccc35d49e809a455871d90a0fb0a81785381156284c65ce6f8d",
+                  "size_bytes": 36688
+                },
+                "baseline_path": "problems/wb2axip-t2/pipeline/static_assets/golden_snapshots/C0-axil2apb-baseline-51d9353818c20bd03daa9b4ecc281aea1a36ec3a"
+              },
+              "evaluation": {
+                "pytest_exit_code": 1,
+                "infrastructure_failure": false,
+                "counts": {
+                  "structure": [
+                    1,
+                    1
+                  ],
+                  "core": [
+                    16,
+                    21
+                  ],
+                  "functionality": [
+                    0,
+                    0
+                  ],
+                  "regression": [
+                    15,
+                    15
+                  ],
+                  "error": [
+                    6,
+                    7
+                  ]
+                },
+                "core_gate_passed": false,
+                "sha256": "ac87291c09e9745f3c6334169867e493aa56562a43d3f14a478d80639d5b06e9",
+                "details": {
+                  "schema_version": 1,
+                  "problem_name": "wb2axip_t2_pipeline_sr_checkpoint_4",
+                  "problem_version": 18,
+                  "checkpoint_name": "checkpoint_1",
+                  "checkpoint_version": 18,
+                  "duration": 3.410731554031372,
+                  "entrypoint": "bash build_checkpoint.sh",
+                  "tests": {
+                    "checkpoint_1-Error": {
+                      "passed": [
+                        "test_checkpoint_1_candidate_artifact_hygiene",
+                        "test_checkpoint_1_propagates_tool_failures[assertion]",
+                        "test_checkpoint_1_propagates_tool_failures[compile]",
+                        "test_checkpoint_1_runner_cleans_products",
+                        "test_checkpoint_6_solver_status_is_documented",
+                        "test_checkpoint_7_source_has_no_generated_formal_products"
+                      ],
+                      "failed": [
+                        "test_checkpoint_7_artifact_failure_is_rejected"
+                      ],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Core": {
+                      "passed": [
+                        "test_checkpoint_1_detects_response_loss[read-response-loss]",
+                        "test_checkpoint_1_detects_response_loss[write-response-loss]",
+                        "test_checkpoint_1_endpoint_smoke",
+                        "test_checkpoint_2_mutation_is_detected",
+                        "test_checkpoint_2_properties_are_present",
+                        "test_checkpoint_2_timed_decoupled_backpressure",
+                        "test_checkpoint_3_apb_property_reference",
+                        "test_checkpoint_3_mutation_is_detected",
+                        "test_checkpoint_3_timed_apb_wait_stability",
+                        "test_checkpoint_4_mutation_is_detected",
+                        "test_checkpoint_4_scoreboard_inputs_are_available",
+                        "test_checkpoint_4_timed_scoreboard",
+                        "test_checkpoint_5_mutation_is_detected",
+                        "test_checkpoint_5_skidbuffer_source_is_fixed",
+                        "test_checkpoint_6_assertion_wrappers_are_evaluator_owned",
+                        "test_checkpoint_7_proof_cover_matrix"
+                      ],
+                      "failed": [
+                        "test_checkpoint_5_timed_competition_and_wait[skidbuffer-0]",
+                        "test_checkpoint_5_timed_competition_and_wait[skidbuffer-1]",
+                        "test_checkpoint_6_timed_runner_and_formal_entrypoint",
+                        "test_checkpoint_7_cumulative_runner_and_artifact_boundary",
+                        "test_checkpoint_7_focused_runner"
+                      ],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Structure": {
+                      "passed": [
+                        "test_checkpoint_1_public_files_and_fixed_endpoint"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Regression": {
+                      "passed": [
+                        "test_checkpoint_2_keeps_checkpoint_1_behavior",
+                        "test_checkpoint_3_keeps_checkpoint_2_behavior",
+                        "test_checkpoint_4_keeps_checkpoint_3_behavior",
+                        "test_checkpoint_5_keeps_checkpoint_4_behavior",
+                        "test_predecessor_checkpoint_5_runs[0]",
+                        "test_predecessor_checkpoint_5_runs[1]",
+                        "test_predecessor_rejects_transaction_faults[checkpoint_1-B]",
+                        "test_predecessor_rejects_transaction_faults[checkpoint_1-R]",
+                        "test_predecessor_rejects_transaction_faults[checkpoint_2-None]",
+                        "test_predecessor_rejects_transaction_faults[checkpoint_3-None]",
+                        "test_predecessor_rejects_transaction_faults[checkpoint_4-None]",
+                        "test_predecessor_rejects_transaction_faults[checkpoint_5-None]",
+                        "test_predecessor_snapshot_has_no_candidate_rtl",
+                        "test_predecessor_snapshot_is_materialized",
+                        "test_predecessor_verification_matches_manifest"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    }
+                  },
+                  "pass_counts": {
+                    "Structure": 1,
+                    "Core": 16,
+                    "Functionality": 0,
+                    "Regression": 15,
+                    "Error": 6
+                  },
+                  "total_counts": {
+                    "Structure": 1,
+                    "Core": 21,
+                    "Functionality": 0,
+                    "Regression": 15,
+                    "Error": 7
+                  },
+                  "detail_metrics": {},
+                  "pytest_exit_code": 1,
+                  "pytest_collected": 44,
+                  "test_collection_hash": "f7c35e3e8369683901b4020fcc21cdf02f8b7abb63967ebefbf89415665fd0ef",
+                  "infrastructure_failure": false,
+                  "infrastructure_reason": null
+                }
+              },
+              "localCheckpoint": "checkpoint_1",
+              "targetCheckpoint": "checkpoint_4"
+            }
+          ],
+          "experimentType": "sr",
+          "targetCheckpoint": "checkpoint_4",
+          "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/wb2axip-t2/agent-results/runs/sr4-20261013T100722.json"
+        },
+        {
+          "schema_version": 3,
+          "run_id": "sr3-20261013T223326",
+          "exported_at": "2026-10-14T15:50:02.514198+00:00",
+          "published_problem": "wb2axip-t2",
+          "source_problem": "wb2axip_t2_pipeline_sr_checkpoint_3",
+          "release_commit": "8a621e59337d56b1bcceda452d9dc74aaadcf9de",
+          "definition_sha256": {
+            "config.yaml": "1c2e2414136fe1c3165107c2f34bb8830d46abdc3a136726201f5583ac08f828",
+            "checkpoint_1.md": "8801ddc625d7e8fcbd91857e8761bfa4d6141da3787d9aa2f6d1ebf7f0f416ac",
+            "checkpoint_2.md": "e7d2ca27ea8206dfef4cc5548801e74ef59a4e6d6f0c5737ccf1ed4b42228034",
+            "checkpoint_3.md": "c85ef0ec9b10494753c5b17995a920c74df1afa50900c7b4dc8c5d6b632fc0e8",
+            "checkpoint_4.md": "7fb0f25d43a2a5051b696b451eb8782185aa00b72e0e33270a60208e08f5116a"
+          },
+          "source_run": {
+            "directory": "sr3-20261013T223326",
+            "result_json_sha256": "2f811b9654d9b3c84b82a0b942f2876a0d462f1ca21b83437b7a3181e2179ca7",
+            "checkpoint_results_sha256": "20188f643fb51f4c17367c6fb2cac94660b2c9fd2b634267dbe86d723370eb3f"
+          },
+          "agent": {
+            "type": "opencode",
+            "version": "1.18.32"
+          },
+          "model": "agicto-gpt-5.6-luna",
+          "prompt": "rtl-plan-and-test-evaluator-owned",
+          "thinking": "high",
+          "run_metrics": {
+            "costs": {
+              "checkpoint": {
+                "mean": 0,
+                "stddev": null,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 1
+              },
+              "problem": {
+                "mean": 0,
+                "stddev": null,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 1
+              },
+              "total": 0
+            },
+            "time": {
+              "checkpoint": {
+                "mean": 3334.611816,
+                "stddev": null,
+                "min": 3334.611816,
+                "max": 3334.611816,
+                "median": 3334.611816,
+                "count": 1
+              },
+              "problem": {
+                "mean": 3334.611816,
+                "stddev": null,
+                "min": 3334.611816,
+                "max": 3334.611816,
+                "median": 3334.611816,
+                "count": 1
+              }
+            },
+            "tokens": {
+              "input": 420396,
+              "output": 23892,
+              "cache_read": 2042368,
+              "cache_write": 0,
+              "reasoning": 0,
+              "problem": {
+                "input": 420396,
+                "output": 23892,
+                "cache_read": 2042368,
+                "cache_write": 0,
+                "reasoning": 0
+              },
+              "checkpoint": {
+                "input": 420396,
+                "output": 23892,
+                "cache_read": 2042368,
+                "cache_write": 0,
+                "reasoning": 0
+              }
+            },
+            "steps": {
+              "checkpoint": {
+                "mean": 67,
+                "stddev": null,
+                "min": 67,
+                "max": 67,
+                "median": 67,
+                "count": 1
+              },
+              "problem": {
+                "mean": 67,
+                "stddev": null,
+                "min": 67,
+                "max": 67,
+                "median": 67,
+                "count": 1
+              }
+            },
+            "pass_rates": {
+              "problem": {
+                "structure": 1,
+                "core": 0.6,
+                "total": 0.9428571428571428,
+                "error": 1,
+                "functionality": 0.6,
+                "regression": 1
+              },
+              "checkpoint": {
+                "structure": 1,
+                "core": 0.6,
+                "total": 0.9428571428571428,
+                "error": 1,
+                "functionality": 0.6,
+                "regression": 1
+              }
+            }
+          },
+          "expected_checkpoints": 1,
+          "completed_checkpoints": 1,
+          "outcome": "failed",
+          "checkpoints": [
+            {
+              "checkpoint": "checkpoint_1",
+              "state": "ran",
+              "started_at": "2026-10-13T22:33:27.430448",
+              "ended_at": "2026-10-13T23:29:02.042264",
+              "duration_seconds": 3334.611816,
+              "steps": 67,
+              "run_result": {
+                "problem": "wb2axip_t2_pipeline_sr_checkpoint_3",
+                "version": 18,
+                "checkpoint": "checkpoint_1",
+                "path": "/home/carter/.cache/slop-code-bench/outputs/diagnostics/wb2axip_t2/checkpoint_3-20261013T223324-yyDfJXOB/outputs/agicto-gpt-5.6-luna/opencode-1.18.32_rtl-plan-and-test-evaluator-owned_high_20261013T223326181408_wb2axip_t2_pipeline_sr_checkpoint_3_diagnostic/wb2axip_t2_pipeline_sr_checkpoint_3",
+                "idx": 1,
+                "state": "ran",
+                "is_first": true,
+                "is_last": true,
+                "strict_pass_rate": 0.9428571428571428,
+                "structure_pass_rate": 1,
+                "core_pass_rate": 0.6,
+                "functionality_pass_rate": 0.6,
+                "isolated_pass_rate": 0.8823529411764706,
+                "total_tests": 35,
+                "passed_tests": 33,
+                "structure_total": 7,
+                "structure_passed": 7,
+                "core_total": 5,
+                "core_passed": 3,
+                "functionality_total": 5,
+                "functionality_passed": 3,
+                "functionality_incremental_total": 0,
+                "functionality_incremental_passed": 0,
+                "error_total": 5,
+                "error_passed": 5,
+                "regression_total": 18,
+                "regression_passed": 18,
+                "started": "2026-10-13T22:33:27.430448",
+                "ended": "2026-10-13T23:29:02.042264",
+                "duration": 3334.611816,
+                "cost": 0,
+                "steps": 67,
+                "cache_read": 2042368,
+                "cache_write": 0,
+                "input": 420396,
+                "output": 23892,
+                "reasoning": 0,
+                "loc": 0,
+                "sloc": 0,
+                "total_lines": 0,
+                "single_comments": 0,
+                "lint_errors": 0,
+                "lint_fixable": 0,
+                "files": 0,
+                "functions": 0,
+                "methods": 0,
+                "classes": 0,
+                "statements": 0,
+                "symbols_total": 0,
+                "cc_max": 0,
+                "cc_mean": 0,
+                "cc_std": 0,
+                "cc_high_count": 0,
+                "cc_extreme_count": 0,
+                "high_cc_mean": 0,
+                "cc_normalized": 0,
+                "cc_concentration": 0,
+                "cc_top20": 0,
+                "max_nesting_depth": 0,
+                "lines_per_symbol": 0,
+                "single_use_functions": 0,
+                "trivial_wrappers": 0,
+                "unused_variables": 0,
+                "clone_lines": 0,
+                "cloned_sloc_lines": 0,
+                "ast_grep_violations": 0,
+                "verbosity_flagged_sloc_lines": 0,
+                "sg_slop_violations": 0,
+                "graph_cyclic_dependency_mass": 0,
+                "graph_propagation_cost": 0,
+                "graph_dependency_entropy": 0,
+                "lines_added": 0,
+                "lines_removed": 0,
+                "mean_func_loc": 0,
+                "mass.cc": 0,
+                "mass.high_cc_pct": 0
+              },
+              "code_snapshot": {
+                "file_count": 374,
+                "total_bytes": 13886314,
+                "tree_sha256": "eec09e412028720c39a41a7abe2ee8c1f514e46e25aea2f9f4691b6776a5d241",
+                "excluded_artifacts": [],
+                "archive": {
+                  "path": "problems/wb2axip-t2/agent-results/artifacts/sr3-20261013T223326/checkpoint_1/agent-code.tar.gz",
+                  "sha256": "b0fec79bafce4f64092579d5ce1ae97fb58babb51f3977400c2311a20ec8f35c",
+                  "size_bytes": 9052495,
+                  "file_count": 374,
+                  "tree_sha256": "eec09e412028720c39a41a7abe2ee8c1f514e46e25aea2f9f4691b6776a5d241"
+                },
+                "manifest": {
+                  "path": "problems/wb2axip-t2/agent-results/artifacts/sr3-20261013T223326/checkpoint_1/agent-code.manifest.json",
+                  "sha256": "0eeca3176934642c7430ed8c85aeff41736856a51b8ffb21a1f13c45a56ce550",
+                  "size_bytes": 70057,
+                  "file_count": 374,
+                  "total_bytes": 13886314,
+                  "tree_sha256": "eec09e412028720c39a41a7abe2ee8c1f514e46e25aea2f9f4691b6776a5d241"
+                },
+                "changed_files": {
+                  "path": "problems/wb2axip-t2/agent-results/artifacts/sr3-20261013T223326/checkpoint_1/changed-files.json",
+                  "sha256": "90b0107206e9dd117e8286fa6ca0acb6193b6b1526d15731abfb97e67c821eab",
+                  "count": 7
+                },
+                "diff": {
+                  "path": "problems/wb2axip-t2/agent-results/artifacts/sr3-20261013T223326/checkpoint_1/changes.patch",
+                  "sha256": "00761cd70ad63a985eb3d805eb652f0472455dccb2f5162a7577e81954f4938b",
+                  "size_bytes": 25864
+                },
+                "baseline_path": "problems/wb2axip-t2/pipeline/static_assets/golden_snapshots/C0-axil2apb-baseline-51d9353818c20bd03daa9b4ecc281aea1a36ec3a"
+              },
+              "evaluation": {
+                "pytest_exit_code": 1,
+                "infrastructure_failure": false,
+                "counts": {
+                  "structure": [
+                    7,
+                    7
+                  ],
+                  "core": [
+                    3,
+                    5
+                  ],
+                  "functionality": [
+                    0,
+                    0
+                  ],
+                  "regression": [
+                    18,
+                    18
+                  ],
+                  "error": [
+                    5,
+                    5
+                  ]
+                },
+                "core_gate_passed": false,
+                "sha256": "c7af0168471f1f08a7cd59810688a0e0f94442e55793be5a5bb856a2823ba816",
+                "details": {
+                  "schema_version": 1,
+                  "problem_name": "wb2axip_t2_pipeline_sr_checkpoint_3",
+                  "problem_version": 18,
+                  "checkpoint_name": "checkpoint_1",
+                  "checkpoint_version": 18,
+                  "duration": 7.009995222091675,
+                  "entrypoint": "bash build_checkpoint.sh",
+                  "tests": {
+                    "checkpoint_1-Error": {
+                      "passed": [
+                        "test_checkpoint_1_candidate_artifact_hygiene",
+                        "test_checkpoint_1_propagates_tool_failures[assertion]",
+                        "test_checkpoint_1_propagates_tool_failures[compile]",
+                        "test_checkpoint_1_runner_cleans_products",
+                        "test_runner_forged_simulation_success_is_rejected"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Regression": {
+                      "passed": [
+                        "test_checkpoint_1_detects_response_loss[read-response-loss]",
+                        "test_checkpoint_1_detects_response_loss[write-response-loss]",
+                        "test_checkpoint_1_endpoint_smoke",
+                        "test_checkpoint_2_keeps_checkpoint_1_behavior",
+                        "test_checkpoint_2_mutation_is_detected",
+                        "test_checkpoint_2_timed_decoupled_backpressure",
+                        "test_checkpoint_3_keeps_checkpoint_2_behavior",
+                        "test_checkpoint_3_mutation_is_detected",
+                        "test_checkpoint_3_timed_apb_wait_stability",
+                        "test_checkpoint_3_wait_payload_fault_is_detected",
+                        "test_checkpoint_4_independent_model_coverage[0]",
+                        "test_checkpoint_4_independent_model_coverage[1]",
+                        "test_checkpoint_4_keeps_checkpoint_3_behavior",
+                        "test_checkpoint_4_model_faults_are_rejected[read_data]",
+                        "test_checkpoint_4_model_faults_are_rejected[strobe]",
+                        "test_checkpoint_4_mutation_is_detected",
+                        "test_checkpoint_4_timed_scoreboard",
+                        "test_checkpoint_5_keeps_checkpoint_4_behavior"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Structure": {
+                      "passed": [
+                        "test_checkpoint_1_public_files_and_fixed_endpoint",
+                        "test_checkpoint_2_properties_are_present",
+                        "test_checkpoint_3_apb_property_reference",
+                        "test_checkpoint_4_scoreboard_inputs_are_available",
+                        "test_checkpoint_5_skidbuffer_source_is_fixed",
+                        "test_predecessor_snapshot_has_no_candidate_rtl",
+                        "test_predecessor_snapshot_is_materialized"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Core": {
+                      "passed": [
+                        "test_checkpoint_5_mutation_is_detected",
+                        "test_checkpoint_5_timed_competition_and_wait[skidbuffer-0]",
+                        "test_checkpoint_5_timed_competition_and_wait[skidbuffer-1]"
+                      ],
+                      "failed": [
+                        "test_checkpoint_5_independent_reset_recovery[0]",
+                        "test_checkpoint_5_independent_reset_recovery[1]"
+                      ],
+                      "skipped": []
+                    }
+                  },
+                  "pass_counts": {
+                    "Structure": 7,
+                    "Core": 3,
+                    "Functionality": 0,
+                    "Regression": 18,
+                    "Error": 5
+                  },
+                  "total_counts": {
+                    "Structure": 7,
+                    "Core": 5,
+                    "Functionality": 0,
+                    "Regression": 18,
+                    "Error": 5
+                  },
+                  "detail_metrics": {},
+                  "pytest_exit_code": 1,
+                  "pytest_collected": 35,
+                  "test_collection_hash": "e6cc4f4d4d7e4ccb2d8680272ff913ba272fa1b33ec3651d2371a07170e3759a",
+                  "infrastructure_failure": false,
+                  "infrastructure_reason": null
+                }
+              },
+              "localCheckpoint": "checkpoint_1",
+              "targetCheckpoint": "checkpoint_3"
+            }
+          ],
+          "experimentType": "sr",
+          "targetCheckpoint": "checkpoint_3",
+          "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/wb2axip-t2/agent-results/runs/sr3-20261013T223326.json"
+        },
+        {
+          "schema_version": 3,
+          "run_id": "sr2-20261012T180510",
+          "exported_at": "2026-10-14T15:50:02.524877+00:00",
+          "published_problem": "wb2axip-t2",
+          "source_problem": "wb2axip_t2_pipeline_sr_checkpoint_2",
+          "release_commit": "8a621e59337d56b1bcceda452d9dc74aaadcf9de",
+          "definition_sha256": {
+            "config.yaml": "1c2e2414136fe1c3165107c2f34bb8830d46abdc3a136726201f5583ac08f828",
+            "checkpoint_1.md": "8801ddc625d7e8fcbd91857e8761bfa4d6141da3787d9aa2f6d1ebf7f0f416ac",
+            "checkpoint_2.md": "e7d2ca27ea8206dfef4cc5548801e74ef59a4e6d6f0c5737ccf1ed4b42228034",
+            "checkpoint_3.md": "c85ef0ec9b10494753c5b17995a920c74df1afa50900c7b4dc8c5d6b632fc0e8",
+            "checkpoint_4.md": "7fb0f25d43a2a5051b696b451eb8782185aa00b72e0e33270a60208e08f5116a"
+          },
+          "source_run": {
+            "directory": "sr2-20261012T180510",
+            "result_json_sha256": "f4219941a2717ae77c034bc25cd212996de6da6b8a652f49799395209486e4b0",
+            "checkpoint_results_sha256": "b554a6ee1b772a30a0806f594b8f92b5d0e9979f8907f34c9f32082f18950e37"
+          },
+          "agent": {
+            "type": "opencode",
+            "version": "1.18.32"
+          },
+          "model": "agicto-gpt-5.6-luna",
+          "prompt": "rtl-plan-and-test-evaluator-owned",
+          "thinking": "high",
+          "run_metrics": {
+            "costs": {
+              "checkpoint": {
+                "mean": 0,
+                "stddev": null,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 1
+              },
+              "problem": {
+                "mean": 0,
+                "stddev": null,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 1
+              },
+              "total": 0
+            },
+            "time": {
+              "checkpoint": {
+                "mean": 1232.28942,
+                "stddev": null,
+                "min": 1232.28942,
+                "max": 1232.28942,
+                "median": 1232.28942,
+                "count": 1
+              },
+              "problem": {
+                "mean": 1232.28942,
+                "stddev": null,
+                "min": 1232.28942,
+                "max": 1232.28942,
+                "median": 1232.28942,
+                "count": 1
+              }
+            },
+            "tokens": {
+              "input": 173879,
+              "output": 9770,
+              "cache_read": 856576,
+              "cache_write": 0,
+              "reasoning": 0,
+              "problem": {
+                "input": 173879,
+                "output": 9770,
+                "cache_read": 856576,
+                "cache_write": 0,
+                "reasoning": 0
+              },
+              "checkpoint": {
+                "input": 173879,
+                "output": 9770,
+                "cache_read": 856576,
+                "cache_write": 0,
+                "reasoning": 0
+              }
+            },
+            "steps": {
+              "checkpoint": {
+                "mean": 33,
+                "stddev": null,
+                "min": 33,
+                "max": 33,
+                "median": 33,
+                "count": 1
+              },
+              "problem": {
+                "mean": 33,
+                "stddev": null,
+                "min": 33,
+                "max": 33,
+                "median": 33,
+                "count": 1
+              }
+            },
+            "pass_rates": {
+              "problem": {
+                "structure": 1,
+                "core": 1,
+                "total": 1,
+                "error": 1,
+                "functionality": 1,
+                "regression": 1
+              },
+              "checkpoint": {
+                "structure": 1,
+                "core": 1,
+                "total": 1,
+                "error": 1,
+                "functionality": 1,
+                "regression": 1
+              }
+            }
+          },
+          "expected_checkpoints": 1,
+          "completed_checkpoints": 1,
+          "outcome": "passed",
+          "checkpoints": [
+            {
+              "checkpoint": "checkpoint_1",
+              "state": "ran",
+              "started_at": "2026-10-12T18:05:11.677704",
+              "ended_at": "2026-10-12T18:25:43.967124",
+              "duration_seconds": 1232.28942,
+              "steps": 33,
+              "run_result": {
+                "problem": "wb2axip_t2_pipeline_sr_checkpoint_2",
+                "version": 18,
+                "checkpoint": "checkpoint_1",
+                "path": "/home/carter/.cache/slop-code-bench/outputs/diagnostics/wb2axip_t2/checkpoint_2-20261012T180508-NBqNV9RC/outputs/agicto-gpt-5.6-luna/opencode-1.18.32_rtl-plan-and-test-evaluator-owned_high_20261012T180510391117_wb2axip_t2_checkpoint_2_diagnostic/wb2axip_t2_pipeline_sr_checkpoint_2",
+                "idx": 1,
+                "state": "ran",
+                "is_first": true,
+                "is_last": true,
+                "strict_pass_rate": 1,
+                "structure_pass_rate": 1,
+                "core_pass_rate": 1,
+                "functionality_pass_rate": 1,
+                "isolated_pass_rate": 1,
+                "total_tests": 23,
+                "passed_tests": 23,
+                "structure_total": 1,
+                "structure_passed": 1,
+                "core_total": 13,
+                "core_passed": 13,
+                "functionality_total": 13,
+                "functionality_passed": 13,
+                "functionality_incremental_total": 0,
+                "functionality_incremental_passed": 0,
+                "error_total": 4,
+                "error_passed": 4,
+                "regression_total": 5,
+                "regression_passed": 5,
+                "started": "2026-10-12T18:05:11.677704",
+                "ended": "2026-10-12T18:25:43.967124",
+                "duration": 1232.28942,
+                "cost": 0,
+                "steps": 33,
+                "cache_read": 856576,
+                "cache_write": 0,
+                "input": 173879,
+                "output": 9770,
+                "reasoning": 0,
+                "loc": 0,
+                "sloc": 0,
+                "total_lines": 0,
+                "single_comments": 0,
+                "lint_errors": 0,
+                "lint_fixable": 0,
+                "files": 0,
+                "functions": 0,
+                "methods": 0,
+                "classes": 0,
+                "statements": 0,
+                "symbols_total": 0,
+                "cc_max": 0,
+                "cc_mean": 0,
+                "cc_std": 0,
+                "cc_high_count": 0,
+                "cc_extreme_count": 0,
+                "high_cc_mean": 0,
+                "cc_normalized": 0,
+                "cc_concentration": 0,
+                "cc_top20": 0,
+                "max_nesting_depth": 0,
+                "lines_per_symbol": 0,
+                "single_use_functions": 0,
+                "trivial_wrappers": 0,
+                "unused_variables": 0,
+                "clone_lines": 0,
+                "cloned_sloc_lines": 0,
+                "ast_grep_violations": 0,
+                "verbosity_flagged_sloc_lines": 0,
+                "sg_slop_violations": 0,
+                "graph_cyclic_dependency_mass": 0,
+                "graph_propagation_cost": 0,
+                "graph_dependency_entropy": 0,
+                "lines_added": 0,
+                "lines_removed": 0,
+                "mean_func_loc": 0,
+                "mass.cc": 0,
+                "mass.high_cc_pct": 0
+              },
+              "code_snapshot": {
+                "file_count": 373,
+                "total_bytes": 13878731,
+                "tree_sha256": "84c7543813b82b3a8ad9c5f175ca10d5978095ac6a9be651a2f3db51f2635c95",
+                "excluded_artifacts": [],
+                "archive": {
+                  "path": "problems/wb2axip-t2/agent-results/artifacts/sr2-20261012T180510/checkpoint_1/agent-code.tar.gz",
+                  "sha256": "fcf0c0d8f83de74df23e25978dae806ed3734c2bc54f0f184021d25819cdbe1a",
+                  "size_bytes": 9049736,
+                  "file_count": 373,
+                  "tree_sha256": "84c7543813b82b3a8ad9c5f175ca10d5978095ac6a9be651a2f3db51f2635c95"
+                },
+                "manifest": {
+                  "path": "problems/wb2axip-t2/agent-results/artifacts/sr2-20261012T180510/checkpoint_1/agent-code.manifest.json",
+                  "sha256": "a34a4ab00706d0816a0138c6028830f1447261f6d824cf4cf81a786ac0acf6b6",
+                  "size_bytes": 69862,
+                  "file_count": 373,
+                  "total_bytes": 13878731,
+                  "tree_sha256": "84c7543813b82b3a8ad9c5f175ca10d5978095ac6a9be651a2f3db51f2635c95"
+                },
+                "changed_files": {
+                  "path": "problems/wb2axip-t2/agent-results/artifacts/sr2-20261012T180510/checkpoint_1/changed-files.json",
+                  "sha256": "ff3258ce9f7f63d630888daaa4298018b7db9c0fb0b22326a38063795fc94c79",
+                  "count": 6
+                },
+                "diff": {
+                  "path": "problems/wb2axip-t2/agent-results/artifacts/sr2-20261012T180510/checkpoint_1/changes.patch",
+                  "sha256": "0675bd02b4c9349510d72535ab7b4808de9592eada0a3bb1c5a7bc984877fdca",
+                  "size_bytes": 17982
+                },
+                "baseline_path": "problems/wb2axip-t2/pipeline/static_assets/golden_snapshots/C0-axil2apb-baseline-51d9353818c20bd03daa9b4ecc281aea1a36ec3a"
+              },
+              "evaluation": {
+                "pytest_exit_code": 0,
+                "infrastructure_failure": false,
+                "counts": {
+                  "structure": [
+                    1,
+                    1
+                  ],
+                  "core": [
+                    13,
+                    13
+                  ],
+                  "functionality": [
+                    0,
+                    0
+                  ],
+                  "regression": [
+                    5,
+                    5
+                  ],
+                  "error": [
+                    4,
+                    4
+                  ]
+                },
+                "core_gate_passed": true,
+                "sha256": "ad3bca401d497044fead44c56abe72262df04dc77d968f6e17f3c705f1b36f2a",
+                "details": {
+                  "schema_version": 1,
+                  "problem_name": "wb2axip_t2_pipeline_sr_checkpoint_2",
+                  "problem_version": 18,
+                  "checkpoint_name": "checkpoint_1",
+                  "checkpoint_version": 18,
+                  "duration": 1.356421709060669,
+                  "entrypoint": "bash build_checkpoint.sh",
+                  "tests": {
+                    "checkpoint_1-Error": {
+                      "passed": [
+                        "test_checkpoint_1_candidate_artifact_hygiene",
+                        "test_checkpoint_1_propagates_tool_failures[assertion]",
+                        "test_checkpoint_1_propagates_tool_failures[compile]",
+                        "test_checkpoint_1_runner_cleans_products"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Core": {
+                      "passed": [
+                        "test_checkpoint_1_detects_response_loss[read-response-loss]",
+                        "test_checkpoint_1_detects_response_loss[write-response-loss]",
+                        "test_checkpoint_1_endpoint_smoke",
+                        "test_checkpoint_2_mutation_is_detected",
+                        "test_checkpoint_2_properties_are_present",
+                        "test_checkpoint_2_timed_decoupled_backpressure",
+                        "test_checkpoint_3_apb_property_reference",
+                        "test_checkpoint_3_mutation_is_detected",
+                        "test_checkpoint_3_timed_apb_wait_stability",
+                        "test_checkpoint_4_explicitly_exercises_error_mapping",
+                        "test_checkpoint_4_mutation_is_detected",
+                        "test_checkpoint_4_scoreboard_inputs_are_available",
+                        "test_checkpoint_4_timed_scoreboard"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Structure": {
+                      "passed": [
+                        "test_checkpoint_1_public_files_and_fixed_endpoint"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Regression": {
+                      "passed": [
+                        "test_checkpoint_2_keeps_checkpoint_1_behavior",
+                        "test_checkpoint_3_keeps_checkpoint_2_behavior",
+                        "test_checkpoint_4_keeps_real_checkpoint_2_predecessor",
+                        "test_predecessor_snapshot_has_no_candidate_rtl",
+                        "test_predecessor_snapshot_is_materialized"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    }
+                  },
+                  "pass_counts": {
+                    "Structure": 1,
+                    "Core": 13,
+                    "Functionality": 0,
+                    "Regression": 5,
+                    "Error": 4
+                  },
+                  "total_counts": {
+                    "Structure": 1,
+                    "Core": 13,
+                    "Functionality": 0,
+                    "Regression": 5,
+                    "Error": 4
+                  },
+                  "detail_metrics": {},
+                  "pytest_exit_code": 0,
+                  "pytest_collected": 23,
+                  "test_collection_hash": "0bebac76ee269f1312e340c9c6e8fcef806361c2d9d7d7bbad044a75fa652361",
+                  "infrastructure_failure": false,
+                  "infrastructure_reason": null
+                }
+              },
+              "localCheckpoint": "checkpoint_1",
+              "targetCheckpoint": "checkpoint_2"
+            }
+          ],
+          "experimentType": "sr",
+          "targetCheckpoint": "checkpoint_2",
+          "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/wb2axip-t2/agent-results/runs/sr2-20261012T180510.json"
+        },
+        {
+          "schema_version": 3,
+          "run_id": "sr1-20261012T143253",
+          "exported_at": "2026-10-14T15:50:02.530718+00:00",
+          "published_problem": "wb2axip-t2",
+          "source_problem": "wb2axip_t2_pipeline_sr_checkpoint_1",
+          "release_commit": "8a621e59337d56b1bcceda452d9dc74aaadcf9de",
+          "definition_sha256": {
+            "config.yaml": "1c2e2414136fe1c3165107c2f34bb8830d46abdc3a136726201f5583ac08f828",
+            "checkpoint_1.md": "8801ddc625d7e8fcbd91857e8761bfa4d6141da3787d9aa2f6d1ebf7f0f416ac",
+            "checkpoint_2.md": "e7d2ca27ea8206dfef4cc5548801e74ef59a4e6d6f0c5737ccf1ed4b42228034",
+            "checkpoint_3.md": "c85ef0ec9b10494753c5b17995a920c74df1afa50900c7b4dc8c5d6b632fc0e8",
+            "checkpoint_4.md": "7fb0f25d43a2a5051b696b451eb8782185aa00b72e0e33270a60208e08f5116a"
+          },
+          "source_run": {
+            "directory": "sr1-20261012T143253",
+            "result_json_sha256": "ab52a70c864ff017f044149720c08451dbf0502b466b3c3d02fe531f8186abad",
+            "checkpoint_results_sha256": "35dc6dffeeb27606751041c1aa39677148c8aa31f30fb3e19a69e6eb9f40e0be"
+          },
+          "agent": {
+            "type": "opencode",
+            "version": "1.18.32"
+          },
+          "model": "agicto-gpt-5.6-luna",
+          "prompt": "rtl-plan-and-test-evaluator-owned",
+          "thinking": "high",
+          "run_metrics": {
+            "costs": {
+              "checkpoint": {
+                "mean": 0,
+                "stddev": null,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 1
+              },
+              "problem": {
+                "mean": 0,
+                "stddev": null,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 1
+              },
+              "total": 0
+            },
+            "time": {
+              "checkpoint": {
+                "mean": 2021.44319,
+                "stddev": null,
+                "min": 2021.44319,
+                "max": 2021.44319,
+                "median": 2021.44319,
+                "count": 1
+              },
+              "problem": {
+                "mean": 2021.44319,
+                "stddev": null,
+                "min": 2021.44319,
+                "max": 2021.44319,
+                "median": 2021.44319,
+                "count": 1
+              }
+            },
+            "tokens": {
+              "input": 84301,
+              "output": 7732,
+              "cache_read": 691200,
+              "cache_write": 0,
+              "reasoning": 5050,
+              "problem": {
+                "input": 84301,
+                "output": 7732,
+                "cache_read": 691200,
+                "cache_write": 0,
+                "reasoning": 5050
+              },
+              "checkpoint": {
+                "input": 84301,
+                "output": 7732,
+                "cache_read": 691200,
+                "cache_write": 0,
+                "reasoning": 5050
+              }
+            },
+            "steps": {
+              "checkpoint": {
+                "mean": 30,
+                "stddev": null,
+                "min": 30,
+                "max": 30,
+                "median": 30,
+                "count": 1
+              },
+              "problem": {
+                "mean": 30,
+                "stddev": null,
+                "min": 30,
+                "max": 30,
+                "median": 30,
+                "count": 1
+              }
+            },
+            "pass_rates": {
+              "problem": {
+                "structure": 1,
+                "core": 1,
+                "total": 1,
+                "error": 1,
+                "functionality": 1,
+                "regression": 0
+              },
+              "checkpoint": {
+                "structure": 1,
+                "core": 1,
+                "total": 1,
+                "error": 1,
+                "functionality": 1,
+                "regression": 0
+              }
+            }
+          },
+          "expected_checkpoints": 1,
+          "completed_checkpoints": 1,
+          "outcome": "passed",
+          "checkpoints": [
+            {
+              "checkpoint": "checkpoint_1",
+              "state": "ran",
+              "started_at": "2026-10-12T14:32:54.976898",
+              "ended_at": "2026-10-12T15:06:36.420088",
+              "duration_seconds": 2021.44319,
+              "steps": 30,
+              "run_result": {
+                "problem": "wb2axip_t2_pipeline_sr_checkpoint_1",
+                "version": 18,
+                "checkpoint": "checkpoint_1",
+                "path": "/home/carter/.cache/slop-code-bench/outputs/diagnostics/wb2axip_t2/checkpoint_1-20261012T143251-LlzmKWs8/outputs/agicto-gpt-5.6-luna/opencode-1.18.32_rtl-plan-and-test-evaluator-owned_high_20261012T143253651854_wb2axip_t2_checkpoint_1_diagnostic/wb2axip_t2_pipeline_sr_checkpoint_1",
+                "idx": 1,
+                "state": "ran",
+                "is_first": true,
+                "is_last": true,
+                "strict_pass_rate": 1,
+                "structure_pass_rate": 1,
+                "core_pass_rate": 1,
+                "functionality_pass_rate": 1,
+                "isolated_pass_rate": 1,
+                "total_tests": 11,
+                "passed_tests": 11,
+                "structure_total": 1,
+                "structure_passed": 1,
+                "core_total": 6,
+                "core_passed": 6,
+                "functionality_total": 6,
+                "functionality_passed": 6,
+                "functionality_incremental_total": 0,
+                "functionality_incremental_passed": 0,
+                "error_total": 4,
+                "error_passed": 4,
+                "regression_total": 0,
+                "regression_passed": 0,
+                "started": "2026-10-12T14:32:54.976898",
+                "ended": "2026-10-12T15:06:36.420088",
+                "duration": 2021.44319,
+                "cost": 0,
+                "steps": 30,
+                "cache_read": 691200,
+                "cache_write": 0,
+                "input": 84301,
+                "output": 7732,
+                "reasoning": 5050,
+                "loc": 0,
+                "sloc": 0,
+                "total_lines": 0,
+                "single_comments": 0,
+                "lint_errors": 0,
+                "lint_fixable": 0,
+                "files": 0,
+                "functions": 0,
+                "methods": 0,
+                "classes": 0,
+                "statements": 0,
+                "symbols_total": 0,
+                "cc_max": 0,
+                "cc_mean": 0,
+                "cc_std": 0,
+                "cc_high_count": 0,
+                "cc_extreme_count": 0,
+                "high_cc_mean": 0,
+                "cc_normalized": 0,
+                "cc_concentration": 0,
+                "cc_top20": 0,
+                "max_nesting_depth": 0,
+                "lines_per_symbol": 0,
+                "single_use_functions": 0,
+                "trivial_wrappers": 0,
+                "unused_variables": 0,
+                "clone_lines": 0,
+                "cloned_sloc_lines": 0,
+                "ast_grep_violations": 0,
+                "verbosity_flagged_sloc_lines": 0,
+                "sg_slop_violations": 0,
+                "graph_cyclic_dependency_mass": 0,
+                "graph_propagation_cost": 0,
+                "graph_dependency_entropy": 0,
+                "lines_added": 0,
+                "lines_removed": 0,
+                "mean_func_loc": 0,
+                "mass.cc": 0,
+                "mass.high_cc_pct": 0
+              },
+              "code_snapshot": {
+                "file_count": 371,
+                "total_bytes": 13870249,
+                "tree_sha256": "3600e4f77b70055bcc5261a3f38475af52ade8d7678a849bfe10654d2948ec5b",
+                "excluded_artifacts": [],
+                "archive": {
+                  "path": "problems/wb2axip-t2/agent-results/artifacts/sr1-20261012T143253/checkpoint_1/agent-code.tar.gz",
+                  "sha256": "21c5f9f15e8eb8fa598752baf6fddba1d2f93f3ba658aa281435c95c7843c1d2",
+                  "size_bytes": 9048102,
+                  "file_count": 371,
+                  "tree_sha256": "3600e4f77b70055bcc5261a3f38475af52ade8d7678a849bfe10654d2948ec5b"
+                },
+                "manifest": {
+                  "path": "problems/wb2axip-t2/agent-results/artifacts/sr1-20261012T143253/checkpoint_1/agent-code.manifest.json",
+                  "sha256": "f048c5459b2f4864e7e2c9dabb11c8d9d8c7efa895cd434c278afded1fcaebb0",
+                  "size_bytes": 69472,
+                  "file_count": 371,
+                  "total_bytes": 13870249,
+                  "tree_sha256": "3600e4f77b70055bcc5261a3f38475af52ade8d7678a849bfe10654d2948ec5b"
+                },
+                "changed_files": {
+                  "path": "problems/wb2axip-t2/agent-results/artifacts/sr1-20261012T143253/checkpoint_1/changed-files.json",
+                  "sha256": "0f0f7d9edaa332c805f9bc704043cf649c60f8461049414ffd7eb0988b19ce8f",
+                  "count": 4
+                },
+                "diff": {
+                  "path": "problems/wb2axip-t2/agent-results/artifacts/sr1-20261012T143253/checkpoint_1/changes.patch",
+                  "sha256": "d3ab724603fbb5efa6cfe9dcd1f4ab5f537634d477a547d5cb44f5dc77f73744",
+                  "size_bytes": 9143
+                },
+                "baseline_path": "problems/wb2axip-t2/pipeline/static_assets/golden_snapshots/C0-axil2apb-baseline-51d9353818c20bd03daa9b4ecc281aea1a36ec3a"
+              },
+              "evaluation": {
+                "pytest_exit_code": 0,
+                "infrastructure_failure": false,
+                "counts": {
+                  "structure": [
+                    1,
+                    1
+                  ],
+                  "core": [
+                    6,
+                    6
+                  ],
+                  "functionality": [
+                    0,
+                    0
+                  ],
+                  "regression": [
+                    0,
+                    0
+                  ],
+                  "error": [
+                    4,
+                    4
+                  ]
+                },
+                "core_gate_passed": true,
+                "sha256": "65baafa62a012cdf93f1cd40cf7b3614d893a5c8d07b65abdf8cf961edaa33ea",
+                "details": {
+                  "schema_version": 1,
+                  "problem_name": "wb2axip_t2_pipeline_sr_checkpoint_1",
+                  "problem_version": 18,
+                  "checkpoint_name": "checkpoint_1",
+                  "checkpoint_version": 18,
+                  "duration": 1.1579337120056152,
+                  "entrypoint": "bash build_checkpoint.sh",
+                  "tests": {
+                    "checkpoint_1-Error": {
+                      "passed": [
+                        "test_checkpoint_1_candidate_artifact_hygiene",
+                        "test_checkpoint_1_propagates_tool_failures[assertion]",
+                        "test_checkpoint_1_propagates_tool_failures[compile]",
+                        "test_checkpoint_1_runner_cleans_products"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Core": {
+                      "passed": [
+                        "test_checkpoint_1_detects_response_loss[read-response-loss]",
+                        "test_checkpoint_1_detects_response_loss[write-response-loss]",
+                        "test_checkpoint_1_endpoint_smoke",
+                        "test_checkpoint_2_mutation_is_detected",
+                        "test_checkpoint_2_properties_are_present",
+                        "test_checkpoint_2_timed_decoupled_backpressure"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Structure": {
+                      "passed": [
+                        "test_checkpoint_1_public_files_and_fixed_endpoint"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    }
+                  },
+                  "pass_counts": {
+                    "Structure": 1,
+                    "Core": 6,
+                    "Functionality": 0,
+                    "Regression": 0,
+                    "Error": 4
+                  },
+                  "total_counts": {
+                    "Structure": 1,
+                    "Core": 6,
+                    "Functionality": 0,
+                    "Regression": 0,
+                    "Error": 4
+                  },
+                  "detail_metrics": {},
+                  "pytest_exit_code": 0,
+                  "pytest_collected": 11,
+                  "test_collection_hash": "44a3791dc6a04d6424b943f1951809a63a6cf1aed91f2e1373144919adda8acf",
+                  "infrastructure_failure": false,
+                  "infrastructure_reason": null
+                }
+              },
+              "localCheckpoint": "checkpoint_1",
+              "targetCheckpoint": "checkpoint_1"
+            }
+          ],
+          "experimentType": "sr",
+          "targetCheckpoint": "checkpoint_1",
+          "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/wb2axip-t2/agent-results/runs/sr1-20261012T143253.json"
+        },
+        {
+          "schema_version": 3,
+          "run_id": "pipeline-core-20261014T200647",
+          "exported_at": "2026-10-14T15:50:04.904087+00:00",
+          "published_problem": "wb2axip-t2",
+          "source_problem": "wb2axip_t2_pipeline",
+          "release_commit": "8a621e59337d56b1bcceda452d9dc74aaadcf9de",
+          "definition_sha256": {
+            "config.yaml": "1c2e2414136fe1c3165107c2f34bb8830d46abdc3a136726201f5583ac08f828",
+            "checkpoint_1.md": "8801ddc625d7e8fcbd91857e8761bfa4d6141da3787d9aa2f6d1ebf7f0f416ac",
+            "checkpoint_2.md": "e7d2ca27ea8206dfef4cc5548801e74ef59a4e6d6f0c5737ccf1ed4b42228034",
+            "checkpoint_3.md": "c85ef0ec9b10494753c5b17995a920c74df1afa50900c7b4dc8c5d6b632fc0e8",
+            "checkpoint_4.md": "7fb0f25d43a2a5051b696b451eb8782185aa00b72e0e33270a60208e08f5116a"
+          },
+          "source_run": {
+            "directory": "pipeline-core-20261014T200647",
+            "result_json_sha256": "3099737306667c8e5b5b8c5483a2719a2c7b7a226d2ee5d8901197ecd2b89381",
+            "checkpoint_results_sha256": "4c54eb90e22e68ecc9be265948f040aa602a9a1b38b8e346cf75b531238ad14a"
+          },
+          "agent": {
+            "type": "opencode",
+            "version": "1.18.32"
+          },
+          "model": "agicto-gpt-5.6-luna",
+          "prompt": "rtl-plan-and-test-evaluator-owned",
+          "thinking": "high",
+          "run_metrics": {
+            "costs": {
+              "checkpoint": {
+                "mean": 0,
+                "stddev": 0,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 4
+              },
+              "problem": {
+                "mean": 0,
+                "stddev": null,
+                "min": 0,
+                "max": 0,
+                "median": 0,
+                "count": 1
+              },
+              "total": 0
+            },
+            "time": {
+              "checkpoint": {
+                "mean": 1411.70307775,
+                "stddev": 865.4812943133245,
+                "min": 785.380052,
+                "max": 2640.368917,
+                "median": 1110.531671,
+                "count": 4
+              },
+              "problem": {
+                "mean": 5646.812311,
+                "stddev": null,
+                "min": 5646.812311,
+                "max": 5646.812311,
+                "median": 5646.812311,
+                "count": 1
+              }
+            },
+            "tokens": {
+              "input": 394865,
+              "output": 34838,
+              "cache_read": 3866624,
+              "cache_write": 0,
+              "reasoning": 17386,
+              "problem": {
+                "input": 394865,
+                "output": 34838,
+                "cache_read": 3866624,
+                "cache_write": 0,
+                "reasoning": 17386
+              },
+              "checkpoint": {
+                "input": 98716.25,
+                "output": 8709.5,
+                "cache_read": 966656,
+                "cache_write": 0,
+                "reasoning": 4346.5
+              }
+            },
+            "steps": {
+              "checkpoint": {
+                "mean": 32.5,
+                "stddev": 22.6642155537461,
+                "min": 16,
+                "max": 66,
+                "median": 24,
+                "count": 4
+              },
+              "problem": {
+                "mean": 130,
+                "stddev": null,
+                "min": 130,
+                "max": 130,
+                "median": 130,
+                "count": 1
+              }
+            },
+            "pass_rates": {
+              "problem": {
+                "structure": 1,
+                "core": 0.9583333333333334,
+                "total": 0.9920634920634921,
+                "error": 0.984375,
+                "functionality": 0.9583333333333334,
+                "regression": 1
+              },
+              "checkpoint": {
+                "structure": 1,
+                "core": 0.9583333333333334,
+                "total": 0.9920634920634921,
+                "error": 0.984375,
+                "functionality": 0.9583333333333334,
+                "regression": 1
+              }
+            }
+          },
+          "expected_checkpoints": 4,
+          "completed_checkpoints": 4,
+          "outcome": "failed",
+          "checkpoints": [
+            {
+              "checkpoint": "checkpoint_1",
+              "state": "ran",
+              "started_at": "2026-10-14T20:06:48.774727",
+              "ended_at": "2026-10-14T20:19:54.154779",
+              "duration_seconds": 785.380052,
+              "steps": 23,
+              "run_result": {
+                "problem": "wb2axip_t2_pipeline",
+                "version": 18,
+                "checkpoint": "checkpoint_1",
+                "path": "/home/carter/.cache/slop-code-bench/outputs/diagnostics/wb2axip_t2/checkpoint_1-20261014T200645-dfMxHtEh/outputs/agicto-gpt-5.6-luna/opencode-1.18.32_rtl-plan-and-test-evaluator-owned_high_20261014T200647411854_wb2axip_t2_pipeline_diagnostic/wb2axip_t2_pipeline",
+                "idx": 1,
+                "state": "ran",
+                "is_first": true,
+                "is_last": false,
+                "strict_pass_rate": 1,
+                "structure_pass_rate": 1,
+                "core_pass_rate": 1,
+                "functionality_pass_rate": 1,
+                "isolated_pass_rate": 1,
+                "total_tests": 13,
+                "passed_tests": 13,
+                "structure_total": 3,
+                "structure_passed": 3,
+                "core_total": 5,
+                "core_passed": 5,
+                "functionality_total": 5,
+                "functionality_passed": 5,
+                "functionality_incremental_total": 0,
+                "functionality_incremental_passed": 0,
+                "error_total": 5,
+                "error_passed": 5,
+                "regression_total": 0,
+                "regression_passed": 0,
+                "started": "2026-10-14T20:06:48.774727",
+                "ended": "2026-10-14T20:19:54.154779",
+                "duration": 785.380052,
+                "cost": 0,
+                "steps": 23,
+                "cache_read": 639488,
+                "cache_write": 0,
+                "input": 73249,
+                "output": 6552,
+                "reasoning": 2634,
+                "loc": 0,
+                "sloc": 0,
+                "total_lines": 0,
+                "single_comments": 0,
+                "lint_errors": 0,
+                "lint_fixable": 0,
+                "files": 0,
+                "functions": 0,
+                "methods": 0,
+                "classes": 0,
+                "statements": 0,
+                "symbols_total": 0,
+                "cc_max": 0,
+                "cc_mean": 0,
+                "cc_std": 0,
+                "cc_high_count": 0,
+                "cc_extreme_count": 0,
+                "high_cc_mean": 0,
+                "cc_normalized": 0,
+                "cc_concentration": 0,
+                "cc_top20": 0,
+                "max_nesting_depth": 0,
+                "lines_per_symbol": 0,
+                "single_use_functions": 0,
+                "trivial_wrappers": 0,
+                "unused_variables": 0,
+                "clone_lines": 0,
+                "cloned_sloc_lines": 0,
+                "ast_grep_violations": 0,
+                "verbosity_flagged_sloc_lines": 0,
+                "sg_slop_violations": 0,
+                "graph_cyclic_dependency_mass": 0,
+                "graph_propagation_cost": 0,
+                "graph_dependency_entropy": 0,
+                "lines_added": 0,
+                "lines_removed": 0,
+                "mean_func_loc": 0,
+                "mass.cc": 0,
+                "mass.high_cc_pct": 0
+              },
+              "code_snapshot": {
+                "file_count": 371,
+                "total_bytes": 13870800,
+                "tree_sha256": "c069407fb3bfc9da42749c333b75625f4a7b830e113e407f26001192582afc75",
+                "excluded_artifacts": [],
+                "archive": {
+                  "path": "problems/wb2axip-t2/agent-results/artifacts/pipeline-core-20261014T200647/checkpoint_1/agent-code.tar.gz",
+                  "sha256": "8e37a9eda662f38f4cbc9c4e4dc399acc8b951d4e1907d28dd2668eddd436e16",
+                  "size_bytes": 9049102,
+                  "file_count": 371,
+                  "tree_sha256": "c069407fb3bfc9da42749c333b75625f4a7b830e113e407f26001192582afc75"
+                },
+                "manifest": {
+                  "path": "problems/wb2axip-t2/agent-results/artifacts/pipeline-core-20261014T200647/checkpoint_1/agent-code.manifest.json",
+                  "sha256": "29d88ad404dcebab33a859f9b45ed05ae50582d5c2a1e256cb02d37d5f3ee059",
+                  "size_bytes": 69472,
+                  "file_count": 371,
+                  "total_bytes": 13870800,
+                  "tree_sha256": "c069407fb3bfc9da42749c333b75625f4a7b830e113e407f26001192582afc75"
+                },
+                "changed_files": {
+                  "path": "problems/wb2axip-t2/agent-results/artifacts/pipeline-core-20261014T200647/checkpoint_1/changed-files.json",
+                  "sha256": "f9881d6c5477305750f0c96de71f6f13b3f734485dc295573b58b232ba033c9d",
+                  "count": 4
+                },
+                "diff": {
+                  "path": "problems/wb2axip-t2/agent-results/artifacts/pipeline-core-20261014T200647/checkpoint_1/changes.patch",
+                  "sha256": "cedbae186848a01b329c1cebb2372dc60287b5644ce6e6ee920dac02fbe239e0",
+                  "size_bytes": 9662
+                },
+                "baseline_path": "problems/wb2axip-t2/pipeline/static_assets/golden_snapshots/C0-axil2apb-baseline-51d9353818c20bd03daa9b4ecc281aea1a36ec3a"
+              },
+              "evaluation": {
+                "pytest_exit_code": 0,
+                "infrastructure_failure": false,
+                "counts": {
+                  "structure": [
+                    3,
+                    3
+                  ],
+                  "core": [
+                    5,
+                    5
+                  ],
+                  "functionality": [
+                    0,
+                    0
+                  ],
+                  "regression": [
+                    0,
+                    0
+                  ],
+                  "error": [
+                    5,
+                    5
+                  ]
+                },
+                "core_gate_passed": true,
+                "sha256": "b3326a0e06a63b2855d7c624f7d5363e3f216f34eec263faf81ea6cc308543e7",
+                "details": {
+                  "schema_version": 1,
+                  "problem_name": "wb2axip_t2_pipeline",
+                  "problem_version": 18,
+                  "checkpoint_name": "checkpoint_1",
+                  "checkpoint_version": 18,
+                  "duration": 2.7111427783966064,
+                  "entrypoint": "bash build_checkpoint.sh",
+                  "tests": {
+                    "checkpoint_1-Structure": {
+                      "passed": [
+                        "test_c0_predecessor_manifest_is_materialized",
+                        "test_checkpoint_1_public_files_and_fixed_endpoint",
+                        "test_checkpoint_2_properties_are_present"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Error": {
+                      "passed": [
+                        "test_checkpoint_1_candidate_artifact_hygiene",
+                        "test_checkpoint_1_propagates_tool_failures[assertion]",
+                        "test_checkpoint_1_propagates_tool_failures[compile]",
+                        "test_checkpoint_1_runner_cleans_products",
+                        "test_runner_forged_simulation_success_is_rejected"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_1-Core": {
+                      "passed": [
+                        "test_checkpoint_1_detects_response_loss[read-response-loss]",
+                        "test_checkpoint_1_detects_response_loss[write-response-loss]",
+                        "test_checkpoint_1_endpoint_smoke",
+                        "test_checkpoint_2_mutation_is_detected",
+                        "test_checkpoint_2_timed_decoupled_backpressure"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    }
+                  },
+                  "pass_counts": {
+                    "Structure": 3,
+                    "Core": 5,
+                    "Functionality": 0,
+                    "Regression": 0,
+                    "Error": 5
+                  },
+                  "total_counts": {
+                    "Structure": 3,
+                    "Core": 5,
+                    "Functionality": 0,
+                    "Regression": 0,
+                    "Error": 5
+                  },
+                  "detail_metrics": {},
+                  "pytest_exit_code": 0,
+                  "pytest_collected": 13,
+                  "test_collection_hash": "6496fad06961c268af76dbf361f1954bcb6c1525fa059dd1f00aefc228518f44",
+                  "infrastructure_failure": false,
+                  "infrastructure_reason": null
+                }
+              },
+              "localCheckpoint": "checkpoint_1",
+              "targetCheckpoint": "checkpoint_1"
+            },
+            {
+              "checkpoint": "checkpoint_2",
+              "state": "ran",
+              "started_at": "2026-10-14T20:20:04.200356",
+              "ended_at": "2026-10-14T20:33:48.493575",
+              "duration_seconds": 824.293219,
+              "steps": 16,
+              "run_result": {
+                "problem": "wb2axip_t2_pipeline",
+                "version": 18,
+                "checkpoint": "checkpoint_2",
+                "path": "/home/carter/.cache/slop-code-bench/outputs/diagnostics/wb2axip_t2/checkpoint_1-20261014T200645-dfMxHtEh/outputs/agicto-gpt-5.6-luna/opencode-1.18.32_rtl-plan-and-test-evaluator-owned_high_20261014T200647411854_wb2axip_t2_pipeline_diagnostic/wb2axip_t2_pipeline",
+                "idx": 2,
+                "state": "ran",
+                "is_first": false,
+                "is_last": false,
+                "strict_pass_rate": 1,
+                "structure_pass_rate": 1,
+                "core_pass_rate": 1,
+                "functionality_pass_rate": 1,
+                "isolated_pass_rate": 1,
+                "total_tests": 27,
+                "passed_tests": 27,
+                "structure_total": 6,
+                "structure_passed": 6,
+                "core_total": 9,
+                "core_passed": 9,
+                "functionality_total": 9,
+                "functionality_passed": 9,
+                "functionality_incremental_total": 0,
+                "functionality_incremental_passed": 0,
+                "error_total": 5,
+                "error_passed": 5,
+                "regression_total": 7,
+                "regression_passed": 7,
+                "started": "2026-10-14T20:20:04.200356",
+                "ended": "2026-10-14T20:33:48.493575",
+                "duration": 824.293219,
+                "cost": 0,
+                "steps": 16,
+                "cache_read": 317440,
+                "cache_write": 0,
+                "input": 82158,
+                "output": 6773,
+                "reasoning": 2879,
+                "loc": 0,
+                "sloc": 0,
+                "total_lines": 0,
+                "single_comments": 0,
+                "lint_errors": 0,
+                "lint_fixable": 0,
+                "files": 0,
+                "functions": 0,
+                "methods": 0,
+                "classes": 0,
+                "statements": 0,
+                "symbols_total": 0,
+                "cc_max": 0,
+                "cc_mean": 0,
+                "cc_std": 0,
+                "cc_high_count": 0,
+                "cc_extreme_count": 0,
+                "high_cc_mean": 0,
+                "cc_normalized": 0,
+                "cc_concentration": 0,
+                "cc_top20": 0,
+                "max_nesting_depth": 0,
+                "lines_per_symbol": 0,
+                "single_use_functions": 0,
+                "trivial_wrappers": 0,
+                "unused_variables": 0,
+                "clone_lines": 0,
+                "cloned_sloc_lines": 0,
+                "ast_grep_violations": 0,
+                "verbosity_flagged_sloc_lines": 0,
+                "sg_slop_violations": 0,
+                "graph_cyclic_dependency_mass": 0,
+                "graph_propagation_cost": 0,
+                "graph_dependency_entropy": 0,
+                "lines_added": 0,
+                "lines_removed": 0,
+                "mean_func_loc": 0,
+                "mass.cc": 0,
+                "mass.high_cc_pct": 0,
+                "delta.loc": 0,
+                "delta.ast_grep_violations": 0,
+                "delta.churn_ratio": 0
+              },
+              "code_snapshot": {
+                "file_count": 373,
+                "total_bytes": 13879281,
+                "tree_sha256": "eff4e5c7409069595ba09d98f35893c505c062c1189c08783b0fc387cbeea61a",
+                "excluded_artifacts": [],
+                "archive": {
+                  "path": "problems/wb2axip-t2/agent-results/artifacts/pipeline-core-20261014T200647/checkpoint_2/agent-code.tar.gz",
+                  "sha256": "fd5b0c3b330a64329a41a9438e51fc5cbd07f167e75b9dd9cbe52645c649b913",
+                  "size_bytes": 9050161,
+                  "file_count": 373,
+                  "tree_sha256": "eff4e5c7409069595ba09d98f35893c505c062c1189c08783b0fc387cbeea61a"
+                },
+                "manifest": {
+                  "path": "problems/wb2axip-t2/agent-results/artifacts/pipeline-core-20261014T200647/checkpoint_2/agent-code.manifest.json",
+                  "sha256": "01930fbeb73f3e43c6f19ce4764980e985f62c8478f70e5316188c985f9571aa",
+                  "size_bytes": 69862,
+                  "file_count": 373,
+                  "total_bytes": 13879281,
+                  "tree_sha256": "eff4e5c7409069595ba09d98f35893c505c062c1189c08783b0fc387cbeea61a"
+                },
+                "changed_files": {
+                  "path": "problems/wb2axip-t2/agent-results/artifacts/pipeline-core-20261014T200647/checkpoint_2/changed-files.json",
+                  "sha256": "bae84c39504322e4689c0906939a7e78ceb79bafd5c9b4a8e2ae5c4b25fcffd9",
+                  "count": 6
+                },
+                "diff": {
+                  "path": "problems/wb2axip-t2/agent-results/artifacts/pipeline-core-20261014T200647/checkpoint_2/changes.patch",
+                  "sha256": "75c4e767c1de385a52870a89f03de5140b93b899b77aab0f4577ec453d94685e",
+                  "size_bytes": 18454
+                },
+                "baseline_path": "problems/wb2axip-t2/pipeline/static_assets/golden_snapshots/C0-axil2apb-baseline-51d9353818c20bd03daa9b4ecc281aea1a36ec3a"
+              },
+              "evaluation": {
+                "pytest_exit_code": 0,
+                "infrastructure_failure": false,
+                "counts": {
+                  "structure": [
+                    6,
+                    6
+                  ],
+                  "core": [
+                    9,
+                    9
+                  ],
+                  "functionality": [
+                    0,
+                    0
+                  ],
+                  "regression": [
+                    7,
+                    7
+                  ],
+                  "error": [
+                    5,
+                    5
+                  ]
+                },
+                "core_gate_passed": true,
+                "sha256": "57cb9d5225094af39181ee46bc0595ce42b5c89366536065dc474eb79fccb1b4",
+                "details": {
+                  "schema_version": 1,
+                  "problem_name": "wb2axip_t2_pipeline",
+                  "problem_version": 18,
+                  "checkpoint_name": "checkpoint_2",
+                  "checkpoint_version": 18,
+                  "duration": 5.248759984970093,
+                  "entrypoint": "bash build_checkpoint.sh",
+                  "tests": {
+                    "checkpoint_2-Error": {
+                      "passed": [
+                        "test_checkpoint_1_candidate_artifact_hygiene",
+                        "test_checkpoint_1_propagates_tool_failures[assertion]",
+                        "test_checkpoint_1_propagates_tool_failures[compile]",
+                        "test_checkpoint_1_runner_cleans_products",
+                        "test_runner_forged_simulation_success_is_rejected"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_2-Regression": {
+                      "passed": [
+                        "test_checkpoint_1_detects_response_loss[read-response-loss]",
+                        "test_checkpoint_1_detects_response_loss[write-response-loss]",
+                        "test_checkpoint_1_endpoint_smoke",
+                        "test_checkpoint_2_keeps_checkpoint_1_behavior",
+                        "test_checkpoint_2_mutation_is_detected",
+                        "test_checkpoint_2_timed_decoupled_backpressure",
+                        "test_checkpoint_3_keeps_checkpoint_2_behavior"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_2-Structure": {
+                      "passed": [
+                        "test_checkpoint_1_public_files_and_fixed_endpoint",
+                        "test_checkpoint_2_properties_are_present",
+                        "test_checkpoint_3_apb_property_reference",
+                        "test_checkpoint_4_scoreboard_inputs_are_available",
+                        "test_predecessor_snapshot_has_no_candidate_rtl",
+                        "test_predecessor_snapshot_is_materialized"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_2-Core": {
+                      "passed": [
+                        "test_checkpoint_3_mutation_is_detected",
+                        "test_checkpoint_3_timed_apb_wait_stability",
+                        "test_checkpoint_3_wait_payload_fault_is_detected",
+                        "test_checkpoint_4_independent_model_coverage[0]",
+                        "test_checkpoint_4_independent_model_coverage[1]",
+                        "test_checkpoint_4_model_faults_are_rejected[read_data]",
+                        "test_checkpoint_4_model_faults_are_rejected[strobe]",
+                        "test_checkpoint_4_mutation_is_detected",
+                        "test_checkpoint_4_timed_scoreboard"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    }
+                  },
+                  "pass_counts": {
+                    "Structure": 6,
+                    "Core": 9,
+                    "Functionality": 0,
+                    "Regression": 7,
+                    "Error": 5
+                  },
+                  "total_counts": {
+                    "Structure": 6,
+                    "Core": 9,
+                    "Functionality": 0,
+                    "Regression": 7,
+                    "Error": 5
+                  },
+                  "detail_metrics": {},
+                  "pytest_exit_code": 0,
+                  "pytest_collected": 27,
+                  "test_collection_hash": "751f3d13f0cf98d90049469e2361406b4208aae77fae1db382bca65883188d7a",
+                  "infrastructure_failure": false,
+                  "infrastructure_reason": null
+                }
+              },
+              "localCheckpoint": "checkpoint_2",
+              "targetCheckpoint": "checkpoint_2"
+            },
+            {
+              "checkpoint": "checkpoint_3",
+              "state": "ran",
+              "started_at": "2026-10-14T20:34:00.941321",
+              "ended_at": "2026-10-14T21:18:01.310238",
+              "duration_seconds": 2640.368917,
+              "steps": 66,
+              "run_result": {
+                "problem": "wb2axip_t2_pipeline",
+                "version": 18,
+                "checkpoint": "checkpoint_3",
+                "path": "/home/carter/.cache/slop-code-bench/outputs/diagnostics/wb2axip_t2/checkpoint_1-20261014T200645-dfMxHtEh/outputs/agicto-gpt-5.6-luna/opencode-1.18.32_rtl-plan-and-test-evaluator-owned_high_20261014T200647411854_wb2axip_t2_pipeline_diagnostic/wb2axip_t2_pipeline",
+                "idx": 3,
+                "state": "ran",
+                "is_first": false,
+                "is_last": false,
+                "strict_pass_rate": 1,
+                "structure_pass_rate": 1,
+                "core_pass_rate": 1,
+                "functionality_pass_rate": 1,
+                "isolated_pass_rate": 1,
+                "total_tests": 35,
+                "passed_tests": 35,
+                "structure_total": 7,
+                "structure_passed": 7,
+                "core_total": 5,
+                "core_passed": 5,
+                "functionality_total": 5,
+                "functionality_passed": 5,
+                "functionality_incremental_total": 0,
+                "functionality_incremental_passed": 0,
+                "error_total": 5,
+                "error_passed": 5,
+                "regression_total": 18,
+                "regression_passed": 18,
+                "started": "2026-10-14T20:34:00.941321",
+                "ended": "2026-10-14T21:18:01.310238",
+                "duration": 2640.368917,
+                "cost": 0,
+                "steps": 66,
+                "cache_read": 1970176,
+                "cache_write": 0,
+                "input": 185301,
+                "output": 14160,
+                "reasoning": 8260,
+                "loc": 0,
+                "sloc": 0,
+                "total_lines": 0,
+                "single_comments": 0,
+                "lint_errors": 0,
+                "lint_fixable": 0,
+                "files": 0,
+                "functions": 0,
+                "methods": 0,
+                "classes": 0,
+                "statements": 0,
+                "symbols_total": 0,
+                "cc_max": 0,
+                "cc_mean": 0,
+                "cc_std": 0,
+                "cc_high_count": 0,
+                "cc_extreme_count": 0,
+                "high_cc_mean": 0,
+                "cc_normalized": 0,
+                "cc_concentration": 0,
+                "cc_top20": 0,
+                "max_nesting_depth": 0,
+                "lines_per_symbol": 0,
+                "single_use_functions": 0,
+                "trivial_wrappers": 0,
+                "unused_variables": 0,
+                "clone_lines": 0,
+                "cloned_sloc_lines": 0,
+                "ast_grep_violations": 0,
+                "verbosity_flagged_sloc_lines": 0,
+                "sg_slop_violations": 0,
+                "graph_cyclic_dependency_mass": 0,
+                "graph_propagation_cost": 0,
+                "graph_dependency_entropy": 0,
+                "lines_added": 0,
+                "lines_removed": 0,
+                "mean_func_loc": 0,
+                "mass.cc": 0,
+                "mass.high_cc_pct": 0,
+                "delta.loc": 0,
+                "delta.ast_grep_violations": 0,
+                "delta.churn_ratio": 0
+              },
+              "code_snapshot": {
+                "file_count": 374,
+                "total_bytes": 13885451,
+                "tree_sha256": "28c857138e0877b0b50b382507885cc7c1178a4dcdd242d3feaab70f2c78ecf8",
+                "excluded_artifacts": [],
+                "archive": {
+                  "path": "problems/wb2axip-t2/agent-results/artifacts/pipeline-core-20261014T200647/checkpoint_3/agent-code.tar.gz",
+                  "sha256": "466fbf4b73b2f27521b4464be3998eb34bf52b45850d08015e15808172c2f8b9",
+                  "size_bytes": 9051504,
+                  "file_count": 374,
+                  "tree_sha256": "28c857138e0877b0b50b382507885cc7c1178a4dcdd242d3feaab70f2c78ecf8"
+                },
+                "manifest": {
+                  "path": "problems/wb2axip-t2/agent-results/artifacts/pipeline-core-20261014T200647/checkpoint_3/agent-code.manifest.json",
+                  "sha256": "3e2096fece02de314f646d3e14a57ff4767f9de28dffe57ca8ef72c0329de804",
+                  "size_bytes": 70057,
+                  "file_count": 374,
+                  "total_bytes": 13885451,
+                  "tree_sha256": "28c857138e0877b0b50b382507885cc7c1178a4dcdd242d3feaab70f2c78ecf8"
+                },
+                "changed_files": {
+                  "path": "problems/wb2axip-t2/agent-results/artifacts/pipeline-core-20261014T200647/checkpoint_3/changed-files.json",
+                  "sha256": "a9fb66b864db583640a2c077a56979172d95103d1d403b3b06e336d8abde7f30",
+                  "count": 7
+                },
+                "diff": {
+                  "path": "problems/wb2axip-t2/agent-results/artifacts/pipeline-core-20261014T200647/checkpoint_3/changes.patch",
+                  "sha256": "a35181bd114852eb72af33d1277d902fc557eb0c3ce240c14d20d660cd15c20a",
+                  "size_bytes": 24857
+                },
+                "baseline_path": "problems/wb2axip-t2/pipeline/static_assets/golden_snapshots/C0-axil2apb-baseline-51d9353818c20bd03daa9b4ecc281aea1a36ec3a"
+              },
+              "evaluation": {
+                "pytest_exit_code": 0,
+                "infrastructure_failure": false,
+                "counts": {
+                  "structure": [
+                    7,
+                    7
+                  ],
+                  "core": [
+                    5,
+                    5
+                  ],
+                  "functionality": [
+                    0,
+                    0
+                  ],
+                  "regression": [
+                    18,
+                    18
+                  ],
+                  "error": [
+                    5,
+                    5
+                  ]
+                },
+                "core_gate_passed": true,
+                "sha256": "cb6df7dc618b19dda54f48997124918bfd5034bee67d57cfacabf6ebbb9bc526",
+                "details": {
+                  "schema_version": 1,
+                  "problem_name": "wb2axip_t2_pipeline",
+                  "problem_version": 18,
+                  "checkpoint_name": "checkpoint_3",
+                  "checkpoint_version": 18,
+                  "duration": 6.6044697761535645,
+                  "entrypoint": "bash build_checkpoint.sh",
+                  "tests": {
+                    "checkpoint_3-Error": {
+                      "passed": [
+                        "test_checkpoint_1_candidate_artifact_hygiene",
+                        "test_checkpoint_1_propagates_tool_failures[assertion]",
+                        "test_checkpoint_1_propagates_tool_failures[compile]",
+                        "test_checkpoint_1_runner_cleans_products",
+                        "test_runner_forged_simulation_success_is_rejected"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_3-Regression": {
+                      "passed": [
+                        "test_checkpoint_1_detects_response_loss[read-response-loss]",
+                        "test_checkpoint_1_detects_response_loss[write-response-loss]",
+                        "test_checkpoint_1_endpoint_smoke",
+                        "test_checkpoint_2_keeps_checkpoint_1_behavior",
+                        "test_checkpoint_2_mutation_is_detected",
+                        "test_checkpoint_2_timed_decoupled_backpressure",
+                        "test_checkpoint_3_keeps_checkpoint_2_behavior",
+                        "test_checkpoint_3_mutation_is_detected",
+                        "test_checkpoint_3_timed_apb_wait_stability",
+                        "test_checkpoint_3_wait_payload_fault_is_detected",
+                        "test_checkpoint_4_independent_model_coverage[0]",
+                        "test_checkpoint_4_independent_model_coverage[1]",
+                        "test_checkpoint_4_keeps_checkpoint_3_behavior",
+                        "test_checkpoint_4_model_faults_are_rejected[read_data]",
+                        "test_checkpoint_4_model_faults_are_rejected[strobe]",
+                        "test_checkpoint_4_mutation_is_detected",
+                        "test_checkpoint_4_timed_scoreboard",
+                        "test_checkpoint_5_keeps_checkpoint_4_behavior"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_3-Structure": {
+                      "passed": [
+                        "test_checkpoint_1_public_files_and_fixed_endpoint",
+                        "test_checkpoint_2_properties_are_present",
+                        "test_checkpoint_3_apb_property_reference",
+                        "test_checkpoint_4_scoreboard_inputs_are_available",
+                        "test_checkpoint_5_skidbuffer_source_is_fixed",
+                        "test_predecessor_snapshot_has_no_candidate_rtl",
+                        "test_predecessor_snapshot_is_materialized"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_3-Core": {
+                      "passed": [
+                        "test_checkpoint_5_independent_reset_recovery[0]",
+                        "test_checkpoint_5_independent_reset_recovery[1]",
+                        "test_checkpoint_5_mutation_is_detected",
+                        "test_checkpoint_5_timed_competition_and_wait[skidbuffer-0]",
+                        "test_checkpoint_5_timed_competition_and_wait[skidbuffer-1]"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    }
+                  },
+                  "pass_counts": {
+                    "Structure": 7,
+                    "Core": 5,
+                    "Functionality": 0,
+                    "Regression": 18,
+                    "Error": 5
+                  },
+                  "total_counts": {
+                    "Structure": 7,
+                    "Core": 5,
+                    "Functionality": 0,
+                    "Regression": 18,
+                    "Error": 5
+                  },
+                  "detail_metrics": {},
+                  "pytest_exit_code": 0,
+                  "pytest_collected": 35,
+                  "test_collection_hash": "b611143bfb89c784bd4680d410b269e0c963d8a3699a915bb46398ccc8073e02",
+                  "infrastructure_failure": false,
+                  "infrastructure_reason": null
+                }
+              },
+              "localCheckpoint": "checkpoint_3",
+              "targetCheckpoint": "checkpoint_3"
+            },
+            {
+              "checkpoint": "checkpoint_4",
+              "state": "ran",
+              "started_at": "2026-10-14T21:18:15.192514",
+              "ended_at": "2026-10-14T21:41:31.962637",
+              "duration_seconds": 1396.770123,
+              "steps": 25,
+              "run_result": {
+                "problem": "wb2axip_t2_pipeline",
+                "version": 18,
+                "checkpoint": "checkpoint_4",
+                "path": "/home/carter/.cache/slop-code-bench/outputs/diagnostics/wb2axip_t2/checkpoint_1-20261014T200645-dfMxHtEh/outputs/agicto-gpt-5.6-luna/opencode-1.18.32_rtl-plan-and-test-evaluator-owned_high_20261014T200647411854_wb2axip_t2_pipeline_diagnostic/wb2axip_t2_pipeline",
+                "idx": 4,
+                "state": "ran",
+                "is_first": false,
+                "is_last": true,
+                "strict_pass_rate": 0.9682539682539683,
+                "structure_pass_rate": 1,
+                "core_pass_rate": 0.8333333333333334,
+                "functionality_pass_rate": 0.8333333333333334,
+                "isolated_pass_rate": 0.9375,
+                "total_tests": 63,
+                "passed_tests": 61,
+                "structure_total": 10,
+                "structure_passed": 10,
+                "core_total": 6,
+                "core_passed": 5,
+                "functionality_total": 6,
+                "functionality_passed": 5,
+                "functionality_incremental_total": 0,
+                "functionality_incremental_passed": 0,
+                "error_total": 16,
+                "error_passed": 15,
+                "regression_total": 31,
+                "regression_passed": 31,
+                "started": "2026-10-14T21:18:15.192514",
+                "ended": "2026-10-14T21:41:31.962637",
+                "duration": 1396.770123,
+                "cost": 0,
+                "steps": 25,
+                "cache_read": 939520,
+                "cache_write": 0,
+                "input": 54157,
+                "output": 7353,
+                "reasoning": 3613,
+                "loc": 0,
+                "sloc": 0,
+                "total_lines": 0,
+                "single_comments": 0,
+                "lint_errors": 0,
+                "lint_fixable": 0,
+                "files": 0,
+                "functions": 0,
+                "methods": 0,
+                "classes": 0,
+                "statements": 0,
+                "symbols_total": 0,
+                "cc_max": 0,
+                "cc_mean": 0,
+                "cc_std": 0,
+                "cc_high_count": 0,
+                "cc_extreme_count": 0,
+                "high_cc_mean": 0,
+                "cc_normalized": 0,
+                "cc_concentration": 0,
+                "cc_top20": 0,
+                "max_nesting_depth": 0,
+                "lines_per_symbol": 0,
+                "single_use_functions": 0,
+                "trivial_wrappers": 0,
+                "unused_variables": 0,
+                "clone_lines": 0,
+                "cloned_sloc_lines": 0,
+                "ast_grep_violations": 0,
+                "verbosity_flagged_sloc_lines": 0,
+                "sg_slop_violations": 0,
+                "graph_cyclic_dependency_mass": 0,
+                "graph_propagation_cost": 0,
+                "graph_dependency_entropy": 0,
+                "lines_added": 0,
+                "lines_removed": 0,
+                "mean_func_loc": 0,
+                "mass.cc": 0,
+                "mass.high_cc_pct": 0,
+                "delta.loc": 0,
+                "delta.ast_grep_violations": 0,
+                "delta.churn_ratio": 0
+              },
+              "code_snapshot": {
+                "file_count": 376,
+                "total_bytes": 13891874,
+                "tree_sha256": "bdd66adc1cb6611a477a1826aa76c5840aa05db7f97562c10bbaffa651b811df",
+                "excluded_artifacts": [],
+                "archive": {
+                  "path": "problems/wb2axip-t2/agent-results/artifacts/pipeline-core-20261014T200647/checkpoint_4/agent-code.tar.gz",
+                  "sha256": "1c99170e30823f5e63a6de92741cb44b871a9e730635199fa1491fee4043bab5",
+                  "size_bytes": 9051569,
+                  "file_count": 376,
+                  "tree_sha256": "bdd66adc1cb6611a477a1826aa76c5840aa05db7f97562c10bbaffa651b811df"
+                },
+                "manifest": {
+                  "path": "problems/wb2axip-t2/agent-results/artifacts/pipeline-core-20261014T200647/checkpoint_4/agent-code.manifest.json",
+                  "sha256": "a5a5a3d4368be7e582c64352174879545f3d6291ea18a525dad48ea52171dfc9",
+                  "size_bytes": 70446,
+                  "file_count": 376,
+                  "total_bytes": 13891874,
+                  "tree_sha256": "bdd66adc1cb6611a477a1826aa76c5840aa05db7f97562c10bbaffa651b811df"
+                },
+                "changed_files": {
+                  "path": "problems/wb2axip-t2/agent-results/artifacts/pipeline-core-20261014T200647/checkpoint_4/changed-files.json",
+                  "sha256": "13977d0178156c9bf0ef311cbb1ad0cda430ad6e19ea979d3f11685a8c8707bb",
+                  "count": 9
+                },
+                "diff": {
+                  "path": "problems/wb2axip-t2/agent-results/artifacts/pipeline-core-20261014T200647/checkpoint_4/changes.patch",
+                  "sha256": "7d4ddfb0b9e2a8616a0556c2288e3ccfa22a261c38f8fa4900a2fcbc6e2a7a3c",
+                  "size_bytes": 31571
+                },
+                "baseline_path": "problems/wb2axip-t2/pipeline/static_assets/golden_snapshots/C0-axil2apb-baseline-51d9353818c20bd03daa9b4ecc281aea1a36ec3a"
+              },
+              "evaluation": {
+                "pytest_exit_code": 1,
+                "infrastructure_failure": false,
+                "counts": {
+                  "structure": [
+                    10,
+                    10
+                  ],
+                  "core": [
+                    5,
+                    6
+                  ],
+                  "functionality": [
+                    0,
+                    0
+                  ],
+                  "regression": [
+                    31,
+                    31
+                  ],
+                  "error": [
+                    15,
+                    16
+                  ]
+                },
+                "core_gate_passed": false,
+                "sha256": "b06bf70097f1fbb68f99f82ab74d521f45dc65382b64da77718e61e941cb20bd",
+                "details": {
+                  "schema_version": 1,
+                  "problem_name": "wb2axip_t2_pipeline",
+                  "problem_version": 18,
+                  "checkpoint_name": "checkpoint_4",
+                  "checkpoint_version": 18,
+                  "duration": 370.7565965652466,
+                  "entrypoint": "bash build_checkpoint.sh",
+                  "tests": {
+                    "checkpoint_4-Error": {
+                      "passed": [
+                        "test_checkpoint_1_candidate_artifact_hygiene",
+                        "test_checkpoint_1_propagates_tool_failures[assertion]",
+                        "test_checkpoint_1_propagates_tool_failures[compile]",
+                        "test_checkpoint_1_runner_cleans_products",
+                        "test_checkpoint_6_solver_status_is_documented",
+                        "test_checkpoint_7_real_formal_tool_error_is_classified",
+                        "test_checkpoint_7_real_solver_timeout_is_classified",
+                        "test_checkpoint_7_source_has_no_generated_formal_products",
+                        "test_checkpoint_7_synthetic_property_failure_is_classified",
+                        "test_cumulative_solver_only_runner_is_rejected",
+                        "test_forged_formal_pass_is_rejected",
+                        "test_forged_unchanged_formal_pass_is_rejected",
+                        "test_idle_c6_simulation_is_rejected",
+                        "test_missing_formal_tool_is_infrastructure_failure",
+                        "test_runner_forged_simulation_success_is_rejected"
+                      ],
+                      "failed": [
+                        "test_checkpoint_7_artifact_failure_is_rejected"
+                      ],
+                      "skipped": []
+                    },
+                    "checkpoint_4-Regression": {
+                      "passed": [
+                        "test_checkpoint_1_detects_response_loss[read-response-loss]",
+                        "test_checkpoint_1_detects_response_loss[write-response-loss]",
+                        "test_checkpoint_1_endpoint_smoke",
+                        "test_checkpoint_2_keeps_checkpoint_1_behavior",
+                        "test_checkpoint_2_mutation_is_detected",
+                        "test_checkpoint_2_timed_decoupled_backpressure",
+                        "test_checkpoint_3_keeps_checkpoint_2_behavior",
+                        "test_checkpoint_3_mutation_is_detected",
+                        "test_checkpoint_3_timed_apb_wait_stability",
+                        "test_checkpoint_3_wait_payload_fault_is_detected",
+                        "test_checkpoint_4_independent_model_coverage[0]",
+                        "test_checkpoint_4_independent_model_coverage[1]",
+                        "test_checkpoint_4_keeps_checkpoint_3_behavior",
+                        "test_checkpoint_4_model_faults_are_rejected[read_data]",
+                        "test_checkpoint_4_model_faults_are_rejected[strobe]",
+                        "test_checkpoint_4_mutation_is_detected",
+                        "test_checkpoint_4_timed_scoreboard",
+                        "test_checkpoint_5_independent_reset_recovery[0]",
+                        "test_checkpoint_5_independent_reset_recovery[1]",
+                        "test_checkpoint_5_keeps_checkpoint_4_behavior",
+                        "test_checkpoint_5_mutation_is_detected",
+                        "test_checkpoint_5_timed_competition_and_wait[skidbuffer-0]",
+                        "test_checkpoint_5_timed_competition_and_wait[skidbuffer-1]",
+                        "test_predecessor_checkpoint_5_runs[0]",
+                        "test_predecessor_checkpoint_5_runs[1]",
+                        "test_predecessor_rejects_transaction_faults[checkpoint_1-B]",
+                        "test_predecessor_rejects_transaction_faults[checkpoint_1-R]",
+                        "test_predecessor_rejects_transaction_faults[checkpoint_2-None]",
+                        "test_predecessor_rejects_transaction_faults[checkpoint_3-None]",
+                        "test_predecessor_rejects_transaction_faults[checkpoint_4-None]",
+                        "test_predecessor_rejects_transaction_faults[checkpoint_5-None]"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_4-Structure": {
+                      "passed": [
+                        "test_checkpoint_1_public_files_and_fixed_endpoint",
+                        "test_checkpoint_2_properties_are_present",
+                        "test_checkpoint_3_apb_property_reference",
+                        "test_checkpoint_4_scoreboard_inputs_are_available",
+                        "test_checkpoint_5_skidbuffer_source_is_fixed",
+                        "test_checkpoint_6_assertion_wrappers_are_evaluator_owned",
+                        "test_checkpoint_7_proof_cover_matrix",
+                        "test_predecessor_snapshot_has_no_candidate_rtl",
+                        "test_predecessor_snapshot_is_materialized",
+                        "test_predecessor_verification_matches_manifest"
+                      ],
+                      "failed": [],
+                      "skipped": []
+                    },
+                    "checkpoint_4-Core": {
+                      "passed": [
+                        "test_checkpoint_6_independent_assertion_activation[0]",
+                        "test_checkpoint_6_independent_assertion_activation[1]",
+                        "test_checkpoint_6_simulation_error_assertion_is_sensitive",
+                        "test_checkpoint_7_cumulative_runner_and_artifact_boundary",
+                        "test_checkpoint_7_focused_runner"
+                      ],
+                      "failed": [
+                        "test_checkpoint_6_timed_runner_and_formal_entrypoint"
+                      ],
+                      "skipped": []
+                    }
+                  },
+                  "pass_counts": {
+                    "Structure": 10,
+                    "Core": 5,
+                    "Functionality": 0,
+                    "Regression": 31,
+                    "Error": 15
+                  },
+                  "total_counts": {
+                    "Structure": 10,
+                    "Core": 6,
+                    "Functionality": 0,
+                    "Regression": 31,
+                    "Error": 16
+                  },
+                  "detail_metrics": {},
+                  "pytest_exit_code": 1,
+                  "pytest_collected": 63,
+                  "test_collection_hash": "ae31ddc20cf386c5bbf88de2d9990219e595e316020527f0fe6873f0057786b3",
+                  "infrastructure_failure": false,
+                  "infrastructure_reason": null
+                }
+              },
+              "localCheckpoint": "checkpoint_4",
+              "targetCheckpoint": "checkpoint_4"
+            }
+          ],
+          "experimentType": "pipeline",
+          "targetCheckpoint": "",
+          "sourcePath": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/wb2axip-t2/agent-results/runs/pipeline-core-20261014T200647.json"
         }
       ]
     }
