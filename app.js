@@ -576,6 +576,10 @@ function renderReview(problem) {
 }
 
 function renderRoute() {
+  if (window.location.hash.startsWith("#experiments")) {
+    import("./experiments.mjs").then(module => module.renderExperiments());
+    return;
+  }
   const match = window.location.hash.match(/^#review\/([^/]+)(?:\/(history))?$/);
   const problem = match ? findProblem(decodeURIComponent(match[1])) : null;
   if (problem && match[2] === "history") renderEvaluationHistory(problem);

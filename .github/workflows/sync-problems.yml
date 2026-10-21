@@ -3,7 +3,7 @@ name: Sync SCBench problems
 on:
   workflow_dispatch:
   repository_dispatch:
-    types: [scbench-problems-updated]
+    types: [scbench-problems-updated, scbench-experiments-updated]
   schedule:
     - cron: "*/15 * * * *"
 
@@ -31,10 +31,13 @@ jobs:
         env:
           SCBENCH_GITHUB_TOKEN: ${{ secrets.SCBENCH_GITHUB_TOKEN }}
 
+      - name: Validate experiment integration
+        run: node --test tests/*.test.mjs
+
       - name: Commit synchronized data
         run: |
           git config user.name "scbench-sync[bot]"
           git config user.email "scbench-sync[bot]@users.noreply.github.com"
-          git add data/problems.json
+          git add data/problems.json data/experiments
           git diff --cached --quiet || git commit -m "chore: sync SCBench problem data"
           git push
