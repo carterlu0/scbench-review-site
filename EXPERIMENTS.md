@@ -28,7 +28,7 @@ apply to the whole selected analysis; the matrix follows the active filters.
 
 Validation: `node --test tests/*.test.mjs`. Browser checks cover desktop, 390px
 mobile, scrolling, detail loading, search, CSV download and the existing problems
-route. Local evaluation made no new model API calls.
+route. Browser checks make no model API calls. A separate bounded integration canary remains diagnostic; it found invalid credentials and missing native usage in the configured channels.
 
 ![Desktop experiment matrix](docs/screenshots/experiment-matrix-desktop.png)
 
