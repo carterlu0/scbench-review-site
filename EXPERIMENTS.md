@@ -17,15 +17,22 @@ borrowed from a different revision or an SR wrapper. Missing denominators displa
 Click a problem to open its matrix. Rows alternate `pipeline c1`, `sr1`,
 `pipeline c2`, `sr2`, and continue through all planned targets. Each recorded result
 shows **Core passed / total** and **Regression passed / total** separately.
-`0/0` means that group has no tests; `—` means the result is unavailable. Multiple
-recorded runs are listed separately; the site does not pick a best run or pool
-scores from different input versions. Click a result to inspect exact test nodes,
+`0/0` means that group has no tests; `—` means the result is unavailable. Only the latest experiment for each configuration is displayed, ordered by its
+start time (completion time if no start is available). This selection includes the
+latest failures and input revisions; it does not pick the best score. Every
+pipeline checkpoint comes from that same selected run, without filling gaps from
+older runs. Each SR target is selected independently. Agent settings, versions,
+protocols, prompt arms and experiment modes remain distinct. Timestamp ties use
+completion time and then a deterministic record-ID order. Historical records and
+immutable analysis statistics are preserved. Click a result to inspect exact test nodes,
 failed requirements, candidate archives, defect annotations, times, costs and
 observable call counts. Test evidence loads on demand.
 
 Filters, problem, trial and checkpoint selection are represented in the URL.
 Problem filters preserve the selected problem; the back link returns to the main
-matrix. CSV exports include final-checkpoint counts and their interpretation and
+matrix. Both CSV and JSON export only the currently selected latest records. Older trial
+bookmarks redirect to the selected latest trial in the same configuration.
+CSV exports include final-checkpoint counts and their interpretation and
 escape spreadsheet formula prefixes. JSON retains all selected checkpoint data.
 
 Source: `scbench-rtl-problems/experiments/catalog.json`. `sync-experiments.mjs`
