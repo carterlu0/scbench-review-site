@@ -17,7 +17,104 @@ export function summarize(cells) {
     incompatible: cells.some(c=>c.checkpoints.some(cp=>!['identical','compatible'].includes(cp.compatibility?.score)))};
 }
 export function csv(cells) {
-  const headers = ['problem','model','agent','agent_version','mode','prompt_arm','repeat','status','outcome','score','official_cost_all_attempts','cost_coverage','agent_invocations','agent_retries'];
+  const headers = ['problem','model','agent','agent_version','mode','prompt_arm','repeat','status','outcome','score','progression_policy','final_checkpoint','final_passed_tests','final_total_tests','final_result_reason','official_cost_all_attempts','cost_coverage','agent_invocations','agent_retries'];
   const quote = value => {let text=String(value ?? ''); if (/^[=+@\-]/.test(text)) text="'"+text;return '"'+text.replaceAll('"','""')+'"';};
-  return [headers,...cells.map(c=>headers.map(h=>c[h]))].map(row=>row.map(quote).join(',')).join('\r\n');
+  return [headers,...cells.map(c=>{const result=finalResult(c,cells);const row={...c,final_checkpoint:result.target,final_passed_tests:result.passed,final_total_tests:result.total,final_result_reason:result.reason};return headers.map(h=>row[h]);})].map(row=>row.map(quote).join(',')).join('\r\n');
 }
+
+const checkpointOrder = (a, b) => a.localeCompare(b, undefined, {numeric: true});
+const validCount = value => Number.isInteger(value) && value >= 0;
+export function testCounts(checkpoint, group = 'total') {
+  if (!checkpoint) return null;
+  const saved = checkpoint.test_counts?.[group.toLowerCase()];
+  if (saved && validCount(saved.passed) && validCount(saved.total) && saved.passed <= saved.total) return saved;
+  // Overview records omit nodes. An empty lazy payload does not mean zero tests.
+  if (!checkpoint.tests?.length) return null;
+  const tests = group === 'total' ? checkpoint.tests : checkpoint.tests.filter(t => t.group.toLowerCase() === group.toLowerCase());
+  return {passed: tests.filter(t => t.status === 'passed').length, total: tests.length};
+}
+
+export function plannedTargets(cell) {
+  if (cell.planned_targets?.length) return [...new Set(cell.planned_targets)].sort(checkpointOrder);
+  if (cell.mode === 'pipeline' && cell.planned_checkpoints) return Array.from({length: cell.planned_checkpoints}, (_, i) => `checkpoint_${i + 1}`);
+  return [...new Set(cell.checkpoints.map(cp => cp.target_checkpoint))].sort(checkpointOrder);
+}
+
+export function checkpointRows(cells) {
+  const targets = [...new Set(cells.flatMap(plannedTargets))].sort(checkpointOrder);
+  return targets.flatMap(target => ['pipeline', 'sr'].map(mode => ({target, mode, label: mode === 'pipeline' ? `pipeline c${target.replace('checkpoint_', '')}` : `sr${target.replace('checkpoint_', '')}`})));
+}
+
+function rawCounts(cp) {
+  const evaluation = cp.evaluation;
+  if (evaluation?.infrastructure_failure || evaluation?.details?.infrastructure_failure) return null;
+  const counts = {};
+  for (const group of ['structure', 'core', 'functionality', 'regression', 'error']) {
+    const pair = evaluation?.counts?.[group];
+    const summary = cp.run_result;
+    const passed = pair?.[0] ?? summary?.[`${group}_passed`];
+    const total = pair?.[1] ?? summary?.[`${group}_total`];
+    if (validCount(passed) && validCount(total) && passed <= total) counts[group] = {passed, total};
+  }
+  const summary = cp.run_result;
+  if (validCount(summary?.passed_tests) && validCount(summary?.total_tests) && summary.passed_tests <= summary.total_tests) {
+    counts.total = {passed: summary.passed_tests, total: summary.total_tests};
+  } else if (Object.keys(counts).length === 5) {
+    counts.total = Object.values(counts).reduce((sum, value) => ({passed: sum.passed + value.passed, total: sum.total + value.total}), {passed: 0, total: 0});
+  }
+  return Object.keys(counts).length ? counts : null;
+}
+
+// Old analyses omit group totals and progression policy. Join only the exact
+// published run URL, checkpoint and candidate; never match by model or newest run.
+export function hydrateCells(cells, problems, protocols = {}) {
+  const runs = new Map();
+  for (const problem of problems) for (const run of problem.evaluationRuns || []) {
+    if (!run.sourcePath) continue;
+    if (runs.has(run.sourcePath)) runs.set(run.sourcePath, null);
+    else runs.set(run.sourcePath, run);
+  }
+  return cells.map(cell => {
+    const raw = runs.get(cell.legacy_origin?.source_url);
+    const result = {...cell, progression_policy: cell.progression_policy || protocols[cell.protocol]?.parameters?.pass_policy || 'unknown'};
+    if (raw) {
+      result.progression_policy = raw.publication_provenance?.actual_pass_policy || raw.pass_policy || result.progression_policy;
+      if (cell.mode === 'pipeline' && validCount(raw.expected_checkpoints) && raw.expected_checkpoints > 0) {
+        result.planned_checkpoints = raw.expected_checkpoints;
+        result.planned_targets = Array.from({length: raw.expected_checkpoints}, (_, i) => `checkpoint_${i + 1}`);
+      }
+    }
+    result.checkpoints = cell.checkpoints.map(cp => {
+      const source = raw?.checkpoints?.find(item => item.checkpoint === cp.checkpoint);
+      const candidate = source?.code_snapshot?.tree_sha256;
+      if (!source || !candidate || candidate !== cp.candidate) return cp;
+      if (source.evaluation?.infrastructure_failure || source.evaluation?.details?.infrastructure_failure) return {...cp,state:'evaluation_error',test_counts:null};
+      return {...cp, test_counts: cp.test_counts || rawCounts(source)};
+    });
+    return result;
+  });
+}
+
+export function finalResult(cell, peers = []) {
+  const unknown = reason => ({passed: null, total: null, reason});
+  if (cell.mode !== 'pipeline') return unknown('not_pipeline');
+  if (cell.progression_policy !== 'structure-cases') return unknown(cell.progression_policy === 'unknown' || !cell.progression_policy ? 'policy_unknown' : 'other_policy');
+  const target = plannedTargets(cell).at(-1);
+  const final = cell.checkpoints.find(cp => cp.target_checkpoint === target);
+  const counts = testCounts(final);
+  if (counts?.total > 0 && ['passed', 'failed'].includes(final.state)) return {...counts, target, reason: 'evaluated'};
+  const lastEvaluated = [...cell.checkpoints].filter(cp => ['passed', 'failed'].includes(cp.state)).sort((a,b) => checkpointOrder(a.target_checkpoint,b.target_checkpoint)).at(-1);
+  const structure = testCounts(lastEvaluated, 'structure');
+  const failedStructure = structure?.total > 0 && structure.passed < structure.total;
+  const stopped = cell.outcome === 'failed' && failedStructure && lastEvaluated.target_checkpoint !== target &&
+    cell.checkpoints.every(cp => checkpointOrder(cp.target_checkpoint, lastEvaluated.target_checkpoint) <= 0 || ['missing', 'stopped_by_policy'].includes(cp.state));
+  if (!stopped) return {...unknown('not_reached'), target};
+  const explicit = cell.expected_test_counts?.[target]?.total ?? final?.expected_test_counts?.total;
+  const sameRevision = peers.filter(other => other.problem === cell.problem && other.mode === 'pipeline' &&
+    other.generation === cell.generation && other.evaluation_generation === cell.evaluation_generation && plannedTargets(other).at(-1) === target);
+  const totals = [...new Set(sameRevision.map(other => testCounts(other.checkpoints.find(cp => cp.target_checkpoint === target))?.total).filter(value => validCount(value) && value > 0))];
+  const total = validCount(explicit) && explicit > 0 ? explicit : totals.length === 1 ? totals[0] : null;
+  return {passed: 0, total, target, reason: total == null ? 'stopped_total_unknown' : 'structure_stop'};
+}
+
+export const fraction = counts => counts && (counts.passed != null || counts.total != null) ? `${counts.passed ?? '—'}/${counts.total ?? '?'}` : '—';
