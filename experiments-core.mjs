@@ -1,5 +1,35 @@
 export const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export const groupKey = cell => JSON.stringify([cell.model, cell.agent, cell.agent_version, cell.agent_config, cell.thinking, cell.protocol]);
+export const resultKey = cell => JSON.stringify([cell.problem, cell.mode, cell.prompt_arm, groupKey(cell), cell.mode === 'sr' ? plannedTargets(cell) : null]);
+
+function timestamp(value) {
+  if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}T/.test(value)) return -Infinity;
+  // Legacy timestamps have no zone. Normalize consistently in every browser.
+  const normalized = /(?:Z|[+-]\d{2}:?\d{2})$/i.test(value) ? value : `${value}Z`;
+  const time = Date.parse(normalized);
+  return Number.isFinite(time) ? time : -Infinity;
+}
+
+export function latestCells(cells) {
+  const selected = new Map();
+  const start = cell => {
+    const time = timestamp(cell.started_at);
+    if (time !== -Infinity) return time;
+    const checkpointStarts = (cell.checkpoints || []).map(cp => timestamp(cp.started_at)).filter(t => t !== -Infinity);
+    return checkpointStarts.length ? Math.min(...checkpointStarts) : timestamp(cell.completed_at);
+  };
+  const newer = (a, b) => {
+    if (start(a) !== start(b)) return start(a) > start(b);
+    const aEnd = timestamp(a.completed_at), bEnd = timestamp(b.completed_at);
+    if (aEnd !== bEnd) return aEnd > bEnd;
+    return String(a.id) > String(b.id);
+  };
+  for (const cell of cells) {
+    const key = resultKey(cell);
+    if (!selected.has(key) || newer(cell, selected.get(key))) selected.set(key, cell);
+  }
+  return [...selected.values()];
+}
 export function selectCells(release, filters) {
   return release.cells.filter(cell => ['mode', 'prompt_arm', 'protocol', 'model', 'agent'].every(key => !filters[key] || cell[key] === filters[key]) &&
     (!filters.scope || (filters.scope === 'formal') === cell.formal) &&
