@@ -1,4 +1,5 @@
 import { syncExperiments } from "./sync-experiments.mjs";
+import { readCompressedRelease } from "./sync-prompts.mjs";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -12,6 +13,7 @@ const OUTPUT_FILE = resolve(process.env.SCBENCH_DATA_FILE || resolve(SCRIPT_DIR,
 const REPOSITORY_URL = `https://github.com/${OWNER}/${REPOSITORY}`;
 const API_ROOT = `https://api.github.com/repos/${OWNER}/${REPOSITORY}`;
 let contentRef = BRANCH;
+let srPromptsByProblem = new Map();
 
 const headers = {
   accept: "application/vnd.github+json",
@@ -148,7 +150,7 @@ function problemTags(id, readme) {
 }
 
 function blobUrl(path) {
-  return `${REPOSITORY_URL}/blob/${encodeURIComponent(BRANCH)}/${path}`;
+  return `${REPOSITORY_URL}/blob/${encodeURIComponent(contentRef)}/${path}`;
 }
 
 async function agentResultsFor(root) {
@@ -171,7 +173,9 @@ async function agentResultsFor(root) {
         localCheckpoint: checkpoint.checkpoint || "",
         targetCheckpoint: targetCheckpoint || checkpoint.checkpoint || ""
       })) : [],
-      sourcePath: blobUrl(`${runsRoot}/${entry.name}`)
+      // Experiment manifests join historical records by their stable source URL.
+      sourcePath: `${REPOSITORY_URL}/blob/${encodeURIComponent(BRANCH)}/${runsRoot}/${entry.name}`,
+      sourceCommitPath: blobUrl(`${runsRoot}/${entry.name}`)
     };
   }));
 }
@@ -223,6 +227,7 @@ async function buildProblem(entry, index) {
     promptPath: current.sourcePath,
     checkpointLinks: checkpointPrompts.map(({ label, sourcePath }) => [label, sourcePath]),
     checkpointPrompts,
+    srPrompts: srPromptsByProblem.get(id) || [],
     evaluationRuns
   };
 }
@@ -231,6 +236,8 @@ async function main() {
   if (!TOKEN) throw new Error("SCBENCH_GITHUB_TOKEN or GITHUB_TOKEN is required");
   const sourceCommit = await readBranchCommit();
   contentRef = sourceCommit;
+  const compressed = await readCompressedRelease({ readText, blobUrl });
+  srPromptsByProblem = compressed.families;
   await syncExperiments({ readText, sourceCommit,
     output: resolve(SCRIPT_DIR, "data", "experiments") });
   const problemEntries = await listDirectory("problems");
@@ -240,8 +247,12 @@ async function main() {
   if (!entries.length) throw new Error("No typed problem directories found");
   const problems = [];
   for (const [index, entry] of entries.entries()) problems.push(await buildProblem(entry, index));
+  for (const id of srPromptsByProblem.keys()) {
+    if (!problems.some(problem => problem.id === id)) throw new Error(`Prompt family missing from problem index: ${id}`);
+  }
   const payload = {
     schemaVersion: 5,
+    compressedRelease: compressed.release,
     generatedAt: new Date().toISOString(),
     source: {
       repository: `${OWNER}/${REPOSITORY}`,
@@ -261,6 +272,7 @@ async function main() {
     previousPayload?.source?.repository === payload.source.repository &&
     previousPayload?.source?.branch === payload.source.branch &&
     previousPayload?.source?.commit === payload.source.commit &&
+    JSON.stringify(previousPayload.compressedRelease) === JSON.stringify(payload.compressedRelease) &&
     JSON.stringify(previousPayload.problems) === JSON.stringify(payload.problems)
   ) {
     console.log(`Already synchronized at ${sourceCommit}`);

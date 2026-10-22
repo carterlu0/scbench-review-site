@@ -325,7 +325,7 @@ function renderHome() {
       <div class="breadcrumb">SCBench / <span>problems</span></div>
       <h1>RTL problems / review index</h1>
       <p>${problemTotal} published problem packages. Select a problem number to inspect its prompt, certification evidence, and the reserved evaluation-results area.</p>
-      <div class="release-line">release: rtl-problems-v0.2.0 · certification: ${problemTotal} / ${problemTotal} passed · difficulty: not classified</div>
+      <div class="release-line">release: rtl-problems-v0.4.0 · <a href="#compressed">Browse all qualified SR Compressed prompts</a></div>
       <div class="sync-status" id="sync-status" data-sync-state="checking"></div>
     </div>
     <div class="table-tools">
@@ -529,7 +529,42 @@ function renderEvaluationHistory(problem) {
   </section>`;
 }
 
-function renderReview(problem) {
+function renderCompressedIndex() {
+  const qualified = problems.filter(problem => problem.srPrompts?.length);
+  const count = qualified.reduce((sum, problem) => sum + problem.srPrompts.length, 0);
+  app.innerHTML = `<section class="page">
+    <div class="page-header"><div class="breadcrumb">SCBench / <span>Compressed prompts</span></div>
+      <h1>Compressed prompts</h1><p>${qualified.length} qualified families · ${count} complete SR prompts. Open any SR to read the full Compressed prompt and its Original counterpart.</p>
+      <p class="review-note">Reference qualification records benchmark measurability. Claude adaptation records a verified model call; it does not assert final candidate correctness.</p>
+      <div class="sync-status" id="sync-status" data-sync-state="checking"></div></div>
+    <div class="compressed-index">${qualified.map(problem => `<section class="review-panel" data-compressed-family="${escapeHtml(problem.id)}">
+      <div class="panel-heading"><h2><a href="#review/${encodeURIComponent(problem.id)}">${escapeHtml(problem.title)} / ${escapeHtml(problem.type)}</a></h2><span>${problem.srPrompts.length} SR prompts</span></div>
+      <div class="panel-body compressed-links">${problem.srPrompts.map(prompt => `<a class="action-link" href="#review/${encodeURIComponent(problem.id)}/compressed/${prompt.sr}">SR${prompt.sr} Compressed ↗</a>`).join("")}</div>
+    </section>`).join("") || `<p class="review-note">Prompt data is loading. The synchronized release will appear here.</p>`}</div>
+  </section>`;
+}
+
+function renderSrPrompts(problem, selectedSr = 1) {
+  const prompts = Array.isArray(problem.srPrompts) ? problem.srPrompts : [];
+  if (!prompts.length) return "";
+  return `<section class="review-panel" id="sr-prompts">
+    <div class="panel-heading"><h2>SR prompts / Original &amp; Compressed</h2><span>${prompts.length} complete pairs</span></div>
+    <div class="panel-body"><p class="review-note">SR numbers refer to the target Pipeline checkpoint; each SR wrapper runs local checkpoint_1. Both prompt modes share the evaluator. Detailed construction controls are author artifacts.</p>
+      <div class="checkpoint-list">${prompts.map(prompt => `<details class="checkpoint-card sr-prompt-card" id="sr-prompt-${prompt.sr}" data-sr="${prompt.sr}"${prompt.sr === selectedSr ? " open" : ""}>
+        <summary class="checkpoint-summary"><span class="checkpoint-caret" aria-hidden="true"></span><span class="checkpoint-key">SR${prompt.sr}</span><span class="checkpoint-title">${escapeHtml(prompt.targetCheckpoint)} / Original &amp; Compressed</span><span class="checkpoint-state">full text</span></summary>
+        <div class="checkpoint-content">${["compressed", "original"].map(mode => {
+          const artifact = prompt[mode];
+          const label = mode === "compressed" ? "Compressed / s.md" : "Original / checkpoint_1.md";
+          return `<details class="prompt-variant"${mode === "compressed" ? " open" : ""}>
+            <summary>${label}</summary><pre class="prompt-source" data-prompt-mode="${mode}">${escapeHtml(artifact.text)}</pre>
+            <div class="prompt-actions"><a class="action-link" href="${escapeHtml(artifact.sourcePath)}" target="_blank" rel="noreferrer">${mode === "compressed" ? "Compressed" : "Original"} on GitHub ↗</a><span class="prompt-hash">SHA-256 ${escapeHtml(artifact.sha256)}</span></div>
+          </details>`;
+        }).join("")}</div>
+      </details>`).join("")}</div>
+    </div></section>`;
+}
+
+function renderReview(problem, selectedSr = 1) {
   const checkpointPrompts = checkpointPromptsFor(problem);
   const resultCounts = evaluationCounts(problem);
   const overviewCard = problem.overview ? `<section class="review-panel">
@@ -554,6 +589,7 @@ function renderReview(problem) {
     </div>
     <div class="review-grid">
       <div class="review-main">
+        ${renderSrPrompts(problem, selectedSr)}
         ${overviewCard}
         <section class="review-panel">
           <div class="panel-heading"><h2>Checkpoint prompts</h2><span>${escapeHtml(checkpointLabel(problem.checkpoints))}</span></div>
@@ -576,16 +612,23 @@ function renderReview(problem) {
 }
 
 function renderRoute() {
+  if (window.location.hash === "#compressed") {
+    renderCompressedIndex();
+    window.scrollTo(0, 0);
+    updateSyncStatus();
+    return;
+  }
   if (window.location.hash.startsWith("#experiments")) {
     import("./experiments.mjs?v=20261022-latest-results").then(module => module.renderExperiments());
     return;
   }
-  const match = window.location.hash.match(/^#review\/([^/]+)(?:\/(history))?$/);
+  const match = window.location.hash.match(/^#review\/([^/]+)(?:\/(history|compressed)(?:\/(\d+))?)?$/);
   const problem = match ? findProblem(decodeURIComponent(match[1])) : null;
   if (problem && match[2] === "history") renderEvaluationHistory(problem);
-  else if (problem) renderReview(problem);
+  else if (problem) renderReview(problem, Number(match[3]) || 1);
   else renderHome();
   window.scrollTo(0, 0);
+  if (problem && match[2] === "compressed") document.getElementById(`sr-prompt-${Number(match[3]) || 1}`)?.scrollIntoView();
   updateSyncStatus();
 }
 
