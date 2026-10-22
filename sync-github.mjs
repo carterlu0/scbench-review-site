@@ -173,7 +173,9 @@ async function agentResultsFor(root) {
         localCheckpoint: checkpoint.checkpoint || "",
         targetCheckpoint: targetCheckpoint || checkpoint.checkpoint || ""
       })) : [],
-      sourcePath: blobUrl(`${runsRoot}/${entry.name}`)
+      // Experiment manifests join historical records by their stable source URL.
+      sourcePath: `${REPOSITORY_URL}/blob/${encodeURIComponent(BRANCH)}/${runsRoot}/${entry.name}`,
+      sourceCommitPath: blobUrl(`${runsRoot}/${entry.name}`)
     };
   }));
 }
