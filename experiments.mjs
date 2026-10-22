@@ -2,6 +2,7 @@ import {escapeHtml as esc, groupKey, selectCells, summarize, csv, hydrateCells, 
 let catalogPromise;
 let metadataPromise;
 let renderedProblem;
+let renderedTrial;
 const releases = new Map();
 const percent = n => n == null ? '—' : `${(n*100).toFixed(0)}%`;
 const dollars = n => n == null ? 'unknown' : `$${n.toFixed(3)}`;
@@ -126,7 +127,9 @@ export async function renderExperiments() {
       ${problem?problemMatrix(cells,problem,params):mainMatrix(filtered,hydrated,params)}
       ${problem?'<section id="matrix-detail" class="matrix-detail" aria-live="polite"><p class="matrix-muted">Select a result to inspect its test cases and evidence.</p></section>':supplementary(release)}
     </section>`;
-    if(renderedProblem!==problem){window.scrollTo({top:0,left:0,behavior:'instant'});renderedProblem=problem;}
+    const trial=params.get('trial');
+    if(renderedProblem!==problem||(renderedTrial&&!trial))window.scrollTo({top:0,left:0,behavior:'instant'});
+    renderedProblem=problem;renderedTrial=trial;
     app.querySelector('#matrix-filters').addEventListener('submit',event=>{event.preventDefault();const next=new URLSearchParams(new FormData(event.currentTarget));if(problem)next.set('problem',problem);location.hash=`experiments?${next}`;});
     app.querySelector('#matrix-filters select[name="analysis"]').addEventListener('change',event=>{location.hash=hash(new URLSearchParams(),{analysis:event.target.value,problem});});
     app.querySelector('#matrix-csv').onclick=()=>download('scbench-experiments.csv',csv(cells),'text/csv;charset=utf-8');

@@ -577,7 +577,7 @@ function renderReview(problem) {
 
 function renderRoute() {
   if (window.location.hash.startsWith("#experiments")) {
-    import("./experiments.mjs?v=20261022-checkpoint-matrix").then(module => module.renderExperiments());
+    import("./experiments.mjs?v=20261022-checkpoint-matrix-r2").then(module => module.renderExperiments());
     return;
   }
   const match = window.location.hash.match(/^#review\/([^/]+)(?:\/(history))?$/);
