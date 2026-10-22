@@ -1,3 +1,4 @@
+import { syncExperiments } from "./sync-experiments.mjs";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -230,6 +231,8 @@ async function main() {
   if (!TOKEN) throw new Error("SCBENCH_GITHUB_TOKEN or GITHUB_TOKEN is required");
   const sourceCommit = await readBranchCommit();
   contentRef = sourceCommit;
+  await syncExperiments({ readText, sourceCommit,
+    output: resolve(SCRIPT_DIR, "data", "experiments") });
   const problemEntries = await listDirectory("problems");
   const entries = problemEntries
     .filter((entry) => entry.type === "dir" && isTypedProblemDirectory(entry.name))

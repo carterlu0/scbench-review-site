@@ -1,0 +1,1659 @@
+{
+  "schema_version": 4,
+  "analysis": "6fadb408831d6d34a4a77014d08b1c6da2211d64f6ca6b42d43c2d962f335aae",
+  "problem": "verilog-axis-fifo-t1",
+  "cells": [
+    {
+      "id": "170a7b6771d81f9de890713bc5bc4e791bf95131001d3970de3bb17f1298e4ab",
+      "problem": "verilog-axis-fifo-t1",
+      "mode": "sr",
+      "prompt_arm": "rtl-plan-and-test",
+      "model": "gpt-5.6-luna",
+      "agent": "codex",
+      "agent_version": "0.141.0",
+      "agent_config": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "thinking": "high",
+      "protocol": "550d52a0249e8236b4c85ff9c582239a8a5450824bae3454633202ab7ad17898",
+      "generation": "legacy-unknown-f9d6e4e2a6d6e40c32f92b2d252239d0f64f7e0074acb25817e145bc40913125",
+      "formal": false,
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "status": "completed",
+      "outcome": "failed",
+      "score": null,
+      "selected_attempt": "bbef27b9d6623c3ab74adef0adb21ff1c0716ba0e5680a9f52198295d21b358d",
+      "selected_evaluation": null,
+      "evaluation_generation": "legacy-unknown-f9d6e4e2a6d6e40c32f92b2d252239d0f64f7e0074acb25817e145bc40913125",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_5",
+          "state": "failed",
+          "candidate": "e15ef5503fd98a4961b873f9978d18a2f7f43029158b26521d59602657673e08",
+          "candidate_artifact": {
+            "path": "problems/verilog-axis-fifo-t1/agent-results/artifacts/20260811t212115/checkpoint_1/agent-code.tar.gz",
+            "sha256": "d55fca8d0397f08bd2f1cfc0ef7837254af96dce0d174cdb09602f5a6931e247",
+            "size_bytes": 137055,
+            "file_count": 210,
+            "tree_sha256": "e15ef5503fd98a4961b873f9978d18a2f7f43029158b26521d59602657673e08"
+          },
+          "inference_sha256": "c0139a8749668bf68746159670afc14edf0f4f0bcf470c81a404b46a0f900100",
+          "evaluation_sha256": "38187375458cbe4346aa6f83f8de8ab34aa0e8eeb35062ae7b5a3349765f2809",
+          "started_at": "2026-08-11T21:21:28.042867",
+          "completed_at": "2026-08-11T21:46:34.510084",
+          "inference_seconds": 1506.467217,
+          "evaluation_seconds": null,
+          "native_steps": 41,
+          "tokens": {
+            "input": 1561998,
+            "output": 17427,
+            "cache_read": 1192576,
+            "cache_write": 0,
+            "reasoning": 5917
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "official-2026-10-21",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_async_precise_marked_frame_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_precise_marked_frame_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_adapter_mark_when_full_behavior",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_async_mark_when_full_endpoint_behavior",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_mark_when_full_endpoint_behavior",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_sync_mark_when_full_endpoint_behavior",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_core_structure[checkpoint_1]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_pause_and_pipeline_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_rejects_invalid_mark_config[.FRAME_FIFO(1)-axis_async_fifo-axis_async_fifo.v]",
+              "group": "Error",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_rejects_invalid_mark_config[.FRAME_FIFO(1)-axis_fifo-axis_fifo.v]",
+              "group": "Error",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_rejects_invalid_mark_config[.LAST_ENABLE(0)-axis_async_fifo-axis_async_fifo.v]",
+              "group": "Error",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_rejects_invalid_mark_config[.LAST_ENABLE(0)-axis_fifo-axis_fifo.v]",
+              "group": "Error",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_rejects_invalid_mark_config[.USER_BAD_FRAME_MASK(0)-axis_async_fifo-axis_async_fifo.v]",
+              "group": "Error",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_rejects_invalid_mark_config[.USER_BAD_FRAME_MASK(0)-axis_fifo-axis_fifo.v]",
+              "group": "Error",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_core_structure[checkpoint_1]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_drop_oversize_endpoint_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_switch_surface_endpoint_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_2_checkpoint_2_core_structure[checkpoint_2]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_2_checkpoint_2_existing_surface_endpoint_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_2_checkpoint_2_pipeline_fifo_endpoint_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_2_checkpoint_2_preserves_fifo_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_3_checkpoint_3_async_adapter_routing_endpoint_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_3_checkpoint_3_async_status_public_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_3_checkpoint_3_core_structure[checkpoint_3]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_3_checkpoint_3_non_byte_pipeline_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_3_checkpoint_3_preserves_pipeline_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_3_checkpoint_3_status_depth_public_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_3_checkpoint_3_switch_routing_endpoint_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_3_checkpoint_3_tdest_route_public_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_3_checkpoint_3_update_tid_public_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_4_checkpoint_4_adapter_pause_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_4_checkpoint_4_async_pause_ack_reset",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_4_checkpoint_4_core_structure[checkpoint_4]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_4_checkpoint_4_pause_ack_frame_boundary",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_4_checkpoint_4_preserves_status_and_pipeline_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_4_checkpoint_4_sync_async_pause_behavior[pause_async]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_4_checkpoint_4_sync_async_pause_behavior[pause_sync]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_3_checkpoint_3_status_depth_endpoint_behavior",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_4_checkpoint_4_pause_endpoint_behavior",
+              "group": "Regression",
+              "status": "failed"
+            }
+          ],
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": null,
+            "native_events": null,
+            "coverage": "unknown",
+            "source": "legacy"
+          },
+          "compatibility": {
+            "score": "unknown",
+            "time": "unknown",
+            "cost": "unknown",
+            "calls": "unknown"
+          },
+          "defects": [],
+          "tags": []
+        }
+      ],
+      "agent_invocations": null,
+      "agent_retries": null,
+      "legacy_origin": {
+        "schema": 3,
+        "sha256": "ed9cbf8a6da281bf485aeeccde68caa8ce5d3d2533210fbc53e6efb14c67d630",
+        "source_url": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-axis-fifo-t1/agent-results/runs/20260811t212115.json"
+      },
+      "started_at": "2026-08-11T21:21:28.042867",
+      "completed_at": "2026-08-11T21:46:34.510084",
+      "wall_seconds_all_attempts": 0,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown"
+    },
+    {
+      "id": "29cd563e088d056d4b0ac6fc6f0cb16d59b1c492925895b4ef56e8a2b9a3bb09",
+      "problem": "verilog-axis-fifo-t1",
+      "mode": "pipeline",
+      "prompt_arm": "rtl-plan-and-test",
+      "model": "deepseek-v4-pro",
+      "agent": "codex",
+      "agent_version": "0.141.0",
+      "agent_config": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "thinking": "xhigh",
+      "protocol": "550d52a0249e8236b4c85ff9c582239a8a5450824bae3454633202ab7ad17898",
+      "generation": "legacy-unknown-f9d6e4e2a6d6e40c32f92b2d252239d0f64f7e0074acb25817e145bc40913125",
+      "formal": false,
+      "repeat": 0,
+      "planned_checkpoints": 2,
+      "status": "interrupted",
+      "outcome": "failed",
+      "score": null,
+      "selected_attempt": null,
+      "selected_evaluation": null,
+      "evaluation_generation": "legacy-unknown-f9d6e4e2a6d6e40c32f92b2d252239d0f64f7e0074acb25817e145bc40913125",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_1",
+          "state": "failed",
+          "candidate": "de608c40a5434fee5169247bb759660335e39220164028b1fe2834b1e10a9fc0",
+          "candidate_artifact": {
+            "path": "problems/verilog-axis-fifo-t1/agent-results/artifacts/20260817t162022/checkpoint_1/agent-code.tar.gz",
+            "sha256": "1edbaceda4de9471f22f4f0d028c97e3a6a518554d8916f9725484ede111699f",
+            "size_bytes": 121273,
+            "file_count": 200,
+            "tree_sha256": "de608c40a5434fee5169247bb759660335e39220164028b1fe2834b1e10a9fc0"
+          },
+          "inference_sha256": "a4697e67de43886abc28b9c920578dbafa56dda2ecbe7e7b6648d4bfba7659e8",
+          "evaluation_sha256": "c46df5388cad86bb0c4015bc8d36a39ab2394d2e93ec2797242230dad2910500",
+          "started_at": "2026-08-17T16:20:34.787483",
+          "completed_at": "2026-08-17T16:35:55.330079",
+          "inference_seconds": 920.542596,
+          "evaluation_seconds": null,
+          "native_steps": 109,
+          "tokens": {
+            "input": 10434293,
+            "output": 68362,
+            "cache_read": 10323328,
+            "cache_write": 0,
+            "reasoning": 30588
+          },
+          "official_cost": {
+            "usd": 0.871413752,
+            "coverage": "complete",
+            "pricebook": "official-2026-10-21"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_core_structure[checkpoint_1]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_drop_oversize_endpoint_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_switch_surface_endpoint_behavior",
+              "group": "Core",
+              "status": "failed"
+            }
+          ],
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": null,
+            "native_events": null,
+            "coverage": "unknown",
+            "source": "legacy"
+          },
+          "compatibility": {
+            "score": "unknown",
+            "time": "unknown",
+            "cost": "unknown",
+            "calls": "unknown"
+          },
+          "defects": [],
+          "tags": []
+        },
+        {
+          "checkpoint": "checkpoint_2",
+          "target_checkpoint": "checkpoint_2",
+          "state": "missing",
+          "candidate": "9a7ed0542d86a7dad64ac0669902481e01c3249bdfe839d7a51c9089bf9fc9ae",
+          "candidate_artifact": {
+            "path": "problems/verilog-axis-fifo-t1/agent-results/artifacts/20260817t162022/checkpoint_2/agent-code.tar.gz",
+            "sha256": "9380a183a4fcc715578f4ddf6783ce172a4ecb0a34d2c15bc508295942c11bf6",
+            "size_bytes": 122125,
+            "file_count": 203,
+            "tree_sha256": "9a7ed0542d86a7dad64ac0669902481e01c3249bdfe839d7a51c9089bf9fc9ae"
+          },
+          "inference_sha256": "66f2158dc2435ab4eb0d5219a90bc16565848aa0824067b3d995b00c7a8e1592",
+          "evaluation_sha256": null,
+          "started_at": "2026-08-17T16:37:40.288182",
+          "completed_at": "2026-08-17T16:47:40.000388",
+          "inference_seconds": 599.712206,
+          "evaluation_seconds": null,
+          "native_steps": 62,
+          "tokens": {
+            "input": 2703100,
+            "output": 49368,
+            "cache_read": 2658048,
+            "cache_write": 0,
+            "reasoning": 18061
+          },
+          "official_cost": {
+            "usd": 0.371920032,
+            "coverage": "complete",
+            "pricebook": "official-2026-10-21"
+          },
+          "tests": [],
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": null,
+            "native_events": null,
+            "coverage": "unknown",
+            "source": "legacy"
+          },
+          "compatibility": {
+            "score": "unknown",
+            "time": "unknown",
+            "cost": "unknown",
+            "calls": "unknown"
+          },
+          "defects": [],
+          "tags": []
+        }
+      ],
+      "agent_invocations": null,
+      "agent_retries": null,
+      "legacy_origin": {
+        "schema": 3,
+        "sha256": "5409dac9c3dc499f2536d0d139a99ec9ff29dc2ee38aa5194bb7c3c80eb6924f",
+        "source_url": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-axis-fifo-t1/agent-results/runs/20260817t162022.json"
+      },
+      "started_at": "2026-08-17T16:20:34.787483",
+      "completed_at": null,
+      "wall_seconds_all_attempts": 0,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 1.243333784,
+      "cost_coverage": "partial"
+    },
+    {
+      "id": "36e24979359a4f572f4b0b20870272ce6dd18670d019eef866aa354e074d9fe0",
+      "problem": "verilog-axis-fifo-t1",
+      "mode": "pipeline",
+      "prompt_arm": "rtl-plan-and-test",
+      "model": "deepseek-v4-pro",
+      "agent": "codex",
+      "agent_version": "0.141.0",
+      "agent_config": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "thinking": "none",
+      "protocol": "550d52a0249e8236b4c85ff9c582239a8a5450824bae3454633202ab7ad17898",
+      "generation": "legacy-unknown-f9d6e4e2a6d6e40c32f92b2d252239d0f64f7e0074acb25817e145bc40913125",
+      "formal": false,
+      "repeat": 0,
+      "planned_checkpoints": 2,
+      "status": "interrupted",
+      "outcome": "failed",
+      "score": null,
+      "selected_attempt": null,
+      "selected_evaluation": null,
+      "evaluation_generation": "legacy-unknown-f9d6e4e2a6d6e40c32f92b2d252239d0f64f7e0074acb25817e145bc40913125",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_1",
+          "state": "failed",
+          "candidate": "204582c9ab72770eb45571d832e5885a487bcafeae4d2717cba824daf0d9d30b",
+          "candidate_artifact": {
+            "path": "problems/verilog-axis-fifo-t1/agent-results/artifacts/20260817t135901/checkpoint_1/agent-code.tar.gz",
+            "sha256": "0abc8ac131656e26842271a96daa624e52b82dad6f40abede40bf2dea37ce0b0",
+            "size_bytes": 122668,
+            "file_count": 200,
+            "tree_sha256": "204582c9ab72770eb45571d832e5885a487bcafeae4d2717cba824daf0d9d30b"
+          },
+          "inference_sha256": "b02671e733a6bd571ae7e50af2e43ed408710834cd8f243157cabfcc4db838b4",
+          "evaluation_sha256": "4490f1b9a8da5882b3979e418c64bfdfa3bac46ce53efe9be30a26746fb857eb",
+          "started_at": "2026-08-17T13:59:13.536683",
+          "completed_at": "2026-08-17T14:15:14.889180",
+          "inference_seconds": 961.352497,
+          "evaluation_seconds": null,
+          "native_steps": 85,
+          "tokens": {
+            "input": 7901908,
+            "output": 79598,
+            "cache_read": 7801856,
+            "cache_write": 0,
+            "reasoning": 36965
+          },
+          "official_cost": {
+            "usd": 0.7905583840000001,
+            "coverage": "complete",
+            "pricebook": "official-2026-10-21"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_core_structure[checkpoint_1]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_drop_oversize_endpoint_behavior",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_switch_surface_endpoint_behavior",
+              "group": "Core",
+              "status": "failed"
+            }
+          ],
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": null,
+            "native_events": null,
+            "coverage": "unknown",
+            "source": "legacy"
+          },
+          "compatibility": {
+            "score": "unknown",
+            "time": "unknown",
+            "cost": "unknown",
+            "calls": "unknown"
+          },
+          "defects": [],
+          "tags": []
+        },
+        {
+          "checkpoint": "checkpoint_2",
+          "target_checkpoint": "checkpoint_2",
+          "state": "missing",
+          "candidate": "3b2ce67a26504eb6cce53eb056b44ed37abf6aa12c76cd81e402c7d8eb69152b",
+          "candidate_artifact": {
+            "path": "problems/verilog-axis-fifo-t1/agent-results/artifacts/20260817t135901/checkpoint_2/agent-code.tar.gz",
+            "sha256": "4349c18f2551dda251d37dd0242d33bef96d93169f98ce545cab43cc89ed8677",
+            "size_bytes": 123745,
+            "file_count": 203,
+            "tree_sha256": "3b2ce67a26504eb6cce53eb056b44ed37abf6aa12c76cd81e402c7d8eb69152b"
+          },
+          "inference_sha256": "be07ef373b5c4bca32fbb6f7ba1767763fbec8152e82d12189b1d21ad65af3bf",
+          "evaluation_sha256": null,
+          "started_at": "2026-08-17T14:16:54.743602",
+          "completed_at": "2026-08-17T14:25:15.089368",
+          "inference_seconds": 500.345766,
+          "evaluation_seconds": null,
+          "native_steps": 46,
+          "tokens": {
+            "input": 1971281,
+            "output": 36285,
+            "cache_read": 1936384,
+            "cache_write": 0,
+            "reasoning": 16937
+          },
+          "official_cost": {
+            "usd": 0.274953536,
+            "coverage": "complete",
+            "pricebook": "official-2026-10-21"
+          },
+          "tests": [],
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": null,
+            "native_events": null,
+            "coverage": "unknown",
+            "source": "legacy"
+          },
+          "compatibility": {
+            "score": "unknown",
+            "time": "unknown",
+            "cost": "unknown",
+            "calls": "unknown"
+          },
+          "defects": [],
+          "tags": []
+        }
+      ],
+      "agent_invocations": null,
+      "agent_retries": null,
+      "legacy_origin": {
+        "schema": 3,
+        "sha256": "f999e8fff83309bdee82a2d90c43cd406b0447cf4ff96467bc7b5b5c64721ce2",
+        "source_url": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-axis-fifo-t1/agent-results/runs/20260817t135901.json"
+      },
+      "started_at": "2026-08-17T13:59:13.536683",
+      "completed_at": null,
+      "wall_seconds_all_attempts": 0,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 1.06551192,
+      "cost_coverage": "partial"
+    },
+    {
+      "id": "38e7d064d7c90c29cd7b338f4ddb97d97a8d7daeb627d247cdfbd536c2f3f9d1",
+      "problem": "verilog-axis-fifo-t1",
+      "mode": "sr",
+      "prompt_arm": "rtl-plan-and-test",
+      "model": "gpt-5.6-luna",
+      "agent": "codex",
+      "agent_version": "0.141.0",
+      "agent_config": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "thinking": "high",
+      "protocol": "550d52a0249e8236b4c85ff9c582239a8a5450824bae3454633202ab7ad17898",
+      "generation": "legacy-unknown-f9d6e4e2a6d6e40c32f92b2d252239d0f64f7e0074acb25817e145bc40913125",
+      "formal": false,
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "status": "completed",
+      "outcome": "passed",
+      "score": null,
+      "selected_attempt": "9d1c6fe1aa5823bb0320083fb457955bf3b9426cb4f585e363fa175a49c0fb5e",
+      "selected_evaluation": null,
+      "evaluation_generation": "legacy-unknown-f9d6e4e2a6d6e40c32f92b2d252239d0f64f7e0074acb25817e145bc40913125",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_2",
+          "state": "passed",
+          "candidate": "e75bda3e0c4a7918648558f89458fd8b3d66c3418e966f43001abb52573644ee",
+          "candidate_artifact": {
+            "path": "problems/verilog-axis-fifo-t1/agent-results/artifacts/20260808T1642/checkpoint_1/agent-code.tar.gz",
+            "sha256": "452108b7eba28bb291b6a5b11ec946e29934677c1a62b2a6b0f9e5a3c60f7e5d",
+            "size_bytes": 131389,
+            "file_count": 211,
+            "tree_sha256": "e75bda3e0c4a7918648558f89458fd8b3d66c3418e966f43001abb52573644ee"
+          },
+          "inference_sha256": "bd46d76b610892fa69b78e4c9469ddf2f054d10f7e6e2d46062e6004f8f1b164",
+          "evaluation_sha256": "c0e6c03d8949d92f1e58d81e938e1aa6200e1b341d176644ad3cf56c15d8611f",
+          "started_at": "2026-08-08T16:42:30.481640",
+          "completed_at": "2026-08-08T16:49:50.857800",
+          "inference_seconds": 440.37616,
+          "evaluation_seconds": null,
+          "native_steps": 32,
+          "tokens": {
+            "input": 786204,
+            "output": 11323,
+            "cache_read": 734080,
+            "cache_write": 0,
+            "reasoning": 2654
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "official-2026-10-21",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_core_structure[checkpoint_1]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_existing_surface_endpoint_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_pipeline_fifo_endpoint_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_fifo_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_core_structure[checkpoint_1]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_drop_oversize_endpoint_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_switch_surface_endpoint_behavior",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": null,
+            "native_events": null,
+            "coverage": "unknown",
+            "source": "legacy"
+          },
+          "compatibility": {
+            "score": "unknown",
+            "time": "unknown",
+            "cost": "unknown",
+            "calls": "unknown"
+          },
+          "defects": [],
+          "tags": []
+        }
+      ],
+      "agent_invocations": null,
+      "agent_retries": null,
+      "legacy_origin": {
+        "schema": 3,
+        "sha256": "ab8324c1d9bc0b61f6a2b3eba929e83b41fe59ab9f28496f0e8c8823bd1bf2e9",
+        "source_url": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-axis-fifo-t1/agent-results/runs/20260808T1642.json"
+      },
+      "started_at": "2026-08-08T16:42:30.481640",
+      "completed_at": "2026-08-08T16:49:50.857800",
+      "wall_seconds_all_attempts": 0,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown"
+    },
+    {
+      "id": "4533d5365ef9010c9dd31159ef0d8d5f247a2d798be795e904646416ada38212",
+      "problem": "verilog-axis-fifo-t1",
+      "mode": "sr",
+      "prompt_arm": "rtl-plan-and-test",
+      "model": "gpt-5.6-luna",
+      "agent": "codex",
+      "agent_version": "0.141.0",
+      "agent_config": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "thinking": "high",
+      "protocol": "550d52a0249e8236b4c85ff9c582239a8a5450824bae3454633202ab7ad17898",
+      "generation": "legacy-unknown-f9d6e4e2a6d6e40c32f92b2d252239d0f64f7e0074acb25817e145bc40913125",
+      "formal": false,
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "status": "completed",
+      "outcome": "passed",
+      "score": null,
+      "selected_attempt": "148a7741e7ecbe4c7887b6b8d3158fc3835a76affa04bbd6e740a834d9bb348c",
+      "selected_evaluation": null,
+      "evaluation_generation": "legacy-unknown-f9d6e4e2a6d6e40c32f92b2d252239d0f64f7e0074acb25817e145bc40913125",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_2",
+          "state": "passed",
+          "candidate": "85f2e0ce069eade0ba9d50c6196fdf50e2439873224f400f58dc2362cf0908cf",
+          "candidate_artifact": {
+            "path": "problems/verilog-axis-fifo-t1/agent-results/artifacts/20260811T1354/checkpoint_1/agent-code.tar.gz",
+            "sha256": "cc55dd4d076670411e020710007a06e7252e1e275b556e33b3846d77cf6de0e8",
+            "size_bytes": 129945,
+            "file_count": 208,
+            "tree_sha256": "85f2e0ce069eade0ba9d50c6196fdf50e2439873224f400f58dc2362cf0908cf"
+          },
+          "inference_sha256": "e567730603161b722fe32961ba14149dae260e8b8bbeae2fb82079868e61cfb4",
+          "evaluation_sha256": "eda4b2d0ba659df615d90b4b30e9b9f8907f50b9ec5ab599d32ad4563eca27a9",
+          "started_at": "2026-08-11T13:54:29.460296",
+          "completed_at": "2026-08-11T14:03:15.508338",
+          "inference_seconds": 526.048042,
+          "evaluation_seconds": null,
+          "native_steps": 38,
+          "tokens": {
+            "input": 991250,
+            "output": 15455,
+            "cache_read": 899200,
+            "cache_write": 0,
+            "reasoning": 5314
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "official-2026-10-21",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_core_structure[checkpoint_1]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_existing_surface_endpoint_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_pipeline_fifo_endpoint_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_fifo_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_core_structure[checkpoint_1]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_drop_oversize_endpoint_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_switch_surface_endpoint_behavior",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": null,
+            "native_events": null,
+            "coverage": "unknown",
+            "source": "legacy"
+          },
+          "compatibility": {
+            "score": "unknown",
+            "time": "unknown",
+            "cost": "unknown",
+            "calls": "unknown"
+          },
+          "defects": [],
+          "tags": []
+        }
+      ],
+      "agent_invocations": null,
+      "agent_retries": null,
+      "legacy_origin": {
+        "schema": 3,
+        "sha256": "abd79ac91065d9d9ef0b8f160ab197bdfed0153e8e644c86ee5931e9c2c75ee1",
+        "source_url": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-axis-fifo-t1/agent-results/runs/20260811T1354.json"
+      },
+      "started_at": "2026-08-11T13:54:29.460296",
+      "completed_at": "2026-08-11T14:03:15.508338",
+      "wall_seconds_all_attempts": 0,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown"
+    },
+    {
+      "id": "45917eadc307241c87549b3f2ffcbc27aab0b077a723ec0d1dd797147915eaba",
+      "problem": "verilog-axis-fifo-t1",
+      "mode": "sr",
+      "prompt_arm": "rtl-plan-and-test",
+      "model": "gpt-5.6-luna",
+      "agent": "codex",
+      "agent_version": "0.141.0",
+      "agent_config": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "thinking": "high",
+      "protocol": "550d52a0249e8236b4c85ff9c582239a8a5450824bae3454633202ab7ad17898",
+      "generation": "legacy-unknown-f9d6e4e2a6d6e40c32f92b2d252239d0f64f7e0074acb25817e145bc40913125",
+      "formal": false,
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "status": "completed",
+      "outcome": "failed",
+      "score": null,
+      "selected_attempt": "fb06b9a2a7465846c267b8f29cdd26f4ffcd9d641b8b06be382e97efe4d681c8",
+      "selected_evaluation": null,
+      "evaluation_generation": "legacy-unknown-f9d6e4e2a6d6e40c32f92b2d252239d0f64f7e0074acb25817e145bc40913125",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_3",
+          "state": "failed",
+          "candidate": "b251dabadcab721e9c7dd426d86006178bcbabf08dd0465ed7c213efa692c63d",
+          "candidate_artifact": {
+            "path": "problems/verilog-axis-fifo-t1/agent-results/artifacts/20260811t155714/checkpoint_1/agent-code.tar.gz",
+            "sha256": "a780ba222a3f606af344b6bce2d2b131fd953655ecf301ce216b2c789ca78016",
+            "size_bytes": 131424,
+            "file_count": 210,
+            "tree_sha256": "b251dabadcab721e9c7dd426d86006178bcbabf08dd0465ed7c213efa692c63d"
+          },
+          "inference_sha256": "50a4eccc03acca5176fb5d0e666f0fb586060fd88447f7a9a379ab28ca58c2c7",
+          "evaluation_sha256": "d8db875834adcd3aa2b4a20d33da2ea5f9143aa44f8602b52d18448cdf9133ad",
+          "started_at": "2026-08-11T15:57:26.090007",
+          "completed_at": "2026-08-11T16:19:52.414541",
+          "inference_seconds": 1346.324534,
+          "evaluation_seconds": null,
+          "native_steps": 59,
+          "tokens": {
+            "input": 2297448,
+            "output": 21084,
+            "cache_read": 1535616,
+            "cache_write": 0,
+            "reasoning": 9640
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "official-2026-10-21",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_non_byte_pipeline_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_async_adapter_routing_endpoint_behavior",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_async_status_public_behavior",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_status_depth_endpoint_behavior",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_status_depth_public_behavior",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_switch_routing_endpoint_behavior",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_tdest_route_public_behavior",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_update_tid_public_behavior",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_core_structure[checkpoint_1]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_pipeline_behavior",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_core_structure[checkpoint_1]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_2_checkpoint_2_core_structure[checkpoint_2]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_drop_oversize_endpoint_behavior",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_switch_surface_endpoint_behavior",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_2_checkpoint_2_existing_surface_endpoint_behavior",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_2_checkpoint_2_pipeline_fifo_endpoint_behavior",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_2_checkpoint_2_preserves_fifo_behavior",
+              "group": "Regression",
+              "status": "failed"
+            }
+          ],
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": null,
+            "native_events": null,
+            "coverage": "unknown",
+            "source": "legacy"
+          },
+          "compatibility": {
+            "score": "unknown",
+            "time": "unknown",
+            "cost": "unknown",
+            "calls": "unknown"
+          },
+          "defects": [],
+          "tags": []
+        }
+      ],
+      "agent_invocations": null,
+      "agent_retries": null,
+      "legacy_origin": {
+        "schema": 3,
+        "sha256": "a8608e43b73e903ef8d03d78c83b6d2b3f3edc864c8c9bc72c4c3a8aee867d0f",
+        "source_url": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-axis-fifo-t1/agent-results/runs/20260811t155714.json"
+      },
+      "started_at": "2026-08-11T15:57:26.090007",
+      "completed_at": "2026-08-11T16:19:52.414541",
+      "wall_seconds_all_attempts": 0,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown"
+    },
+    {
+      "id": "66ece4f60a2a6e80342f7b95c05fada95fd0c8a1bd1da87eccade0c750ad228d",
+      "problem": "verilog-axis-fifo-t1",
+      "mode": "sr",
+      "prompt_arm": "rtl-plan-and-test",
+      "model": "gpt-5.6-luna",
+      "agent": "codex",
+      "agent_version": "0.141.0",
+      "agent_config": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "thinking": "high",
+      "protocol": "550d52a0249e8236b4c85ff9c582239a8a5450824bae3454633202ab7ad17898",
+      "generation": "legacy-unknown-f9d6e4e2a6d6e40c32f92b2d252239d0f64f7e0074acb25817e145bc40913125",
+      "formal": false,
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "status": "completed",
+      "outcome": "failed",
+      "score": null,
+      "selected_attempt": "79dd3fdabb45e847d909c0701501576d0c52fe8bfaba107acf2534c050664a78",
+      "selected_evaluation": null,
+      "evaluation_generation": "legacy-unknown-f9d6e4e2a6d6e40c32f92b2d252239d0f64f7e0074acb25817e145bc40913125",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_1",
+          "state": "failed",
+          "candidate": "48232c4aaa2d1e11054873e2b8c05f0eced1704b4be665bb593abeec675611f3",
+          "candidate_artifact": {
+            "path": "problems/verilog-axis-fifo-t1/agent-results/artifacts/20260811T1306/checkpoint_1/agent-code.tar.gz",
+            "sha256": "8fbb933cc5f460019f6f0cec91d9c6b7cdbd8d023f94b10026dc107122514597",
+            "size_bytes": 121389,
+            "file_count": 202,
+            "tree_sha256": "48232c4aaa2d1e11054873e2b8c05f0eced1704b4be665bb593abeec675611f3"
+          },
+          "inference_sha256": "c153a82fa024baf5d667ec53e57a778b5fd42d9975c459d027f3e235ae7e989e",
+          "evaluation_sha256": "e8e45625ccb4e5cfeea2aa787bdbd64989e47d20f62ebf42e02eba2c90e39fe3",
+          "started_at": "2026-08-11T13:06:20.598234",
+          "completed_at": "2026-08-11T13:20:55.172385",
+          "inference_seconds": 874.574151,
+          "evaluation_seconds": null,
+          "native_steps": 49,
+          "tokens": {
+            "input": 2224349,
+            "output": 22529,
+            "cache_read": 1826816,
+            "cache_write": 0,
+            "reasoning": 5072
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "official-2026-10-21",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_core_structure[checkpoint_1]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_drop_oversize_endpoint_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_switch_surface_endpoint_behavior",
+              "group": "Core",
+              "status": "failed"
+            }
+          ],
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": null,
+            "native_events": null,
+            "coverage": "unknown",
+            "source": "legacy"
+          },
+          "compatibility": {
+            "score": "unknown",
+            "time": "unknown",
+            "cost": "unknown",
+            "calls": "unknown"
+          },
+          "defects": [],
+          "tags": []
+        }
+      ],
+      "agent_invocations": null,
+      "agent_retries": null,
+      "legacy_origin": {
+        "schema": 3,
+        "sha256": "39d935e31fd2d50f0485ec13037caa119eea80fbc42f210b521bccb1d3666f56",
+        "source_url": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-axis-fifo-t1/agent-results/runs/20260811T1306.json"
+      },
+      "started_at": "2026-08-11T13:06:20.598234",
+      "completed_at": "2026-08-11T13:20:55.172385",
+      "wall_seconds_all_attempts": 0,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown"
+    },
+    {
+      "id": "7cac0caf2c1cd4f8294bbb52e3d77597e203a43a78ffa1a14422992698bb42b4",
+      "problem": "verilog-axis-fifo-t1",
+      "mode": "pipeline",
+      "prompt_arm": "rtl-plan-and-test",
+      "model": "gpt-5.6-luna",
+      "agent": "codex",
+      "agent_version": "0.141.0",
+      "agent_config": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "thinking": "high",
+      "protocol": "550d52a0249e8236b4c85ff9c582239a8a5450824bae3454633202ab7ad17898",
+      "generation": "legacy-unknown-f9d6e4e2a6d6e40c32f92b2d252239d0f64f7e0074acb25817e145bc40913125",
+      "formal": false,
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "status": "completed",
+      "outcome": "failed",
+      "score": null,
+      "selected_attempt": "5e34bdc6f616516e0fa5dca475997bac6460f10ac15c11fd5398219276449afb",
+      "selected_evaluation": null,
+      "evaluation_generation": "legacy-unknown-f9d6e4e2a6d6e40c32f92b2d252239d0f64f7e0074acb25817e145bc40913125",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_1",
+          "state": "failed",
+          "candidate": "114fd3807abd440fff26752420a2119336384b4a362f0fc200499007b1df1997",
+          "candidate_artifact": {
+            "path": "problems/verilog-axis-fifo-t1/agent-results/artifacts/20260812t151800/checkpoint_1/agent-code.tar.gz",
+            "sha256": "d6dce4742271e586e2ea6f24f1ebfb932db8bce65ab4311f480cccfcc2cdcee7",
+            "size_bytes": 120127,
+            "file_count": 201,
+            "tree_sha256": "114fd3807abd440fff26752420a2119336384b4a362f0fc200499007b1df1997"
+          },
+          "inference_sha256": "6a0b8adf48fe6a6bcda3bf1eb558493820c59b23c1d784da98fdfe2912f6904e",
+          "evaluation_sha256": "4fe760cae62a392f08a5886888f53c004b90b4d90fbc8f8928ffbe7aeb2ff974",
+          "started_at": "2026-08-12T15:18:12.111150",
+          "completed_at": "2026-08-12T15:32:11.992221",
+          "inference_seconds": 839.881071,
+          "evaluation_seconds": null,
+          "native_steps": 55,
+          "tokens": {
+            "input": 1649214,
+            "output": 27228,
+            "cache_read": 1533184,
+            "cache_write": 0,
+            "reasoning": 9445
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "official-2026-10-21",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_core_structure[checkpoint_1]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_drop_oversize_endpoint_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_switch_surface_endpoint_behavior",
+              "group": "Core",
+              "status": "failed"
+            }
+          ],
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": null,
+            "native_events": null,
+            "coverage": "unknown",
+            "source": "legacy"
+          },
+          "compatibility": {
+            "score": "unknown",
+            "time": "unknown",
+            "cost": "unknown",
+            "calls": "unknown"
+          },
+          "defects": [],
+          "tags": []
+        }
+      ],
+      "agent_invocations": null,
+      "agent_retries": null,
+      "legacy_origin": {
+        "schema": 3,
+        "sha256": "45b69b86fc7549c39b9fd0ebae71779a01ddab9c746a10f3af71b340870e1bc8",
+        "source_url": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-axis-fifo-t1/agent-results/runs/20260812t151800.json"
+      },
+      "started_at": "2026-08-12T15:18:12.111150",
+      "completed_at": "2026-08-12T15:32:11.992221",
+      "wall_seconds_all_attempts": 0,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown"
+    },
+    {
+      "id": "88aeffc83561f46550536c949f5a9fb3ca9116727cab00bd7610b0bbffc97f2e",
+      "problem": "verilog-axis-fifo-t1",
+      "mode": "sr",
+      "prompt_arm": "rtl-plan-and-test",
+      "model": "gpt-5.6-luna",
+      "agent": "codex",
+      "agent_version": "0.141.0",
+      "agent_config": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "thinking": "high",
+      "protocol": "550d52a0249e8236b4c85ff9c582239a8a5450824bae3454633202ab7ad17898",
+      "generation": "legacy-unknown-f9d6e4e2a6d6e40c32f92b2d252239d0f64f7e0074acb25817e145bc40913125",
+      "formal": false,
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "status": "completed",
+      "outcome": "passed",
+      "score": null,
+      "selected_attempt": "93d207ceb2464321307738c1beca6811b40402fe60d5e6c2db688d82c99b2d94",
+      "selected_evaluation": null,
+      "evaluation_generation": "legacy-unknown-f9d6e4e2a6d6e40c32f92b2d252239d0f64f7e0074acb25817e145bc40913125",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_4",
+          "state": "passed",
+          "candidate": "54602c6ebd7d843dd25d892b92ed6a22da0d45ee2a2a144bb94072ee69a9e852",
+          "candidate_artifact": {
+            "path": "problems/verilog-axis-fifo-t1/agent-results/artifacts/20260811t191722/checkpoint_1/agent-code.tar.gz",
+            "sha256": "2ed9028a83fddc988607ec68da1ab763ad512b2782c016bd55082fc5e37e0c09",
+            "size_bytes": 136016,
+            "file_count": 210,
+            "tree_sha256": "54602c6ebd7d843dd25d892b92ed6a22da0d45ee2a2a144bb94072ee69a9e852"
+          },
+          "inference_sha256": "2c2e59b180cc6e46a0d091c69f1f9dbee14428223cfee47f29a4fd901c809dcc",
+          "evaluation_sha256": "becc8db08abfaea25c168d08611968f9ff9d436d094d0c5bc1993f2f04d68af1",
+          "started_at": "2026-08-11T19:17:34.059572",
+          "completed_at": "2026-08-11T19:30:29.093370",
+          "inference_seconds": 775.033798,
+          "evaluation_seconds": null,
+          "native_steps": 44,
+          "tokens": {
+            "input": 2085975,
+            "output": 21137,
+            "cache_read": 1836416,
+            "cache_write": 0,
+            "reasoning": 8803
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "official-2026-10-21",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_adapter_pause_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_async_pause_ack_reset",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_pause_ack_frame_boundary",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_pause_endpoint_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_sync_async_pause_behavior[pause_async]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_sync_async_pause_behavior[pause_sync]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_core_structure[checkpoint_1]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_status_and_pipeline_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_core_structure[checkpoint_1]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_drop_oversize_endpoint_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_switch_surface_endpoint_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_2_checkpoint_2_core_structure[checkpoint_2]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_2_checkpoint_2_existing_surface_endpoint_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_2_checkpoint_2_pipeline_fifo_endpoint_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_2_checkpoint_2_preserves_fifo_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_3_checkpoint_3_async_adapter_routing_endpoint_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_3_checkpoint_3_async_status_public_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_3_checkpoint_3_core_structure[checkpoint_3]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_3_checkpoint_3_non_byte_pipeline_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_3_checkpoint_3_preserves_pipeline_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_3_checkpoint_3_status_depth_endpoint_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_3_checkpoint_3_status_depth_public_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_3_checkpoint_3_switch_routing_endpoint_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_3_checkpoint_3_tdest_route_public_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_3_checkpoint_3_update_tid_public_behavior",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": null,
+            "native_events": null,
+            "coverage": "unknown",
+            "source": "legacy"
+          },
+          "compatibility": {
+            "score": "unknown",
+            "time": "unknown",
+            "cost": "unknown",
+            "calls": "unknown"
+          },
+          "defects": [],
+          "tags": []
+        }
+      ],
+      "agent_invocations": null,
+      "agent_retries": null,
+      "legacy_origin": {
+        "schema": 3,
+        "sha256": "db5b2e62f5f9d456ab309c73c3d6f6cb26b0d052ac512c977c8df79415cceb64",
+        "source_url": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-axis-fifo-t1/agent-results/runs/20260811t191722.json"
+      },
+      "started_at": "2026-08-11T19:17:34.059572",
+      "completed_at": "2026-08-11T19:30:29.093370",
+      "wall_seconds_all_attempts": 0,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown"
+    },
+    {
+      "id": "938271613065a237ed63b9feced8fa05d48a3796c7d317342c0699632d022d2e",
+      "problem": "verilog-axis-fifo-t1",
+      "mode": "pipeline",
+      "prompt_arm": "rtl-plan-and-test",
+      "model": "deepseek-v4-pro",
+      "agent": "codex",
+      "agent_version": "0.141.0",
+      "agent_config": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "thinking": "xhigh",
+      "protocol": "550d52a0249e8236b4c85ff9c582239a8a5450824bae3454633202ab7ad17898",
+      "generation": "legacy-unknown-f9d6e4e2a6d6e40c32f92b2d252239d0f64f7e0074acb25817e145bc40913125",
+      "formal": false,
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "status": "completed",
+      "outcome": "failed",
+      "score": null,
+      "selected_attempt": "aaefabbbd7a76a5e53ea958e408b5d9d95ad9c15d1e7252315607972ce980334",
+      "selected_evaluation": null,
+      "evaluation_generation": "legacy-unknown-f9d6e4e2a6d6e40c32f92b2d252239d0f64f7e0074acb25817e145bc40913125",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_1",
+          "state": "failed",
+          "candidate": "7d205274935328ee1a9d0caaaf052a31e41b39cfa315cd4a25a7bbb7ed83123e",
+          "candidate_artifact": {
+            "path": "problems/verilog-axis-fifo-t1/agent-results/artifacts/20260819t231135/checkpoint_1/agent-code.tar.gz",
+            "sha256": "66b2f4eec51fcecef52fd3becc4c3d6d85ad017b0d4b39becd55093847762d4a",
+            "size_bytes": 121384,
+            "file_count": 200,
+            "tree_sha256": "7d205274935328ee1a9d0caaaf052a31e41b39cfa315cd4a25a7bbb7ed83123e"
+          },
+          "inference_sha256": "8bc06ab94cce54521acabfef43f60fba50c04231c499db43b91c796d033b63cb",
+          "evaluation_sha256": "97c50630fb4c9ae55e7a6c07d2e3efc2fc26e537cd75e5322dcdb18208981f17",
+          "started_at": "2026-08-19T23:11:53.089352",
+          "completed_at": "2026-08-19T23:28:51.018113",
+          "inference_seconds": 1017.928761,
+          "evaluation_seconds": null,
+          "native_steps": 92,
+          "tokens": {
+            "input": 10513738,
+            "output": 71369,
+            "cache_read": 10397312,
+            "cache_write": 0,
+            "reasoning": 33879
+          },
+          "official_cost": {
+            "usd": 0.8937852879999999,
+            "coverage": "complete",
+            "pricebook": "official-2026-10-21"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_core_structure[checkpoint_1]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_drop_oversize_endpoint_behavior",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_switch_surface_endpoint_behavior",
+              "group": "Core",
+              "status": "failed"
+            }
+          ],
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": null,
+            "native_events": null,
+            "coverage": "unknown",
+            "source": "legacy"
+          },
+          "compatibility": {
+            "score": "unknown",
+            "time": "unknown",
+            "cost": "unknown",
+            "calls": "unknown"
+          },
+          "defects": [],
+          "tags": []
+        }
+      ],
+      "agent_invocations": null,
+      "agent_retries": null,
+      "legacy_origin": {
+        "schema": 3,
+        "sha256": "bd463ad7b1cb25e0bee6ad761aecd8e802d654a5d71aae9203c013be1ecf4e0b",
+        "source_url": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-axis-fifo-t1/agent-results/runs/20260819t231135.json"
+      },
+      "started_at": "2026-08-19T23:11:53.089352",
+      "completed_at": "2026-08-19T23:28:51.018113",
+      "wall_seconds_all_attempts": 0,
+      "official_cost_all_attempts": 0.8937852879999999,
+      "known_official_cost": 0.8937852879999999,
+      "cost_coverage": "complete"
+    },
+    {
+      "id": "cd13be27066f075311acb1ced0695a298bd70cda15cf946251326cb0ac25d83f",
+      "problem": "verilog-axis-fifo-t1",
+      "mode": "sr",
+      "prompt_arm": "rtl-plan-and-test",
+      "model": "gpt-5.6-luna",
+      "agent": "codex",
+      "agent_version": "0.144.6",
+      "agent_config": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "thinking": "high",
+      "protocol": "550d52a0249e8236b4c85ff9c582239a8a5450824bae3454633202ab7ad17898",
+      "generation": "legacy-unknown-f9d6e4e2a6d6e40c32f92b2d252239d0f64f7e0074acb25817e145bc40913125",
+      "formal": false,
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "status": "completed",
+      "outcome": "failed",
+      "score": null,
+      "selected_attempt": "181943641fcbcda2ff8fabe8369facd8048a10128c6bc14c86170892a5a12f94",
+      "selected_evaluation": null,
+      "evaluation_generation": "legacy-unknown-f9d6e4e2a6d6e40c32f92b2d252239d0f64f7e0074acb25817e145bc40913125",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_1",
+          "state": "failed",
+          "candidate": "f79eaf9aaa8b91cca7bf7301f3e2afa59d7d0f5c1f61a5d786a2cc9594b79ab2",
+          "candidate_artifact": {
+            "path": "problems/verilog-axis-fifo-t1/agent-results/artifacts/20260808T1058/checkpoint_1/agent-code.tar.gz",
+            "sha256": "61817b92fab3b3a7dabda7550f03f016f86fadb7c61a152153f8e0526aaa6630",
+            "size_bytes": 121172,
+            "file_count": 200,
+            "tree_sha256": "f79eaf9aaa8b91cca7bf7301f3e2afa59d7d0f5c1f61a5d786a2cc9594b79ab2"
+          },
+          "inference_sha256": "77f37dbf91fb149d101cfa36477608f416afae4512c830dfe8f9a3308cdef465",
+          "evaluation_sha256": "289fc8a1a44c88dc544de14776056460f334b5210efd0a0f663ea3471314eaa4",
+          "started_at": "2026-08-08T10:58:46.156977",
+          "completed_at": "2026-08-08T11:14:06.667616",
+          "inference_seconds": 920.510639,
+          "evaluation_seconds": null,
+          "native_steps": 112,
+          "tokens": {
+            "input": 4609278,
+            "output": 39430,
+            "cache_read": 3389952,
+            "cache_write": 0,
+            "reasoning": 15142
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "official-2026-10-21",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_core_structure[checkpoint_1]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_drop_oversize_endpoint_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_switch_surface_endpoint_behavior",
+              "group": "Core",
+              "status": "failed"
+            }
+          ],
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": null,
+            "native_events": null,
+            "coverage": "unknown",
+            "source": "legacy"
+          },
+          "compatibility": {
+            "score": "unknown",
+            "time": "unknown",
+            "cost": "unknown",
+            "calls": "unknown"
+          },
+          "defects": [],
+          "tags": []
+        }
+      ],
+      "agent_invocations": null,
+      "agent_retries": null,
+      "legacy_origin": {
+        "schema": 3,
+        "sha256": "f5462252b4dfeba99a1fe4dd655b42cfe6ab2ad960d2045440f3782e4317088c",
+        "source_url": "https://github.com/carterlu0/scbench-rtl-problems/blob/main/problems/verilog-axis-fifo-t1/agent-results/runs/20260808T1058.json"
+      },
+      "started_at": "2026-08-08T10:58:46.156977",
+      "completed_at": "2026-08-08T11:14:06.667616",
+      "wall_seconds_all_attempts": 0,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown"
+    }
+  ]
+}

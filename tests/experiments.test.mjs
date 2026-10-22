@@ -1,0 +1,14 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {mkdtemp,readFile,rm} from 'node:fs/promises';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
+import {createHash} from 'node:crypto';
+import {groupKey,selectCells,summarize,csv,escapeHtml} from '../experiments-core.mjs';
+import {syncExperiments,safePath,validatePublicAnalysis} from '../sync-experiments.mjs';
+const cell={id:'a',problem:'p',model:'m',agent:'codex',agent_version:'1',agent_config:'x',thinking:'high',protocol:'p',mode:'sr',prompt_arm:'original',formal:true,score:0,status:'completed',attempt_count:1,checkpoints:[{state:'failed',compatibility:{score:'identical'}}]};
+test('model and agent configurations remain separate, channel is absent',()=>{assert.notEqual(groupKey(cell),groupKey({...cell,agent_version:'2'}));assert.equal(groupKey(cell),groupKey({...cell,route:'new'}));});
+test('planned missing trials never become zeros or disappear',()=>{const summary=summarize([cell,{...cell,score:null,status:'pending'}]);assert.equal(summary.score,null);assert.equal(summary.valid,1);assert.equal(summary.planned,2);assert.equal(summary.observed,0);assert.equal(summary.cost,null);});
+test('scope filters and safe downloads',()=>{assert.equal(selectCells({cells:[cell,{...cell,formal:false}]},{scope:'formal'}).length,1);assert.match(csv([{...cell,problem:'=1+1'}]),/"'=1\+1"/);assert.equal(escapeHtml('<img>'),'&lt;img&gt;');});
+test('private fields and traversal rejected',()=>{assert.throws(()=>safePath('../secret.json'));assert.throws(()=>safePath('a\\b.json'));assert.throws(()=>validatePublicAnalysis({schema_version:4,cells:[{...cell,route_snapshot:{}}]}));});
+test('sync pins release hashes and keeps old manifest on invalid data',async()=>{const output=await mkdtemp(join(tmpdir(),'scbench-matrix-'));try{const payload=JSON.stringify({schema_version:4,cells:[cell]});const id='a'.repeat(64);let catalog={schema_version:4,releases:[{id,path:`analyses/${id}.json`,files:{[`analyses/${id}.json`]:createHash('sha256').update(payload).digest('hex')}}]};const readText=async path=>path.endsWith('catalog.json')?JSON.stringify(catalog):payload;await syncExperiments({readText,sourceCommit:'fixed',output});const before=await readFile(join(output,'catalog.json'),'utf8');assert.equal(JSON.parse(before).source.commit,'fixed');catalog.releases[0].files[`analyses/${id}.json`]='bad';await assert.rejects(syncExperiments({readText,sourceCommit:'changed',output}),/hash mismatch/);assert.equal(await readFile(join(output,'catalog.json'),'utf8'),before);}finally{await rm(output,{recursive:true,force:true});}});
