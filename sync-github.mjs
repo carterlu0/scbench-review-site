@@ -203,7 +203,7 @@ async function buildProblem(entry, index) {
     .sort((left, right) => left.number - right.number);
   if (!checkpointFiles.length) throw new Error(`No checkpoint prompt found for ${id}`);
   const checkpointPrompts = await Promise.all(checkpointFiles.map(async (checkpoint) => ({
-    label: `checkpoint_${checkpoint.number}`,
+    label: `checkpoint_${id === "verilog-pcie-t3" ? checkpoint.number - 1 : checkpoint.number}`,
     prompt: cleanPrompt(await readText(checkpoint.path)),
     sourcePath: blobUrl(checkpoint.path)
   })));
