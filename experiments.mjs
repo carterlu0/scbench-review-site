@@ -1,4 +1,4 @@
-import {escapeHtml as esc, groupKey, resultKey, latestCells, selectCells, summarize, csv, hydrateCells, testCounts, checkpointRows, plannedTargets, finalResult, fraction} from './experiments-core.mjs?v=20261022-latest-results';
+import {escapeHtml as esc, modelKey, resultKey, latestCells, selectCells, summarize, csv, hydrateCells, testCounts, checkpointRows, plannedTargets, finalResult, fraction} from './experiments-core.mjs?v=20261026-model-columns';
 let catalogPromise;
 let metadataPromise;
 let renderedProblem;
@@ -30,13 +30,13 @@ function hash(params, changes = {}) {
   return `#experiments?${next}`;
 }
 function modelColumns(cells, includeArm = false) {
-  const keyOf = c => includeArm ? JSON.stringify([groupKey(c),c.prompt_arm]) : groupKey(c);
+  const keyOf = c => includeArm ? JSON.stringify([modelKey(c),c.prompt_arm]) : modelKey(c);
   const groups = new Map();
   for (const cell of cells) if (!groups.has(keyOf(cell))) groups.set(keyOf(cell),cell);
   return {columns:[...groups.entries()].sort((a,b)=>a[1].model.localeCompare(b[1].model)||a[1].agent.localeCompare(b[1].agent)||a[0].localeCompare(b[0])), keyOf};
 }
 function columnHeader(cell, includeArm = false) {
-  return `<th scope="col"><span>${esc(cell.model)}</span><small>${esc(cell.agent)} ${esc(cell.agent_version)} · ${esc(cell.thinking)}</small>${includeArm?`<small>${esc(cell.prompt_arm)}</small>`:''}<small>config ${esc(cell.agent_config.slice(0,6))} · protocol ${esc(cell.protocol.slice(0,6))}</small></th>`;
+  return `<th scope="col"><span>${esc(cell.model)} · ${esc(cell.thinking)}</span><small>${esc(cell.agent)} ${esc(cell.agent_version)}</small>${includeArm?`<small>${esc(cell.prompt_arm)}</small>`:''}</th>`;
 }
 function resultClass(result) {
   if (result.passed == null || result.total == null) return 'pending';
@@ -122,7 +122,7 @@ export async function renderExperiments() {
       <div class="matrix-provenance"><span>Analysis <code>${esc(entry.id.slice(0,12))}</code></span><span>Source <code>${esc((catalog.source?.commit||'local').slice(0,12))}</code></span><span>Pricebook <code>${esc((release.pricebook||'unknown').slice(0,12))}</code></span><span>${esc(release.created_at.slice(0,10))}</span></div>
       <form id="matrix-filters" class="matrix-filters">
         <label>Analysis<select name="analysis">${catalog.releases.map(r=>`<option value="${esc(r.id)}" ${r.id===entry.id?'selected':''}>${esc(r.name)} · ${esc(r.id.slice(0,8))}</option>`).join('')}</select></label>
-        <label>Protocol<select name="protocol">${options(protocolIds,filters.protocol,'All (separate columns)')}</select></label>
+        <label>Protocol<select name="protocol">${options(protocolIds,filters.protocol,'All protocols')}</select></label>
         <label>Model<select name="model">${options(hydrated.map(c=>c.model),filters.model,'All models')}</select></label>
         <label>Agent<select name="agent">${options(hydrated.map(c=>c.agent),filters.agent,'All agents')}</select></label>
         <label>Prompt arm<select name="prompt_arm">${options(arms,filters.prompt_arm,'All (separate rows)')}</select></label>

@@ -1,5 +1,8 @@
 export const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export const groupKey = cell => JSON.stringify([cell.model, cell.agent, cell.agent_version, cell.agent_config, cell.thinking, cell.protocol]);
+// Environment-bound configuration hashes identify trials, not model columns.
+// Keep them in resultKey for exact latest-trial selection and evidence.
+export const modelKey = cell => JSON.stringify([cell.model, cell.agent, cell.agent_version, cell.thinking]);
 export const resultKey = cell => JSON.stringify([cell.problem, cell.mode, cell.prompt_arm, groupKey(cell), cell.mode === 'sr' ? plannedTargets(cell) : null]);
 
 function timestamp(value) {
