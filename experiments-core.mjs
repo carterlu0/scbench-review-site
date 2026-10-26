@@ -3,6 +3,15 @@ export const groupKey = cell => JSON.stringify([cell.model, cell.agent, cell.age
 // Environment-bound configuration hashes identify trials, not model columns.
 // Keep them in resultKey for exact latest-trial selection and evidence.
 export const modelKey = cell => JSON.stringify([cell.model, cell.agent, cell.agent_version, cell.thinking]);
+export function compareModelSettings(a, b) {
+  for (const field of ['model', 'agent', 'agent_version']) {
+    const order = String(a[field] ?? '').localeCompare(String(b[field] ?? ''));
+    if (order) return order;
+  }
+  const efforts = ['none', 'minimal', 'low', 'medium', 'high', 'xhigh'];
+  const left = efforts.indexOf(a.thinking), right = efforts.indexOf(b.thinking);
+  return left >= 0 && right >= 0 ? left - right : String(a.thinking ?? '').localeCompare(String(b.thinking ?? ''));
+}
 export const resultKey = cell => JSON.stringify([cell.problem, cell.mode, cell.prompt_arm, groupKey(cell), cell.mode === 'sr' ? plannedTargets(cell) : null]);
 
 function timestamp(value) {
@@ -50,7 +59,7 @@ export function summarize(cells) {
     incompatible: cells.some(c=>c.checkpoints.some(cp=>!['identical','compatible'].includes(cp.compatibility?.score)))};
 }
 export function csv(cells) {
-  const headers = ['problem','model','agent','agent_version','mode','prompt_arm','repeat','status','outcome','score','progression_policy','final_checkpoint','final_passed_tests','final_total_tests','final_result_reason','official_cost_all_attempts','cost_coverage','agent_invocations','agent_retries'];
+  const headers = ['problem','model','agent','agent_version','thinking','mode','prompt_arm','repeat','status','outcome','score','progression_policy','final_checkpoint','final_passed_tests','final_total_tests','final_result_reason','official_cost_all_attempts','cost_coverage','agent_invocations','agent_retries'];
   const quote = value => {let text=String(value ?? ''); if (/^[=+@\-]/.test(text)) text="'"+text;return '"'+text.replaceAll('"','""')+'"';};
   return [headers,...cells.map(c=>{const result=finalResult(c,cells);const row={...c,final_checkpoint:result.target,final_passed_tests:result.passed,final_total_tests:result.total,final_result_reason:result.reason};return headers.map(h=>row[h]);})].map(row=>row.map(quote).join(',')).join('\r\n');
 }

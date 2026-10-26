@@ -1,4 +1,4 @@
-import {escapeHtml as esc, modelKey, resultKey, latestCells, selectCells, summarize, csv, hydrateCells, testCounts, checkpointRows, plannedTargets, finalResult, fraction} from './experiments-core.mjs?v=20261026-model-columns';
+import {escapeHtml as esc, modelKey, compareModelSettings, resultKey, latestCells, selectCells, summarize, csv, hydrateCells, testCounts, checkpointRows, plannedTargets, finalResult, fraction} from './experiments-core.mjs?v=20261026-all-efforts';
 let catalogPromise;
 let metadataPromise;
 let renderedProblem;
@@ -33,7 +33,7 @@ function modelColumns(cells, includeArm = false) {
   const keyOf = c => includeArm ? JSON.stringify([modelKey(c),c.prompt_arm]) : modelKey(c);
   const groups = new Map();
   for (const cell of cells) if (!groups.has(keyOf(cell))) groups.set(keyOf(cell),cell);
-  return {columns:[...groups.entries()].sort((a,b)=>a[1].model.localeCompare(b[1].model)||a[1].agent.localeCompare(b[1].agent)||a[0].localeCompare(b[0])), keyOf};
+  return {columns:[...groups.entries()].sort((a,b)=>compareModelSettings(a[1],b[1])||a[0].localeCompare(b[0])), keyOf};
 }
 function columnHeader(cell, includeArm = false) {
   return `<th scope="col"><span>${esc(cell.model)} · ${esc(cell.thinking)}</span><small>${esc(cell.agent)} ${esc(cell.agent_version)}</small>${includeArm?`<small>${esc(cell.prompt_arm)}</small>`:''}</th>`;
@@ -129,7 +129,7 @@ export async function renderExperiments() {
         <label>Scope<select name="scope"><option value="formal" ${filters.scope==='formal'?'selected':''}>Formal</option><option value="diagnostic" ${filters.scope==='diagnostic'?'selected':''}>Historical / diagnostic</option></select></label>
         ${problem?'':`<label class="matrix-search">Find problem<input name="q" value="${esc(filters.q)}" placeholder="Search by name" /></label>`}<button type="submit">Apply</button>
       </form>
-      <div class="matrix-kpis"><div><span>${problem?'Recorded trials':'Pipeline trials'}</span><strong>${total.planned}</strong></div><div><span>Comparable trials</span><strong>${total.valid}<small> / ${total.planned}</small></strong></div><div><span>Known checkpoint outcomes</span><strong>${cells.reduce((s,c)=>s+c.checkpoints.filter(cp=>['passed','failed'].includes(cp.state)).length,0)}</strong></div><div><span>Official price estimate</span><strong>${dollars(total.cost)}</strong><small>All attempts · ${total.cost==null?'incomplete coverage':'USD'}</small></div></div>
+      <div class="matrix-kpis"><div><span>${problem?'Recorded trials':'Pipeline trials'}</span><strong>${total.planned}</strong>${problem?'':`<small>${new Set(cells.map(c=>c.problem)).size} problems · ${filtered.length} total trials</small>`}</div><div><span>Comparable trials</span><strong>${total.valid}<small> / ${total.planned}</small></strong></div><div><span>Known checkpoint outcomes</span><strong>${cells.reduce((s,c)=>s+c.checkpoints.filter(cp=>['passed','failed'].includes(cp.state)).length,0)}</strong></div><div><span>Official price estimate</span><strong>${dollars(total.cost)}</strong><small>All attempts · ${total.cost==null?'incomplete coverage':'USD'}</small></div></div>
       ${problem?problemMatrix(cells,problem,params):mainMatrix(filtered,hydrated,params)}
       ${problem?'<section id="matrix-detail" class="matrix-detail" aria-live="polite"><p class="matrix-muted">Select a result to inspect its test cases and evidence.</p></section>':supplementary(release)}
     </section>`;
