@@ -70,6 +70,8 @@ test('explicit applicability is generation bound and backed by frozen source has
 });
 
 test('audited SR target versions unlock complete CPR and preserve timing decisions',async()=>{
+  const audited=catalog.reports.find(r=>r.analysis_id===manifest.sr_version_audit.source_analysis_id);
+  const report=await load(audited.path);
   const high=report.groups.find(g=>g.config.thinking==='high');
   assert.equal(high.primary.sr_cpr.value,38/74);
   assert.equal(high.primary.sr_cpr.reason,null);
