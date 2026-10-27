@@ -39,6 +39,9 @@ test failures or consumption. Missing, pending and invalid results retain the
 manifest denominator and prevent a complete score. Formal scores additionally
 require each included result's existing compatible/identical status; raw complete
 diagnostics are separate fields. Unknown compatibility is never upgraded here.
+An explicitly recorded `valid_execution_failure: true` makes a terminal valid-run
+agent/budget exception a zero; without a Structure pass it stops the Pipeline.
+Confirmed infrastructure invalidity takes precedence over that flag.
 
 ## Frozen identities and test applicability
 

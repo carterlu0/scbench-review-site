@@ -432,10 +432,11 @@ def normalize_checkpoint(
         return {**row, "execution_status": "invalid", "reason": reason}
     state = cp.get("execution_status", cp.get("state"))
     if (
-        state == "invalid"
+        state in {"invalid", "evaluation_error"}
         or cell.get("status") in {"infra_failed", "quarantined"}
-        or state in {"evaluation_error", "inference_error"}
-    ) and cp.get("valid_execution_failure") is not True:
+        or state == "inference_error"
+        and cp.get("valid_execution_failure") is not True
+    ):
         # Only an explicit valid-run exception is a scored execution failure.
         return {
             **row,
@@ -852,6 +853,17 @@ def calculate(
                     and structure["expected"]
                     and not structure["all_passed"]
                 ):
+                    stop = True
+                elif (
+                    pcell
+                    and pcell.get("status") == "completed"
+                    and pcp
+                    and pcp.get("valid_execution_failure") is True
+                    and prow["execution_status"] == "executed"
+                    and not (structure and structure["all_passed"])
+                ):
+                    # A valid, terminal budget/agent failure cannot provide the
+                    # required Structure pass; later rounds were not invoked.
                     stop = True
                 elif pcell and prow["execution_status"] in {
                     "pending",
