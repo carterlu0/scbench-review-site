@@ -1,5 +1,14 @@
 # Experiment matrix
 
+The default view now shows the paper's **FDR, CC and CPR** from a frozen task
+manifest. Auxiliary metrics and cost/time/efficiency are optional controls, with
+actual-cache and uniform-85%-cache scenarios. Details, reproducible local commands,
+eligibility and missing-data rules are in [PAPER_METRICS.md](PAPER_METRICS.md).
+The same standard-library Python scorer builds local and Pages reports; the
+scheduled source sync rebuilds derived reports after verifying source hashes.
+The following describes the expandable **detailed evidence matrix** retained
+below the primary score table.
+
 Open `#experiments`. The main matrix contains pipeline results only. Every problem
 name links to its own matrix, including problems with only SR observations.
 Columns identify model, agent, version, effective configuration, thinking settings

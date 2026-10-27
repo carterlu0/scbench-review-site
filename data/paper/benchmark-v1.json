@@ -1,0 +1,1080 @@
+{
+  "schema_version": 1,
+  "benchmark_version": "evortl-paper-74cp-20261022-v1",
+  "sources": [
+    {
+      "path": "benchmark_composition_74cp_20261022/data/chains.json",
+      "sha256": "4ec953ffd19ad092327b9de5af80ab784054f6d88acad46bc3e8daba9c17989e"
+    },
+    {
+      "path": "benchmark_composition_74cp_20261022/data/checkpoints.json",
+      "sha256": "b845922c7048da565992d78663a13f90258e3289ae2536e18dfcc398b2589569"
+    }
+  ],
+  "notes": [
+    "Original PCIe checkpoint_1 excluded; checkpoint_2..checkpoint_9 retain their original IDs.",
+    "Task types and activities are descriptive existing annotations, not qualification changes.",
+    "Required test groups/IDs come from frozen evaluator collection evidence; unavailable groups never imply N/A.",
+    "No test collection, reference validation, model invocation or task modification is performed."
+  ],
+  "chains": [
+    {
+      "id": "clic_t1",
+      "aliases": [
+        "clic-t1",
+        "clic_t1_pipeline"
+      ],
+      "project": "pulp-platform/clic",
+      "task_type": "RTL design evolution",
+      "checkpoints": [
+        {
+          "id": "checkpoint_1",
+          "primary_activity": "Build",
+          "secondary_activity": "Repair",
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "retained_changed_prompt"
+        },
+        {
+          "id": "checkpoint_2",
+          "primary_activity": "Build",
+          "secondary_activity": "Evolve",
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "retained_changed_prompt"
+        },
+        {
+          "id": "checkpoint_3",
+          "primary_activity": "Build",
+          "secondary_activity": "Evolve",
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "existing_label_current_prompt"
+        },
+        {
+          "id": "checkpoint_4",
+          "primary_activity": "Evolve",
+          "secondary_activity": "Repair",
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "existing_label_current_prompt"
+        },
+        {
+          "id": "checkpoint_5",
+          "primary_activity": "Repair",
+          "secondary_activity": null,
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "existing_label_current_prompt"
+        }
+      ]
+    },
+    {
+      "id": "clic_t2",
+      "aliases": [
+        "clic_t2_pipeline"
+      ],
+      "project": "pulp-platform/clic",
+      "task_type": "test-suite evolution",
+      "checkpoints": [
+        {
+          "id": "checkpoint_1",
+          "primary_activity": "Verify",
+          "secondary_activity": null,
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "existing_label_current_prompt"
+        },
+        {
+          "id": "checkpoint_2",
+          "primary_activity": "Verify",
+          "secondary_activity": null,
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "existing_label_current_prompt"
+        },
+        {
+          "id": "checkpoint_3",
+          "primary_activity": "Verify",
+          "secondary_activity": null,
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "existing_label_current_prompt"
+        }
+      ]
+    },
+    {
+      "id": "clint_t1",
+      "aliases": [
+        "clint-t1",
+        "clint_t1_pipeline"
+      ],
+      "project": "pulp-platform/clint",
+      "task_type": "RTL design evolution",
+      "checkpoints": [
+        {
+          "id": "checkpoint_1",
+          "primary_activity": "Build",
+          "secondary_activity": null,
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "existing_label_current_prompt",
+          "non_applicable_tests": []
+        },
+        {
+          "id": "checkpoint_2",
+          "primary_activity": "Evolve",
+          "secondary_activity": null,
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "existing_label_current_prompt",
+          "non_applicable_tests": [
+            {
+              "nodeid": "test_checkpoint_1_artifact_hygiene",
+              "mode": "pipeline",
+              "generations": [
+                "bac80c20984edb200b0eb7debd53c85f8c5c1ab36df5a318b12ea4644dfc4028"
+              ],
+              "evidence_ids": [
+                "eef99f2f236bc189ec042b7905ba97006b752a4d659bd5a25db62cb9a166f521"
+              ],
+              "reason": "Earlier direct-check tests explicitly defer to the target checkpoint's regression coverage via the frozen direct_checkpoint_name guard."
+            },
+            {
+              "nodeid": "test_checkpoint_1_regbus_behavior",
+              "mode": "pipeline",
+              "generations": [
+                "bac80c20984edb200b0eb7debd53c85f8c5c1ab36df5a318b12ea4644dfc4028"
+              ],
+              "evidence_ids": [
+                "eef99f2f236bc189ec042b7905ba97006b752a4d659bd5a25db62cb9a166f521"
+              ],
+              "reason": "Earlier direct-check tests explicitly defer to the target checkpoint's regression coverage via the frozen direct_checkpoint_name guard."
+            },
+            {
+              "nodeid": "test_checkpoint_1_structure",
+              "mode": "pipeline",
+              "generations": [
+                "bac80c20984edb200b0eb7debd53c85f8c5c1ab36df5a318b12ea4644dfc4028"
+              ],
+              "evidence_ids": [
+                "eef99f2f236bc189ec042b7905ba97006b752a4d659bd5a25db62cb9a166f521"
+              ],
+              "reason": "Earlier direct-check tests explicitly defer to the target checkpoint's regression coverage via the frozen direct_checkpoint_name guard."
+            }
+          ]
+        },
+        {
+          "id": "checkpoint_3",
+          "primary_activity": "Evolve",
+          "secondary_activity": null,
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "existing_label_current_prompt",
+          "non_applicable_tests": [
+            {
+              "nodeid": "test_checkpoint_1_artifact_hygiene",
+              "mode": "pipeline",
+              "generations": [
+                "bac80c20984edb200b0eb7debd53c85f8c5c1ab36df5a318b12ea4644dfc4028"
+              ],
+              "evidence_ids": [
+                "eef99f2f236bc189ec042b7905ba97006b752a4d659bd5a25db62cb9a166f521"
+              ],
+              "reason": "Earlier direct-check tests explicitly defer to the target checkpoint's regression coverage via the frozen direct_checkpoint_name guard."
+            },
+            {
+              "nodeid": "test_checkpoint_1_regbus_behavior",
+              "mode": "pipeline",
+              "generations": [
+                "bac80c20984edb200b0eb7debd53c85f8c5c1ab36df5a318b12ea4644dfc4028"
+              ],
+              "evidence_ids": [
+                "eef99f2f236bc189ec042b7905ba97006b752a4d659bd5a25db62cb9a166f521"
+              ],
+              "reason": "Earlier direct-check tests explicitly defer to the target checkpoint's regression coverage via the frozen direct_checkpoint_name guard."
+            },
+            {
+              "nodeid": "test_checkpoint_1_structure",
+              "mode": "pipeline",
+              "generations": [
+                "bac80c20984edb200b0eb7debd53c85f8c5c1ab36df5a318b12ea4644dfc4028"
+              ],
+              "evidence_ids": [
+                "eef99f2f236bc189ec042b7905ba97006b752a4d659bd5a25db62cb9a166f521"
+              ],
+              "reason": "Earlier direct-check tests explicitly defer to the target checkpoint's regression coverage via the frozen direct_checkpoint_name guard."
+            },
+            {
+              "nodeid": "test_checkpoint_2_c1_behavior_regression",
+              "mode": "pipeline",
+              "generations": [
+                "bac80c20984edb200b0eb7debd53c85f8c5c1ab36df5a318b12ea4644dfc4028"
+              ],
+              "evidence_ids": [
+                "eef99f2f236bc189ec042b7905ba97006b752a4d659bd5a25db62cb9a166f521"
+              ],
+              "reason": "Earlier direct-check tests explicitly defer to the target checkpoint's regression coverage via the frozen direct_checkpoint_name guard."
+            },
+            {
+              "nodeid": "test_checkpoint_2_msip_behavior",
+              "mode": "pipeline",
+              "generations": [
+                "bac80c20984edb200b0eb7debd53c85f8c5c1ab36df5a318b12ea4644dfc4028"
+              ],
+              "evidence_ids": [
+                "eef99f2f236bc189ec042b7905ba97006b752a4d659bd5a25db62cb9a166f521"
+              ],
+              "reason": "Earlier direct-check tests explicitly defer to the target checkpoint's regression coverage via the frozen direct_checkpoint_name guard."
+            },
+            {
+              "nodeid": "test_checkpoint_2_structure",
+              "mode": "pipeline",
+              "generations": [
+                "bac80c20984edb200b0eb7debd53c85f8c5c1ab36df5a318b12ea4644dfc4028"
+              ],
+              "evidence_ids": [
+                "eef99f2f236bc189ec042b7905ba97006b752a4d659bd5a25db62cb9a166f521"
+              ],
+              "reason": "Earlier direct-check tests explicitly defer to the target checkpoint's regression coverage via the frozen direct_checkpoint_name guard."
+            }
+          ]
+        },
+        {
+          "id": "checkpoint_4",
+          "primary_activity": "Evolve",
+          "secondary_activity": "Build",
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "existing_label_current_prompt",
+          "non_applicable_tests": [
+            {
+              "nodeid": "test_checkpoint_1_artifact_hygiene",
+              "mode": "pipeline",
+              "generations": [
+                "bac80c20984edb200b0eb7debd53c85f8c5c1ab36df5a318b12ea4644dfc4028"
+              ],
+              "evidence_ids": [
+                "eef99f2f236bc189ec042b7905ba97006b752a4d659bd5a25db62cb9a166f521"
+              ],
+              "reason": "Earlier direct-check tests explicitly defer to the target checkpoint's regression coverage via the frozen direct_checkpoint_name guard."
+            },
+            {
+              "nodeid": "test_checkpoint_1_regbus_behavior",
+              "mode": "pipeline",
+              "generations": [
+                "bac80c20984edb200b0eb7debd53c85f8c5c1ab36df5a318b12ea4644dfc4028"
+              ],
+              "evidence_ids": [
+                "eef99f2f236bc189ec042b7905ba97006b752a4d659bd5a25db62cb9a166f521"
+              ],
+              "reason": "Earlier direct-check tests explicitly defer to the target checkpoint's regression coverage via the frozen direct_checkpoint_name guard."
+            },
+            {
+              "nodeid": "test_checkpoint_1_structure",
+              "mode": "pipeline",
+              "generations": [
+                "bac80c20984edb200b0eb7debd53c85f8c5c1ab36df5a318b12ea4644dfc4028"
+              ],
+              "evidence_ids": [
+                "eef99f2f236bc189ec042b7905ba97006b752a4d659bd5a25db62cb9a166f521"
+              ],
+              "reason": "Earlier direct-check tests explicitly defer to the target checkpoint's regression coverage via the frozen direct_checkpoint_name guard."
+            },
+            {
+              "nodeid": "test_checkpoint_2_c1_behavior_regression",
+              "mode": "pipeline",
+              "generations": [
+                "bac80c20984edb200b0eb7debd53c85f8c5c1ab36df5a318b12ea4644dfc4028"
+              ],
+              "evidence_ids": [
+                "eef99f2f236bc189ec042b7905ba97006b752a4d659bd5a25db62cb9a166f521"
+              ],
+              "reason": "Earlier direct-check tests explicitly defer to the target checkpoint's regression coverage via the frozen direct_checkpoint_name guard."
+            },
+            {
+              "nodeid": "test_checkpoint_2_msip_behavior",
+              "mode": "pipeline",
+              "generations": [
+                "bac80c20984edb200b0eb7debd53c85f8c5c1ab36df5a318b12ea4644dfc4028"
+              ],
+              "evidence_ids": [
+                "eef99f2f236bc189ec042b7905ba97006b752a4d659bd5a25db62cb9a166f521"
+              ],
+              "reason": "Earlier direct-check tests explicitly defer to the target checkpoint's regression coverage via the frozen direct_checkpoint_name guard."
+            },
+            {
+              "nodeid": "test_checkpoint_2_structure",
+              "mode": "pipeline",
+              "generations": [
+                "bac80c20984edb200b0eb7debd53c85f8c5c1ab36df5a318b12ea4644dfc4028"
+              ],
+              "evidence_ids": [
+                "eef99f2f236bc189ec042b7905ba97006b752a4d659bd5a25db62cb9a166f521"
+              ],
+              "reason": "Earlier direct-check tests explicitly defer to the target checkpoint's regression coverage via the frozen direct_checkpoint_name guard."
+            },
+            {
+              "nodeid": "test_checkpoint_3_apb_behavior",
+              "mode": "pipeline",
+              "generations": [
+                "bac80c20984edb200b0eb7debd53c85f8c5c1ab36df5a318b12ea4644dfc4028"
+              ],
+              "evidence_ids": [
+                "eef99f2f236bc189ec042b7905ba97006b752a4d659bd5a25db62cb9a166f521"
+              ],
+              "reason": "Earlier direct-check tests explicitly defer to the target checkpoint's regression coverage via the frozen direct_checkpoint_name guard."
+            },
+            {
+              "nodeid": "test_checkpoint_3_c2_behavior_regression",
+              "mode": "pipeline",
+              "generations": [
+                "bac80c20984edb200b0eb7debd53c85f8c5c1ab36df5a318b12ea4644dfc4028"
+              ],
+              "evidence_ids": [
+                "eef99f2f236bc189ec042b7905ba97006b752a4d659bd5a25db62cb9a166f521"
+              ],
+              "reason": "Earlier direct-check tests explicitly defer to the target checkpoint's regression coverage via the frozen direct_checkpoint_name guard."
+            },
+            {
+              "nodeid": "test_checkpoint_3_structure",
+              "mode": "pipeline",
+              "generations": [
+                "bac80c20984edb200b0eb7debd53c85f8c5c1ab36df5a318b12ea4644dfc4028"
+              ],
+              "evidence_ids": [
+                "eef99f2f236bc189ec042b7905ba97006b752a4d659bd5a25db62cb9a166f521"
+              ],
+              "reason": "Earlier direct-check tests explicitly defer to the target checkpoint's regression coverage via the frozen direct_checkpoint_name guard."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "common_cells_t1",
+      "aliases": [
+        "common-cells-t1",
+        "common_cells_t1_pipeline"
+      ],
+      "project": "pulp-platform/common_cells",
+      "task_type": "RTL design evolution",
+      "checkpoints": [
+        {
+          "id": "checkpoint_1",
+          "primary_activity": "Build",
+          "secondary_activity": "Repair",
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "existing_label_current_prompt"
+        },
+        {
+          "id": "checkpoint_2",
+          "primary_activity": "Build",
+          "secondary_activity": "Repair",
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "existing_label_current_prompt"
+        },
+        {
+          "id": "checkpoint_3",
+          "primary_activity": "Repair",
+          "secondary_activity": "Build",
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "existing_label_current_prompt"
+        }
+      ]
+    },
+    {
+      "id": "ef_uart_t1",
+      "aliases": [
+        "ef_uart_t1_pipeline",
+        "verilog-ef-uart-t1"
+      ],
+      "project": "efabless/EF_UART",
+      "task_type": "RTL design evolution",
+      "checkpoints": [
+        {
+          "id": "checkpoint_1",
+          "primary_activity": "Build",
+          "secondary_activity": "Evolve",
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "retained_changed_prompt"
+        },
+        {
+          "id": "checkpoint_2",
+          "primary_activity": "Evolve",
+          "secondary_activity": "Build",
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "retained_changed_prompt"
+        },
+        {
+          "id": "checkpoint_3",
+          "primary_activity": "Build",
+          "secondary_activity": null,
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "retained_changed_prompt"
+        },
+        {
+          "id": "checkpoint_4",
+          "primary_activity": "Evolve",
+          "secondary_activity": "Build",
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "retained_changed_prompt"
+        },
+        {
+          "id": "checkpoint_5",
+          "primary_activity": "Evolve",
+          "secondary_activity": "Build",
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "retained_changed_prompt"
+        },
+        {
+          "id": "checkpoint_6",
+          "primary_activity": "Build",
+          "secondary_activity": "Evolve",
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "retained_changed_prompt"
+        }
+      ]
+    },
+    {
+      "id": "mipi_dphy_t2",
+      "aliases": [
+        "mipi-dphy-t2",
+        "mipi_dphy_t2_pipeline"
+      ],
+      "project": "zoatel/MIPI-D-PHY",
+      "task_type": "test-suite evolution",
+      "checkpoints": [
+        {
+          "id": "checkpoint_1",
+          "primary_activity": "Verify",
+          "secondary_activity": null,
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "existing_label_current_prompt"
+        },
+        {
+          "id": "checkpoint_2",
+          "primary_activity": "Verify",
+          "secondary_activity": null,
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "existing_label_current_prompt"
+        },
+        {
+          "id": "checkpoint_3",
+          "primary_activity": "Verify",
+          "secondary_activity": null,
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "existing_label_current_prompt"
+        },
+        {
+          "id": "checkpoint_4",
+          "primary_activity": "Verify",
+          "secondary_activity": null,
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "existing_label_current_prompt"
+        },
+        {
+          "id": "checkpoint_5",
+          "primary_activity": "Verify",
+          "secondary_activity": null,
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "existing_label_current_prompt"
+        },
+        {
+          "id": "checkpoint_6",
+          "primary_activity": "Verify",
+          "secondary_activity": null,
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "existing_label_current_prompt"
+        }
+      ]
+    },
+    {
+      "id": "register_interface_t1",
+      "aliases": [
+        "register-interface-t1",
+        "register_interface_t1_pipeline"
+      ],
+      "project": "pulp-platform/register_interface",
+      "task_type": "RTL design evolution",
+      "checkpoints": [
+        {
+          "id": "checkpoint_1",
+          "primary_activity": "Build",
+          "secondary_activity": null,
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "retained_changed_prompt"
+        },
+        {
+          "id": "checkpoint_2",
+          "primary_activity": "Build",
+          "secondary_activity": null,
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "retained_changed_prompt"
+        },
+        {
+          "id": "checkpoint_3",
+          "primary_activity": "Build",
+          "secondary_activity": null,
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "retained_changed_prompt"
+        },
+        {
+          "id": "checkpoint_4",
+          "primary_activity": "Build",
+          "secondary_activity": null,
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "retained_premerge_rationale"
+        },
+        {
+          "id": "checkpoint_5",
+          "primary_activity": "Evolve",
+          "secondary_activity": null,
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "retained_premerge_rationale"
+        },
+        {
+          "id": "checkpoint_6",
+          "primary_activity": "Build",
+          "secondary_activity": null,
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "retained_premerge_rationale"
+        },
+        {
+          "id": "checkpoint_7",
+          "primary_activity": "Evolve",
+          "secondary_activity": null,
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "retained_premerge_rationale"
+        },
+        {
+          "id": "checkpoint_8",
+          "primary_activity": "Build",
+          "secondary_activity": null,
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "retained_premerge_rationale"
+        }
+      ]
+    },
+    {
+      "id": "serv_t1",
+      "aliases": [
+        "serv-t1",
+        "serv_t1_pipeline"
+      ],
+      "project": "olofk/serv",
+      "task_type": "RTL design evolution",
+      "checkpoints": [
+        {
+          "id": "checkpoint_1",
+          "primary_activity": "Build",
+          "secondary_activity": "Evolve",
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "existing_label_current_prompt",
+          "non_applicable_tests": []
+        },
+        {
+          "id": "checkpoint_2",
+          "primary_activity": "Build",
+          "secondary_activity": null,
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "existing_label_current_prompt",
+          "non_applicable_tests": []
+        },
+        {
+          "id": "checkpoint_3",
+          "primary_activity": "Build",
+          "secondary_activity": null,
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "existing_label_current_prompt",
+          "non_applicable_tests": []
+        },
+        {
+          "id": "checkpoint_4",
+          "primary_activity": "Build",
+          "secondary_activity": null,
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "existing_label_current_prompt",
+          "non_applicable_tests": []
+        },
+        {
+          "id": "checkpoint_5",
+          "primary_activity": "Build",
+          "secondary_activity": null,
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "existing_label_current_prompt",
+          "non_applicable_tests": []
+        },
+        {
+          "id": "checkpoint_6",
+          "primary_activity": "Build",
+          "secondary_activity": "Evolve",
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "existing_label_current_prompt",
+          "non_applicable_tests": [
+            {
+              "nodeid": "test_checkpoint_1_preserves_public_legacy_bus_abi",
+              "mode": "pipeline",
+              "generations": [
+                "c3df30b5b4d63576bb0196a66277c7f17a8182bea801d0d263ac212255ebda1c"
+              ],
+              "evidence_ids": [
+                "32652982b05c5d68a77c5900302745f658101472fcff681246d99f9511803d7f",
+                "394fb4cc8c7246851929d37015f2aae5f9a9db3d42858ff96a3a291c096c8907",
+                "8130baa6c72afa5b0ea41229e2ef3a290451e91121f06a6b70d8d29c8caa56ef",
+                "dbb4762fdbeb8e5c40bee2452c29541bdc4801435243a5d161034701c82397cb"
+              ],
+              "reason": "Checkpoint 6 replaces the legacy instruction/data buses with Wishbone; the frozen test explicitly retires this ABI check."
+            }
+          ]
+        },
+        {
+          "id": "checkpoint_7",
+          "primary_activity": "Repair",
+          "secondary_activity": "Build",
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "existing_label_current_prompt",
+          "non_applicable_tests": [
+            {
+              "nodeid": "test_checkpoint_1_preserves_public_legacy_bus_abi",
+              "mode": "pipeline",
+              "generations": [
+                "c3df30b5b4d63576bb0196a66277c7f17a8182bea801d0d263ac212255ebda1c"
+              ],
+              "evidence_ids": [
+                "32652982b05c5d68a77c5900302745f658101472fcff681246d99f9511803d7f",
+                "394fb4cc8c7246851929d37015f2aae5f9a9db3d42858ff96a3a291c096c8907",
+                "8130baa6c72afa5b0ea41229e2ef3a290451e91121f06a6b70d8d29c8caa56ef",
+                "dbb4762fdbeb8e5c40bee2452c29541bdc4801435243a5d161034701c82397cb"
+              ],
+              "reason": "Checkpoint 6 replaces the legacy instruction/data buses with Wishbone; the frozen test explicitly retires this ABI check."
+            }
+          ]
+        },
+        {
+          "id": "checkpoint_8",
+          "primary_activity": "Evolve",
+          "secondary_activity": "Build",
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "existing_label_current_prompt",
+          "non_applicable_tests": [
+            {
+              "nodeid": "test_checkpoint_1_preserves_public_legacy_bus_abi",
+              "mode": "pipeline",
+              "generations": [
+                "c3df30b5b4d63576bb0196a66277c7f17a8182bea801d0d263ac212255ebda1c"
+              ],
+              "evidence_ids": [
+                "32652982b05c5d68a77c5900302745f658101472fcff681246d99f9511803d7f",
+                "394fb4cc8c7246851929d37015f2aae5f9a9db3d42858ff96a3a291c096c8907",
+                "8130baa6c72afa5b0ea41229e2ef3a290451e91121f06a6b70d8d29c8caa56ef",
+                "dbb4762fdbeb8e5c40bee2452c29541bdc4801435243a5d161034701c82397cb"
+              ],
+              "reason": "Checkpoint 6 replaces the legacy instruction/data buses with Wishbone; the frozen test explicitly retires this ABI check."
+            }
+          ]
+        },
+        {
+          "id": "checkpoint_9",
+          "primary_activity": "Evolve",
+          "secondary_activity": "Build",
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "existing_label_current_prompt",
+          "non_applicable_tests": [
+            {
+              "nodeid": "test_checkpoint_1_preserves_public_legacy_bus_abi",
+              "mode": "pipeline",
+              "generations": [
+                "c3df30b5b4d63576bb0196a66277c7f17a8182bea801d0d263ac212255ebda1c"
+              ],
+              "evidence_ids": [
+                "32652982b05c5d68a77c5900302745f658101472fcff681246d99f9511803d7f",
+                "394fb4cc8c7246851929d37015f2aae5f9a9db3d42858ff96a3a291c096c8907",
+                "8130baa6c72afa5b0ea41229e2ef3a290451e91121f06a6b70d8d29c8caa56ef",
+                "dbb4762fdbeb8e5c40bee2452c29541bdc4801435243a5d161034701c82397cb"
+              ],
+              "reason": "Checkpoint 6 replaces the legacy instruction/data buses with Wishbone; the frozen test explicitly retires this ABI check."
+            }
+          ]
+        },
+        {
+          "id": "checkpoint_10",
+          "primary_activity": "Build",
+          "secondary_activity": "Evolve",
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "existing_label_current_prompt",
+          "non_applicable_tests": [
+            {
+              "nodeid": "test_checkpoint_1_preserves_public_legacy_bus_abi",
+              "mode": "pipeline",
+              "generations": [
+                "c3df30b5b4d63576bb0196a66277c7f17a8182bea801d0d263ac212255ebda1c"
+              ],
+              "evidence_ids": [
+                "32652982b05c5d68a77c5900302745f658101472fcff681246d99f9511803d7f",
+                "394fb4cc8c7246851929d37015f2aae5f9a9db3d42858ff96a3a291c096c8907",
+                "8130baa6c72afa5b0ea41229e2ef3a290451e91121f06a6b70d8d29c8caa56ef",
+                "dbb4762fdbeb8e5c40bee2452c29541bdc4801435243a5d161034701c82397cb"
+              ],
+              "reason": "Checkpoint 6 replaces the legacy instruction/data buses with Wishbone; the frozen test explicitly retires this ABI check."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "taxi_axi_t3",
+      "aliases": [
+        "taxi-axi-t3",
+        "taxi_axi_t3_pipeline"
+      ],
+      "project": "fpganinja/taxi",
+      "task_type": "RTL design evolution",
+      "checkpoints": [
+        {
+          "id": "checkpoint_1",
+          "primary_activity": "Build",
+          "secondary_activity": null,
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "existing_label_current_prompt"
+        },
+        {
+          "id": "checkpoint_2",
+          "primary_activity": "Build",
+          "secondary_activity": null,
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "existing_label_current_prompt"
+        },
+        {
+          "id": "checkpoint_3",
+          "primary_activity": "Build",
+          "secondary_activity": null,
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "existing_label_current_prompt"
+        },
+        {
+          "id": "checkpoint_4",
+          "primary_activity": "Build",
+          "secondary_activity": null,
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "existing_label_current_prompt"
+        },
+        {
+          "id": "checkpoint_5",
+          "primary_activity": "Build",
+          "secondary_activity": null,
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "retained_changed_prompt"
+        }
+      ]
+    },
+    {
+      "id": "verilog_axis_fifo_t1",
+      "aliases": [
+        "verilog-axis-fifo-t1",
+        "verilog_axis_fifo_t1_pipeline"
+      ],
+      "project": "alexforencich/verilog-axis",
+      "task_type": "RTL design evolution",
+      "checkpoints": [
+        {
+          "id": "checkpoint_1",
+          "primary_activity": "Build",
+          "secondary_activity": null,
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "existing_label_current_prompt"
+        },
+        {
+          "id": "checkpoint_2",
+          "primary_activity": "Build",
+          "secondary_activity": null,
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "existing_label_current_prompt"
+        },
+        {
+          "id": "checkpoint_3",
+          "primary_activity": "Evolve",
+          "secondary_activity": "Build",
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "retained_changed_prompt"
+        },
+        {
+          "id": "checkpoint_4",
+          "primary_activity": "Build",
+          "secondary_activity": "Evolve",
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "retained_changed_prompt"
+        },
+        {
+          "id": "checkpoint_5",
+          "primary_activity": "Build",
+          "secondary_activity": "Evolve",
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "retained_changed_prompt"
+        }
+      ]
+    },
+    {
+      "id": "verilog_axis_fifo_t2",
+      "aliases": [
+        "verilog-axis-fifo-t2",
+        "verilog_axis_fifo_t2_legacy_test_modernization"
+      ],
+      "project": "alexforencich/verilog-axis",
+      "task_type": "test-suite evolution",
+      "checkpoints": [
+        {
+          "id": "checkpoint_1",
+          "primary_activity": "Verify",
+          "secondary_activity": null,
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "existing_label_current_prompt"
+        }
+      ]
+    },
+    {
+      "id": "verilog_ethernet_t1",
+      "aliases": [
+        "verilog-ethernet-t1",
+        "verilog_ethernet_t1_pipeline"
+      ],
+      "project": "alexforencich/verilog-ethernet",
+      "task_type": "RTL design evolution",
+      "checkpoints": [
+        {
+          "id": "checkpoint_1",
+          "primary_activity": "Build",
+          "secondary_activity": "Evolve",
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "existing_label_current_prompt"
+        },
+        {
+          "id": "checkpoint_2",
+          "primary_activity": "Evolve",
+          "secondary_activity": "Build",
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "existing_label_current_prompt"
+        },
+        {
+          "id": "checkpoint_3",
+          "primary_activity": "Repair",
+          "secondary_activity": null,
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "existing_label_current_prompt"
+        }
+      ]
+    },
+    {
+      "id": "verilog_ethernet_t2",
+      "aliases": [
+        "verilog-ethernet-t2",
+        "verilog_ethernet_t2_mac_ptp_test_modernization"
+      ],
+      "project": "alexforencich/verilog-ethernet",
+      "task_type": "test-suite evolution",
+      "checkpoints": [
+        {
+          "id": "checkpoint_1",
+          "primary_activity": "Verify",
+          "secondary_activity": null,
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "existing_label_current_prompt"
+        },
+        {
+          "id": "checkpoint_2",
+          "primary_activity": "Verify",
+          "secondary_activity": null,
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "existing_label_current_prompt"
+        },
+        {
+          "id": "checkpoint_3",
+          "primary_activity": "Verify",
+          "secondary_activity": null,
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "existing_label_current_prompt"
+        }
+      ]
+    },
+    {
+      "id": "verilog_pcie_t3",
+      "aliases": [
+        "verilog-pcie-t3",
+        "verilog_pcie_t3_pipeline"
+      ],
+      "project": "alexforencich/verilog-pcie",
+      "task_type": "RTL design evolution",
+      "checkpoints": [
+        {
+          "id": "checkpoint_2",
+          "primary_activity": "Build",
+          "secondary_activity": "Repair",
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "retained_changed_prompt"
+        },
+        {
+          "id": "checkpoint_3",
+          "primary_activity": "Evolve",
+          "secondary_activity": "Build",
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "retained_changed_prompt"
+        },
+        {
+          "id": "checkpoint_4",
+          "primary_activity": "Evolve",
+          "secondary_activity": "Build",
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "retained_changed_prompt"
+        },
+        {
+          "id": "checkpoint_5",
+          "primary_activity": "Build",
+          "secondary_activity": null,
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "retained_changed_prompt"
+        },
+        {
+          "id": "checkpoint_6",
+          "primary_activity": "Build",
+          "secondary_activity": null,
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "retained_changed_prompt"
+        },
+        {
+          "id": "checkpoint_7",
+          "primary_activity": "Build",
+          "secondary_activity": null,
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "retained_changed_prompt"
+        },
+        {
+          "id": "checkpoint_8",
+          "primary_activity": "Build",
+          "secondary_activity": null,
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "retained_changed_prompt"
+        },
+        {
+          "id": "checkpoint_9",
+          "primary_activity": "Evolve",
+          "secondary_activity": "Build",
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "retained_changed_prompt"
+        }
+      ]
+    },
+    {
+      "id": "wb2axip_t2",
+      "aliases": [
+        "wb2axip-t2",
+        "wb2axip_t2_pipeline"
+      ],
+      "project": "ZipCPU/wb2axip",
+      "task_type": "test-suite evolution",
+      "checkpoints": [
+        {
+          "id": "checkpoint_1",
+          "primary_activity": "Verify",
+          "secondary_activity": null,
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "existing_label_current_prompt"
+        },
+        {
+          "id": "checkpoint_2",
+          "primary_activity": "Verify",
+          "secondary_activity": null,
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "existing_label_current_prompt"
+        },
+        {
+          "id": "checkpoint_3",
+          "primary_activity": "Verify",
+          "secondary_activity": null,
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "existing_label_current_prompt"
+        },
+        {
+          "id": "checkpoint_4",
+          "primary_activity": "Verify",
+          "secondary_activity": null,
+          "annotation_source": "manifest/rtl_checkpoint_activity_annotations.json",
+          "annotation_status": "retained_changed_prompt"
+        }
+      ]
+    }
+  ],
+  "protocol_equivalence": {
+    "422d5fdde00a7368dbfd5f9d0336846d269ca16d797c2c4f0be1b8afee47171c": {
+      "config_id": "structure-cases-unlimited-first-valid-v1",
+      "execution_settings_sha256": "274d304d800898d3b29e91344ffa55b7f7fd4b4b631fd36b46a471f34baa316f",
+      "reason": "Reviewed full protocol JSONs differ only in batch name/version; every recorded execution setting is identical. Original protocol identities remain in configuration_bindings."
+    },
+    "e5ce2d0c500c383dace78528539dfcbf1241a79539773b4789de6ff393c6f1e1": {
+      "config_id": "structure-cases-unlimited-first-valid-v1",
+      "execution_settings_sha256": "274d304d800898d3b29e91344ffa55b7f7fd4b4b631fd36b46a471f34baa316f",
+      "reason": "Reviewed full protocol JSONs differ only in batch name/version; every recorded execution setting is identical. Original protocol identities remain in configuration_bindings."
+    }
+  },
+  "applicability_evidence": {
+    "eef99f2f236bc189ec042b7905ba97006b752a4d659bd5a25db62cb9a166f521": {
+      "family": "clint_t1",
+      "preparation": "7de256ee4d16b8a711a9a09e874e175da2640d9d2f9204739f6e1fb91ec43a85",
+      "evaluation_generation": "bac80c20984edb200b0eb7debd53c85f8c5c1ab36df5a318b12ea4644dfc4028",
+      "reason": "Earlier direct-check tests explicitly defer to the target checkpoint's regression coverage via the frozen direct_checkpoint_name guard.",
+      "sources": {
+        "tests/test_checkpoint_1.py": {
+          "sha256": "7804a5a935e1fcb18e72a6911245cd26f0258e06153dd91c1af3d43c8226eb0d",
+          "text": "\"\"\"Evaluator tests for the baseline two-hart CLINT endpoint.\"\"\"\n\nimport pytest\n\nfrom conftest import (\n    assert_absent,\n    assert_no_local_artifacts,\n    assert_required_files,\n    direct_checkpoint_name,\n    run_clint_regbus_oracle,\n    run_checkpoint,\n)\n\n\nTARGET_SNAPSHOT = \"c1_v0.1.0\"\nCANDIDATE_MODULES = [\n    \"clint\",\n    \"clint_reg_top\"\n]\n\nREQUIRED_FILES = [\n    \"src/clint.sv\",\n    \"src/clint_reg_pkg.sv\",\n    \"src/clint_reg_top.sv\",\n    \"test/clint_tb.sv\"\n]\n\nFORBIDDEN_FILES = []\n\n\n@pytest.mark.structure\ndef test_checkpoint_1_structure(\n    checkpoint_name, entrypoint_argv, baseline_repo, tmp_path\n):\n    \"\"\"Structure: generated repo contains the reviewed public files for this checkpoint.\"\"\"\n    checkpoint = direct_checkpoint_name(checkpoint_name, \"checkpoint_1\")\n    repo = run_checkpoint(entrypoint_argv, checkpoint, tmp_path, baseline_repo)\n    assert_required_files(repo, REQUIRED_FILES)\n    assert_absent(repo, FORBIDDEN_FILES)\n    assert_no_local_artifacts(repo)\n\n\n@pytest.mark.core\ndef test_checkpoint_1_regbus_behavior(\n    checkpoint_name, entrypoint_argv, baseline_repo, oracle_tb, dependencies, tmp_path\n):\n    checkpoint = direct_checkpoint_name(checkpoint_name, \"checkpoint_1\")\n    repo = run_checkpoint(entrypoint_argv, checkpoint, tmp_path, baseline_repo)\n    run_clint_regbus_oracle(repo, oracle_tb, dependencies, tmp_path, \"tb_clint_c1\")\n\n\n@pytest.mark.structure\ndef test_checkpoint_1_artifact_hygiene(\n    checkpoint_name, entrypoint_argv, baseline_repo, tmp_path\n):\n    \"\"\"C1 has no prior scored checkpoint; keep artifact hygiene in Structure.\"\"\"\n    checkpoint = direct_checkpoint_name(checkpoint_name, \"checkpoint_1\")\n    repo = run_checkpoint(entrypoint_argv, checkpoint, tmp_path, baseline_repo)\n    assert_no_local_artifacts(repo)\n"
+        },
+        "tests/test_checkpoint_2.py": {
+          "sha256": "8cac26a7c1989f20cf3e56667a8ceffec6e5cd07ea99c6958d830b0fba6ae874",
+          "text": "\"\"\"Evaluator tests for independent per-hart MSIP mapping.\"\"\"\n\nimport pytest\n\nfrom conftest import (\n    assert_absent,\n    assert_no_local_artifacts,\n    assert_required_files,\n    direct_checkpoint_name,\n    run_clint_c2_regression_oracle,\n    run_clint_regbus_oracle,\n    run_checkpoint,\n)\n\n\nTARGET_SNAPSHOT = \"c2_v0.2.0\"\nCANDIDATE_MODULES = [\n    \"clint\",\n    \"clint_reg_top\"\n]\n\nREQUIRED_FILES = [\n    \"src/clint.sv\",\n    \"src/clint_reg_pkg.sv\",\n    \"src/clint_reg_top.sv\",\n    \"test/clint_tb.sv\"\n]\n\nFORBIDDEN_FILES = []\n\n\n@pytest.mark.structure\ndef test_checkpoint_2_structure(\n    checkpoint_name, entrypoint_argv, baseline_repo, tmp_path\n):\n    \"\"\"Structure: generated repo contains the reviewed public files for this checkpoint.\"\"\"\n    checkpoint = direct_checkpoint_name(checkpoint_name, \"checkpoint_2\")\n    repo = run_checkpoint(entrypoint_argv, checkpoint, tmp_path, baseline_repo)\n    assert_required_files(repo, REQUIRED_FILES)\n    assert_absent(repo, FORBIDDEN_FILES)\n    assert_no_local_artifacts(repo)\n\n\n@pytest.mark.core\ndef test_checkpoint_2_msip_behavior(\n    checkpoint_name, entrypoint_argv, baseline_repo, oracle_tb, dependencies, tmp_path\n):\n    checkpoint = direct_checkpoint_name(checkpoint_name, \"checkpoint_2\")\n    repo = run_checkpoint(entrypoint_argv, checkpoint, tmp_path, baseline_repo)\n    run_clint_regbus_oracle(repo, oracle_tb, dependencies, tmp_path, \"tb_clint_c2\")\n\n\n@pytest.mark.regression\ndef test_checkpoint_2_c1_behavior_regression(\n    checkpoint_name, entrypoint_argv, baseline_repo, oracle_tb, dependencies, tmp_path\n):\n    checkpoint = direct_checkpoint_name(checkpoint_name, \"checkpoint_2\")\n    repo = run_checkpoint(entrypoint_argv, checkpoint, tmp_path, baseline_repo)\n    run_clint_c2_regression_oracle(repo, oracle_tb, dependencies, tmp_path)\n"
+        },
+        "tests/test_checkpoint_3.py": {
+          "sha256": "880e4c2b193cbc899fd97c566fb4705748ca2163dc9f339f98b18105b3705f3a",
+          "text": "\"\"\"Evaluator tests for the fixed two-hart APB CLINT endpoint.\"\"\"\n\nimport pytest\n\nfrom conftest import (\n    assert_absent,\n    assert_no_local_artifacts,\n    assert_required_files,\n    direct_checkpoint_name,\n    run_clint_c3_regression_oracle,\n    run_clint_apb_oracle,\n    run_checkpoint,\n)\n\n\nTARGET_SNAPSHOT = \"c3_apb_fixed2\"\nCANDIDATE_MODULES = [\n    \"clint\",\n    \"clint_reg\",\n    \"clint_reg_pkg\"\n]\n\nREQUIRED_FILES = [\n    \"src/clint.sv\",\n    \"src/clint_reg.sv\",\n    \"src/clint_reg_pkg.sv\",\n    \"test/clint_tb.sv\"\n]\n\nFORBIDDEN_FILES = []\n\n\n@pytest.mark.structure\ndef test_checkpoint_3_structure(\n    checkpoint_name, entrypoint_argv, baseline_repo, tmp_path\n):\n    \"\"\"Structure: generated repo contains the reviewed public files for this checkpoint.\"\"\"\n    checkpoint = direct_checkpoint_name(checkpoint_name, \"checkpoint_3\")\n    repo = run_checkpoint(entrypoint_argv, checkpoint, tmp_path, baseline_repo)\n    assert_required_files(repo, REQUIRED_FILES)\n    assert_absent(repo, FORBIDDEN_FILES)\n    assert_no_local_artifacts(repo)\n\n\n@pytest.mark.core\ndef test_checkpoint_3_apb_behavior(\n    checkpoint_name, entrypoint_argv, baseline_repo, oracle_tb, dependencies, tmp_path\n):\n    checkpoint = direct_checkpoint_name(checkpoint_name, \"checkpoint_3\")\n    repo = run_checkpoint(entrypoint_argv, checkpoint, tmp_path, baseline_repo)\n    run_clint_apb_oracle(repo, oracle_tb, dependencies, tmp_path, \"tb_clint_c3\")\n\n\n@pytest.mark.regression\ndef test_checkpoint_3_c2_behavior_regression(\n    checkpoint_name, entrypoint_argv, baseline_repo, oracle_tb, dependencies, tmp_path\n):\n    checkpoint = direct_checkpoint_name(checkpoint_name, \"checkpoint_3\")\n    repo = run_checkpoint(entrypoint_argv, checkpoint, tmp_path, baseline_repo)\n    run_clint_c3_regression_oracle(repo, oracle_tb, dependencies, tmp_path)\n"
+        },
+        "tests/conftest.py": {
+          "sha256": "7a7e49322b4e54c3fdee7cc705d14c014af883173cf266927328b27ca596508d",
+          "text": "\"\"\"Generic pytest helpers for scaffolded RTL problems.\n\nGenerated problems should review and specialize these helpers before promotion.\n\"\"\"\n\nimport json\nimport os\nimport shlex\nimport shutil\nimport subprocess\nfrom pathlib import Path\n\nimport pytest\n\n\nLOCAL_ARTIFACT_DIRS = {\"__pycache__\", \"sim_build\", \".pytest_cache\"}\nLOCAL_ARTIFACT_FILES = {\"results.xml\", \"dump.vcd\", \"waves.vcd\", \"dump.fst\"}\nLOCAL_ARTIFACT_SUFFIXES = {\".pyc\", \".pyo\", \".vvp\", \".vcd\", \".fst\"}\n\n\ndef pytest_addoption(parser):\n    parser.addoption(\"--entrypoint\", action=\"store\", required=True)\n    parser.addoption(\"--checkpoint\", action=\"store\", required=True)\n    parser.addoption(\"--static-assets\", action=\"store\", default=\"{}\")\n\n\n@pytest.fixture(scope=\"session\")\ndef entrypoint_argv(request):\n    return shlex.split(request.config.getoption(\"--entrypoint\"))\n\n\n@pytest.fixture(scope=\"session\")\ndef checkpoint_name(request):\n    return request.config.getoption(\"--checkpoint\")\n\n\n@pytest.fixture(scope=\"session\")\ndef static_assets(request):\n    assets = json.loads(request.config.getoption(\"--static-assets\"))\n    for key, value in os.environ.items():\n        if key.startswith(\"SCBENCH_ASSET_\"):\n            assets[key.removeprefix(\"SCBENCH_ASSET_\").lower()] = value\n    if \"golden_snapshots\" not in assets:\n        problem_root = Path(__file__).resolve().parents[1]\n        assets[\"golden_snapshots\"] = str(problem_root / \"static_assets\" / \"golden_snapshots\")\n    return assets\n\n\n@pytest.fixture(scope=\"session\")\ndef golden_snapshots(static_assets):\n    return Path(static_assets[\"golden_snapshots\"]).resolve()\n\n\n@pytest.fixture(scope=\"session\")\ndef baseline_repo(static_assets, golden_snapshots):\n    if \"baseline_repo\" in static_assets:\n        return Path(static_assets[\"baseline_repo\"]).resolve()\n    return golden_snapshots / \"c0_initial_workspace\"\n\n\n@pytest.fixture(scope=\"session\")\ndef dependencies(static_assets):\n    if \"dependencies\" in static_assets:\n        return Path(static_assets[\"dependencies\"]).resolve()\n    raise AssertionError(\"SCBENCH_ASSET_DEPENDENCIES is required\")\n\n\n@pytest.fixture(scope=\"session\")\ndef oracle_tb(static_assets):\n    if \"oracle_tb\" in static_assets:\n        return Path(static_assets[\"oracle_tb\"]).resolve()\n    raise AssertionError(\"SCBENCH_ASSET_ORACLE_TB is required\")\n\n\ndef _absolute_entrypoint(entrypoint_argv, submission_cwd):\n    resolved = []\n    for arg in entrypoint_argv:\n        candidate = submission_cwd / arg\n        if not Path(arg).is_absolute() and candidate.exists():\n            resolved.append(str(candidate))\n        else:\n            resolved.append(arg)\n    return resolved\n\n\ndef run_checkpoint(entrypoint_argv, checkpoint, tmp_path, baseline_repo=None, timeout=60):\n    submission_cwd = Path.cwd()\n    repo = tmp_path / \"repo\"\n    if baseline_repo is not None:\n        shutil.copytree(str(baseline_repo), str(repo))\n    submitted_repo = submission_cwd / \"repo\"\n    if submitted_repo.is_dir():\n        if repo.exists():\n            shutil.rmtree(str(repo))\n        shutil.copytree(str(submitted_repo), str(repo))\n    command = _absolute_entrypoint(entrypoint_argv, submission_cwd) + [checkpoint]\n    result = subprocess.run(command, cwd=tmp_path, capture_output=True, text=True, timeout=timeout)\n    assert result.returncode == 0, (\n        f\"entrypoint failed for {checkpoint} with exit code {result.returncode}\\n\"\n        f\"stdout:\\n{result.stdout}\\nstderr:\\n{result.stderr}\"\n    )\n    assert repo.is_dir(), \"entrypoint must create repo/ in the working directory\"\n    return repo\n\n\ndef direct_checkpoint_name(checkpoint_name, direct_checkpoint):\n    if checkpoint_name == direct_checkpoint:\n        return direct_checkpoint\n    if os.environ.get(\"SCBENCH_REFERENCE_CONTRACT_MODE\") == \"predecessor\":\n        return direct_checkpoint\n    pytest.skip(\n        f\"{direct_checkpoint} direct tests are superseded by \"\n        f\"{checkpoint_name} regression coverage\"\n    )\n\n\ndef assert_required_files(repo, required_files):\n    missing = [path for path in required_files if not (repo / path).is_file()]\n    assert not missing, \"missing required files: \" + \", \".join(missing)\n\n\ndef assert_absent(repo, forbidden_paths):\n    present = [path for path in forbidden_paths if (repo / path).exists()]\n    assert not present, \"unexpected future-scope paths present: \" + \", \".join(present)\n\n\ndef assert_no_local_artifacts(repo):\n    artifacts = []\n    for path in sorted(repo.rglob(\"*\")):\n        relative_path = path.relative_to(repo)\n        if any(part in LOCAL_ARTIFACT_DIRS for part in relative_path.parts):\n            artifacts.append(str(relative_path))\n        elif path.is_file() and (path.name in LOCAL_ARTIFACT_FILES or path.suffix in LOCAL_ARTIFACT_SUFFIXES):\n            artifacts.append(str(relative_path))\n    assert not artifacts, \"local simulation/cache artifacts present: \" + \", \".join(artifacts[:20])\n\n\ndef run_clint_regbus_oracle(repo, oracle_tb, dependencies, tmp_path, name):\n    \"\"\"Compile an evaluator-owned RegBus oracle using only staged dependencies.\"\"\"\n    sim_dir = tmp_path / f\"{name}_sim\"\n    common_include = dependencies / \"common_cells_1.25.0\" / \"include\"\n    reg_include = dependencies / \"register_interface_0.3.3\" / \"include\"\n    primitive_root = dependencies / \"register_interface_0.3.3\" / \"vendor\" / \"lowrisc_opentitan\" / \"src\"\n    source_root = repo / \"src\"\n    sources = [\n        primitive_root / \"prim_subreg_arb.sv\",\n        primitive_root / \"prim_subreg.sv\",\n        source_root / \"clint_reg_pkg.sv\",\n        source_root / \"clint_reg_top.sv\",\n        source_root / \"clint.sv\",\n        oracle_tb / f\"{name}.sv\",\n    ]\n    missing = [str(path) for path in [common_include, reg_include, *sources] if not path.exists()]\n    assert not missing, \"missing CLINT oracle source or dependency: \" + \", \".join(missing)\n    command = [\n        \"verilator\",\n        \"--binary\",\n        \"--timing\",\n        \"--assert\",\n        \"-Wno-fatal\",\n        \"-sv\",\n        f\"-I{common_include}\",\n        f\"-I{reg_include}\",\n        *(str(path) for path in sources),\n        \"--top-module\",\n        name,\n        \"-Mdir\",\n        str(sim_dir),\n    ]\n    build = subprocess.run(command, capture_output=True, text=True, timeout=120)\n    assert build.returncode == 0, (\n        f\"{name} Verilator build failed\\n\"\n        f\"stdout:\\n{build.stdout}\\nstderr:\\n{build.stderr}\"\n    )\n    run = subprocess.run(\n        [str(sim_dir / f\"V{name}\")],\n        capture_output=True,\n        text=True,\n        timeout=60,\n    )\n    assert run.returncode == 0, (\n        f\"{name} oracle failed\\nstdout:\\n{run.stdout}\\nstderr:\\n{run.stderr}\"\n    )\n\n\ndef run_clint_c2_regression_oracle(repo, oracle_tb, dependencies, tmp_path):\n    run_clint_regbus_oracle(\n        repo, oracle_tb, dependencies, tmp_path, \"tb_clint_c2_regression\"\n    )\n\n\ndef run_clint_apb_oracle(repo, oracle_tb, dependencies, tmp_path, name):\n    \"\"\"Compile an evaluator-owned APB oracle using staged dependencies.\"\"\"\n    sim_dir = tmp_path / f\"{name}_sim\"\n    common_include = dependencies / \"common_cells_1.40.0\" / \"include\"\n    apb_include = dependencies / \"apb_0.2.4\" / \"include\"\n    source_root = repo / \"src\"\n    sources = [\n        dependencies / \"apb_0.2.4\" / \"src\" / \"apb_pkg.sv\",\n        dependencies / \"register_interface_0.3.3\" / \"vendor\"\n        / \"lowrisc_opentitan\" / \"src\" / \"prim_subreg_arb.sv\",\n        dependencies / \"register_interface_0.3.3\" / \"vendor\"\n        / \"lowrisc_opentitan\" / \"src\" / \"prim_subreg.sv\",\n        source_root / \"clint_reg_pkg.sv\",\n        source_root / \"clint_reg.sv\",\n        source_root / \"clint.sv\",\n        oracle_tb / f\"{name}.sv\",\n    ]\n    missing = [\n        str(path)\n        for path in [common_include, apb_include, *sources]\n        if not path.exists()\n    ]\n    assert not missing, \"missing CLINT APB oracle source or dependency: \" + \", \".join(missing)\n    command = [\n        \"verilator\",\n        \"--binary\",\n        \"--timing\",\n        \"--assert\",\n        \"-Wno-fatal\",\n        \"-sv\",\n        f\"-I{common_include}\",\n        f\"-I{apb_include}\",\n        *(str(path) for path in sources),\n        \"--top-module\",\n        name,\n        \"-Mdir\",\n        str(sim_dir),\n    ]\n    build = subprocess.run(command, capture_output=True, text=True, timeout=120)\n    assert build.returncode == 0, (\n        f\"{name} Verilator build failed\\n\"\n        f\"stdout:\\n{build.stdout}\\nstderr:\\n{build.stderr}\"\n    )\n    run = subprocess.run(\n        [str(sim_dir / f\"V{name}\")],\n        capture_output=True,\n        text=True,\n        timeout=60,\n    )\n    assert run.returncode == 0, (\n        f\"{name} oracle failed\\nstdout:\\n{run.stdout}\\nstderr:\\n{run.stderr}\"\n    )\n\n\ndef run_clint_c3_regression_oracle(repo, oracle_tb, dependencies, tmp_path):\n    run_clint_apb_oracle(\n        repo, oracle_tb, dependencies, tmp_path, \"tb_clint_c3_regression\"\n    )\n\n\ndef run_clint_c4_oracle(repo, oracle_tb, dependencies, tmp_path, num_cores=None):\n    \"\"\"Regenerate and execute a C4 endpoint for one scored hart count.\"\"\"\n    generated_repo = tmp_path / f\"clint_c4_numcores_{num_cores}\"\n    shutil.copytree(repo, generated_repo)\n    generate_command = [\n        \"peakrdl\",\n        \"regblock\",\n        \"rdl/clint.rdl\",\n        \"-o\",\n        \"src\",\n        \"--cpuif\",\n        \"apb4-flat\",\n        \"--default-reset\",\n        \"arst_n\",\n        \"--module-name\",\n        \"clint_reg\",\n        \"--package-name\",\n        \"clint_reg_pkg\",\n    ]\n    if num_cores is not None:\n        generate_command.extend([\"-P\", f\"NumCores={num_cores}\"])\n    generate = subprocess.run(\n        generate_command,\n        cwd=generated_repo,\n        capture_output=True,\n        text=True,\n        timeout=120,\n    )\n    assert generate.returncode == 0, (\n        f\"PeakRDL generation failed for NumCores={num_cores}\\n\"\n        f\"stdout:\\n{generate.stdout}\\nstderr:\\n{generate.stderr}\"\n    )\n\n    sim_dir = tmp_path / f\"tb_clint_c4_numcores_{num_cores}_sim\"\n    common_include = dependencies / \"common_cells_1.40.0\" / \"include\"\n    apb_include = dependencies / \"apb_0.2.4\" / \"include\"\n    sources = [\n        dependencies / \"apb_0.2.4\" / \"src\" / \"apb_pkg.sv\",\n        dependencies / \"register_interface_0.3.3\" / \"vendor\"\n        / \"lowrisc_opentitan\" / \"src\" / \"prim_subreg_arb.sv\",\n        dependencies / \"register_interface_0.3.3\" / \"vendor\"\n        / \"lowrisc_opentitan\" / \"src\" / \"prim_subreg.sv\",\n        generated_repo / \"src\" / \"clint_reg_pkg.sv\",\n        generated_repo / \"src\" / \"clint_reg.sv\",\n        generated_repo / \"src\" / \"clint.sv\",\n        oracle_tb / \"tb_clint_c4.sv\",\n    ]\n    command = [\n        \"verilator\",\n        \"--binary\",\n        \"--timing\",\n        \"--assert\",\n        \"-Wno-fatal\",\n        \"-sv\",\n        f\"-I{common_include}\",\n        f\"-I{apb_include}\",\n        f\"-GN_CORES={num_cores}\",\n        *(str(path) for path in sources),\n        \"--top-module\",\n        \"tb_clint_c4\",\n        \"-Mdir\",\n        str(sim_dir),\n    ]\n    build = subprocess.run(command, capture_output=True, text=True, timeout=240)\n    assert build.returncode == 0, (\n        f\"tb_clint_c4 build failed for NumCores={num_cores}\\n\"\n        f\"stdout:\\n{build.stdout}\\nstderr:\\n{build.stderr}\"\n    )\n    run = subprocess.run(\n        [str(sim_dir / \"Vtb_clint_c4\")],\n        capture_output=True,\n        text=True,\n        timeout=120,\n    )\n    assert run.returncode == 0, (\n        f\"tb_clint_c4 oracle failed for NumCores={num_cores}\\n\"\n        f\"stdout:\\n{run.stdout}\\nstderr:\\n{run.stderr}\"\n    )\n\n\ndef run_clint_c4_generation_rejection(repo, tmp_path, num_cores):\n    \"\"\"Check that an explicitly unsupported SystemRDL parameter is rejected.\"\"\"\n    generated_repo = tmp_path / f\"clint_c4_rejected_numcores_{num_cores}\"\n    shutil.copytree(repo, generated_repo)\n    command = [\n        \"peakrdl\",\n        \"regblock\",\n        \"rdl/clint.rdl\",\n        \"-o\",\n        \"src\",\n        \"--cpuif\",\n        \"apb4-flat\",\n        \"--default-reset\",\n        \"arst_n\",\n        \"--module-name\",\n        \"clint_reg\",\n        \"--package-name\",\n        \"clint_reg_pkg\",\n        \"-P\",\n        f\"NumCores={num_cores}\",\n    ]\n    result = subprocess.run(\n        command,\n        cwd=generated_repo,\n        capture_output=True,\n        text=True,\n        timeout=120,\n    )\n    assert result.returncode != 0, (\n        f\"PeakRDL unexpectedly accepted unsupported NumCores={num_cores}\\n\"\n        f\"stdout:\\n{result.stdout}\\nstderr:\\n{result.stderr}\"\n    )\n"
+        }
+      }
+    },
+    "dbb4762fdbeb8e5c40bee2452c29541bdc4801435243a5d161034701c82397cb": {
+      "family": "serv_t1",
+      "preparation": "4162a1eceafb5b67ba7797b6332871f4b5ceb46fdf459c8aafd76a37cc9ffed0",
+      "evaluation_generation": "c3df30b5b4d63576bb0196a66277c7f17a8182bea801d0d263ac212255ebda1c",
+      "reason": "Checkpoint 6 replaces the legacy instruction/data buses with Wishbone; the frozen test explicitly retires this ABI check.",
+      "sources": {
+        "tests/test_checkpoint_1.py": {
+          "sha256": "976fdaf5728c836a08c21659d653251e669687a6df55ab86c2d0cf7c4fa4c0c4",
+          "text": "from pathlib import Path\n\nimport pytest\n\nfrom conftest import run_legacy_bus_testbench\nfrom conftest import run_jal_direction_testbench\nfrom serv_oracle.structure_contracts import (\n    assert_legacy_bus_abi,\n    assert_no_workspace_simulator_outputs,\n)\n\n\nTESTBENCH = Path(__file__).parent / \"serv_oracle\" / \"serv_legacy_feature_tb.v\"\n\n@pytest.mark.core\ndef test_checkpoint_1_public_instruction_and_load_request_behavior(\n    serv_candidate_repo, tmp_path\n):\n    output = run_legacy_bus_testbench(serv_candidate_repo, TESTBENCH, tmp_path, 0)\n    assert \"SERV_C1_DIRECTED_PASS\" in output\n\n\n@pytest.mark.core\ndef test_checkpoint_1_negative_jal_redirects_next_fetch(\n    serv_candidate_repo, tmp_path\n):\n    run_jal_direction_testbench(serv_candidate_repo, tmp_path)\n\n\n@pytest.mark.structure\ndef test_checkpoint_1_preserves_public_legacy_bus_abi(serv_candidate_repo, pytestconfig):\n    assert_no_workspace_simulator_outputs(Path.cwd())\n    checkpoint = pytestconfig.getoption(\"--checkpoint\")\n    checkpoint_number = int(checkpoint.rsplit(\"_\", 1)[-1])\n    if checkpoint_number >= 6:\n        pytest.skip(\"checkpoint 6 replaces the legacy instruction/data buses with Wishbone\")\n    assert_legacy_bus_abi(serv_candidate_repo)\n\n\n@pytest.mark.core\ndef test_checkpoint_1_pending_requests_remain_stable_under_backpressure(serv_candidate_repo, tmp_path):\n    run_legacy_bus_testbench(serv_candidate_repo, TESTBENCH, tmp_path, 19)\n"
+        }
+      }
+    },
+    "32652982b05c5d68a77c5900302745f658101472fcff681246d99f9511803d7f": {
+      "family": "serv_t1",
+      "preparation": "b76e1da8126e42a6c1e1b045c5b69b0c212d06f6e3f536d331d0165904f15caf",
+      "evaluation_generation": "c3df30b5b4d63576bb0196a66277c7f17a8182bea801d0d263ac212255ebda1c",
+      "reason": "Checkpoint 6 replaces the legacy instruction/data buses with Wishbone; the frozen test explicitly retires this ABI check.",
+      "sources": {
+        "tests/test_checkpoint_1.py": {
+          "sha256": "976fdaf5728c836a08c21659d653251e669687a6df55ab86c2d0cf7c4fa4c0c4",
+          "text": "from pathlib import Path\n\nimport pytest\n\nfrom conftest import run_legacy_bus_testbench\nfrom conftest import run_jal_direction_testbench\nfrom serv_oracle.structure_contracts import (\n    assert_legacy_bus_abi,\n    assert_no_workspace_simulator_outputs,\n)\n\n\nTESTBENCH = Path(__file__).parent / \"serv_oracle\" / \"serv_legacy_feature_tb.v\"\n\n@pytest.mark.core\ndef test_checkpoint_1_public_instruction_and_load_request_behavior(\n    serv_candidate_repo, tmp_path\n):\n    output = run_legacy_bus_testbench(serv_candidate_repo, TESTBENCH, tmp_path, 0)\n    assert \"SERV_C1_DIRECTED_PASS\" in output\n\n\n@pytest.mark.core\ndef test_checkpoint_1_negative_jal_redirects_next_fetch(\n    serv_candidate_repo, tmp_path\n):\n    run_jal_direction_testbench(serv_candidate_repo, tmp_path)\n\n\n@pytest.mark.structure\ndef test_checkpoint_1_preserves_public_legacy_bus_abi(serv_candidate_repo, pytestconfig):\n    assert_no_workspace_simulator_outputs(Path.cwd())\n    checkpoint = pytestconfig.getoption(\"--checkpoint\")\n    checkpoint_number = int(checkpoint.rsplit(\"_\", 1)[-1])\n    if checkpoint_number >= 6:\n        pytest.skip(\"checkpoint 6 replaces the legacy instruction/data buses with Wishbone\")\n    assert_legacy_bus_abi(serv_candidate_repo)\n\n\n@pytest.mark.core\ndef test_checkpoint_1_pending_requests_remain_stable_under_backpressure(serv_candidate_repo, tmp_path):\n    run_legacy_bus_testbench(serv_candidate_repo, TESTBENCH, tmp_path, 19)\n"
+        }
+      }
+    },
+    "394fb4cc8c7246851929d37015f2aae5f9a9db3d42858ff96a3a291c096c8907": {
+      "family": "serv_t1",
+      "preparation": "8e72560bc0e2b1d0cefe929ebb1478bb180c9fea887a8a13304d9857c97fffcf",
+      "evaluation_generation": "c3df30b5b4d63576bb0196a66277c7f17a8182bea801d0d263ac212255ebda1c",
+      "reason": "Checkpoint 6 replaces the legacy instruction/data buses with Wishbone; the frozen test explicitly retires this ABI check.",
+      "sources": {
+        "tests/test_checkpoint_1.py": {
+          "sha256": "976fdaf5728c836a08c21659d653251e669687a6df55ab86c2d0cf7c4fa4c0c4",
+          "text": "from pathlib import Path\n\nimport pytest\n\nfrom conftest import run_legacy_bus_testbench\nfrom conftest import run_jal_direction_testbench\nfrom serv_oracle.structure_contracts import (\n    assert_legacy_bus_abi,\n    assert_no_workspace_simulator_outputs,\n)\n\n\nTESTBENCH = Path(__file__).parent / \"serv_oracle\" / \"serv_legacy_feature_tb.v\"\n\n@pytest.mark.core\ndef test_checkpoint_1_public_instruction_and_load_request_behavior(\n    serv_candidate_repo, tmp_path\n):\n    output = run_legacy_bus_testbench(serv_candidate_repo, TESTBENCH, tmp_path, 0)\n    assert \"SERV_C1_DIRECTED_PASS\" in output\n\n\n@pytest.mark.core\ndef test_checkpoint_1_negative_jal_redirects_next_fetch(\n    serv_candidate_repo, tmp_path\n):\n    run_jal_direction_testbench(serv_candidate_repo, tmp_path)\n\n\n@pytest.mark.structure\ndef test_checkpoint_1_preserves_public_legacy_bus_abi(serv_candidate_repo, pytestconfig):\n    assert_no_workspace_simulator_outputs(Path.cwd())\n    checkpoint = pytestconfig.getoption(\"--checkpoint\")\n    checkpoint_number = int(checkpoint.rsplit(\"_\", 1)[-1])\n    if checkpoint_number >= 6:\n        pytest.skip(\"checkpoint 6 replaces the legacy instruction/data buses with Wishbone\")\n    assert_legacy_bus_abi(serv_candidate_repo)\n\n\n@pytest.mark.core\ndef test_checkpoint_1_pending_requests_remain_stable_under_backpressure(serv_candidate_repo, tmp_path):\n    run_legacy_bus_testbench(serv_candidate_repo, TESTBENCH, tmp_path, 19)\n"
+        }
+      }
+    },
+    "8130baa6c72afa5b0ea41229e2ef3a290451e91121f06a6b70d8d29c8caa56ef": {
+      "family": "serv_t1",
+      "preparation": "2adc745a86abdb42d77992c56cf9672d3925cc84bc928b965a073dde5d0e179b",
+      "evaluation_generation": "c3df30b5b4d63576bb0196a66277c7f17a8182bea801d0d263ac212255ebda1c",
+      "reason": "Checkpoint 6 replaces the legacy instruction/data buses with Wishbone; the frozen test explicitly retires this ABI check.",
+      "sources": {
+        "tests/test_checkpoint_1.py": {
+          "sha256": "976fdaf5728c836a08c21659d653251e669687a6df55ab86c2d0cf7c4fa4c0c4",
+          "text": "from pathlib import Path\n\nimport pytest\n\nfrom conftest import run_legacy_bus_testbench\nfrom conftest import run_jal_direction_testbench\nfrom serv_oracle.structure_contracts import (\n    assert_legacy_bus_abi,\n    assert_no_workspace_simulator_outputs,\n)\n\n\nTESTBENCH = Path(__file__).parent / \"serv_oracle\" / \"serv_legacy_feature_tb.v\"\n\n@pytest.mark.core\ndef test_checkpoint_1_public_instruction_and_load_request_behavior(\n    serv_candidate_repo, tmp_path\n):\n    output = run_legacy_bus_testbench(serv_candidate_repo, TESTBENCH, tmp_path, 0)\n    assert \"SERV_C1_DIRECTED_PASS\" in output\n\n\n@pytest.mark.core\ndef test_checkpoint_1_negative_jal_redirects_next_fetch(\n    serv_candidate_repo, tmp_path\n):\n    run_jal_direction_testbench(serv_candidate_repo, tmp_path)\n\n\n@pytest.mark.structure\ndef test_checkpoint_1_preserves_public_legacy_bus_abi(serv_candidate_repo, pytestconfig):\n    assert_no_workspace_simulator_outputs(Path.cwd())\n    checkpoint = pytestconfig.getoption(\"--checkpoint\")\n    checkpoint_number = int(checkpoint.rsplit(\"_\", 1)[-1])\n    if checkpoint_number >= 6:\n        pytest.skip(\"checkpoint 6 replaces the legacy instruction/data buses with Wishbone\")\n    assert_legacy_bus_abi(serv_candidate_repo)\n\n\n@pytest.mark.core\ndef test_checkpoint_1_pending_requests_remain_stable_under_backpressure(serv_candidate_repo, tmp_path):\n    run_legacy_bus_testbench(serv_candidate_repo, TESTBENCH, tmp_path, 19)\n"
+        }
+      }
+    }
+  }
+}

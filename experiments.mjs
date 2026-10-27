@@ -1,5 +1,7 @@
 import {escapeHtml as esc, modelKey, compareModelSettings, resultKey, latestCells, selectCells, summarize, csv, hydrateCells, testCounts, checkpointRows, plannedTargets, finalResult, fraction} from './experiments-core.mjs?v=20261026-all-efforts';
+import {renderPaperMetrics, selectPaperGroups, paperCsv} from './paper-metrics.mjs?v=20261027-paper-metrics';
 let catalogPromise;
+let paperCatalogPromise;
 let metadataPromise;
 let renderedProblem;
 let renderedTrial;
@@ -92,6 +94,10 @@ export async function renderExperiments() {
     const entry=catalog.releases.find(r=>r.id===params.get('analysis'))||catalog.releases.find(r=>r.id===catalog.default_analysis)||catalog.releases[0];
     if(!releases.has(entry.id))releases.set(entry.id,json(`data/experiments/${entry.path}`));
     const release=await releases.get(entry.id);
+    paperCatalogPromise ||= json('data/paper/catalog.json').catch(()=>null);
+    const paperCatalog=await paperCatalogPromise;
+    const paperEntry=paperCatalog?.reports.find(r=>r.analysis_id===entry.id);
+    const paperReport=paperEntry?await json(`data/paper/${paperEntry.path}`):null;
     metadataPromise ||= json('data/problems.json').then(data=>data.problems||[]).catch(()=>{metadataPromise=null;return [];});
     const problemsMetadata=await metadataPromise;
     const protocols={[release.protocol.id]:release.protocol};
@@ -114,7 +120,7 @@ export async function renderExperiments() {
     const total=summarize(cells);
     params.set('analysis',entry.id);
     const name=problem||'Experiment matrix';
-    const subtitle=problem?'Pipeline and SR · checkpoint test results':`${esc(release.name)} · pipeline final checkpoint results`;
+    const subtitle=problem?'Pipeline and SR · checkpoint test results':`${esc(release.name)} · FDR / CC / CPR`;
     if(location.hash!==route)return;
     app.innerHTML=`<section class="experiment-page">
       ${problem?`<a class="matrix-back" href="${hash(params,{problem:null,trial:null,checkpoint:null})}">← All experiment results</a>`:''}
@@ -129,17 +135,30 @@ export async function renderExperiments() {
         <label>Scope<select name="scope"><option value="formal" ${filters.scope==='formal'?'selected':''}>Formal</option><option value="diagnostic" ${filters.scope==='diagnostic'?'selected':''}>Historical / diagnostic</option></select></label>
         ${problem?'':`<label class="matrix-search">Find problem<input name="q" value="${esc(filters.q)}" placeholder="Search by name" /></label>`}<button type="submit">Apply</button>
       </form>
-      <div class="matrix-kpis"><div><span>${problem?'Recorded trials':'Pipeline trials'}</span><strong>${total.planned}</strong>${problem?'':`<small>${new Set(cells.map(c=>c.problem)).size} problems · ${filtered.length} total trials</small>`}</div><div><span>Comparable trials</span><strong>${total.valid}<small> / ${total.planned}</small></strong></div><div><span>Known checkpoint outcomes</span><strong>${cells.reduce((s,c)=>s+c.checkpoints.filter(cp=>['passed','failed'].includes(cp.state)).length,0)}</strong></div><div><span>Official price estimate</span><strong>${dollars(total.cost)}</strong><small>All attempts · ${total.cost==null?'incomplete coverage':'USD'}</small></div></div>
+      ${paperReport?renderPaperMetrics(paperReport,filters,params):'<p class="matrix-method">Paper metrics have not been built for this analysis. Existing test results remain available below.</p>'}
+      <details class="paper-legacy-matrix" ${problem?'open':''}><summary>${problem?'Checkpoint evidence matrix':'Detailed problem and checkpoint evidence'}</summary>
+      <div class="matrix-kpis"><div><span>${problem?'Recorded trials':'Pipeline trials'}</span><strong>${total.planned}</strong>${problem?'':`<small>${new Set(cells.map(c=>c.problem)).size} problems · ${filtered.length} total trials</small>`}</div><div><span>Comparable trials</span><strong>${total.valid}<small> / ${total.planned}</small></strong></div><div><span>Known checkpoint outcomes</span><strong>${cells.reduce((s,c)=>s+c.checkpoints.filter(cp=>['passed','failed'].includes(cp.state)).length,0)}</strong></div><div><span>SR trials</span><strong>${filtered.filter(c=>c.mode==='sr').length}</strong><small>Independent checkpoint runs</small></div></div>
       ${problem?problemMatrix(cells,problem,params):mainMatrix(filtered,hydrated,params)}
       ${problem?'<section id="matrix-detail" class="matrix-detail" aria-live="polite"><p class="matrix-muted">Select a result to inspect its test cases and evidence.</p></section>':supplementary(release)}
+      </details>
     </section>`;
     const trial=params.get('trial');
     if(renderedProblem!==problem||(renderedTrial&&!trial))window.scrollTo({top:0,left:0,behavior:'instant'});
     renderedProblem=problem;renderedTrial=trial;
-    app.querySelector('#matrix-filters').addEventListener('submit',event=>{event.preventDefault();const next=new URLSearchParams(new FormData(event.currentTarget));if(problem)next.set('problem',problem);location.hash=`experiments?${next}`;});
+    app.querySelector('#matrix-filters').addEventListener('submit',event=>{event.preventDefault();const next=new URLSearchParams(new FormData(event.currentTarget));if(problem)next.set('problem',problem);for(const key of ['aux','overhead','cache','task_type'])if(params.has(key))next.set(key,params.get(key));location.hash=`experiments?${next}`;});
     app.querySelector('#matrix-filters select[name="analysis"]').addEventListener('change',event=>{location.hash=hash(new URLSearchParams(),{analysis:event.target.value,problem});});
     app.querySelector('#matrix-csv').onclick=()=>download('scbench-experiments.csv',csv(cells),'text/csv;charset=utf-8');
     app.querySelector('#matrix-json').onclick=()=>download('scbench-experiments.json',JSON.stringify({...release,cells},null,2),'application/json');
+    app.querySelectorAll('[data-paper-param]').forEach(input=>input.onchange=()=>{location.hash=hash(params,{[input.dataset.paperParam]:input.checked?'1':null});});
+    app.querySelectorAll('[data-paper-select]').forEach(select=>select.onchange=()=>{location.hash=hash(params,{[select.dataset.paperSelect]:select.value});});
+    if(paperReport){
+      app.querySelector('#paper-csv').onclick=()=>download('evortl-paper-metrics.csv',paperCsv(paperReport,filters,params.get('cache')||'actual'),'text/csv;charset=utf-8');
+      app.querySelector('#paper-json').onclick=async()=>{
+        const records=await json(`data/paper/${paperReport.checkpoint_records_path}`);
+        const selected=selectPaperGroups(paperReport,filters);const ids=new Set(selected.map(g=>g.id));
+        download('evortl-paper-metrics.json',JSON.stringify({...paperReport,groups:selected,checkpoint_records:records.groups.filter(g=>ids.has(g.id))},null,2),'application/json');
+      };
+    }
     if(problem&&params.get('trial')) {
       let detailCells=cells;
       const path=release.detail_paths?.[problem];
