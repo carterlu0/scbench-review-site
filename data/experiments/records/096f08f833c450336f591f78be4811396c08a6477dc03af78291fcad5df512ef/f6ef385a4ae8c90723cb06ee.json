@@ -1,0 +1,1532 @@
+{
+  "schema_version": 4,
+  "analysis": "096f08f833c450336f591f78be4811396c08a6477dc03af78291fcad5df512ef",
+  "problem": "verilog_ethernet_t2",
+  "cells": [
+    {
+      "id": "602aa3d56148079f4d288329a2642cb0e89083d92a4eabec1f35cad64680a809",
+      "problem": "verilog_ethernet_t2",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "gpt-6-luna",
+      "agent": "codex",
+      "agent_version": "0.141.0",
+      "agent_config": "3eaf34c299f786a0a9fa3613d1a65573298869c89f4d8e87b3855ff19802b14f",
+      "thinking": "medium",
+      "protocol": "f71a453d8b0758f739c6665217edb3ace7f90558be20364d617c67667ca41acf",
+      "generation": "39efe9c2a7998455e4c6c31838768c7cf5a7c186881bdae060917597460dc6fc",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "e02b3e108f4ceed97ebf42cfecd654bc7aed8941af1662661d8a5eee2c178cec",
+          "evidence": [
+            "sha256:a11e72e5e79527500836e58abe60630ada2d958cc94d9da639ffe9c01e1e09c1"
+          ],
+          "event_id": "f5882bbfc857d43601bb0065ce48902a3a8c3b5199436e0fd784bb753c054813",
+          "assessment": "78d68b90e0f2c5725d9f8a10ba9406acc40735c4d46a6e09f1a038974abf619b",
+          "attempt": "c1a4cd1788d74d5db4164dd82dbdf089"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "e02b3e108f4ceed97ebf42cfecd654bc7aed8941af1662661d8a5eee2c178cec",
+          "evidence": [
+            "sha256:a11e72e5e79527500836e58abe60630ada2d958cc94d9da639ffe9c01e1e09c1"
+          ],
+          "event_id": "f7f9253f460ddf69234385909efd51849880693fb38fd6bd9a013b66601642fb",
+          "assessment": "78d68b90e0f2c5725d9f8a10ba9406acc40735c4d46a6e09f1a038974abf619b",
+          "attempt": "c1a4cd1788d74d5db4164dd82dbdf089"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_1"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.0,
+      "selected_attempt": "c1a4cd1788d74d5db4164dd82dbdf089",
+      "selected_evaluation": null,
+      "evaluation_generation": "39efe9c2a7998455e4c6c31838768c7cf5a7c186881bdae060917597460dc6fc",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_1",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "e02b3e108f4ceed97ebf42cfecd654bc7aed8941af1662661d8a5eee2c178cec",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "3b6c420bd79a74db120776981a75b34e4cf567732ef52e59d6b0e5698a5f348d",
+          "evaluation_sha256": "a11e72e5e79527500836e58abe60630ada2d958cc94d9da639ffe9c01e1e09c1",
+          "started_at": "2026-10-26T14:27:07.691783Z",
+          "completed_at": "2026-10-26T14:29:04.905916Z",
+          "inference_seconds": 117.214133,
+          "evaluation_seconds": 1154.4296414852142,
+          "native_steps": 28,
+          "tokens": {
+            "cache_read": 332544,
+            "cache_write": 0,
+            "input": 356788,
+            "output": 2406,
+            "reasoning": 459
+          },
+          "official_cost": {
+            "usd": 0.00695284,
+            "coverage": "complete",
+            "pricebook": "gpt6-luna-standard-user-provided-2026-10-23"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_candidate_runner_executes_all_focused_components",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_entrypoint_accepts_checkpoint_name",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_entrypoint_does_not_vendor_dependencies",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_payload_fcs_oracle_directed",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_ptp_association_oracle_directed",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_ptp_timestamp_mutation_is_killed",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_reset_and_final_drain_oracles_are_directed",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_lfc_count_oracle_directed",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_pause_control_frame_mutation_is_killed",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_pfc_range_oracle_directed",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_candidate_surface_is_tb_only",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_has_no_generated_artifacts",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_candidate_tb_passes_trusted_target",
+              "group": "Functionality",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 2,
+              "total": 2
+            },
+            "core": {
+              "passed": 7,
+              "total": 10
+            },
+            "functionality": {
+              "passed": 1,
+              "total": 1
+            },
+            "regression": {
+              "passed": 0,
+              "total": 0
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 10,
+              "total": 13
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": 9,
+            "native_events": 43,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "candidate_artifact": {
+            "path": "experiments/artifacts/e97d3cb2fafe4c1365d4495f4d1d5ba70ca360c1cb52de0b9580a689c0d73578.tar.gz",
+            "sha256": "e97d3cb2fafe4c1365d4495f4d1d5ba70ca360c1cb52de0b9580a689c0d73578",
+            "file_count": 105,
+            "size_bytes": 117178,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-10-26T14:27:04.980975+00:00",
+      "completed_at": "2026-10-26T14:48:31.894463+00:00",
+      "wall_seconds_all_attempts": 1286.9084484968334,
+      "official_cost_all_attempts": 0.00695284,
+      "known_official_cost": 0.00695284,
+      "cost_coverage": "complete"
+    },
+    {
+      "id": "9b67d679399a5fe4052afd4a0a4c716831c950e40895114c8d4464e779048f2e",
+      "problem": "verilog_ethernet_t2",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "gpt-6-luna",
+      "agent": "codex",
+      "agent_version": "0.141.0",
+      "agent_config": "12a03b7fdb6ff50bb2b236c6856f2234bafb8744b644fe0dcaa3dc6c0d03505f",
+      "thinking": "medium",
+      "protocol": "f71a453d8b0758f739c6665217edb3ace7f90558be20364d617c67667ca41acf",
+      "generation": "ce2f34049d86810c85555dad8423f5b64167f0e12b5f2d6fe84e5c4a7b779f10",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_2",
+          "candidate": "2ce1f3bebc69c793f0429cecd97d9e7cdc8e4aab683239ec94483cb361657e0d",
+          "evidence": [
+            "sha256:a1214b649879e200ab582c149442500f0cb4a490189c9c420b802962d36c91c1"
+          ],
+          "event_id": "ad9501d77bc34df87069aefc9e6c9baba5742ef5617cedf97364ae9b24659e5b",
+          "assessment": "3bda3a2240e574b8437354f3abc21470c5c85839ea4ac543730f1478776763db",
+          "attempt": "156fadba3c944e1fb54295dbb7818b55"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_2",
+          "candidate": "2ce1f3bebc69c793f0429cecd97d9e7cdc8e4aab683239ec94483cb361657e0d",
+          "evidence": [
+            "sha256:a1214b649879e200ab582c149442500f0cb4a490189c9c420b802962d36c91c1"
+          ],
+          "event_id": "2e8d31034d39d1b16a0ec7b72324ace59101dba2545c29f8c11381a0b81fc121",
+          "assessment": "3bda3a2240e574b8437354f3abc21470c5c85839ea4ac543730f1478776763db",
+          "attempt": "156fadba3c944e1fb54295dbb7818b55"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_2"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.0,
+      "selected_attempt": "156fadba3c944e1fb54295dbb7818b55",
+      "selected_evaluation": null,
+      "evaluation_generation": "ce2f34049d86810c85555dad8423f5b64167f0e12b5f2d6fe84e5c4a7b779f10",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_2",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "2ce1f3bebc69c793f0429cecd97d9e7cdc8e4aab683239ec94483cb361657e0d",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "87cc4a8865d78add97c1cafe0d7843dc0eb4071df6d3fd04095fc2187714c778",
+          "evaluation_sha256": "a1214b649879e200ab582c149442500f0cb4a490189c9c420b802962d36c91c1",
+          "started_at": "2026-10-26T14:28:38.408561Z",
+          "completed_at": "2026-10-26T14:31:01.226469Z",
+          "inference_seconds": 142.817908,
+          "evaluation_seconds": 3044.370502948761,
+          "native_steps": 32,
+          "tokens": {
+            "cache_read": 417408,
+            "cache_write": 0,
+            "input": 484222,
+            "output": 3239,
+            "reasoning": 202
+          },
+          "official_cost": {
+            "usd": 0.012474980000000002,
+            "coverage": "complete",
+            "pricebook": "gpt6-luna-standard-user-provided-2026-10-23"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_candidate_runner_executes_all_focused_components_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_lfc_count_oracle_directed_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_pause_control_frame_mutation_is_killed_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_payload_fcs_oracle_directed_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_pfc_range_oracle_directed_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_ptp_association_oracle_directed_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_ptp_timestamp_mutation_is_killed_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_reset_and_final_drain_oracles_are_directed_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_preserves_ptp_mutation_detection",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_candidate_surface_is_tb_only",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_single_round_has_no_generated_artifacts",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_candidate_tb_passes_trusted_target",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_drives_endpoint_configuration_signals",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_preserves_directed_pause_count_oracles",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_rejects_legacy_ptp_clock_keyword",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_rejects_weakened_pause_count_assertion",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_uses_new_ptp_clock_api",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_single_round_entrypoint_accepts_checkpoint_name",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_single_round_entrypoint_does_not_vendor_dependencies",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_targets_cocotbext_eth_0_1_22",
+              "group": "Core",
+              "status": "failed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 2,
+              "total": 2
+            },
+            "core": {
+              "passed": 7,
+              "total": 8
+            },
+            "functionality": {
+              "passed": 1,
+              "total": 1
+            },
+            "regression": {
+              "passed": 9,
+              "total": 9
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 19,
+              "total": 20
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": 11,
+            "native_events": 48,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "candidate_artifact": {
+            "path": "experiments/artifacts/c3a74f531da3f54f32899a2c304633151e684f7202d8d4c10b9c8e9ffb031bc5.tar.gz",
+            "sha256": "c3a74f531da3f54f32899a2c304633151e684f7202d8d4c10b9c8e9ffb031bc5",
+            "file_count": 109,
+            "size_bytes": 129707,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-10-26T14:28:35.697160+00:00",
+      "completed_at": "2026-10-26T15:21:57.082141+00:00",
+      "wall_seconds_all_attempts": 3201.3576617650688,
+      "official_cost_all_attempts": 0.012474980000000002,
+      "known_official_cost": 0.012474980000000002,
+      "cost_coverage": "complete"
+    },
+    {
+      "id": "fc82eb1764956735277da42f2b7602ee3597c03a7640451f987482043d0dbb5e",
+      "problem": "verilog_ethernet_t2",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "gpt-6-luna",
+      "agent": "codex",
+      "agent_version": "0.141.0",
+      "agent_config": "c0601b5a35d1eadb7b7d91710d8779e2ee75b92ae2e7c384fd2245e30ae84e26",
+      "thinking": "medium",
+      "protocol": "f71a453d8b0758f739c6665217edb3ace7f90558be20364d617c67667ca41acf",
+      "generation": "0fcf2340e6a58fd11d1cc6274c20f0773efc8daf0309980a84c587fa3f7da49d",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "c3001c9f67ed728b6746460f8489d27e25ce6f639bd2e33e84de8dd0afe37150",
+          "evidence": [
+            "sha256:db059735a2cd131dd88c47f155860db37724a9af25c35435dbbab254ea990c0c"
+          ],
+          "event_id": "17ab1e716d0ed42f18c61b632e8139a206263e07914663cb35398d8619040b66",
+          "assessment": "3ac2a5a2d86e44faec6e107b7dba14a91fc74295f92fbe6ace644d312b287c9f",
+          "attempt": "8faf6bdef2ad48f5a3c26b1fab251ca9"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "c3001c9f67ed728b6746460f8489d27e25ce6f639bd2e33e84de8dd0afe37150",
+          "evidence": [
+            "sha256:db059735a2cd131dd88c47f155860db37724a9af25c35435dbbab254ea990c0c"
+          ],
+          "event_id": "9762318d66cba24f6865f7daf655da2df3122f35459068da52b81b5690a5e322",
+          "assessment": "3ac2a5a2d86e44faec6e107b7dba14a91fc74295f92fbe6ace644d312b287c9f",
+          "attempt": "8faf6bdef2ad48f5a3c26b1fab251ca9"
+        },
+        {
+          "namespace": "implementation",
+          "label": "functionality_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "c3001c9f67ed728b6746460f8489d27e25ce6f639bd2e33e84de8dd0afe37150",
+          "evidence": [
+            "sha256:db059735a2cd131dd88c47f155860db37724a9af25c35435dbbab254ea990c0c"
+          ],
+          "event_id": "dd70ddd352fe483ad5ea8d1714427912dbf9ff9ab011d55f1b1f5ede0ca4fb10",
+          "assessment": "3ac2a5a2d86e44faec6e107b7dba14a91fc74295f92fbe6ace644d312b287c9f",
+          "attempt": "8faf6bdef2ad48f5a3c26b1fab251ca9"
+        },
+        {
+          "namespace": "implementation",
+          "label": "regression_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "c3001c9f67ed728b6746460f8489d27e25ce6f639bd2e33e84de8dd0afe37150",
+          "evidence": [
+            "sha256:db059735a2cd131dd88c47f155860db37724a9af25c35435dbbab254ea990c0c"
+          ],
+          "event_id": "f9b4bcc66ae6ccf97309c02ba82d05c87c8e871aa8d59a4e7ccb7efeaf29f9d6",
+          "assessment": "3ac2a5a2d86e44faec6e107b7dba14a91fc74295f92fbe6ace644d312b287c9f",
+          "attempt": "8faf6bdef2ad48f5a3c26b1fab251ca9"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_3"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.0,
+      "selected_attempt": "8faf6bdef2ad48f5a3c26b1fab251ca9",
+      "selected_evaluation": null,
+      "evaluation_generation": "0fcf2340e6a58fd11d1cc6274c20f0773efc8daf0309980a84c587fa3f7da49d",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_3",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "c3001c9f67ed728b6746460f8489d27e25ce6f639bd2e33e84de8dd0afe37150",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "c3aba30d98e2bda4f52c814b50b112cecf76153794c7733f90d6382afad6926d",
+          "evaluation_sha256": "db059735a2cd131dd88c47f155860db37724a9af25c35435dbbab254ea990c0c",
+          "started_at": "2026-10-26T14:48:35.336953Z",
+          "completed_at": "2026-10-26T15:01:55.946438Z",
+          "inference_seconds": 800.609485,
+          "evaluation_seconds": 3010.8873257637024,
+          "native_steps": 61,
+          "tokens": {
+            "cache_read": 1212288,
+            "cache_write": 0,
+            "input": 1318235,
+            "output": 6123,
+            "reasoning": 1408
+          },
+          "official_cost": {
+            "usd": 0.025779080000000003,
+            "coverage": "complete",
+            "pricebook": "gpt6-luna-standard-user-provided-2026-10-23"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_lfc_count_oracle_directed_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_payload_fcs_oracle_directed_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_pfc_range_oracle_directed_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_ptp_association_oracle_directed_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_reset_and_final_drain_oracles_are_directed_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_drives_endpoint_configuration_signals_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_preserves_directed_pause_count_oracles_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_rejects_weakened_pause_count_assertion_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_targets_cocotbext_eth_0_1_22_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_uses_new_ptp_clock_api_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_candidate_runner_executes_all_focused_components_regression",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_ptp_timestamp_mutation_is_killed_regression",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_preserves_ptp_mutation_detection",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_candidate_surface_is_tb_only",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_single_round_has_no_generated_artifacts",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_candidate_tb_passes_trusted_target",
+              "group": "Functionality",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_focused_scenario_matrix_is_preserved",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_mac_underrun_and_error_oracles_directed",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_tx_underrun_and_error_oracles_directed",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_single_round_entrypoint_accepts_checkpoint_name",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_single_round_entrypoint_does_not_vendor_dependencies",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_detects_eth_mac_error_indication_fault",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_detects_post_error_recovery_fault",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_detects_tx_error_indication_fault",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_detects_tx_underrun_indication_fault",
+              "group": "Core",
+              "status": "failed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 2,
+              "total": 2
+            },
+            "core": {
+              "passed": 5,
+              "total": 9
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 1
+            },
+            "regression": {
+              "passed": 10,
+              "total": 13
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 17,
+              "total": 25
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": 21,
+            "native_events": 86,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "candidate_artifact": {
+            "path": "experiments/artifacts/e98dcf83bbc56c462af90915441a56690e24579b84f88d3eb4023663079f01a0.tar.gz",
+            "sha256": "e98dcf83bbc56c462af90915441a56690e24579b84f88d3eb4023663079f01a0",
+            "file_count": 109,
+            "size_bytes": 130158,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-10-26T14:48:32.558247+00:00",
+      "completed_at": "2026-10-26T15:52:20.231735+00:00",
+      "wall_seconds_all_attempts": 3827.6629656422883,
+      "official_cost_all_attempts": 0.025779080000000003,
+      "known_official_cost": 0.025779080000000003,
+      "cost_coverage": "complete"
+    },
+    {
+      "id": "42a5730954db1abaacda8b9469c51a6dc67ff5b1b7f1551c8e47e766f0d3024b",
+      "problem": "verilog_ethernet_t2",
+      "mode": "pipeline",
+      "prompt_arm": "original",
+      "model": "gpt-6-luna",
+      "agent": "codex",
+      "agent_version": "0.141.0",
+      "agent_config": "c0601b5a35d1eadb7b7d91710d8779e2ee75b92ae2e7c384fd2245e30ae84e26",
+      "thinking": "medium",
+      "protocol": "f71a453d8b0758f739c6665217edb3ace7f90558be20364d617c67667ca41acf",
+      "generation": "061e1a7ec89eb85ee3add40af11d6fff80908ead597c8afb362a8fb9108a20ab",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "56f8b61bd7bc3f2f336638326b86d06b9fe35ce7e3abde70b9aa883146dc8c54",
+          "evidence": [
+            "sha256:c804205a4867d76da48536c1d394ee3acef7ff027e295e6ac5576dfadaee44be"
+          ],
+          "event_id": "0f168d9b3ca8c4963aad07765494a0638cd58f8284cff8525c6f7d406dd3d4fa",
+          "assessment": "8483aa947c159993a3ea0b25f5aa892ee1f637f3295e1e176d2d03fff43f4ea0",
+          "attempt": "f7a0cdd5f9be43cd91a6b20cb56cf88e"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "56f8b61bd7bc3f2f336638326b86d06b9fe35ce7e3abde70b9aa883146dc8c54",
+          "evidence": [
+            "sha256:c804205a4867d76da48536c1d394ee3acef7ff027e295e6ac5576dfadaee44be"
+          ],
+          "event_id": "0425e0d4063e1b9a8c769cce57c1ae752732d82545e2f268bdc0b36b63e598a6",
+          "assessment": "8483aa947c159993a3ea0b25f5aa892ee1f637f3295e1e176d2d03fff43f4ea0",
+          "attempt": "f7a0cdd5f9be43cd91a6b20cb56cf88e"
+        },
+        {
+          "namespace": "implementation",
+          "label": "functionality_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "56f8b61bd7bc3f2f336638326b86d06b9fe35ce7e3abde70b9aa883146dc8c54",
+          "evidence": [
+            "sha256:c804205a4867d76da48536c1d394ee3acef7ff027e295e6ac5576dfadaee44be"
+          ],
+          "event_id": "67742770a9a1fb43f404b591d3a248ab229ecc28b1fee6910b39f986f58447d6",
+          "assessment": "8483aa947c159993a3ea0b25f5aa892ee1f637f3295e1e176d2d03fff43f4ea0",
+          "attempt": "f7a0cdd5f9be43cd91a6b20cb56cf88e"
+        },
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_2",
+          "candidate": "b0e4be32eaf69d52cccb438ecdbf4cf01f2bb2a5f867d198d708c5efcafbf395",
+          "evidence": [
+            "sha256:fd32aa2e7fb1e942c68ab2d79e371f40173adcfb24de98bac5f6883f3089b56a"
+          ],
+          "event_id": "81e74d802cfb2d26ddaede44838571cf3b8400cdace5103316f2f9a563f32ffa",
+          "assessment": "8483aa947c159993a3ea0b25f5aa892ee1f637f3295e1e176d2d03fff43f4ea0",
+          "attempt": "f7a0cdd5f9be43cd91a6b20cb56cf88e"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_2",
+          "candidate": "b0e4be32eaf69d52cccb438ecdbf4cf01f2bb2a5f867d198d708c5efcafbf395",
+          "evidence": [
+            "sha256:fd32aa2e7fb1e942c68ab2d79e371f40173adcfb24de98bac5f6883f3089b56a"
+          ],
+          "event_id": "e0d79c9e307f538675174edb6f1a02ebfedd1c0b07bc8f8ccd5e5b3a1f9efcf2",
+          "assessment": "8483aa947c159993a3ea0b25f5aa892ee1f637f3295e1e176d2d03fff43f4ea0",
+          "attempt": "f7a0cdd5f9be43cd91a6b20cb56cf88e"
+        },
+        {
+          "namespace": "implementation",
+          "label": "regression_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_2",
+          "candidate": "b0e4be32eaf69d52cccb438ecdbf4cf01f2bb2a5f867d198d708c5efcafbf395",
+          "evidence": [
+            "sha256:fd32aa2e7fb1e942c68ab2d79e371f40173adcfb24de98bac5f6883f3089b56a"
+          ],
+          "event_id": "0fd20c11efc6d7a07657dc3bfd860f45c79acc539fa239c2921fab669644bbc3",
+          "assessment": "8483aa947c159993a3ea0b25f5aa892ee1f637f3295e1e176d2d03fff43f4ea0",
+          "attempt": "f7a0cdd5f9be43cd91a6b20cb56cf88e"
+        },
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "36fa10ba17adc8c18bd71a6003499743ad106a56378c895dd417c03c45bcfeee",
+          "evidence": [
+            "sha256:2f6284fefb0712f82a5bd9653ee668f25c4876308ae55fb5d115d413d717d153"
+          ],
+          "event_id": "6967b44b2ca32d7253cd2c1854940b676a6a882597214a75b77cd56276ae85e2",
+          "assessment": "8483aa947c159993a3ea0b25f5aa892ee1f637f3295e1e176d2d03fff43f4ea0",
+          "attempt": "f7a0cdd5f9be43cd91a6b20cb56cf88e"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "36fa10ba17adc8c18bd71a6003499743ad106a56378c895dd417c03c45bcfeee",
+          "evidence": [
+            "sha256:2f6284fefb0712f82a5bd9653ee668f25c4876308ae55fb5d115d413d717d153"
+          ],
+          "event_id": "3d3506de1ac5837bd6915c9165e91d2a4e7ebcb4b74dd17063b605b87a261ad2",
+          "assessment": "8483aa947c159993a3ea0b25f5aa892ee1f637f3295e1e176d2d03fff43f4ea0",
+          "attempt": "f7a0cdd5f9be43cd91a6b20cb56cf88e"
+        },
+        {
+          "namespace": "implementation",
+          "label": "regression_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "36fa10ba17adc8c18bd71a6003499743ad106a56378c895dd417c03c45bcfeee",
+          "evidence": [
+            "sha256:2f6284fefb0712f82a5bd9653ee668f25c4876308ae55fb5d115d413d717d153"
+          ],
+          "event_id": "db1f88e06fe1aa748ff113a0242124dad658cd2cde9c56ee9ea62a5894841079",
+          "assessment": "8483aa947c159993a3ea0b25f5aa892ee1f637f3295e1e176d2d03fff43f4ea0",
+          "attempt": "f7a0cdd5f9be43cd91a6b20cb56cf88e"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 3,
+      "planned_targets": [
+        "checkpoint_1",
+        "checkpoint_2",
+        "checkpoint_3"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.0,
+      "selected_attempt": "f7a0cdd5f9be43cd91a6b20cb56cf88e",
+      "selected_evaluation": null,
+      "evaluation_generation": "061e1a7ec89eb85ee3add40af11d6fff80908ead597c8afb362a8fb9108a20ab",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_1",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "56f8b61bd7bc3f2f336638326b86d06b9fe35ce7e3abde70b9aa883146dc8c54",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "077750bc1e1e55f63bea4a0068abc3d556b0195fc73b818c75f316435cfba39f",
+          "evaluation_sha256": "c804205a4867d76da48536c1d394ee3acef7ff027e295e6ac5576dfadaee44be",
+          "started_at": "2026-10-26T14:50:07.195813Z",
+          "completed_at": "2026-10-26T14:52:54.645338Z",
+          "inference_seconds": 167.449525,
+          "evaluation_seconds": 37.20742917060852,
+          "native_steps": 37,
+          "tokens": {
+            "cache_read": 417536,
+            "cache_write": 0,
+            "input": 452116,
+            "output": 3519,
+            "reasoning": 1011
+          },
+          "official_cost": {
+            "usd": 0.009392860000000001,
+            "coverage": "complete",
+            "pricebook": "gpt6-luna-standard-user-provided-2026-10-23"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_entrypoint_accepts_checkpoint_name",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_entrypoint_does_not_vendor_dependencies",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_payload_fcs_oracle_directed",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_ptp_association_oracle_directed",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_reset_and_final_drain_oracles_are_directed",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_candidate_runner_executes_all_focused_components",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_lfc_count_oracle_directed",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_pause_control_frame_mutation_is_killed",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_pfc_range_oracle_directed",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_ptp_timestamp_mutation_is_killed",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_candidate_surface_is_tb_only",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_has_no_generated_artifacts",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_candidate_tb_passes_trusted_target",
+              "group": "Functionality",
+              "status": "failed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 2,
+              "total": 2
+            },
+            "core": {
+              "passed": 5,
+              "total": 10
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 1
+            },
+            "regression": {
+              "passed": 0,
+              "total": 0
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 7,
+              "total": 13
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": 14,
+            "native_events": 55,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "candidate_artifact": {
+            "path": "experiments/artifacts/c5cbdf2576c351054b3b79c257d2ed409158e431c29a8baf23c51dfd2c08578d.tar.gz",
+            "sha256": "c5cbdf2576c351054b3b79c257d2ed409158e431c29a8baf23c51dfd2c08578d",
+            "file_count": 105,
+            "size_bytes": 117268,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_2",
+          "target_checkpoint": "checkpoint_2",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "b0e4be32eaf69d52cccb438ecdbf4cf01f2bb2a5f867d198d708c5efcafbf395",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "15991da6b33607505a8f62b07fdb7c1f4289386b8728f63889fa792d89e51f4b",
+          "evaluation_sha256": "fd32aa2e7fb1e942c68ab2d79e371f40173adcfb24de98bac5f6883f3089b56a",
+          "started_at": "2026-10-26T14:53:38.927387Z",
+          "completed_at": "2026-10-26T14:59:41.999492Z",
+          "inference_seconds": 363.072105,
+          "evaluation_seconds": 2097.399365901947,
+          "native_steps": 40,
+          "tokens": {
+            "cache_read": 682368,
+            "cache_write": 0,
+            "input": 759949,
+            "output": 3438,
+            "reasoning": 628
+          },
+          "official_cost": {
+            "usd": 0.01630078,
+            "coverage": "complete",
+            "pricebook": "gpt6-luna-standard-user-provided-2026-10-23"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_candidate_runner_executes_all_focused_components",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_entrypoint_accepts_checkpoint_name",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_entrypoint_does_not_vendor_dependencies",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_payload_fcs_oracle_directed",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_ptp_association_oracle_directed",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_ptp_timestamp_mutation_is_killed",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_reset_and_final_drain_oracles_are_directed",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_lfc_count_oracle_directed",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_pause_control_frame_mutation_is_killed",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_pfc_range_oracle_directed",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_candidate_surface_is_tb_only",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_has_no_generated_artifacts",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_candidate_tb_passes_trusted_target",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_candidate_surface_is_tb_only",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_candidate_tb_passes_trusted_target",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_drives_endpoint_configuration_signals",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_entrypoint_accepts_prior_checkpoint_name",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_rejects_legacy_ptp_clock_keyword",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_uses_new_ptp_clock_api",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_preserves_directed_pause_count_oracles",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_rejects_weakened_pause_count_assertion",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_targets_cocotbext_eth_0_1_22",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_preserves_ptp_mutation_detection",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 3,
+              "total": 3
+            },
+            "core": {
+              "passed": 4,
+              "total": 7
+            },
+            "functionality": {
+              "passed": 2,
+              "total": 2
+            },
+            "regression": {
+              "passed": 8,
+              "total": 11
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 17,
+              "total": 23
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": 11,
+            "native_events": 56,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "candidate_artifact": {
+            "path": "experiments/artifacts/37f5a3a9a6d813a9aff07cc2f61c7bb49f93624771ecbf0f978733794ecf2ccb.tar.gz",
+            "sha256": "37f5a3a9a6d813a9aff07cc2f61c7bb49f93624771ecbf0f978733794ecf2ccb",
+            "file_count": 105,
+            "size_bytes": 117279,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_3",
+          "target_checkpoint": "checkpoint_3",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "36fa10ba17adc8c18bd71a6003499743ad106a56378c895dd417c03c45bcfeee",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "de225c09f4523ec9369cfaeafe869dac9f419cd5ce7d9d02eaf77b29e76562e0",
+          "evaluation_sha256": "2f6284fefb0712f82a5bd9653ee668f25c4876308ae55fb5d115d413d717d153",
+          "started_at": "2026-10-26T15:34:50.010513Z",
+          "completed_at": "2026-10-26T15:53:30.009812Z",
+          "inference_seconds": 1119.999299,
+          "evaluation_seconds": 6341.5642647743225,
+          "native_steps": 92,
+          "tokens": {
+            "cache_read": 2900352,
+            "cache_write": 0,
+            "input": 3068453,
+            "output": 12020,
+            "reasoning": 3828
+          },
+          "official_cost": {
+            "usd": 0.05182362,
+            "coverage": "complete",
+            "pricebook": "gpt6-luna-standard-user-provided-2026-10-23"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_candidate_runner_executes_all_focused_components",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_entrypoint_accepts_checkpoint_name",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_entrypoint_does_not_vendor_dependencies",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_payload_fcs_oracle_directed",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_ptp_association_oracle_directed",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_ptp_timestamp_mutation_is_killed",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_reset_and_final_drain_oracles_are_directed",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_lfc_count_oracle_directed",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_pause_control_frame_mutation_is_killed",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_pfc_range_oracle_directed",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_candidate_surface_is_tb_only",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_has_no_generated_artifacts",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_candidate_tb_passes_trusted_target",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_candidate_surface_is_tb_only",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_candidate_tb_passes_trusted_target",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_drives_endpoint_configuration_signals",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_entrypoint_accepts_prior_checkpoint_name",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_preserves_ptp_mutation_detection",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_rejects_legacy_ptp_clock_keyword",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_targets_cocotbext_eth_0_1_22",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_uses_new_ptp_clock_api",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_preserves_directed_pause_count_oracles",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_rejects_weakened_pause_count_assertion",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_candidate_surface_is_tb_only",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_candidate_tb_passes_trusted_target",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_detects_post_error_recovery_fault",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_detects_tx_error_indication_fault",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_detects_tx_underrun_indication_fault",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_entrypoint_accepts_all_checkpoint_names",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_mac_underrun_and_error_oracles_directed",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_tx_underrun_and_error_oracles_directed",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_detects_eth_mac_error_indication_fault",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_focused_scenario_matrix_is_preserved",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_preserves_ptp_mutation_detection",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 4,
+              "total": 4
+            },
+            "core": {
+              "passed": 6,
+              "total": 8
+            },
+            "functionality": {
+              "passed": 3,
+              "total": 3
+            },
+            "regression": {
+              "passed": 14,
+              "total": 19
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 27,
+              "total": 34
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": 39,
+            "native_events": 137,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "candidate_artifact": {
+            "path": "experiments/artifacts/44bbb7cc9d0611d5ca16108ba7add204b86cf801d77e85cde45e3b460964677f.tar.gz",
+            "sha256": "44bbb7cc9d0611d5ca16108ba7add204b86cf801d77e85cde45e3b460964677f",
+            "file_count": 105,
+            "size_bytes": 117850,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 3,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-10-26T14:50:04.337408+00:00",
+      "completed_at": "2026-10-26T17:39:31.301904+00:00",
+      "wall_seconds_all_attempts": 10166.959186377004,
+      "official_cost_all_attempts": 0.07751726,
+      "known_official_cost": 0.07751726,
+      "cost_coverage": "complete"
+    }
+  ]
+}

@@ -137,6 +137,11 @@ export function hydrateCells(cells, problems, protocols = {}) {
   });
 }
 
+export function isDeliveryFailure(checkpoint) {
+  return checkpoint?.state === 'failed' && (checkpoint.candidate_failure === 'delivery_failure' ||
+    checkpoint.defects?.some(defect => ['reviewed', 'confirmed'].includes(defect.confidence) && defect.labels?.includes('delivery_failure')) || false);
+}
+
 export function finalResult(cell, peers = []) {
   const unknown = reason => ({passed: null, total: null, reason});
   if (cell.mode !== 'pipeline') return unknown('not_pipeline');
@@ -144,11 +149,12 @@ export function finalResult(cell, peers = []) {
   const target = plannedTargets(cell).at(-1);
   const final = cell.checkpoints.find(cp => cp.target_checkpoint === target);
   const counts = testCounts(final);
-  if (counts?.total > 0 && ['passed', 'failed'].includes(final.state)) return {...counts, target, reason: 'evaluated'};
+  if (counts?.total > 0 && ['passed', 'failed'].includes(final.state)) return {...counts, target, reason: isDeliveryFailure(final) ? 'delivery_failure' : 'evaluated'};
   const lastEvaluated = [...cell.checkpoints].filter(cp => ['passed', 'failed'].includes(cp.state)).sort((a,b) => checkpointOrder(a.target_checkpoint,b.target_checkpoint)).at(-1);
   const structure = testCounts(lastEvaluated, 'structure');
   const failedStructure = structure?.total > 0 && structure.passed < structure.total;
-  const stopped = cell.outcome === 'failed' && failedStructure && lastEvaluated.target_checkpoint !== target &&
+  const delivery = isDeliveryFailure(lastEvaluated);
+  const stopped = cell.outcome === 'failed' && (failedStructure || delivery) && lastEvaluated.target_checkpoint !== target &&
     cell.checkpoints.every(cp => checkpointOrder(cp.target_checkpoint, lastEvaluated.target_checkpoint) <= 0 || ['missing', 'stopped_by_policy'].includes(cp.state));
   if (!stopped) return {...unknown('not_reached'), target};
   const explicit = cell.expected_test_counts?.[target]?.total ?? final?.expected_test_counts?.total;
@@ -156,7 +162,7 @@ export function finalResult(cell, peers = []) {
     other.generation === cell.generation && other.evaluation_generation === cell.evaluation_generation && plannedTargets(other).at(-1) === target);
   const totals = [...new Set(sameRevision.map(other => testCounts(other.checkpoints.find(cp => cp.target_checkpoint === target))?.total).filter(value => validCount(value) && value > 0))];
   const total = validCount(explicit) && explicit > 0 ? explicit : totals.length === 1 ? totals[0] : null;
-  return {passed: 0, total, target, reason: total == null ? 'stopped_total_unknown' : 'structure_stop'};
+  return {passed: 0, total, target, reason: delivery ? (total == null ? 'delivery_total_unknown' : 'delivery_failure') : (total == null ? 'stopped_total_unknown' : 'structure_stop')};
 }
 
 export const fraction = counts => counts && (counts.passed != null || counts.total != null) ? `${counts.passed ?? '—'}/${counts.total ?? '?'}` : '—';

@@ -1,7 +1,7 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
-import {hydrateCells, testCounts, plannedTargets, checkpointRows, finalResult, fraction} from '../experiments-core.mjs';
+import {hydrateCells, testCounts, plannedTargets, checkpointRows, finalResult, fraction, isDeliveryFailure, csv} from '../experiments-core.mjs';
 const counts=(passed,total)=>({passed,total});
 const cp=(target,core=[1,2],regression=[2,3],structure=[1,1])=>({checkpoint:target,target_checkpoint:target,state:'failed',candidate:'candidate',test_counts:{core:counts(...core),regression:counts(...regression),structure:counts(...structure),total:counts(core[0]+regression[0]+structure[0],core[1]+regression[1]+structure[1])}});
 const pipeline={id:'p',problem:'problem',mode:'pipeline',generation:'g',evaluation_generation:'g',planned_checkpoints:2,progression_policy:'structure-cases',status:'completed',outcome:'failed',checkpoints:[cp('checkpoint_1'),cp('checkpoint_2')]};
@@ -30,6 +30,27 @@ test('core failure, infrastructure loss, and missing runs never become structure
   assert.equal(finalResult({...partial,outcome:'not_scored'},[pipeline]).passed,null);
   assert.equal(finalResult({...pipeline,checkpoints:[]}).passed,null);
   assert.equal(fraction(finalResult({...pipeline,checkpoints:[]})),'—');
+});
+
+test('delivery failure retains its cause and uses the frozen final denominator after a gate stop',()=>{
+  const failed={...cp('checkpoint_1',[0,1],[0,0],[0,1]),candidate_failure:'delivery_failure',candidate_failure_reason:'missing required entrypoint build_checkpoint.sh'};
+  const stopped={...pipeline,checkpoints:[failed,{target_checkpoint:'checkpoint_2',state:'stopped_by_policy'}],expected_test_counts:{checkpoint_2:{total:9}}};
+  assert.equal(isDeliveryFailure(failed),true);
+  assert.deepEqual(finalResult(stopped),{passed:0,total:9,target:'checkpoint_2',reason:'delivery_failure'});
+  assert.equal(finalResult({...stopped,expected_test_counts:undefined}).reason,'delivery_total_unknown');
+  // A typed delivery verdict can precede collection of this checkpoint's counts.
+  assert.equal(finalResult({...stopped,checkpoints:[{...failed,test_counts:null},stopped.checkpoints[1]]}).reason,'delivery_failure');
+  assert.equal(finalResult({...stopped,checkpoints:[failed,{target_checkpoint:'checkpoint_2',state:'evaluation_error'}]}).passed,null);
+  assert.equal(isDeliveryFailure({...failed,state:'evaluation_error'}),false);
+});
+
+test('final-checkpoint delivery failures and reviewed historical labels remain visible',()=>{
+  const failed={...cp('checkpoint_2',[0,1],[0,0],[0,1]),candidate_failure:'delivery_failure'};
+  assert.equal(finalResult({...pipeline,checkpoints:[failed]}).reason,'delivery_failure');
+  const reviewed={...failed,candidate_failure:null,defects:[{labels:['delivery_failure'],confidence:'reviewed'}]};
+  assert.equal(isDeliveryFailure(reviewed),true);
+  assert.equal(isDeliveryFailure({...reviewed,defects:[{labels:['delivery_failure'],confidence:'suspected'}]}),false);
+  assert.match(csv([{...pipeline,checkpoints:[failed]}]),/"delivery_failure"/);
 });
 
 test('submatrix alternates pipeline and SR in numeric checkpoint order, including unrun planned rows',()=>{

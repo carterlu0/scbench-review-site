@@ -60,6 +60,14 @@ available in each problem matrix. Historical observations remain diagnostic and
 are excluded from formal comparable scores. Annotation and pricebook changes
 create a new analysis release.
 
+Confirmed delivery failures display `Delivery failure` in the final-result matrix
+and at the failing checkpoint. Later unrun checkpoints display `Stopped after
+delivery failure`; they retain unavailable test counts. The main matrix uses
+zero over the final checkpoint's frozen collected test total, and trial evidence
+shows the missing deliverable. Ordinary structure-test failures keep their
+structure-gate label; infrastructure failures remain unscored. A missing test
+inventory stays unknown until exact-revision collection evidence is published.
+
 Validation: `node --test tests/*.test.mjs`. Browser checks cover desktop, 390px
 mobile, dark/light themes, problem links, interleaved checkpoint rows, exact SERV
 counts, URL reload, filtering, CSV, trial evidence, back navigation and existing
