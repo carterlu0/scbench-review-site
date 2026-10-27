@@ -619,7 +619,7 @@ function renderRoute() {
     return;
   }
   if (window.location.hash.startsWith("#experiments")) {
-    import("./experiments.mjs?v=20261027-delivery-display").then(module => module.renderExperiments());
+    import("./experiments.mjs?v=20261027-medium-metrics").then(module => module.renderExperiments());
     return;
   }
   const match = window.location.hash.match(/^#review\/([^/]+)(?:\/(history|compressed)(?:\/(\d+))?)?$/);

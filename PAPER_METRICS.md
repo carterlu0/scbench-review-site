@@ -103,7 +103,7 @@ mode, may become N/A when the recorded status is skipped. A failure before a ski
 guard remains a failure. These rules are independent of a candidate's behavior.
 The extractor opens SQLite in read-only mode and does not collect new evidence.
 
-Two published protocol IDs differ only in their batch name/version; every saved
+Three published protocol IDs differ only in their batch name/version; every saved
 execution parameter is byte-equivalent after canonical serialization. An explicit
 manifest equivalence binds their complete execution-settings hash to a shared
 configuration ID. The scorer rechecks the full hash before aggregating; a budget,
@@ -147,6 +147,20 @@ as zero. Parallel batch wall time is never divided among tasks. Efficiencies use
 performance divided by mean consumption, with null for zero/missing denominators.
 
 ## Website and local preview
+
+The current 212-trial analysis includes the newly published 72-trial Medium
+batch, together with its existing CLIC/SERV observations. The Medium protocol
+`f71a453d…` has the same complete execution settings as the two existing batch
+protocols; its explicit hash-checked equivalence prevents splitting Medium into
+incomplete 13-chain and 2-chain groups. The frozen CLINT direct-test applicability
+rules also include the Medium preparation's exact generation, verified against
+the stored sources. Current Medium: FDR=0/15, CC=0.1411111111 and CPR=28/74.
+High remains unchanged; Low/xhigh retain incomplete full-benchmark results.
+
+FDR/CC/CPR and optional auxiliary/resource tables appear only on the experiment
+overview. A single problem route shows the Checkpoint evidence matrix and trial
+evidence, and does not fetch the paper report. Its recorded/SR trial counts are
+scoped to that problem. Back-navigation returns to the overview metrics.
 
 Checkout: `experiment-system-workspaces/scbench-paper-metrics-20261027/`.
 

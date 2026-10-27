@@ -95,10 +95,14 @@ export async function renderExperiments() {
     const entry=catalog.releases.find(r=>r.id===params.get('analysis'))||catalog.releases.find(r=>r.id===catalog.default_analysis)||catalog.releases[0];
     if(!releases.has(entry.id))releases.set(entry.id,json(`data/experiments/${entry.path}`));
     const release=await releases.get(entry.id);
-    paperCatalogPromise ||= json('data/paper/catalog.json').catch(()=>null);
-    const paperCatalog=await paperCatalogPromise;
-    const paperEntry=paperCatalog?.reports.find(r=>r.analysis_id===entry.id);
-    const paperReport=paperEntry?await json(`data/paper/${paperEntry.path}`):null;
+    const problem=params.get('problem');
+    let paperReport=null;
+    if(!problem){
+      paperCatalogPromise ||= json('data/paper/catalog.json').catch(()=>null);
+      const paperCatalog=await paperCatalogPromise;
+      const paperEntry=paperCatalog?.reports.find(r=>r.analysis_id===entry.id);
+      paperReport=paperEntry?await json(`data/paper/${paperEntry.path}`):null;
+    }
     metadataPromise ||= json('data/problems.json').then(data=>data.problems||[]).catch(()=>{metadataPromise=null;return [];});
     const problemsMetadata=await metadataPromise;
     const protocols={[release.protocol.id]:release.protocol};
@@ -116,7 +120,6 @@ export async function renderExperiments() {
       const selected=filtered.find(c=>resultKey(c)===resultKey(requestedTrial));
       if(selected&&selected.id!==requestedTrial.id){location.replace(hash(params,{trial:selected.id}));return;}
     }
-    const problem=params.get('problem');
     const cells=problem?filtered.filter(c=>c.problem===problem):filtered.filter(c=>c.mode==='pipeline');
     const total=summarize(cells);
     params.set('analysis',entry.id);
@@ -136,9 +139,9 @@ export async function renderExperiments() {
         <label>Scope<select name="scope"><option value="formal" ${filters.scope==='formal'?'selected':''}>Formal</option><option value="diagnostic" ${filters.scope==='diagnostic'?'selected':''}>Historical / diagnostic</option></select></label>
         ${problem?'':`<label class="matrix-search">Find problem<input name="q" value="${esc(filters.q)}" placeholder="Search by name" /></label>`}<button type="submit">Apply</button>
       </form>
-      ${paperReport?renderPaperMetrics(paperReport,filters,params):'<p class="matrix-method">Paper metrics have not been built for this analysis. Existing test results remain available below.</p>'}
+      ${problem?'':paperReport?renderPaperMetrics(paperReport,filters,params):'<p class="matrix-method">Paper metrics have not been built for this analysis. Existing test results remain available below.</p>'}
       <details class="paper-legacy-matrix" ${problem?'open':''}><summary>${problem?'Checkpoint evidence matrix':'Detailed problem and checkpoint evidence'}</summary>
-      <div class="matrix-kpis"><div><span>${problem?'Recorded trials':'Pipeline trials'}</span><strong>${total.planned}</strong>${problem?'':`<small>${new Set(cells.map(c=>c.problem)).size} problems · ${filtered.length} total trials</small>`}</div><div><span>Comparable trials</span><strong>${total.valid}<small> / ${total.planned}</small></strong></div><div><span>Known checkpoint outcomes</span><strong>${cells.reduce((s,c)=>s+c.checkpoints.filter(cp=>['passed','failed'].includes(cp.state)).length,0)}</strong></div><div><span>SR trials</span><strong>${filtered.filter(c=>c.mode==='sr').length}</strong><small>Independent checkpoint runs</small></div></div>
+      <div class="matrix-kpis"><div><span>${problem?'Recorded trials':'Pipeline trials'}</span><strong>${total.planned}</strong>${problem?'':`<small>${new Set(cells.map(c=>c.problem)).size} problems · ${filtered.length} total trials</small>`}</div><div><span>Comparable trials</span><strong>${total.valid}<small> / ${total.planned}</small></strong></div><div><span>Known checkpoint outcomes</span><strong>${cells.reduce((s,c)=>s+c.checkpoints.filter(cp=>['passed','failed'].includes(cp.state)).length,0)}</strong></div><div><span>SR trials</span><strong>${(problem?cells:filtered).filter(c=>c.mode==='sr').length}</strong><small>Independent checkpoint runs</small></div></div>
       ${problem?problemMatrix(cells,problem,params):mainMatrix(filtered,hydrated,params)}
       ${problem?'<section id="matrix-detail" class="matrix-detail" aria-live="polite"><p class="matrix-muted">Select a result to inspect its test cases and evidence.</p></section>':supplementary(release)}
       </details>

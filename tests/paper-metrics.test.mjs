@@ -87,3 +87,27 @@ test('audited SR target versions unlock complete CPR and preserve timing decisio
     assert.equal(g.primary.sr_cpr.reason,'incomplete_results');
   }
 });
+
+test('current Medium data forms one complete group with exact protocol equivalence',async()=>{
+  const current=catalog.reports.find(r=>r.analysis_id==='5667349f28caf00f99155395112bb70f856d5d5a3e0a24ec1c07ea6a5a155bf7');
+  const report=await load(current.path);
+  const medium=report.groups.filter(g=>g.config.thinking==='medium');
+  assert.equal(medium.length,1);
+  const g=medium[0];
+  assert.equal(g.primary.pipeline_fdr.value,0);
+  assert.ok(Math.abs(g.primary.pipeline_cc.value-0.1411111111111111)<1e-12);
+  assert.equal(g.primary.sr_cpr.value,28/74);
+  assert.equal(g.primary.pipeline_fdr.known_units,15);
+  assert.equal(g.primary.sr_cpr.known_units,74);
+  assert.deepEqual(g.issues,[]);
+  assert.equal(g.configuration_bindings.length,89);
+  assert.equal(new Set(g.configuration_bindings.map(b=>b.protocol)).size,2);
+  const records=await load(report.checkpoint_records_path);
+  const cps=records.groups.find(r=>r.id===g.id).checkpoint_records;
+  const clint=cps.filter(r=>r.chain_id==='clint_t1'&&r.mode==='pipeline');
+  assert.deepEqual(clint.map(r=>r.strict_pass),[1,1,1,0]);
+  for(const metric of Object.values(g.primary))assert.equal(metric.reason,null);
+  for(const proto of new Set(g.configuration_bindings.map(b=>b.protocol))){
+    assert.equal(manifest.protocol_equivalence[proto].config_id,g.config.protocol);
+  }
+});
