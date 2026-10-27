@@ -25,7 +25,17 @@ export async function syncExperiments({readText,sourceCommit,output}) {
   for(const release of catalog.releases){safePath(release.path);if(!/^[a-f0-9]{64}$/.test(release.id))throw new Error('Invalid release id');
     if(!release.files?.[release.path])throw new Error('Missing analysis hash');
     for(const [path,expected] of Object.entries(release.files)){
-      safePath(path);const payload=await readText(`experiments/${path}`);
+      safePath(path);
+      let payload=pending.get(path);
+      if(payload===undefined){
+        // Immutable evidence already checked out with the site needs no API call.
+        // Trust the bytes only after matching the current source manifest hash.
+        try {
+          const cached=await readFile(resolve(output,path),'utf8');
+          if(createHash('sha256').update(cached).digest('hex')===expected)payload=cached;
+        } catch(error) { if(error.code!=='ENOENT')throw error; }
+        if(payload===undefined)payload=await readText(`experiments/${path}`);
+      }
       if(createHash('sha256').update(payload).digest('hex')!==expected)throw new Error(`Experiment hash mismatch: ${path}`);
       const value=JSON.parse(payload);if(path===release.path)validatePublicAnalysis(value);
       pending.set(path,payload);
