@@ -37,13 +37,46 @@ required for Pipeline; Core/Regression failure can be followed by later success.
 An evidenced Structure stop contributes zero for the suffix, with no fabricated
 test failures or consumption. Missing, pending and invalid results retain the
 manifest denominator and prevent a complete score. Formal scores additionally
-require each included result's existing compatible/identical status; raw complete
-diagnostics are separate fields. Unknown compatibility is never upgraded here.
+require each included result's compatible/identical status; raw complete
+diagnostics are separate fields. A missing legacy SR target can be resolved only
+by the explicit, frozen version audit described below; unknown alone is never
+treated as compatible.
 An explicitly recorded `valid_execution_failure: true` makes a terminal valid-run
 agent/budget exception a zero; without a Structure pass it stops the Pipeline.
 Confirmed infrastructure invalidity takes precedence over that flag.
 
 ## Frozen identities and test applicability
+
+The default analysis's SR target metadata has been audited without running any
+models or evaluators. The legacy analyzer grouped all SR wrappers of a problem
+under one target-version key, although each checkpoint has its own preparation.
+New analyses now use `problem|sr|prompt_arm|target_checkpoint`, retaining explicit
+cell overrides and legacy configuration keys. Historical analysis JSON is intact.
+
+`sr_version_audit` in the frozen manifest supplies 74 target versions and exact
+bindings for 119 selected SR records. The extractor
+`rtl_repo_scout/tools/audit_paper_sr_versions.py` opens SQLite read-only, verifies
+cell/preparation/evaluation object identities, checks 122 frozen preparations
+(156,516 files), reconstructs inference generations including prompts and initial
+state, and matches selected candidates, evaluation/inference hashes, tests,
+tokens and timings against the ledger. Existing evaluator-only repairs retain
+their decision-bound generation rather than using an inference hash formula.
+All settings agree on the target version for each active SR and prompt arm.
+
+At scoring time, the complete selected-evidence binding, target and verified
+preparations must match the frozen audit. Only `unknown` fields on the identical
+inference/evaluation/target version resolve to `identical`; explicit decisions
+are preserved. Existing three reviewed SR reevaluations keep their compatible
+scores/costs and incompatible timings. The report exports original and resolved
+statuses, target generation and audit ID. It never writes these changes back to
+attempts or published analysis. Different candidates, evaluations, versions,
+prompts and unreviewed future cells cannot inherit this audit by task name alone.
+
+The default High CPR is now formally 38/74 (51.3513514%). Its 70 legacy unknown
+score flags were missing-target metadata, not missing test evidence. Incomplete
+Low/Medium/xhigh full-benchmark scores and incompatible timing efficiencies
+remain N/A. Audit CSV/JSON and the 74-row target table are in
+`rtl_repo_scout/reports/paper_metrics_20261027/`.
 
 `configs/experiments/evortl-paper-manifest-v1.json` freezes the existing 15-chain /
 74-checkpoint paper list and existing task types and primary/secondary activities.

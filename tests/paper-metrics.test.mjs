@@ -68,3 +68,20 @@ test('explicit applicability is generation bound and backed by frozen source has
     }
   }
 });
+
+test('audited SR target versions unlock complete CPR and preserve timing decisions',async()=>{
+  const high=report.groups.find(g=>g.config.thinking==='high');
+  assert.equal(high.primary.sr_cpr.value,38/74);
+  assert.equal(high.primary.sr_cpr.reason,null);
+  const records=await load(report.checkpoint_records_path);
+  const sr=records.groups.find(g=>g.id===high.id).checkpoint_records.filter(r=>r.mode==='sr');
+  assert.equal(sr.length,74);
+  assert.ok(sr.every(r=>r.compatible&&r.version_audit_id&&r.target_generation));
+  assert.equal(sr.filter(r=>r.original_compatibility.score==='unknown').length,70);
+  assert.equal(sr.filter(r=>r.resolved_compatibility.time==='incompatible').length,3);
+  assert.equal(high.efficiencies.sr_cpr_actual.time_efficiency_per_hour,null);
+  for(const g of report.groups.filter(g=>g.config.thinking!=='high')){
+    assert.equal(g.primary.sr_cpr.value,null);
+    assert.equal(g.primary.sr_cpr.reason,'incomplete_results');
+  }
+});

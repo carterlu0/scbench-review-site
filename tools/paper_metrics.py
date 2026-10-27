@@ -36,6 +36,99 @@ SEMANTICS = {
     "claude_code": "exclusive_cache",
     "opencode": "exclusive_cache",
 }
+VERSION_EVIDENCE_FIELDS = (
+    "candidate",
+    "evaluation_sha256",
+    "inference_sha256",
+    "tokens",
+    "inference_seconds",
+    "evaluation_seconds",
+    "tests",
+    "state",
+    "valid_execution_failure",
+)
+
+
+def sr_version_binding(cell: dict, cp: dict, chain_id: str) -> dict:
+    """Bind an audit to the selected evidence, not merely the task name."""
+    return {
+        "cell_id": cell["id"],
+        "chain_id": chain_id,
+        "prompt_arm": cell.get("prompt_arm"),
+        "checkpoint_id": cp["target_checkpoint"],
+        **{
+            k: cell.get(k)
+            for k in (
+                "generation",
+                "evaluation_generation",
+                "selected_attempt",
+                "selected_evaluation",
+            )
+        },
+        "checkpoint_evidence_sha256": identity(
+            {k: cp.get(k) for k in VERSION_EVIDENCE_FIELDS}
+        ),
+    }
+
+
+def apply_sr_version_audit(
+    row: dict, cell: dict | None, cp: dict | None, manifest: dict
+) -> None:
+    """Use explicit, read-only audited target bindings; preserve all decisions."""
+    if cell is None or cp is None:
+        return
+    original = cp.get("compatibility", {})
+    row["original_compatibility"] = dict(original)
+    audit = manifest.get("sr_version_audit", {})
+    binding = sr_version_binding(cell, cp, row["chain_id"])
+    key = identity(binding)
+    record = audit.get("records", {}).get(key)
+    if not record:
+        return
+    scope = "|".join(
+        (row["chain_id"], cell.get("prompt_arm", ""), cp["target_checkpoint"])
+    )
+    target = audit.get("targets", {}).get(scope)
+    preps = audit.get("preparations", {})
+    source = preps.get(record.get("source_preparation"), {})
+    evaluated = preps.get(record.get("evaluation_preparation"), {})
+    if not (
+        audit.get("schema_version") == 1
+        and record.get("binding") == binding
+        and record.get("source_compatibility") == original
+        and cell.get("mode") == "sr"
+        and cell.get("planned_targets") == [cp["target_checkpoint"]]
+        and target
+        and target == binding["evaluation_generation"]
+        and source.get("verified") is True
+        and evaluated.get("verified") is True
+        and source.get("generation") == binding["generation"]
+        and evaluated.get("generation") == target
+    ):
+        return
+    resolved = dict(original)
+    same = binding["generation"] == target
+    # A differing evaluation version never makes old timings/costs identical.
+    # Only unknown entries on the exact same frozen version can be resolved.
+    if same:
+        for metric_name in ("score", "cost", "time", "calls"):
+            if resolved.get(metric_name) == "unknown":
+                resolved[metric_name] = "identical"
+    row.update(
+        {
+            "version_audit_id": key,
+            "target_generation": target,
+            "resolved_compatibility": resolved,
+            "compatibility_source": "audited_same_generation"
+            if same
+            else "existing_reviewed_reevaluation",
+            "compatible": resolved.get("score") in {"identical", "compatible"},
+            "cost_compatible": resolved.get("cost")
+            in {"identical", "compatible"},
+            "time_compatible": resolved.get("time")
+            in {"identical", "compatible"},
+        }
+    )
 
 
 def identity(value: Any) -> str:
@@ -890,6 +983,7 @@ def calculate(
                     book,
                     reason="ambiguous_sr_trial" if len(s_matches) > 1 else None,
                 )
+                apply_sr_version_audit(srow, scell, scp, manifest)
                 rows.append(srow)
             for row in rows[-2 * len(specs) :]:
                 if row["reason"] and row["execution_status"] == "invalid":
@@ -1008,6 +1102,9 @@ def calculate(
         "scoring_version": SCORING_VERSION,
         "benchmark_version": manifest["benchmark_version"],
         "manifest_sha256": identity(manifest),
+        "sr_version_audit_sha256": identity(manifest["sr_version_audit"])
+        if manifest.get("sr_version_audit")
+        else None,
         "analysis_id": analysis.get("id"),
         "source_analysis_sha256": identity(analysis),
         "price_version": book.get("version"),
@@ -1026,6 +1123,7 @@ def calculate(
             "core_pass_target_set": "all manifest checkpoints, not_reached contributes zero",
             "repeats": "each repeat separately; no best-of-k or cross-repeat filling",
             "protocol_equivalence": "only explicit manifest mappings after exact complete execution-settings hash verification; original protocol IDs retained",
+            "sr_version_compatibility": "explicit audited per-SR frozen target and selected-evidence bindings; original decisions retained; unknown alone is never sufficient",
             "container_preparation_and_scheduling": "excluded; not recorded as zero",
         },
         "groups": reports,
