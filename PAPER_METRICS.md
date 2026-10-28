@@ -2,7 +2,7 @@
 
 The implementation follows `rtl_repo_scout/paper/EvoRTL评分指标.md`
 (2026-10-26), with the user-specified FC extension (2026-10-28).
-Scoring version: `evortl-paper-2026-10-28-v2`.
+Scoring version: `evortl-paper-2026-10-28-v3`.
 It reads saved results; it never calls models, executes RTL tests, edits task
 definitions, or rewrites attempts and qualification evidence.
 
@@ -42,14 +42,15 @@ passed)/(Core applicable + Regression applicable). Earlier checkpoint successes
 never contribute to FC. Regression with zero applicable tests adds zero to both
 numerator and denominator; a missing/zero combined denominator stays unknown.
 Pending, missing and infrastructure-invalid evidence stays N/A, preserving the
-full chain denominator. Legacy Functionality/Error tests affect strict FDR but
-are excluded from FC's ratio. Original compatibility and applicability checks
+full chain denominator. Historical Functionality is a Core alias: its test nodes, required IDs,
+counts and inventory totals are merged into Core exactly once before scoring.
+It participates in FC and Core metrics; Error remains outside FC's ratio. Original compatibility and applicability checks
 still apply. Exports include pipeline_fc, per-chain f_j, final checkpoint ID,
 Structure status and final Core/Regression counts. FC also participates in
 independent-repeat statistics, task-type groups and optional resource efficiency
 using the full Pipeline cost/time per chain, including earlier failed rounds.
 
-Current complete High FC=53.3848258% and Medium FC=34.5254187% (15 chains each).
+Current complete High FC=52.9774184% and Medium FC=34.3649249% (15 chains each).
 Low/xhigh full-benchmark FC remains N/A because their task coverage is incomplete.
 CPR averages independent SR checkpoint success. Structure-only progression is
 required for Pipeline; Core/Regression failure can be followed by later success.
@@ -110,8 +111,10 @@ frozen evaluator collection nodes or explicit group totals; the report records
 which source is available. Empty Structure/Core is invalid. Regression is N/A
 only with explicit zero applicable items. Missing groups do not imply N/A.
 Required skips remain unexecuted, and required absent IDs do not pass.
-Existing Functionality/Error items remain required, with their group names
-unchanged; this infrastructure does not migrate benchmark tests.
+Functionality is never a separate formal group. Original raw evidence remains
+unchanged; projected test nodes retain `source_group: Functionality` when
+applicable. Dual markers on one test do not create another test. Required
+failures/skips remain failures/unexecuted Core checks after this projection.
 
 Two existing supersession rules were read from exact frozen preparations:
 SERV retires the old ABI check from checkpoint 6; CLINT direct checks defer to

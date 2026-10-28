@@ -128,7 +128,27 @@ test('FC uses preset final Core and Regression counts and zero for unreached fin
   }
   const high=report.groups.find(g=>g.config.thinking==='high');
   const medium=report.groups.find(g=>g.config.thinking==='medium');
-  assert.ok(Math.abs(high.primary.pipeline_fc.value-0.5338482584096619)<1e-12);
-  assert.ok(Math.abs(medium.primary.pipeline_fc.value-0.3452541869208536)<1e-12);
+  assert.ok(Math.abs(high.primary.pipeline_fc.value-0.5297741843355879)<1e-12);
+  assert.ok(Math.abs(medium.primary.pipeline_fc.value-0.3436492486492487)<1e-12);
   assert.equal(high.efficiencies.pipeline_fc_actual.performance,high.primary.pipeline_fc.value);
+});
+
+test('formal groups merge Functionality into Core and retain source provenance',async()=>{
+  const records=await load(report.checkpoint_records_path);
+  assert.deepEqual(report.policies.test_group_aliases,{Functionality:'Core'});
+  for(const g of records.groups){
+    for(const cp of g.checkpoint_records){
+      if(!cp.groups)continue;
+      assert.equal(cp.groups.functionality,undefined);
+      for(const t of cp.groups.core.tests||[]){
+        assert.equal(t.group.toLowerCase(),'core');
+      }
+    }
+    if(!['high','medium'].includes(g.config.thinking))continue;
+    const axis=g.checkpoint_records.find(cp=>cp.mode==='pipeline'&&cp.chain_id==='verilog_axis_fifo_t2');
+    assert.equal(axis.groups.core.passed,18);
+    assert.equal(axis.groups.core.expected,19);
+    const fault=axis.groups.core.tests.find(t=>t.source_group==='Functionality');
+    assert.equal(fault.status,'failed');
+  }
 });

@@ -432,14 +432,20 @@ function splitCurrentAndHistoricalRuns(runs) {
 }
 
 function resultMetricChips(evaluation) {
-  const counts = evaluation?.counts || {};
-  const labels = { structure: "structure", core: "core", functionality: "function", regression: "regression" };
+  const counts = {...evaluation?.counts};
+  if (Array.isArray(counts.functionality) && Array.isArray(counts.core)) {
+    counts.core = counts.core.map((v, i) => v + counts.functionality[i]);
+  }
+  const labels = { structure: "structure", core: "core", regression: "regression" };
   const chips = Object.entries(labels).flatMap(([key, label]) => {
     const value = counts[key];
     return Array.isArray(value) && value.length === 2 ? [`<span class="result-metric"><b>${escapeHtml(label)}</b>${escapeHtml(value[0])}/${escapeHtml(value[1])}</span>`] : [];
   });
   if (evaluation?.core_gate_passed !== undefined) {
-    chips.push(`<span class="result-metric ${evaluation.core_gate_passed ? "metric-pass" : "metric-fail"}"><b>core gate</b>${evaluation.core_gate_passed ? "passed" : "blocked"}</span>`);
+    const gate = counts.functionality?.[1] > 0 && counts.core && counts.structure
+      ? counts.core[1] > 0 && counts.core[0] === counts.core[1] && counts.structure[1] > 0 && counts.structure[0] === counts.structure[1]
+      : evaluation.core_gate_passed;
+    chips.push(`<span class="result-metric ${gate ? "metric-pass" : "metric-fail"}"><b>core gate</b>${gate ? "passed" : "blocked"}</span>`);
   }
   return chips.join("");
 }
@@ -619,7 +625,7 @@ function renderRoute() {
     return;
   }
   if (window.location.hash.startsWith("#experiments")) {
-    import("./experiments.mjs?v=20261028-fc").then(module => module.renderExperiments());
+    import("./experiments.mjs?v=20261028-core-alias").then(module => module.renderExperiments());
     return;
   }
   const match = window.location.hash.match(/^#review\/([^/]+)(?:\/(history|compressed)(?:\/(\d+))?)?$/);

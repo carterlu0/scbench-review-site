@@ -68,11 +68,19 @@ const checkpointOrder = (a, b) => a.localeCompare(b, undefined, {numeric: true})
 const validCount = value => Number.isInteger(value) && value >= 0;
 export function testCounts(checkpoint, group = 'total') {
   if (!checkpoint) return null;
-  const saved = checkpoint.test_counts?.[group.toLowerCase()];
-  if (saved && validCount(saved.passed) && validCount(saved.total) && saved.passed <= saved.total) return saved;
+  const key = group.toLowerCase() === 'functionality' ? 'core' : group.toLowerCase();
+  const saved = checkpoint.test_counts?.[key];
+  if (key === 'core' && checkpoint.test_counts?.functionality != null) {
+    const legacy = checkpoint.test_counts.functionality;
+    if ([saved, legacy].every(v => v && validCount(v.passed) && validCount(v.total) && v.passed <= v.total)) {
+      return {passed: saved.passed + legacy.passed, total: saved.total + legacy.total};
+    }
+    if (!checkpoint.tests?.length) return null;
+  }
+  if (!(key === 'core' && checkpoint.test_counts?.functionality != null) && saved && validCount(saved.passed) && validCount(saved.total) && saved.passed <= saved.total) return saved;
   // Overview records omit nodes. An empty lazy payload does not mean zero tests.
   if (!checkpoint.tests?.length) return null;
-  const tests = group === 'total' ? checkpoint.tests : checkpoint.tests.filter(t => t.group.toLowerCase() === group.toLowerCase());
+  const tests = group === 'total' ? checkpoint.tests : checkpoint.tests.filter(t => (t.group.toLowerCase() === 'functionality' ? 'core' : t.group.toLowerCase()) === key);
   return {passed: tests.filter(t => t.status === 'passed').length, total: tests.length};
 }
 

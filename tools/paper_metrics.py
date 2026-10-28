@@ -18,9 +18,23 @@ from statistics import mean
 from statistics import pstdev
 from typing import Any
 
-SCORING_VERSION = "evortl-paper-2026-10-28-v2"
+SCORING_VERSION = "evortl-paper-2026-10-28-v3"
 GROUPS = ("structure", "core", "regression")
-EXTRA_GROUPS = ("functionality", "error")
+EXTRA_GROUPS = ("error",)
+
+
+def scoring_group(name: str) -> str:
+    """Functionality is a historical spelling of Core, never a fifth group."""
+    group = name.lower()
+    return "core" if group == "functionality" else group
+
+
+def scoring_test(test: dict[str, Any]) -> dict[str, Any]:
+    if test["group"].lower() == "functionality":
+        return {**test, "source_group": test["group"], "group": "Core"}
+    return {**test}
+
+
 SETTINGS = (
     "model",
     "agent",
@@ -192,7 +206,7 @@ def validate_manifest(manifest: dict[str, Any]) -> None:
                 if len({t["nodeid"] for t in tests}) != len(tests):
                     raise ValueError("Duplicate required test ID")
                 if any(
-                    t["group"].lower() not in GROUPS + EXTRA_GROUPS
+                    scoring_group(t["group"]) not in GROUPS + EXTRA_GROUPS
                     for t in tests
                 ):
                     raise ValueError("Unknown test group")
@@ -340,9 +354,10 @@ def group_results(
     """Prefer required IDs; explicit evaluator collection totals are a fallback.
 
     A missing group is never treated as an empty group. Required skipped tests
-    count as unexecuted. Legacy Functionality/Error remain required, unchanged.
+    count as unexecuted. Legacy Functionality is merged into Core exactly once;
+    original source groups remain available on the projected test nodes.
     """
-    nodes = cp.get("tests") or []
+    nodes = [scoring_test(t) for t in cp.get("tests") or []]
     exclusions = {
         item["nodeid"]: item
         for item in spec.get("non_applicable_tests", [])
@@ -359,7 +374,15 @@ def group_results(
     excluded_ids = {t["nodeid"] for t in excluded}
     nodes = [t for t in nodes if t["nodeid"] not in excluded_ids]
     required = spec.get("tests", {}).get(mode)
+    if required is not None:
+        required = [scoring_test(t) for t in required]
     expected = cp.get("expected_test_counts", {}).get("groups")
+    if expected is not None:
+        expected = dict(expected)
+        legacy = expected.pop("functionality", 0)
+        if not integer(legacy) or not integer(expected.get("core", 0)):
+            return {}, "test_inventory_count_mismatch"
+        expected["core"] = expected.get("core", 0) + legacy
     by_group: dict[str, list[dict[str, Any]]] = defaultdict(list)
     if required is not None:
         observed = {t["nodeid"]: t for t in nodes}
@@ -374,7 +397,15 @@ def group_results(
                 ):
                     return {}, "test_group_mismatch"
                 by_group[test["group"].lower()].append(
-                    {**test, "status": actual.get("status", "not_executed")}
+                    {
+                        **test,
+                        **(
+                            {"source_group": actual["source_group"]}
+                            if "source_group" in actual
+                            else {}
+                        ),
+                        "status": actual.get("status", "not_executed"),
+                    }
                 )
         source = "frozen_required_test_ids"
     elif nodes:
@@ -405,6 +436,21 @@ def group_results(
             }
         else:
             saved = (cp.get("test_counts") or {}).get(group)
+            if group == "core":
+                legacy = (cp.get("test_counts") or {}).get("functionality")
+                if legacy is not None:
+                    for counts in (saved, legacy):
+                        if (
+                            not counts
+                            or not integer(counts.get("total"))
+                            or not integer(counts.get("passed"))
+                            or counts["passed"] > counts["total"]
+                        ):
+                            return {}, "missing_group_counts"
+                    saved = {
+                        key: saved[key] + legacy[key]
+                        for key in ("passed", "total")
+                    }
             if (
                 not saved
                 or not integer(saved.get("total"))
@@ -1177,7 +1223,8 @@ def calculate(
             "progression": "structure-cases",
             "strict_pass": "all_applicable_required_tests",
             "pipeline_final_completion": "manifest-defined final checkpoint only; 0 if verified not_reached or Structure not all passed; otherwise (Core passed + Regression passed) / (Core applicable + Regression applicable); equal task-chain weights; incomplete/invalid evidence remains unknown",
-            "legacy_groups": "Functionality and Error remain required; no relabelling",
+            "legacy_groups": "Functionality maps to Core exactly once for nodes, required IDs, evaluator totals and inventories; source evidence is unchanged; Error remains required for strict success",
+            "test_group_aliases": {"Functionality": "Core"},
             "regression_na": "explicit collection inventory zero only",
             "timing": timing_policy,
             "timing_unit": "seconds",

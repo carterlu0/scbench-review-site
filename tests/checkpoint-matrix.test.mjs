@@ -97,3 +97,14 @@ test('published SERV diagnostic retains exact final and SR counts without upgrad
   const sr=cells.find(c=>c.problem==='serv-t1'&&c.mode==='sr'&&c.checkpoints[0].target_checkpoint==='checkpoint_10');
   assert.equal(fraction(testCounts(sr.checkpoints[0],'regression')),'20/20');
 });
+
+test('Functionality is a Core alias in saved totals and nodes, with no double counting of dual markers',()=>{
+  const saved={test_counts:{core:{passed:18,total:18},functionality:{passed:0,total:1},total:{passed:24,total:25}}};
+  assert.deepEqual(testCounts(saved,'core'),{passed:18,total:19});
+  assert.deepEqual(testCounts(saved,'functionality'),{passed:18,total:19});
+  assert.deepEqual(testCounts(saved),{passed:24,total:25});
+  const nodes={tests:[{group:'Core',status:'passed',markers:['core','functionality']},{group:'Functionality',status:'failed'}]};
+  assert.deepEqual(testCounts(nodes,'core'),{passed:1,total:2});
+  assert.deepEqual(testCounts(nodes),{passed:1,total:2});
+  assert.deepEqual(testCounts({...nodes,test_counts:{core:{passed:1,total:1},functionality:{passed:3,total:1}}},'core'),{passed:1,total:2});
+});
