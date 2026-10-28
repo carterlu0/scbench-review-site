@@ -50,8 +50,44 @@ Structure status and final Core/Regression counts. FC also participates in
 independent-repeat statistics, task-type groups and optional resource efficiency
 using the full Pipeline cost/time per chain, including earlier failed rounds.
 
-Current complete High FC=52.9774184% and Medium FC=34.3649249% (15 chains each).
+Current complete High FC=52.2130677% and Medium FC=31.3852374% (15 chains each),
+after FC evaluator repair v2. The previous immutable release retains
+High FC=52.9774184% and Medium FC=34.3649249%.
 Low/xhigh full-benchmark FC remains N/A because their task coverage is incomplete.
+
+### FC evaluator repair v2 publication
+
+The default release `b9200d35ef98365bff8a121e23922dcb271aa9d968fec2a8590be6c8a0c814ac`
+contains 42 completed saved-candidate re-evaluations and 70 exact metadata
+projections. No agent invocations were added. Its report uses the separately
+versioned `data/paper/benchmark-fc-retest-v2.json`; historical releases keep
+`benchmark-v1.json` and their original reports. Full checkpoint test nodes are
+inline, so evidence pages never load the old release's detail paths.
+
+To reproduce publication using the checked completion summary and public inputs:
+
+```bash
+python3 tools/publish-fc-retest.py \
+  --analysis /home/carter/slop-code-bench/rtl_repo_scout/reports/fc_repairs_20261028/reevaluation_v2/inputs/analysis.json \
+  --manifest /home/carter/slop-code-bench/rtl_repo_scout/reports/fc_repairs_20261028/reevaluation_v2/inputs/manifest.json \
+  --pricebook /home/carter/slop-code-bench/rtl_repo_scout/reports/fc_repairs_20261028/reevaluation_v2/inputs/pricebook.json
+```
+
+`data/experiments/site-releases.json` registers this site-published result and
+its default selection. Scheduled private-source sync merges these entries only
+after validating all local dependency hashes; missing/corrupt site evidence
+aborts the sync. Remove its `default_analysis` setting when a future complete
+source release should become the default, while retaining the historical entry.
+Each release may declare a hash-bound `paper_manifest`. The builder reuses
+unchanged, hash-verified reports from the same engine and manifest so repeated
+builds preserve historical artifact bytes.
+
+FC is the preferred partial-completion view for the final Pipeline state. CC
+reports the trajectory's strict checkpoint completions and remains useful as a
+companion. Neither FC nor the evaluator repair makes test nodes equally sized
+functional requirements: suite packaging and baseline-preservation checks remain
+part of the interpretation. FDR is still the strict delivery measure (including
+required Error checks), and CPR describes independent SR performance.
 CPR averages independent SR checkpoint success. Structure-only progression is
 required for Pipeline; Core/Regression failure can be followed by later success.
 An evidenced Structure stop contributes zero for the suffix, with no fabricated

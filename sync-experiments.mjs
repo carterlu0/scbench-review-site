@@ -20,6 +20,24 @@ export async function syncExperiments({readText,sourceCommit,output}) {
   try{text=await readText('experiments/catalog.json');}catch(error){if(String(error.message).includes('GitHub API 404'))return;throw error;}
   const catalog=JSON.parse(text);
   if(catalog.schema_version!==4||!Array.isArray(catalog.releases))throw new Error('Unsupported experiment catalog');
+  // Site-published evaluator retests have their own immutable release. Keep
+  // them through scheduled source synchronization until explicitly retired.
+  let local;
+  try { local=JSON.parse(await readFile(resolve(output,'site-releases.json'),'utf8')); }
+  catch(error) { if(error.code!=='ENOENT')throw error; }
+  const localIds=new Set();
+  if(local){
+    if(local.schema_version!==1||!Array.isArray(local.releases))throw new Error('Unsupported site release catalog');
+    for(const release of local.releases){
+      if(localIds.has(release.id)||catalog.releases.some(r=>r.id===release.id&&JSON.stringify(r)!==JSON.stringify(release)))throw new Error('Conflicting site release');
+      localIds.add(release.id);
+      if(!catalog.releases.some(r=>r.id===release.id))catalog.releases.push(release);
+    }
+    if(local.default_analysis){
+      if(!localIds.has(local.default_analysis))throw new Error('Unknown site default release');
+      catalog.default_analysis=local.default_analysis;
+    }
+  }
   // Validate every dependency before publishing the new manifest.
   const pending=new Map();
   for(const release of catalog.releases){safePath(release.path);if(!/^[a-f0-9]{64}$/.test(release.id))throw new Error('Invalid release id');
@@ -34,7 +52,10 @@ export async function syncExperiments({readText,sourceCommit,output}) {
           const cached=await readFile(resolve(output,path),'utf8');
           if(createHash('sha256').update(cached).digest('hex')===expected)payload=cached;
         } catch(error) { if(error.code!=='ENOENT')throw error; }
-        if(payload===undefined)payload=await readText(`experiments/${path}`);
+        if(payload===undefined){
+          if(localIds.has(release.id))throw new Error(`Missing or corrupt site evidence: ${path}`);
+          payload=await readText(`experiments/${path}`);
+        }
       }
       if(createHash('sha256').update(payload).digest('hex')!==expected)throw new Error(`Experiment hash mismatch: ${path}`);
       const value=JSON.parse(payload);if(path===release.path)validatePublicAnalysis(value);

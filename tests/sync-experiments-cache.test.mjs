@@ -63,3 +63,26 @@ test('a corrupted local dependency is re-fetched and checked', async () => {
     assert.equal(await readFile(join(output,'protocols/shared.json'),'utf8'),shared);
   } finally { await rm(output,{recursive:true,force:true}); }
 });
+
+test('scheduled source sync retains a hash-verified site retest and its default selection',async()=>{
+  const output=await mkdtemp(join(tmpdir(),'experiment-site-sync-'));
+  try{
+    const {catalog,shared}=fixture();
+    const id='c'.repeat(64),path=`analyses/${id}.json`;
+    const local={id,path,files:{[path]:sha(analysis)}};
+    await mkdir(join(output,'analyses'),{recursive:true});
+    await writeFile(join(output,path),analysis);
+    await writeFile(join(output,'site-releases.json'),JSON.stringify({schema_version:1,releases:[local],default_analysis:id}));
+    const remote=async path=>path.endsWith('catalog.json')?JSON.stringify(catalog):path.endsWith('shared.json')?shared:analysis;
+    await syncExperiments({output,sourceCommit:'new',readText:remote});
+    const synced=JSON.parse(await readFile(join(output,'catalog.json'),'utf8'));
+    assert.equal(synced.default_analysis,id);
+    assert.equal(synced.releases.length,3);
+    assert.deepEqual(synced.releases.at(-1),local);
+    // Corrupt retained evidence must fail closed without changing the catalog.
+    const original=await readFile(join(output,'catalog.json'),'utf8');
+    await writeFile(join(output,path),'corrupt');
+    await assert.rejects(syncExperiments({output,sourceCommit:'newer',readText:remote}),/Missing or corrupt site evidence/);
+    assert.equal(await readFile(join(output,'catalog.json'),'utf8'),original);
+  }finally{await rm(output,{recursive:true,force:true});}
+});

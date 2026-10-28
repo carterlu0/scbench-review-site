@@ -128,14 +128,17 @@ test('FC uses preset final Core and Regression counts and zero for unreached fin
   }
   const high=report.groups.find(g=>g.config.thinking==='high');
   const medium=report.groups.find(g=>g.config.thinking==='medium');
-  assert.ok(Math.abs(high.primary.pipeline_fc.value-0.5297741843355879)<1e-12);
-  assert.ok(Math.abs(medium.primary.pipeline_fc.value-0.3436492486492487)<1e-12);
+  assert.ok(Math.abs(high.primary.pipeline_fc.value-0.5221306768878258)<1e-12);
+  assert.ok(Math.abs(medium.primary.pipeline_fc.value-0.3138523739133495)<1e-12);
   assert.equal(high.efficiencies.pipeline_fc_actual.performance,high.primary.pipeline_fc.value);
 });
 
 test('formal groups merge Functionality into Core and retain source provenance',async()=>{
-  const records=await load(report.checkpoint_records_path);
-  assert.deepEqual(report.policies.test_group_aliases,{Functionality:'Core'});
+  // The immutable pre-retest release still carries the original Functionality
+  // nodes. The new evaluator projects them to Core before exporting evidence.
+  const historical=await load('reports/5667349f28caf00f99155395112bb70f856d5d5a3e0a24ec1c07ea6a5a155bf7.json');
+  const records=await load(historical.checkpoint_records_path);
+  assert.deepEqual(historical.policies.test_group_aliases,{Functionality:'Core'});
   for(const g of records.groups){
     for(const cp of g.checkpoint_records){
       if(!cp.groups)continue;
@@ -150,5 +153,40 @@ test('formal groups merge Functionality into Core and retain source provenance',
     assert.equal(axis.groups.core.expected,19);
     const fault=axis.groups.core.tests.find(t=>t.source_group==='Functionality');
     assert.equal(fault.status,'failed');
+  }
+});
+
+test('default FC retest uses its own manifest, complete formal scores and repaired Core tests',async()=>{
+  assert.equal(report.retest.completed_jobs,42);
+  assert.equal(report.retest.total_jobs,42);
+  assert.equal(report.retest.agent_invocations,0);
+  const latestManifest=await load(report.benchmark_manifest_path);
+  assert.equal(latestManifest.chains.length,15);
+  assert.equal(latestManifest.chains.reduce((n,c)=>n+c.checkpoints.length,0),74);
+  assert.notEqual(report.manifest_sha256,catalog.manifest_sha256);
+  assert.equal(report.manifest_sha256,catalog.latest_manifest_sha256);
+  const records=await load(report.checkpoint_records_path);
+  for(const effort of ['high','medium']){
+    const group=report.groups.find(g=>g.config.thinking===effort);
+    assert.deepEqual(group.issues,[]);
+    for(const metric of Object.values(group.primary))assert.equal(metric.reason,null);
+    assert.equal(group.primary.sr_cpr.known_units,74);
+    assert.equal(group.primary.pipeline_fc.known_units,15);
+    const nodes=records.groups.find(g=>g.id===group.id).checkpoint_records;
+    const axis=nodes.find(cp=>cp.chain_id==='verilog_axis_fifo_t2'&&cp.mode==='pipeline');
+    assert.equal(axis.groups.core.expected,23);
+    assert.equal(axis.groups.core.passed,18);
+    assert.equal(axis.groups.regression.expected,1);
+    assert.ok(axis.groups.core.tests.some(t=>t.nodeid==='test_checkpoint_1_oracle_checks_source_pause'&&t.status==='failed'));
+    assert.equal(axis.groups.core.tests.filter(t=>t.nodeid.startsWith('test_checkpoint_1_oracle_checks_status_pulse_width')&&t.status==='failed').length,3);
+    assert.equal(axis.groups.functionality,undefined);
+  }
+  const medium=report.groups.find(g=>g.config.thinking==='medium');
+  const clint=medium.chains.find(c=>c.chain_id==='clint_t1');
+  assert.equal(clint.q_j,0.75);
+  assert.equal(clint.f_j,0);
+  for(const g of report.groups.filter(g=>['low','xhigh'].includes(g.config.thinking))){
+    assert.equal(g.primary.pipeline_fc.value,null);
+    assert.equal(g.primary.pipeline_fc.reason,'incomplete_results');
   }
 });

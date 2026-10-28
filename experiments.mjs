@@ -1,5 +1,5 @@
 import {escapeHtml as esc, modelKey, compareModelSettings, resultKey, latestCells, selectCells, summarize, csv, hydrateCells, testCounts, checkpointRows, plannedTargets, finalResult, fraction, isDeliveryFailure} from './experiments-core.mjs?v=20261027-delivery-display';
-import {renderPaperMetrics, selectPaperGroups, paperCsv} from './paper-metrics.mjs?v=20261028-core-alias';
+import {renderPaperMetrics, selectPaperGroups, paperCsv} from './paper-metrics.mjs?v=20261028-fc-retest-v2';
 let catalogPromise;
 let paperCatalogPromise;
 let metadataPromise;
