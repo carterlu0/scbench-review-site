@@ -28,6 +28,7 @@ class PaperAcceptance(unittest.TestCase):
         group = calculate({"cells": cells}, manifest, {})["groups"][0]
         self.assertEqual(group["primary"]["pipeline_fdr"]["value"], 0.5)
         self.assertAlmostEqual(group["primary"]["pipeline_cc"]["value"], 7 / 12)
+        self.assertEqual(group["primary"]["pipeline_fc"]["value"], 0.5)
         self.assertEqual(group["primary"]["sr_cpr"]["value"], 0.8)
         self.assertEqual(group["auxiliary"]["sr_chain_macro"]["value"], 0.75)
 

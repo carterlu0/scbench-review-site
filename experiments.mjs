@@ -1,5 +1,5 @@
 import {escapeHtml as esc, modelKey, compareModelSettings, resultKey, latestCells, selectCells, summarize, csv, hydrateCells, testCounts, checkpointRows, plannedTargets, finalResult, fraction, isDeliveryFailure} from './experiments-core.mjs?v=20261027-delivery-display';
-import {renderPaperMetrics, selectPaperGroups, paperCsv} from './paper-metrics.mjs?v=20261027-paper-metrics';
+import {renderPaperMetrics, selectPaperGroups, paperCsv} from './paper-metrics.mjs?v=20261028-fc';
 let catalogPromise;
 let paperCatalogPromise;
 let metadataPromise;
@@ -124,7 +124,7 @@ export async function renderExperiments() {
     const total=summarize(cells);
     params.set('analysis',entry.id);
     const name=problem||'Experiment matrix';
-    const subtitle=problem?'Pipeline and SR · checkpoint test results':`${esc(release.name)} · FDR / CC / CPR`;
+    const subtitle=problem?'Pipeline and SR · checkpoint test results':`${esc(release.name)} · FDR / CC / FC / CPR`;
     if(location.hash!==route)return;
     app.innerHTML=`<section class="experiment-page">
       ${problem?`<a class="matrix-back" href="${hash(params,{problem:null,trial:null,checkpoint:null})}">← All experiment results</a>`:''}

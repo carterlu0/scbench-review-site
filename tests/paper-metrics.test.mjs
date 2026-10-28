@@ -18,7 +18,7 @@ test('report hashes, frozen denominators and FDR/CC chain weighting are consiste
     assert.equal(g.primary.pipeline_fdr.denominator,manifest.chains.length);
     assert.equal(g.primary.pipeline_cc.denominator,manifest.chains.length);
     assert.equal(g.primary.sr_cpr.denominator,manifest.chains.reduce((s,c)=>s+c.checkpoints.length,0));
-    for(const [name,field] of [['pipeline_fdr','d_j'],['pipeline_cc','q_j']]){
+    for(const [name,field] of [['pipeline_fdr','d_j'],['pipeline_cc','q_j'],['pipeline_fc','f_j']]){
       if(g.chains.every(c=>c[field]!=null)){
         const expected=g.chains.reduce((s,c)=>s+c[field],0)/g.chains.length;
         assert.ok(Math.abs(g.primary[name].raw_value-expected)<1e-12);
@@ -39,6 +39,7 @@ test('report hashes, frozen denominators and FDR/CC chain weighting are consiste
 test('main metrics are default; auxiliary and resources require explicit selection',()=>{
   const html=renderPaperMetrics(report,{scope:'formal'},new URLSearchParams());
   assert.match(html,/paper-primary/);assert.doesNotMatch(html,/class="matrix-checkpoints paper-auxiliary"/);
+  assert.match(html,/<th>FC<small>Pipeline Final Completion/);
   assert.doesNotMatch(html,/class="matrix-checkpoints paper-resources"/);
   const extra=renderPaperMetrics(report,{scope:'formal'},new URLSearchParams('aux=1&overhead=1&cache=fixed_85'));
   assert.match(extra,/class="matrix-checkpoints paper-auxiliary"/);
@@ -54,7 +55,7 @@ test('configuration filters never merge efforts, prompts, protocols or repeats',
     assert.ok(selectPaperGroups(report,{protocol:g.configuration_bindings[0].protocol}).includes(g));
   }
   const output=paperCsv(report,{scope:'formal'},'fixed_85');
-  assert.match(output,/pipeline_fdr/);assert.match(output,/sr_chain_macro/);assert.match(output,/fixed_85/);
+  assert.match(output,/pipeline_fdr/);assert.match(output,/pipeline_fc/);assert.match(output,/sr_chain_macro/);assert.match(output,/fixed_85/);
   assert.match(output,/raw_value/);assert.match(output,/denominator/);
 });
 
@@ -110,4 +111,24 @@ test('current Medium data forms one complete group with exact protocol equivalen
   for(const proto of new Set(g.configuration_bindings.map(b=>b.protocol))){
     assert.equal(manifest.protocol_equivalence[proto].config_id,g.config.protocol);
   }
+});
+
+test('FC uses preset final Core and Regression counts and zero for unreached finals',async()=>{
+  const records=await load(report.checkpoint_records_path);
+  for(const group of report.groups){
+    const cps=records.groups.find(g=>g.id===group.id).checkpoint_records;
+    for(const chain of group.chains){
+      const final=cps.find(r=>r.chain_id===chain.chain_id&&r.mode==='pipeline'&&r.checkpoint_id===chain.final_checkpoint_id);
+      if(final.execution_status==='not_reached')assert.equal(chain.f_j,0);
+      else if(final.execution_status==='executed'&&final.groups){
+        const {structure,core,regression}=final.groups;
+        assert.equal(chain.f_j,structure.all_passed?(core.passed+regression.passed)/(core.expected+regression.expected):0);
+      }
+    }
+  }
+  const high=report.groups.find(g=>g.config.thinking==='high');
+  const medium=report.groups.find(g=>g.config.thinking==='medium');
+  assert.ok(Math.abs(high.primary.pipeline_fc.value-0.5338482584096619)<1e-12);
+  assert.ok(Math.abs(medium.primary.pipeline_fc.value-0.3452541869208536)<1e-12);
+  assert.equal(high.efficiencies.pipeline_fc_actual.performance,high.primary.pipeline_fc.value);
 });

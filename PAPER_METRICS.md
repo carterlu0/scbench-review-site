@@ -1,7 +1,8 @@
 # EvoRTL paper metrics
 
 The implementation follows `rtl_repo_scout/paper/EvoRTL评分指标.md`
-(2026-10-26). Scoring version: `evortl-paper-2026-10-26-v1`.
+(2026-10-26), with the user-specified FC extension (2026-10-28).
+Scoring version: `evortl-paper-2026-10-28-v2`.
 It reads saved results; it never calls models, executes RTL tests, edits task
 definitions, or rewrites attempts and qualification evidence.
 
@@ -32,6 +33,24 @@ Decimals remain unrounded through aggregation and efficiency calculation.
 
 FDR is the chain mean of strict success at each manifest-defined final node.
 CC averages strict checkpoint completion within each chain, then across chains.
+FC (Pipeline Final Completion) is the task-chain mean of the applicable Core +
+Regression pass fraction at each chain's **preset manifest-defined final
+checkpoint**. If that checkpoint is not reached because of a verified terminal
+progression failure, its F_j is zero. If reached, Structure must pass in full;
+otherwise F_j is zero. With Structure passed, F_j=(Core passed + Regression
+passed)/(Core applicable + Regression applicable). Earlier checkpoint successes
+never contribute to FC. Regression with zero applicable tests adds zero to both
+numerator and denominator; a missing/zero combined denominator stays unknown.
+Pending, missing and infrastructure-invalid evidence stays N/A, preserving the
+full chain denominator. Legacy Functionality/Error tests affect strict FDR but
+are excluded from FC's ratio. Original compatibility and applicability checks
+still apply. Exports include pipeline_fc, per-chain f_j, final checkpoint ID,
+Structure status and final Core/Regression counts. FC also participates in
+independent-repeat statistics, task-type groups and optional resource efficiency
+using the full Pipeline cost/time per chain, including earlier failed rounds.
+
+Current complete High FC=53.3848258% and Medium FC=34.5254187% (15 chains each).
+Low/xhigh full-benchmark FC remains N/A because their task coverage is incomplete.
 CPR averages independent SR checkpoint success. Structure-only progression is
 required for Pipeline; Core/Regression failure can be followed by later success.
 An evidenced Structure stop contributes zero for the suffix, with no fabricated
@@ -133,7 +152,7 @@ existing user-provided 2026-10-23 Standard rates, explicitly marked independentl
 unverified; they are not presented as a current provider quote or actual bill.
 
 Costs and durations correspond to the selected valid trajectory (including failed
-executed rounds). FDR/CC use mean USD and seconds per chain; CPR uses mean USD and
+executed rounds). FDR/CC/FC use mean USD and seconds per chain; CPR uses mean USD and
 seconds per checkpoint. Missing consumption prevents complete efficiency, without
 discarding that task. Retry/invalid-attempt totals are separate, not mixed into
 the selected-run denominator or lost. Cost and time compatibility are checked
@@ -157,7 +176,7 @@ rules also include the Medium preparation's exact generation, verified against
 the stored sources. Current Medium: FDR=0/15, CC=0.1411111111 and CPR=28/74.
 High remains unchanged; Low/xhigh retain incomplete full-benchmark results.
 
-FDR/CC/CPR and optional auxiliary/resource tables appear only on the experiment
+FDR/CC/FC/CPR and optional auxiliary/resource tables appear only on the experiment
 overview. A single problem route shows the Checkpoint evidence matrix and trial
 evidence, and does not fetch the paper report. Its recorded/SR trial counts are
 scoped to that problem. Back-navigation returns to the overview metrics.
@@ -170,7 +189,7 @@ Checkout: `experiment-system-workspaces/scbench-paper-metrics-20261027/`.
   --directory experiment-system-workspaces/scbench-paper-metrics-20261027
 ```
 
-Open `http://127.0.0.1:8773/#experiments`. FDR/CC/CPR are the default table.
+Open `http://127.0.0.1:8773/#experiments`. FDR/CC/FC/CPR are the default table.
 Auxiliary metrics and cost/time/efficiency are optional. Cache policy and task
 type are shareable URL parameters. A problem search does not silently shrink the
 benchmark denominator. Existing problem/checkpoint evidence remains expandable.

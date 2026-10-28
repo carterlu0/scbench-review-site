@@ -18,7 +18,7 @@ from statistics import mean
 from statistics import pstdev
 from typing import Any
 
-SCORING_VERSION = "evortl-paper-2026-10-26-v1"
+SCORING_VERSION = "evortl-paper-2026-10-28-v2"
 GROUPS = ("structure", "core", "regression")
 EXTRA_GROUPS = ("functionality", "error")
 SETTINGS = (
@@ -612,14 +612,56 @@ def summarize(
         by_chain[row["chain_id"]].append(row)
     pipeline = [r for r in rows if r["mode"] == "pipeline"]
     sr = [r for r in rows if r["mode"] == "sr"]
-    delivery, completion, trajectories, sr_macro, sr_all, chain_rows = (
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-    )
+    (
+        delivery,
+        completion,
+        final_completion,
+        trajectories,
+        sr_macro,
+        sr_all,
+        chain_rows,
+    ) = ([], [], [], [], [], [], [])
+
+    def final_completion_value(
+        pipeline_rows: list[dict[str, Any]], chain: dict[str, Any]
+    ) -> float | None:
+        """Score only the manifest-defined final checkpoint.
+
+        A verified progression stop before that checkpoint is an evidenced zero.
+        Pending, invalid, or otherwise incomplete evidence remains unknown.
+        """
+        if not pipeline_rows:
+            return None
+        final_id = chain["checkpoints"][-1]["id"]
+        final = next(
+            (row for row in pipeline_rows if row["checkpoint_id"] == final_id),
+            None,
+        )
+        if final is None:
+            return None
+        if final["execution_status"] == "not_reached":
+            # normalize_checkpoint emits not_reached only for a verified stop.
+            return 0
+        if final["execution_status"] != "executed":
+            return None
+        groups = final.get("groups") or {}
+        structure = groups.get("structure")
+        core = groups.get("core")
+        regression = groups.get("regression")
+        if not structure and final.get("strict_pass") == 0:
+            # Explicitly verified valid-run agent/budget failure; no Structure
+            # pass was obtained at the preset final checkpoint.
+            return 0
+        if not structure or not core or not regression:
+            return None
+        if not structure["all_passed"]:
+            return 0
+        total = core["expected"] + regression["expected"]
+        if total <= 0:
+            return None
+        passed = core["passed"] + regression["passed"]
+        return passed / total
+
     for chain in chains:
         chain_id = chain["id"]
         p = [r for r in by_chain[chain_id] if r["mode"] == "pipeline"]
@@ -630,8 +672,11 @@ def summarize(
         s_complete = bool(svalues) and all(v is not None for v in svalues)
         d = p[-1]["strict_pass"] if p_complete else None
         q = mean(pvalues) if p_complete else None
+        f = final_completion_value(p, chain)
+        final_groups = (p[-1].get("groups") or {}) if p else {}
         delivery.append(d)
         completion.append(q)
+        final_completion.append(f)
         trajectories.append(int(all(pvalues)) if p_complete else None)
         sr_macro.append(mean(svalues) if s_complete else None)
         sr_all.append(int(all(svalues)) if s_complete else None)
@@ -649,6 +694,19 @@ def summarize(
                 ),
                 "d_j": d,
                 "q_j": q,
+                "f_j": f,
+                "final_structure_all_passed": final_groups.get(
+                    "structure", {}
+                ).get("all_passed"),
+                **{
+                    "final_" + name: {
+                        key: final_groups[name][key]
+                        for key in ("passed", "expected", "applicable")
+                    }
+                    if name in final_groups
+                    else None
+                    for name in ("core", "regression")
+                },
                 "cost_usd_by_policy": {
                     policy: complete_sum([r["costs"][policy]["usd"] for r in p])
                     for policy in ("actual", "fixed_85")
@@ -666,6 +724,7 @@ def summarize(
     primary = {
         "pipeline_fdr": metric(delivery, "task_chain", p_eligible),
         "pipeline_cc": metric(completion, "task_chain", p_eligible),
+        "pipeline_fc": metric(final_completion, "task_chain", p_eligible),
         "sr_cpr": metric(
             [r["strict_pass"] for r in sr], "checkpoint", s_eligible
         ),
@@ -765,7 +824,7 @@ def summarize(
                 "timing_policy": timing_policy,
             }
             for name in (
-                ("pipeline_fdr", "pipeline_cc")
+                ("pipeline_fdr", "pipeline_cc", "pipeline_fc")
                 if mode == "pipeline"
                 else ("sr_cpr",)
             ):
@@ -1086,7 +1145,12 @@ def calculate(
                         else None,
                         "valid_repeats": len(values),
                     }
-                    for name in ("pipeline_fdr", "pipeline_cc", "sr_cpr")
+                    for name in (
+                        "pipeline_fdr",
+                        "pipeline_cc",
+                        "pipeline_fc",
+                        "sr_cpr",
+                    )
                     for values in [
                         [
                             r["primary"][name]["value"]
@@ -1112,6 +1176,7 @@ def calculate(
         "policies": {
             "progression": "structure-cases",
             "strict_pass": "all_applicable_required_tests",
+            "pipeline_final_completion": "manifest-defined final checkpoint only; 0 if verified not_reached or Structure not all passed; otherwise (Core passed + Regression passed) / (Core applicable + Regression applicable); equal task-chain weights; incomplete/invalid evidence remains unknown",
             "legacy_groups": "Functionality and Error remain required; no relabelling",
             "regression_na": "explicit collection inventory zero only",
             "timing": timing_policy,
