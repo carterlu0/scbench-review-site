@@ -13,6 +13,7 @@ import argparse
 import copy
 import hashlib
 import json
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -53,20 +54,26 @@ def publish(site: Path, analysis_path: Path, manifest_path: Path, pricebook_path
     if json.loads(published_price_path.read_text()) != pricebook:
         raise ValueError("Supplied pricebook differs from published dependency")
     source_hash = identity(source)
-    release_id = hashlib.sha256(f"evortl-fc-retest-v2:{source_hash}".encode()).hexdigest()
+    contract_version = source["fc_repair"]["version"]
+    suffix = contract_version.rsplit("-", 1)[-1]
+    if not re.fullmatch(r"v[2-9][0-9]*", suffix):
+        raise ValueError("Unsupported FC repair release version")
+    release_version = f"fc-retest-{suffix}"
+    release_id = hashlib.sha256(f"evortl-{release_version}:{source_hash}".encode()).hexdigest()
 
     public = copy.deepcopy(source)
     public["id"] = release_id
     public["name"] = (
         "GPT-6-Luna / Codex: 15 problems, Low / Medium / High / xhigh "
-        "(212 trials) · FC evaluator-only re-evaluation v2 · 42 retests complete"
+        f"({len(source['cells'])} trials) · FC evaluator-only re-evaluation {suffix} "
+        f"· {completion['completed_jobs']} retests complete"
     )
     # Every checkpoint is inline in this export.  Retaining the old release's
     # detail paths would make the browser look up old cell IDs after the retry.
     public["detail_paths"] = {}
     public["publication"] = {
         "kind": "evaluator_only_retest",
-        "version": "fc-retest-v2",
+        "version": release_version,
         "source_analysis_id": source.get("id"),
         "source_analysis_sha256": source_hash,
         "agent_invocations": 0,
@@ -75,6 +82,7 @@ def publish(site: Path, analysis_path: Path, manifest_path: Path, pricebook_path
         "derived_cells": completion["derived_cells"],
         "evidence_identity_failures": completion["identity_failures"],
         "completion_summary_sha256": sha256_file(completion_path),
+        "parent_repair": source["fc_repair"].get("parent_repair"),
     }
     analysis_rel = f"analyses/{release_id}.json"
     analysis_file = site / "data/experiments" / analysis_rel
@@ -94,7 +102,7 @@ def publish(site: Path, analysis_path: Path, manifest_path: Path, pricebook_path
 
     experiments_catalog_path = site / "data/experiments/catalog.json"
     experiments_catalog = json.loads(experiments_catalog_path.read_text())
-    manifest_rel = "benchmark-fc-retest-v2.json"
+    manifest_rel = f"benchmark-{release_version}.json"
     write(site / "data/paper" / manifest_rel, manifest)
     entry = {
         "id": release_id,

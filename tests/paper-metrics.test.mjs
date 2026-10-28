@@ -128,8 +128,8 @@ test('FC uses preset final Core and Regression counts and zero for unreached fin
   }
   const high=report.groups.find(g=>g.config.thinking==='high');
   const medium=report.groups.find(g=>g.config.thinking==='medium');
-  assert.ok(Math.abs(high.primary.pipeline_fc.value-0.5221306768878258)<1e-12);
-  assert.ok(Math.abs(medium.primary.pipeline_fc.value-0.3138523739133495)<1e-12);
+  assert.ok(Math.abs(high.primary.pipeline_fc.value-0.5148513619998152)<1e-12);
+  assert.ok(Math.abs(medium.primary.pipeline_fc.value-0.309702176284891)<1e-12);
   assert.equal(high.efficiencies.pipeline_fc_actual.performance,high.primary.pipeline_fc.value);
 });
 
@@ -157,8 +157,8 @@ test('formal groups merge Functionality into Core and retain source provenance',
 });
 
 test('default FC retest uses its own manifest, complete formal scores and repaired Core tests',async()=>{
-  assert.equal(report.retest.completed_jobs,42);
-  assert.equal(report.retest.total_jobs,42);
+  assert.equal(report.retest.completed_jobs,4);
+  assert.equal(report.retest.total_jobs,4);
   assert.equal(report.retest.agent_invocations,0);
   const latestManifest=await load(report.benchmark_manifest_path);
   assert.equal(latestManifest.chains.length,15);
@@ -175,7 +175,7 @@ test('default FC retest uses its own manifest, complete formal scores and repair
     const nodes=records.groups.find(g=>g.id===group.id).checkpoint_records;
     const axis=nodes.find(cp=>cp.chain_id==='verilog_axis_fifo_t2'&&cp.mode==='pipeline');
     assert.equal(axis.groups.core.expected,23);
-    assert.equal(axis.groups.core.passed,18);
+    assert.equal(axis.groups.core.passed,effort==='high'?17:18);
     assert.equal(axis.groups.regression.expected,1);
     assert.ok(axis.groups.core.tests.some(t=>t.nodeid==='test_checkpoint_1_oracle_checks_source_pause'&&t.status==='failed'));
     assert.equal(axis.groups.core.tests.filter(t=>t.nodeid.startsWith('test_checkpoint_1_oracle_checks_status_pulse_width')&&t.status==='failed').length,3);
@@ -189,4 +189,30 @@ test('default FC retest uses its own manifest, complete formal scores and repair
     assert.equal(g.primary.pipeline_fc.value,null);
     assert.equal(g.primary.pipeline_fc.reason,'incomplete_results');
   }
+});
+
+test('residual FC release excludes structural credit and duplicate positives and includes runner errors',async()=>{
+  assert.equal(report.retest.version,'fc-retest-v3');
+  assert.equal(report.retest.derived_cells,34);
+  const records=await load(report.checkpoint_records_path);
+  for(const effort of ['high','medium']){
+    const group=report.groups.find(g=>g.config.thinking===effort);
+    const nodes=records.groups.find(g=>g.id===group.id).checkpoint_records;
+    const final=chain=>nodes.filter(c=>c.mode==='pipeline'&&c.chain_id===chain).at(-1);
+    const ethernet=final('verilog_ethernet_t2');
+    assert.equal(ethernet.groups.core.expected+ethernet.groups.regression.expected,22);
+    const counted=[...ethernet.groups.core.tests,...ethernet.groups.regression.tests];
+    assert.equal(counted.filter(t=>t.nodeid.endsWith('candidate_tb_passes_trusted_target')).length,1);
+    assert.ok(counted.every(t=>!t.nodeid.includes('entrypoint_')));
+    assert.equal(group.chains.find(c=>c.chain_id==='verilog_ethernet_t2').f_j,15/22);
+    const mipi=final('mipi_dphy_t2');
+    assert.equal(mipi.groups.core.expected+mipi.groups.regression.expected,69);
+    assert.equal(mipi.groups.regression.tests.filter(t=>t.nodeid.includes('rejects_invalid_focused_selection')).length,3);
+    assert.equal(mipi.groups.error.tests.filter(t=>t.nodeid.includes('rejects_invalid_focused_selection')).length,0);
+  }
+  const medium=records.groups.find(g=>g.config.thinking==='medium');
+  const taxi=medium.checkpoint_records.find(c=>c.mode==='pipeline'&&c.chain_id==='taxi_axi_t3'&&c.checkpoint_id==='checkpoint_5');
+  assert.equal(taxi.groups.structure.expected,5);
+  assert.equal(taxi.groups.regression.expected,27);
+  assert.ok(taxi.groups.regression.tests.every(t=>!t.nodeid.endsWith('core_structure')));
 });
