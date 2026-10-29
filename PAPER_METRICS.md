@@ -50,14 +50,33 @@ Structure status and final Core/Regression counts. FC also participates in
 independent-repeat statistics, task-type groups and optional resource efficiency
 using the full Pipeline cost/time per chain, including earlier failed rounds.
 
-Current complete High FC=52.2130677% and Medium FC=31.3852374% (15 chains each),
+The historical v2 release has High FC=52.2130677% and Medium FC=31.3852374% (15 chains each),
 after FC evaluator repair v2. The previous immutable release retains
 High FC=52.9774184% and Medium FC=34.3649249%.
-Low/xhigh full-benchmark FC remains N/A because their task coverage is incomplete.
+Its Low/xhigh full-benchmark FC remains N/A because their task coverage was incomplete.
+
+### Completed Low/xhigh publication (2026-10-29)
+
+The current default is `6dc6f954869bfb493fd6889fe9a933fc2d3268c22e87a8b7cfea76f67c9e85c1`:
+356 selected trials across 15 problems and four efforts, including the newly
+completed Low 72 and xhigh 72. Each effort now has 15 Pipeline chains and 74 SR
+checkpoints. FC is Low 22.5952459%, Medium 30.9702176%, High 51.4851362%,
+xhigh 56.7244809%. All four settings have complete scoring coverage with no
+scoring issues. The prior 212 selected cells and historical reports are retained.
+
+The new release uses `benchmark-low-xhigh144-v3-20261029.json`. Its new execution
+protocol has the same complete execution-settings hash as the existing protocols.
+CLINT supersession exclusions are extended to the new generation only after
+byte-identical frozen evaluator files are verified. Collection inventories retain
+all raw collected nodes; applicable counts subtract only generation-bound,
+observed superseded skips. Failures and unreviewed skips remain scored.
+
+The source catalog now supplies the default. Historical site releases remain
+registered without a default override so scheduled sync retains new results.
 
 ### FC evaluator repair v2 publication
 
-The default release `b9200d35ef98365bff8a121e23922dcb271aa9d968fec2a8590be6c8a0c814ac`
+The historical release `b9200d35ef98365bff8a121e23922dcb271aa9d968fec2a8590be6c8a0c814ac`
 contains 42 completed saved-candidate re-evaluations and 70 exact metadata
 projections. No agent invocations were added. Its report uses the separately
 versioned `data/paper/benchmark-fc-retest-v2.json`; historical releases keep
@@ -213,7 +232,7 @@ protocols; its explicit hash-checked equivalence prevents splitting Medium into
 incomplete 13-chain and 2-chain groups. The frozen CLINT direct-test applicability
 rules also include the Medium preparation's exact generation, verified against
 the stored sources. Current Medium: FDR=0/15, CC=0.1411111111 and CPR=28/74.
-High remains unchanged; Low/xhigh retain incomplete full-benchmark results.
+In that historical release High remains unchanged and Low/xhigh retain incomplete full-benchmark results.
 
 FDR/CC/FC/CPR and optional auxiliary/resource tables appear only on the experiment
 overview. A single problem route shows the Checkpoint evidence matrix and trial

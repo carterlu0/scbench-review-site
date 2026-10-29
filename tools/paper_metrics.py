@@ -469,7 +469,11 @@ def group_results(
             }
         if expected is not None:
             count = expected.get(group)
-            if not integer(count) or total != count:
+            # Docker collect-only inventories include superseded checkpoint
+            # nodes. Remove only observed skips with a generation-bound N/A
+            # decision, matching the node projection above.
+            excluded_count = sum(t["group"].lower() == group for t in excluded)
+            if not integer(count) or count < excluded_count or total != count - excluded_count:
                 return {}, "test_inventory_count_mismatch"
         groups[group] = {
             "applicable": total > 0,

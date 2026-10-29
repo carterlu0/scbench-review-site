@@ -156,7 +156,8 @@ test('formal groups merge Functionality into Core and retain source provenance',
   }
 });
 
-test('default FC retest uses its own manifest, complete formal scores and repaired Core tests',async()=>{
+test('historical FC retest retains its own manifest, complete formal scores and repaired Core tests',async()=>{
+  const report=await load('reports/9dca9ae8f31e4de703f75339ed078a093bf0fe159b1435307f0d16d26300ddb0.json');
   assert.equal(report.retest.completed_jobs,4);
   assert.equal(report.retest.total_jobs,4);
   assert.equal(report.retest.agent_invocations,0);
@@ -164,7 +165,7 @@ test('default FC retest uses its own manifest, complete formal scores and repair
   assert.equal(latestManifest.chains.length,15);
   assert.equal(latestManifest.chains.reduce((n,c)=>n+c.checkpoints.length,0),74);
   assert.notEqual(report.manifest_sha256,catalog.manifest_sha256);
-  assert.equal(report.manifest_sha256,catalog.latest_manifest_sha256);
+  assert.equal(latestManifest.fc_test_policy_version,'evortl-fc-contract-20261028-v3');
   const records=await load(report.checkpoint_records_path);
   for(const effort of ['high','medium']){
     const group=report.groups.find(g=>g.config.thinking===effort);
@@ -192,6 +193,7 @@ test('default FC retest uses its own manifest, complete formal scores and repair
 });
 
 test('residual FC release excludes structural credit and duplicate positives and includes runner errors',async()=>{
+  const report=await load('reports/9dca9ae8f31e4de703f75339ed078a093bf0fe159b1435307f0d16d26300ddb0.json');
   assert.equal(report.retest.version,'fc-retest-v3');
   assert.equal(report.retest.derived_cells,34);
   const records=await load(report.checkpoint_records_path);

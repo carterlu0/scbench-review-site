@@ -4,9 +4,34 @@ import unittest
 
 from paper_metrics import calculate
 from paper_metrics import estimate_cost
+from paper_metrics import group_results
 
 
 class PaperAcceptance(unittest.TestCase):
+    def test_inventory_excludes_only_proven_superseded_skips(self):
+        checkpoint = {"evaluation_generation": "new", "tests": [
+            {"nodeid": "old_structure", "group": "Structure", "status": "skipped"},
+            {"nodeid": "current_structure", "group": "Structure", "status": "passed"},
+            {"nodeid": "core", "group": "Core", "status": "failed"}],
+            "expected_test_counts": {"groups": {"structure": 2, "core": 1, "regression": 0, "error": 0}}}
+        spec = {"non_applicable_tests": [{"nodeid": "old_structure", "mode": "pipeline", "generations": ["new"]}]}
+        groups, problem = group_results(checkpoint, spec, "pipeline")
+        self.assertIsNone(problem)
+        self.assertEqual(groups["structure"]["expected"], 1)
+        self.assertTrue(groups["structure"]["all_passed"])
+        self.assertFalse(groups["core"]["all_passed"])
+        checkpoint["evaluation_generation"] = "unreviewed"
+        groups, problem = group_results(checkpoint, spec, "pipeline")
+        self.assertIsNone(problem)
+        self.assertEqual(groups["structure"]["expected"], 2)
+        self.assertFalse(groups["structure"]["all_passed"])
+        checkpoint["evaluation_generation"] = "new"
+        checkpoint["tests"][0]["status"] = "failed"
+        groups, problem = group_results(checkpoint, spec, "pipeline")
+        self.assertIsNone(problem)
+        self.assertEqual(groups["structure"]["expected"], 2)
+        self.assertFalse(groups["structure"]["all_passed"])
+
     def test_paper_example(self):
         manifest = {"schema_version": 1, "benchmark_version": "paper-example", "chains": [
             {"id": chain, "task_type": "synthetic", "checkpoints": [{"id": str(i)} for i in range(n)]}

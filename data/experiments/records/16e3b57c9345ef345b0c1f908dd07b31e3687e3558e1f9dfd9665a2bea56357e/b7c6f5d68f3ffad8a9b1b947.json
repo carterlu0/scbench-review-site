@@ -1,0 +1,2116 @@
+{
+  "schema_version": 4,
+  "analysis": "16e3b57c9345ef345b0c1f908dd07b31e3687e3558e1f9dfd9665a2bea56357e",
+  "problem": "common_cells_t1",
+  "cells": [
+    {
+      "id": "7293cd7c97a95a7747f74ad7eb176feaea1735ddf2a34cdd33a1719d60771fc7",
+      "problem": "common_cells_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "gpt-6-luna",
+      "agent": "codex",
+      "agent_version": "0.141.0",
+      "agent_config": "47be1ef060bf15ea31a3c50af1e2f7c705758b840671feaf66ea1f6a402c9403",
+      "thinking": "xhigh",
+      "protocol": "a2e80907c2e33d757c0af91e061e5c62378813a9be9699f01cb3a7098bdde293",
+      "generation": "00a004a0f9d81deb78214581be4b14a50f5ce88d734cf85deff73a80c843673b",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "89e17e2a9299a97fc2d5733c9dfd7d687627185a94d317bce73ed99b8cd174be",
+          "evidence": [
+            "sha256:f4fa94323488ac9d17712490d005bca53571738e9753d1ad076e5e15fd7d7e85"
+          ],
+          "event_id": "3c5c7ab384ff0db10302dec3dfe6c2a5b98de5f1abf70de34608703d415539c4",
+          "assessment": null,
+          "evaluation": "7ce74a8096befd22f63a0a75fc9375444e3cc13d1fd4e9a45222a4e89070af50",
+          "attempt": "9f7686ef71e5402db7e6726942391112"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "89e17e2a9299a97fc2d5733c9dfd7d687627185a94d317bce73ed99b8cd174be",
+          "evidence": [
+            "sha256:f4fa94323488ac9d17712490d005bca53571738e9753d1ad076e5e15fd7d7e85"
+          ],
+          "event_id": "0ac39d0efa2359f5bdfcae15c67763dd982ceb42df0fb290e0afa7e26210902e",
+          "assessment": null,
+          "evaluation": "7ce74a8096befd22f63a0a75fc9375444e3cc13d1fd4e9a45222a4e89070af50",
+          "attempt": "9f7686ef71e5402db7e6726942391112"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_1"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.0,
+      "selected_attempt": "9f7686ef71e5402db7e6726942391112",
+      "selected_evaluation": "7ce74a8096befd22f63a0a75fc9375444e3cc13d1fd4e9a45222a4e89070af50",
+      "evaluation_generation": "e6d58f5369e2d7d46cdf3517dc32664d59d15798f8a6459c78375a58e182a914",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_1",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "89e17e2a9299a97fc2d5733c9dfd7d687627185a94d317bce73ed99b8cd174be",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "1d85f4f75f0465cff33b131cb9ec10d6520e092d071108b0cdc02c01083054fd",
+          "evaluation_sha256": "f4fa94323488ac9d17712490d005bca53571738e9753d1ad076e5e15fd7d7e85",
+          "started_at": "2026-10-27T08:52:18.357226Z",
+          "completed_at": "2026-10-27T09:24:02.050574Z",
+          "inference_seconds": 1903.693348,
+          "evaluation_seconds": 171.99173378944397,
+          "native_steps": 207,
+          "tokens": {
+            "cache_read": 5009920,
+            "cache_write": 0,
+            "input": 5231541,
+            "output": 81187,
+            "reasoning": 54250
+          },
+          "official_cost": {
+            "usd": 0.11285480000000002,
+            "coverage": "complete",
+            "pricebook": "gpt6-luna-standard-user-provided-2026-10-23"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_artifact_hygiene",
+              "group": "Error",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_clock_mux_rejects_single_input",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_clock_mux_switch_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_core_structure",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_counter_behavior_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_id_queue_exists_mask_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_lossy_valid_to_stream_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_mem_to_banks_staggered_completion",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_optimal_fifo_rejects_unsupported_depths",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_static_divider_rejects_zero",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_static_divider_reset_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_stream_throttle_exhausted_credit",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[addr_decode]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[addr_decode_napot]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[clk_int_div]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[clk_int_div_static]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[clk_mux_glitch_free]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[mem_to_banks]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[popcount]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[read]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[shift_reg_gated]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[stream_delay]",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[stream_fifo_optimal_wrap]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[stream_register]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[stream_throttle]",
+              "group": "Core",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 20,
+              "total": 22
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 1,
+              "total": 1
+            },
+            "error": {
+              "passed": 1,
+              "total": 1
+            },
+            "total": {
+              "passed": 23,
+              "total": 25
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": 43,
+            "native_events": 263,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "compatibility": {
+            "score": "compatible",
+            "time": "incompatible",
+            "cost": "compatible",
+            "calls": "compatible"
+          },
+          "defects": [],
+          "tags": [],
+          "candidate_artifact": {
+            "path": "experiments/artifacts/4b3502bb612e9dfa8eb7346a1d67471466854e448b613c9838ab59785a6818af.tar.gz",
+            "sha256": "4b3502bb612e9dfa8eb7346a1d67471466854e448b613c9838ab59785a6818af",
+            "file_count": 161,
+            "size_bytes": 123025,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-10-27T08:52:15.247187+00:00",
+      "completed_at": "2026-10-27T09:25:22.290260+00:00",
+      "wall_seconds_all_attempts": 1987.0357214435935,
+      "official_cost_all_attempts": 0.11285480000000002,
+      "known_official_cost": 0.11285480000000002,
+      "cost_coverage": "complete"
+    },
+    {
+      "id": "2198b05449435fc90b6e97f14eb0f09a5d851221c0fc78b189957eef11ef98f4",
+      "problem": "common_cells_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "gpt-6-luna",
+      "agent": "codex",
+      "agent_version": "0.141.0",
+      "agent_config": "47be1ef060bf15ea31a3c50af1e2f7c705758b840671feaf66ea1f6a402c9403",
+      "thinking": "xhigh",
+      "protocol": "a2e80907c2e33d757c0af91e061e5c62378813a9be9699f01cb3a7098bdde293",
+      "generation": "e064c790c31e57d541802a92540365a485a3be2dac6e8fdf2423f4409a15b1ab",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_2",
+          "candidate": "daed0d8080aea1fa82d25966e303c82dccb138d1fbc9ac2db887cf2174ae9057",
+          "evidence": [
+            "sha256:d0a2cb8a716176210ef58ad14afbcd5240639e3ce0ccfe7116790efde31d6b91"
+          ],
+          "event_id": "f1224b77f04ed8c952b368f385f3f79ce5f0f158a40c316ce50e08f698ceb0e7",
+          "assessment": null,
+          "evaluation": "ffd26f9c8df91521b4ee5126c9b373f81a6fcb306e5a8c3a7727de6620924d34",
+          "attempt": "ae464180e51b4854a96b377f6bf435a9"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_2",
+          "candidate": "daed0d8080aea1fa82d25966e303c82dccb138d1fbc9ac2db887cf2174ae9057",
+          "evidence": [
+            "sha256:d0a2cb8a716176210ef58ad14afbcd5240639e3ce0ccfe7116790efde31d6b91"
+          ],
+          "event_id": "bcb3bf0b5e97d563cd920aab913b97c8d1080a29e9356e9416f567de263cec77",
+          "assessment": null,
+          "evaluation": "ffd26f9c8df91521b4ee5126c9b373f81a6fcb306e5a8c3a7727de6620924d34",
+          "attempt": "ae464180e51b4854a96b377f6bf435a9"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_2"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.0,
+      "selected_attempt": "ae464180e51b4854a96b377f6bf435a9",
+      "selected_evaluation": "ffd26f9c8df91521b4ee5126c9b373f81a6fcb306e5a8c3a7727de6620924d34",
+      "evaluation_generation": "b4b1c446c55155cf65aa43aeaf324c64169af4eed8d65db263b1d08316f4efe4",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_2",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "daed0d8080aea1fa82d25966e303c82dccb138d1fbc9ac2db887cf2174ae9057",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "7475bee32ced1ec8dbda4648768d8feb251f9ff0f7c65358df83321560459294",
+          "evaluation_sha256": "d0a2cb8a716176210ef58ad14afbcd5240639e3ce0ccfe7116790efde31d6b91",
+          "started_at": "2026-10-27T08:52:18.299725Z",
+          "completed_at": "2026-10-27T09:18:02.456173Z",
+          "inference_seconds": 1544.156448,
+          "evaluation_seconds": 227.97573399543762,
+          "native_steps": 173,
+          "tokens": {
+            "cache_read": 4057472,
+            "cache_write": 0,
+            "input": 4239181,
+            "output": 63418,
+            "reasoning": 39433
+          },
+          "official_cost": {
+            "usd": 0.09045462,
+            "coverage": "complete",
+            "pricebook": "gpt6-luna-standard-user-provided-2026-10-23"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_addr_decode_dync_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_artifact_hygiene",
+              "group": "Error",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_core_structure",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_ffarnc_surface_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_mem_to_banks_detailed_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_mem_to_banks_detailed_staggered_response_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_multiaddr_decode_behavior",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_passthrough_stream_fifo_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_passthrough_stream_fifo_stall_stability_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_stream_join_dynamic_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_clock_mux_rejects_single_input",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_clock_mux_switch_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_counter_behavior_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_id_queue_exists_mask_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_lossy_valid_to_stream_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_mem_to_banks_staggered_completion",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_optimal_fifo_rejects_unsupported_depths",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_static_divider_rejects_zero",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_static_divider_reset_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_stream_throttle_exhausted_credit",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[addr_decode]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[addr_decode_napot]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[clk_int_div]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[clk_int_div_static]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[clk_mux_glitch_free]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[mem_to_banks]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[popcount]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[read]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[shift_reg_gated]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[stream_delay]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[stream_fifo_optimal_wrap]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[stream_register]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[stream_throttle]",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 7,
+              "total": 8
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 23,
+              "total": 23
+            },
+            "error": {
+              "passed": 1,
+              "total": 1
+            },
+            "total": {
+              "passed": 32,
+              "total": 33
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": 37,
+            "native_events": 228,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "compatibility": {
+            "score": "compatible",
+            "time": "incompatible",
+            "cost": "compatible",
+            "calls": "compatible"
+          },
+          "defects": [],
+          "tags": [],
+          "candidate_artifact": {
+            "path": "experiments/artifacts/22f90fb927dfc87fb2aa86c889447e463b293b6e0932bce9e560fed7edd09281.tar.gz",
+            "sha256": "22f90fb927dfc87fb2aa86c889447e463b293b6e0932bce9e560fed7edd09281",
+            "file_count": 170,
+            "size_bytes": 139833,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-10-27T08:52:15.269905+00:00",
+      "completed_at": "2026-10-27T09:20:12.672317+00:00",
+      "wall_seconds_all_attempts": 1677.3866477329284,
+      "official_cost_all_attempts": 0.09045462,
+      "known_official_cost": 0.09045462,
+      "cost_coverage": "complete"
+    },
+    {
+      "id": "5460166afa3c15ed66dc880e4adf2119305567694bb4c9f07a91fbbbb31db4ef",
+      "problem": "common_cells_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "gpt-6-luna",
+      "agent": "codex",
+      "agent_version": "0.141.0",
+      "agent_config": "47be1ef060bf15ea31a3c50af1e2f7c705758b840671feaf66ea1f6a402c9403",
+      "thinking": "xhigh",
+      "protocol": "a2e80907c2e33d757c0af91e061e5c62378813a9be9699f01cb3a7098bdde293",
+      "generation": "9e61cc7d756f7b39aaa0097fc28fec281b918e17644861bf746b26c45685f869",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "8a8f6c3e8c6c3c5ef19ba7076398801fac1ac805f03b132ebaf84a3348551c1a",
+          "evidence": [
+            "sha256:e1378896e99baa8e98c8f92c5c9b88185b019bd7253b53e7556157515865e72a"
+          ],
+          "event_id": "c65853bc439b983a2575df5721d89cf917dbee76ef345cf0766e530a581c708f",
+          "assessment": null,
+          "evaluation": "b9e694d407f1993dc19f39c19d012d7097c5988e3d4b0d69520605408f01ddab",
+          "attempt": "426053f5331e474bbc73be059cdc2b14"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "8a8f6c3e8c6c3c5ef19ba7076398801fac1ac805f03b132ebaf84a3348551c1a",
+          "evidence": [
+            "sha256:e1378896e99baa8e98c8f92c5c9b88185b019bd7253b53e7556157515865e72a"
+          ],
+          "event_id": "23fa03dac274b74a9ed4c9ff722ad0eb730b21568bdcf6b02d3df55880f8cf92",
+          "assessment": null,
+          "evaluation": "b9e694d407f1993dc19f39c19d012d7097c5988e3d4b0d69520605408f01ddab",
+          "attempt": "426053f5331e474bbc73be059cdc2b14"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_3"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.0,
+      "selected_attempt": "426053f5331e474bbc73be059cdc2b14",
+      "selected_evaluation": "b9e694d407f1993dc19f39c19d012d7097c5988e3d4b0d69520605408f01ddab",
+      "evaluation_generation": "e4bcb9dd56a5d52ee06ad7fc96951c3bd2a1c3abb959eb063edd26fd5867cbaa",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_3",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "8a8f6c3e8c6c3c5ef19ba7076398801fac1ac805f03b132ebaf84a3348551c1a",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "8fc2a3efda8bdb54f56e20fe5b2e5c59bf708b95e7323e1dfc7b748758ef45a1",
+          "evaluation_sha256": "e1378896e99baa8e98c8f92c5c9b88185b019bd7253b53e7556157515865e72a",
+          "started_at": "2026-10-27T09:03:53.565369Z",
+          "completed_at": "2026-10-27T09:35:56.327489Z",
+          "inference_seconds": 1922.76212,
+          "evaluation_seconds": 311.5281000137329,
+          "native_steps": 199,
+          "tokens": {
+            "cache_read": 4335744,
+            "cache_write": 0,
+            "input": 4589814,
+            "output": 56017,
+            "reasoning": 37800
+          },
+          "official_cost": {
+            "usd": 0.09677294,
+            "coverage": "complete",
+            "pricebook": "gpt6-luna-standard-user-provided-2026-10-23"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_artifact_hygiene",
+              "group": "Error",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_core_structure",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_dead_write_response_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_delta_counter_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_ffarnc_clear_priority",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_id_queue_extensions",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_stream_and_credit_behavior",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_stream_to_mem_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_stream_xbar_mask_surface[input]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_stream_xbar_mask_surface[output]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_stream_xbar_unmasked_assertions[input]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_stream_xbar_unmasked_assertions[output]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_clock_mux_rejects_single_input",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_clock_mux_switch_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_counter_behavior_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_id_queue_exists_mask_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_lossy_valid_to_stream_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_mem_to_banks_staggered_completion",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_optimal_fifo_rejects_unsupported_depths",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_static_divider_rejects_zero",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_static_divider_reset_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_stream_throttle_exhausted_credit",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[addr_decode]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[addr_decode_napot]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[clk_int_div]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[clk_int_div_static]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[clk_mux_glitch_free]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[mem_to_banks]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[popcount]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[read]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[shift_reg_gated]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[stream_delay]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[stream_fifo_optimal_wrap]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[stream_register]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[stream_throttle]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_2_checkpoint_2_addr_decode_dync_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_2_checkpoint_2_ffarnc_surface_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_2_checkpoint_2_mem_to_banks_detailed_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_2_checkpoint_2_mem_to_banks_detailed_staggered_response_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_2_checkpoint_2_multiaddr_decode_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_2_checkpoint_2_passthrough_stream_fifo_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_2_checkpoint_2_passthrough_stream_fifo_stall_stability_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_2_checkpoint_2_stream_join_dynamic_behavior",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 7,
+              "total": 8
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 33,
+              "total": 33
+            },
+            "error": {
+              "passed": 1,
+              "total": 1
+            },
+            "total": {
+              "passed": 42,
+              "total": 43
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": 48,
+            "native_events": 266,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "compatibility": {
+            "score": "compatible",
+            "time": "incompatible",
+            "cost": "compatible",
+            "calls": "compatible"
+          },
+          "defects": [],
+          "tags": [],
+          "candidate_artifact": {
+            "path": "experiments/artifacts/7fae4b73037f3e614ca8e8662666b10d6ccb429eea3e45387a31d6b4adb9e896.tar.gz",
+            "sha256": "7fae4b73037f3e614ca8e8662666b10d6ccb429eea3e45387a31d6b4adb9e896",
+            "file_count": 171,
+            "size_bytes": 143537,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-10-27T09:03:50.984498+00:00",
+      "completed_at": "2026-10-27T09:39:19.208961+00:00",
+      "wall_seconds_all_attempts": 2128.2201175484806,
+      "official_cost_all_attempts": 0.09677294,
+      "known_official_cost": 0.09677294,
+      "cost_coverage": "complete"
+    },
+    {
+      "id": "7d6d86fcc7b860e3a8586c31462bc6c984aad1ef7789a5f083b08d019a4179d1",
+      "problem": "common_cells_t1",
+      "mode": "pipeline",
+      "prompt_arm": "original",
+      "model": "gpt-6-luna",
+      "agent": "codex",
+      "agent_version": "0.141.0",
+      "agent_config": "47be1ef060bf15ea31a3c50af1e2f7c705758b840671feaf66ea1f6a402c9403",
+      "thinking": "xhigh",
+      "protocol": "a2e80907c2e33d757c0af91e061e5c62378813a9be9699f01cb3a7098bdde293",
+      "generation": "3c066844370bb5a5dc779ffc85616a308d6a5e80efa755a07e74075f77b05e56",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "execution",
+          "label": "interrupted",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:181ae5acac3a32f2a930e37e937ec4a89fb49dee95d589f35ecc30fe83670c2e"
+          ],
+          "event_id": "7a24f3b9d0495dd9c3459f9a9048a801e3533f2949f02883c34080bbd9497f6b",
+          "assessment": "29c70317c0731ff5520f29735f963d2f684a79c7db4050e51d0131166617733a",
+          "attempt": "61191fdff558452aa70a6bbe6b3ee8f7"
+        },
+        {
+          "namespace": "execution",
+          "label": "unknown",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "7d31b4d0c7234662e85e46cf60aa1c72bff59e21da86c7fcfa7ce2ffab0ec906",
+          "evidence": [
+            "sha256:181ae5acac3a32f2a930e37e937ec4a89fb49dee95d589f35ecc30fe83670c2e"
+          ],
+          "event_id": "f2a1a13140fd3677b9c3e0f31f08fe98df3d777079d82206bfe868c0b71a260b",
+          "assessment": "29c70317c0731ff5520f29735f963d2f684a79c7db4050e51d0131166617733a",
+          "attempt": "61191fdff558452aa70a6bbe6b3ee8f7"
+        },
+        {
+          "namespace": "execution",
+          "label": "inference_error",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "7d31b4d0c7234662e85e46cf60aa1c72bff59e21da86c7fcfa7ce2ffab0ec906",
+          "evidence": [
+            "sha256:181ae5acac3a32f2a930e37e937ec4a89fb49dee95d589f35ecc30fe83670c2e"
+          ],
+          "event_id": "9846934e1091b779f4cc24236abf3122c47ce6d1b16d1b61620a2ac66b36d2e4",
+          "assessment": "29c70317c0731ff5520f29735f963d2f684a79c7db4050e51d0131166617733a",
+          "attempt": "61191fdff558452aa70a6bbe6b3ee8f7"
+        },
+        {
+          "namespace": "execution",
+          "label": "infrastructure_failure",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:2dac985c62c1da46e00f935c5b13bd09f2d6486340fdce429ac34de0d8580ddf"
+          ],
+          "event_id": "afc83e8e08830f1ab6fedd47ee38c8f3994f1f8d94576525337d999b1810bda7",
+          "assessment": "5929aea48ce4935b757a02d94d84f723ba9d13d4be863cbc996fd1dfe6542b75",
+          "attempt": "51eb304904794560bb9ece370f305a72"
+        },
+        {
+          "namespace": "execution",
+          "label": "unknown",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "7d31b4d0c7234662e85e46cf60aa1c72bff59e21da86c7fcfa7ce2ffab0ec906",
+          "evidence": [
+            "sha256:2dac985c62c1da46e00f935c5b13bd09f2d6486340fdce429ac34de0d8580ddf"
+          ],
+          "event_id": "64cef06548fc5488ad0da9cf39647793a04785596b6f761d327f8cf876143415",
+          "assessment": "5929aea48ce4935b757a02d94d84f723ba9d13d4be863cbc996fd1dfe6542b75",
+          "attempt": "51eb304904794560bb9ece370f305a72"
+        },
+        {
+          "namespace": "execution",
+          "label": "inference_error",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "7d31b4d0c7234662e85e46cf60aa1c72bff59e21da86c7fcfa7ce2ffab0ec906",
+          "evidence": [
+            "sha256:2dac985c62c1da46e00f935c5b13bd09f2d6486340fdce429ac34de0d8580ddf"
+          ],
+          "event_id": "b5c429eb61c8a56564dedf69ad0c8e833d0d6695c3bdfa32994aefe475405373",
+          "assessment": "5929aea48ce4935b757a02d94d84f723ba9d13d4be863cbc996fd1dfe6542b75",
+          "attempt": "51eb304904794560bb9ece370f305a72"
+        },
+        {
+          "namespace": "execution",
+          "label": "interrupted",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:e40faf62f5006ff018605dcb088b00716620635dbd26d0984de70273c045f1a5"
+          ],
+          "event_id": "cbbeac462f4e7008cc9a27a2fc55b741792fbfd0e9fbb6d523d9128443da278f",
+          "assessment": "7a50fca4fe27513a3692911c79bf0d281a0c8844d6eb54c235ddf2a354790f28",
+          "attempt": "17c2abb3c3d14342ad4c4e56053c5ed3"
+        },
+        {
+          "namespace": "execution",
+          "label": "unknown",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "7d31b4d0c7234662e85e46cf60aa1c72bff59e21da86c7fcfa7ce2ffab0ec906",
+          "evidence": [
+            "sha256:e40faf62f5006ff018605dcb088b00716620635dbd26d0984de70273c045f1a5"
+          ],
+          "event_id": "7912138a9789bde71a58eece9358d2ae6531a0e0c295976153f6392d91ca3c68",
+          "assessment": "7a50fca4fe27513a3692911c79bf0d281a0c8844d6eb54c235ddf2a354790f28",
+          "attempt": "17c2abb3c3d14342ad4c4e56053c5ed3"
+        },
+        {
+          "namespace": "execution",
+          "label": "inference_error",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "7d31b4d0c7234662e85e46cf60aa1c72bff59e21da86c7fcfa7ce2ffab0ec906",
+          "evidence": [
+            "sha256:e40faf62f5006ff018605dcb088b00716620635dbd26d0984de70273c045f1a5"
+          ],
+          "event_id": "6ce9cc2e9ec89452c5bb773e65956ee7866eb3ba005a4d3ac9edb323ee6ef95e",
+          "assessment": "7a50fca4fe27513a3692911c79bf0d281a0c8844d6eb54c235ddf2a354790f28",
+          "attempt": "17c2abb3c3d14342ad4c4e56053c5ed3"
+        },
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "26e7dd623add06e269283ccbe9a77c85354742cba6dac8402e25c0fdb8d332f3",
+          "evidence": [
+            "sha256:99a310093be960df706f040f92cd10dce81a7201d4674319ab9da48ab45b2917"
+          ],
+          "event_id": "adc79ac5c2641fd02ebeb9dd54c5c33f6ba9f8593d94e94fc120a518e3716ebf",
+          "assessment": "88e5a7650ff4e1c3a42113b52cfa61379dfca576dc7db7d45926f1b2f09d9193",
+          "attempt": "bd18426aaa5c43ee8bdfe1467c155ae5"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "26e7dd623add06e269283ccbe9a77c85354742cba6dac8402e25c0fdb8d332f3",
+          "evidence": [
+            "sha256:99a310093be960df706f040f92cd10dce81a7201d4674319ab9da48ab45b2917"
+          ],
+          "event_id": "a43596553eccab9607dd7feea9687f7c6e846a41b7e58f3e73dec032e6ce0255",
+          "assessment": "88e5a7650ff4e1c3a42113b52cfa61379dfca576dc7db7d45926f1b2f09d9193",
+          "attempt": "bd18426aaa5c43ee8bdfe1467c155ae5"
+        },
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_2",
+          "candidate": "489263a9dcf91172e6e0565523328ecfbef20e306c93da3a8cfbe2d2b0ffd907",
+          "evidence": [
+            "sha256:1ee6181b379d7838ed75f2c93ac443d76988a2b2aefe479f77a35712d7751321"
+          ],
+          "event_id": "c16260d6f5bc6945bca7c63d0ef562bbc6fd7f348858e766b711e08e8d061a1b",
+          "assessment": "88e5a7650ff4e1c3a42113b52cfa61379dfca576dc7db7d45926f1b2f09d9193",
+          "attempt": "bd18426aaa5c43ee8bdfe1467c155ae5"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_2",
+          "candidate": "489263a9dcf91172e6e0565523328ecfbef20e306c93da3a8cfbe2d2b0ffd907",
+          "evidence": [
+            "sha256:1ee6181b379d7838ed75f2c93ac443d76988a2b2aefe479f77a35712d7751321"
+          ],
+          "event_id": "6683568347ce2ae71602947d4209a2ab3448dc34031ef204336bf0d06a261457",
+          "assessment": "88e5a7650ff4e1c3a42113b52cfa61379dfca576dc7db7d45926f1b2f09d9193",
+          "attempt": "bd18426aaa5c43ee8bdfe1467c155ae5"
+        },
+        {
+          "namespace": "implementation",
+          "label": "regression_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_2",
+          "candidate": "489263a9dcf91172e6e0565523328ecfbef20e306c93da3a8cfbe2d2b0ffd907",
+          "evidence": [
+            "sha256:1ee6181b379d7838ed75f2c93ac443d76988a2b2aefe479f77a35712d7751321"
+          ],
+          "event_id": "f5f654a71a2d012ac6467fd07a191fa2abbf2ddc99e6375bbfc17700f9b6f2ba",
+          "assessment": "88e5a7650ff4e1c3a42113b52cfa61379dfca576dc7db7d45926f1b2f09d9193",
+          "attempt": "bd18426aaa5c43ee8bdfe1467c155ae5"
+        },
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "887f41dcfa8353fdb2caea0ad046fe835971ed2608cea1ed7d22d9836d0d72c8",
+          "evidence": [
+            "sha256:d9a0e43a9975c02317f88409387c7054b27ec6171a7a39921fda62308e76535a"
+          ],
+          "event_id": "cf5e15a609c1b6471e4b191b51a099d6c02e7ff83b12b45d7a049772afb47536",
+          "assessment": "88e5a7650ff4e1c3a42113b52cfa61379dfca576dc7db7d45926f1b2f09d9193",
+          "attempt": "bd18426aaa5c43ee8bdfe1467c155ae5"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "887f41dcfa8353fdb2caea0ad046fe835971ed2608cea1ed7d22d9836d0d72c8",
+          "evidence": [
+            "sha256:d9a0e43a9975c02317f88409387c7054b27ec6171a7a39921fda62308e76535a"
+          ],
+          "event_id": "94eadf68c8a974c804dd8f724999181461cb11af81e6f988717d925662e6e5d3",
+          "assessment": "88e5a7650ff4e1c3a42113b52cfa61379dfca576dc7db7d45926f1b2f09d9193",
+          "attempt": "bd18426aaa5c43ee8bdfe1467c155ae5"
+        },
+        {
+          "namespace": "implementation",
+          "label": "regression_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "887f41dcfa8353fdb2caea0ad046fe835971ed2608cea1ed7d22d9836d0d72c8",
+          "evidence": [
+            "sha256:d9a0e43a9975c02317f88409387c7054b27ec6171a7a39921fda62308e76535a"
+          ],
+          "event_id": "83ed83cf6ee1d44171a57230b69069902cf9bd51d51933e09889f1dffcc9370a",
+          "assessment": "88e5a7650ff4e1c3a42113b52cfa61379dfca576dc7db7d45926f1b2f09d9193",
+          "attempt": "bd18426aaa5c43ee8bdfe1467c155ae5"
+        },
+        {
+          "namespace": "execution",
+          "label": "infrastructure_failure",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:9e51d41f9c7675d30a287eda2808804426093fffe385aec6a4f7e38147746cc1"
+          ],
+          "event_id": "1cbdbd98ac3a96a2bcec37d56483c4d51a666aeac445b8f489a1cb0bf4795ce1",
+          "assessment": "967b98277825dacbc181e21d8dcb6294291d283a76b7f66a1ca6019863af95fa",
+          "attempt": "10f55403adf14924bbeab90a2096f84e"
+        },
+        {
+          "namespace": "execution",
+          "label": "unknown",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "7d31b4d0c7234662e85e46cf60aa1c72bff59e21da86c7fcfa7ce2ffab0ec906",
+          "evidence": [
+            "sha256:9e51d41f9c7675d30a287eda2808804426093fffe385aec6a4f7e38147746cc1"
+          ],
+          "event_id": "9b746ddf285003c7ba9f75170af3ef92ea9a885a2502dc021ad0b0a4b16f1757",
+          "assessment": "967b98277825dacbc181e21d8dcb6294291d283a76b7f66a1ca6019863af95fa",
+          "attempt": "10f55403adf14924bbeab90a2096f84e"
+        },
+        {
+          "namespace": "execution",
+          "label": "inference_error",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "7d31b4d0c7234662e85e46cf60aa1c72bff59e21da86c7fcfa7ce2ffab0ec906",
+          "evidence": [
+            "sha256:9e51d41f9c7675d30a287eda2808804426093fffe385aec6a4f7e38147746cc1"
+          ],
+          "event_id": "d0b30bebeccd251d6b2377b1c2fe665a9f56a003b798f4d77f8c3f2c9411b810",
+          "assessment": "967b98277825dacbc181e21d8dcb6294291d283a76b7f66a1ca6019863af95fa",
+          "attempt": "10f55403adf14924bbeab90a2096f84e"
+        },
+        {
+          "namespace": "execution",
+          "label": "infrastructure_failure",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:d106bbeb852f32444a333a132a1a58b37300765105a738012a8177f9693b7078"
+          ],
+          "event_id": "4c57a21af89f7b4d5d3407fb30f07dd9be251f23c42a65746f95bf8c4ed4b973",
+          "assessment": "d3e5c29320c7517bc2ef86bb155962778b79024e59c756393eee413ff68ee399",
+          "attempt": "2334749602254aa88872c8270f2e1181"
+        },
+        {
+          "namespace": "execution",
+          "label": "unknown",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "7d31b4d0c7234662e85e46cf60aa1c72bff59e21da86c7fcfa7ce2ffab0ec906",
+          "evidence": [
+            "sha256:d106bbeb852f32444a333a132a1a58b37300765105a738012a8177f9693b7078"
+          ],
+          "event_id": "e762137e0674c3cf3c28b683a317db69b5ec367e3148fa481afcb50adae48897",
+          "assessment": "d3e5c29320c7517bc2ef86bb155962778b79024e59c756393eee413ff68ee399",
+          "attempt": "2334749602254aa88872c8270f2e1181"
+        },
+        {
+          "namespace": "execution",
+          "label": "inference_error",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "7d31b4d0c7234662e85e46cf60aa1c72bff59e21da86c7fcfa7ce2ffab0ec906",
+          "evidence": [
+            "sha256:d106bbeb852f32444a333a132a1a58b37300765105a738012a8177f9693b7078"
+          ],
+          "event_id": "4670ab844bf80f3d8950d9ba077719095aa779750d19bcd28009ce3e64b38590",
+          "assessment": "d3e5c29320c7517bc2ef86bb155962778b79024e59c756393eee413ff68ee399",
+          "attempt": "2334749602254aa88872c8270f2e1181"
+        },
+        {
+          "namespace": "execution",
+          "label": "interrupted",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:a54bb596729ba729c6658af507b0a61bb43d75ac04fd7e9d692f0f3c147ba788"
+          ],
+          "event_id": "b5f81c70d93e93b604332eefe1f445e8dcd4ef2eba0e76f0a9319fcd16cbf499",
+          "assessment": "f4027078f070c63dce0ba17d7a3790206f92ea7d556f32207010920294b47503",
+          "attempt": "54f0fb13da1d44a5b356e916c62d25b2"
+        },
+        {
+          "namespace": "execution",
+          "label": "unknown",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "7d31b4d0c7234662e85e46cf60aa1c72bff59e21da86c7fcfa7ce2ffab0ec906",
+          "evidence": [
+            "sha256:a54bb596729ba729c6658af507b0a61bb43d75ac04fd7e9d692f0f3c147ba788"
+          ],
+          "event_id": "4c9ddba6025ce39008028ee624909ffac0f92e39ab435da936b211eead3895e1",
+          "assessment": "f4027078f070c63dce0ba17d7a3790206f92ea7d556f32207010920294b47503",
+          "attempt": "54f0fb13da1d44a5b356e916c62d25b2"
+        },
+        {
+          "namespace": "execution",
+          "label": "inference_error",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "7d31b4d0c7234662e85e46cf60aa1c72bff59e21da86c7fcfa7ce2ffab0ec906",
+          "evidence": [
+            "sha256:a54bb596729ba729c6658af507b0a61bb43d75ac04fd7e9d692f0f3c147ba788"
+          ],
+          "event_id": "fd2a342ee0a850aabda4b01a409933641aef6e775735a0ea2053e1684c78d77c",
+          "assessment": "f4027078f070c63dce0ba17d7a3790206f92ea7d556f32207010920294b47503",
+          "attempt": "54f0fb13da1d44a5b356e916c62d25b2"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 3,
+      "planned_targets": [
+        "checkpoint_1",
+        "checkpoint_2",
+        "checkpoint_3"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.0,
+      "selected_attempt": "bd18426aaa5c43ee8bdfe1467c155ae5",
+      "selected_evaluation": null,
+      "evaluation_generation": "3c066844370bb5a5dc779ffc85616a308d6a5e80efa755a07e74075f77b05e56",
+      "attempt_count": 7,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_1",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "26e7dd623add06e269283ccbe9a77c85354742cba6dac8402e25c0fdb8d332f3",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "2dd8cbf8256b1be1904749ebece1101e0b941b3712008e3570b9ad78aa25c61f",
+          "evaluation_sha256": "99a310093be960df706f040f92cd10dce81a7201d4674319ab9da48ab45b2917",
+          "started_at": "2026-10-27T09:15:13.592858Z",
+          "completed_at": "2026-10-27T10:03:02.481350Z",
+          "inference_seconds": 2868.888492,
+          "evaluation_seconds": 182.8208498954773,
+          "native_steps": 230,
+          "tokens": {
+            "cache_read": 5776000,
+            "cache_write": 0,
+            "input": 6003637,
+            "output": 78605,
+            "reasoning": 52242
+          },
+          "official_cost": {
+            "usd": 0.1198262,
+            "coverage": "complete",
+            "pricebook": "gpt6-luna-standard-user-provided-2026-10-23"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_artifact_hygiene",
+              "group": "Error",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_clock_mux_rejects_single_input",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_clock_mux_switch_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_id_queue_exists_mask_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_mem_to_banks_staggered_completion",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_optimal_fifo_rejects_unsupported_depths",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_static_divider_rejects_zero",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_static_divider_reset_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_stream_throttle_exhausted_credit",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[addr_decode]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[addr_decode_napot]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[clk_int_div]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[clk_int_div_static]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[popcount]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[read]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[shift_reg_gated]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[stream_delay]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[stream_fifo_optimal_wrap]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[stream_register]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[stream_throttle]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_lossy_valid_to_stream_behavior",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[clk_mux_glitch_free]",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[mem_to_banks]",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_core_structure",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_counter_behavior_regression",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 19,
+              "total": 22
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 1,
+              "total": 1
+            },
+            "error": {
+              "passed": 1,
+              "total": 1
+            },
+            "total": {
+              "passed": 22,
+              "total": 25
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": 50,
+            "native_events": 307,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "candidate_artifact": {
+            "path": "experiments/artifacts/a223ccc8eaec615cf6694a33c35c51f7e620dc34f96f88a46ea34e485804bf2a.tar.gz",
+            "sha256": "a223ccc8eaec615cf6694a33c35c51f7e620dc34f96f88a46ea34e485804bf2a",
+            "file_count": 162,
+            "size_bytes": 126221,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_2",
+          "target_checkpoint": "checkpoint_2",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "489263a9dcf91172e6e0565523328ecfbef20e306c93da3a8cfbe2d2b0ffd907",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "79e999887c77833102820404fbff99c309c0bbf54bffe3f67f85941b633f9363",
+          "evaluation_sha256": "1ee6181b379d7838ed75f2c93ac443d76988a2b2aefe479f77a35712d7751321",
+          "started_at": "2026-10-27T10:04:18.389958Z",
+          "completed_at": "2026-10-27T10:28:23.271544Z",
+          "inference_seconds": 1444.881586,
+          "evaluation_seconds": 213.71273159980774,
+          "native_steps": 167,
+          "tokens": {
+            "cache_read": 4690688,
+            "cache_write": 0,
+            "input": 4806919,
+            "output": 46425,
+            "reasoning": 27249
+          },
+          "official_cost": {
+            "usd": 0.08174247999999999,
+            "coverage": "complete",
+            "pricebook": "gpt6-luna-standard-user-provided-2026-10-23"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_clock_mux_rejects_single_input",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_clock_mux_switch_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_counter_behavior_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_id_queue_exists_mask_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_mem_to_banks_staggered_completion",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_optimal_fifo_rejects_unsupported_depths",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_static_divider_rejects_zero",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_static_divider_reset_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_stream_throttle_exhausted_credit",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[addr_decode]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[addr_decode_napot]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[clk_int_div]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[clk_int_div_static]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[popcount]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[read]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[shift_reg_gated]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[stream_delay]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[stream_fifo_optimal_wrap]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[stream_register]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[stream_throttle]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_lossy_valid_to_stream_behavior",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[clk_mux_glitch_free]",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[mem_to_banks]",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_ffarnc_surface_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_mem_to_banks_detailed_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_mem_to_banks_detailed_staggered_response_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_passthrough_stream_fifo_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_passthrough_stream_fifo_stall_stability_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_stream_join_dynamic_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_addr_decode_dync_behavior",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_multiaddr_decode_behavior",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_artifact_hygiene",
+              "group": "Error",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_core_structure",
+              "group": "Structure",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 6,
+              "total": 8
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 20,
+              "total": 23
+            },
+            "error": {
+              "passed": 1,
+              "total": 1
+            },
+            "total": {
+              "passed": 28,
+              "total": 33
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": 38,
+            "native_events": 222,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "candidate_artifact": {
+            "path": "experiments/artifacts/ebe1bd6756e801930a0aa445b2fff6b5c5b23e2690beeb7a2d6d6045ffe462bf.tar.gz",
+            "sha256": "ebe1bd6756e801930a0aa445b2fff6b5c5b23e2690beeb7a2d6d6045ffe462bf",
+            "file_count": 168,
+            "size_bytes": 128467,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_3",
+          "target_checkpoint": "checkpoint_3",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "887f41dcfa8353fdb2caea0ad046fe835971ed2608cea1ed7d22d9836d0d72c8",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "da4fd33f344932880e3e5036a25a61d48c396d92b5bfdf9c2631534ae64ed40c",
+          "evaluation_sha256": "d9a0e43a9975c02317f88409387c7054b27ec6171a7a39921fda62308e76535a",
+          "started_at": "2026-10-29T07:51:09.688066Z",
+          "completed_at": "2026-10-29T08:27:22.417405Z",
+          "inference_seconds": 2172.729339,
+          "evaluation_seconds": 326.6409521102905,
+          "native_steps": 132,
+          "tokens": {
+            "cache_read": 2618880,
+            "cache_write": 0,
+            "input": 2767755,
+            "output": 37522,
+            "reasoning": 23347
+          },
+          "official_cost": {
+            "usd": 0.0598373,
+            "coverage": "complete",
+            "pricebook": "gpt6-luna-standard-user-provided-2026-10-23"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_clock_mux_rejects_single_input",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_clock_mux_switch_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_counter_behavior_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_id_queue_exists_mask_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_mem_to_banks_staggered_completion",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_optimal_fifo_rejects_unsupported_depths",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_static_divider_rejects_zero",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_static_divider_reset_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_stream_throttle_exhausted_credit",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[addr_decode_napot]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[clk_int_div]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[clk_int_div_static]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[popcount]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[read]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[shift_reg_gated]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[stream_fifo_optimal_wrap]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[stream_register]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[stream_throttle]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_lossy_valid_to_stream_behavior",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[addr_decode]",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[clk_mux_glitch_free]",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[mem_to_banks]",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[stream_delay]",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_ffarnc_surface_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_mem_to_banks_detailed_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_mem_to_banks_detailed_staggered_response_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_passthrough_stream_fifo_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_passthrough_stream_fifo_stall_stability_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_stream_join_dynamic_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_addr_decode_dync_behavior",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_multiaddr_decode_behavior",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_artifact_hygiene",
+              "group": "Error",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_core_structure",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_dead_write_response_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_ffarnc_clear_priority",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_id_queue_extensions",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_stream_and_credit_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_stream_xbar_mask_surface[input]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_stream_xbar_mask_surface[output]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_stream_xbar_unmasked_assertions[input]",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_stream_xbar_unmasked_assertions[output]",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_delta_counter_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_stream_to_mem_behavior",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 6,
+              "total": 8
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 26,
+              "total": 33
+            },
+            "error": {
+              "passed": 1,
+              "total": 1
+            },
+            "total": {
+              "passed": 34,
+              "total": 43
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": 34,
+            "native_events": 180,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "candidate_artifact": {
+            "path": "experiments/artifacts/feb66469d6f22740c8a7833108322efc5aa8ba7c603d68270353862e66852cb3.tar.gz",
+            "sha256": "feb66469d6f22740c8a7833108322efc5aa8ba7c603d68270353862e66852cb3",
+            "file_count": 169,
+            "size_bytes": 129500,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": null,
+      "agent_retries": null,
+      "legacy_origin": null,
+      "started_at": "2026-10-28T13:16:29.072960+00:00",
+      "completed_at": "2026-10-29T08:33:06.882958+00:00",
+      "wall_seconds_all_attempts": 2536.7233550790697,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0.35459266,
+      "cost_coverage": "partial",
+      "expected_test_counts": {
+        "checkpoint_3": {
+          "total": 43,
+          "groups": {
+            "core": 8,
+            "error": 1,
+            "functionality": 0,
+            "regression": 33,
+            "structure": 1
+          },
+          "inventory": "9661451686eeff736692ee90c8c8758e8fc9a88b0fb6f05aa3cc2e112087dcdf"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,1572 @@
+{
+  "schema_version": 4,
+  "analysis": "16e3b57c9345ef345b0c1f908dd07b31e3687e3558e1f9dfd9665a2bea56357e",
+  "problem": "taxi_axi_t3",
+  "cells": [
+    {
+      "id": "52f085ba1319e341f261381960ccc7ad621010537b46c43ff4dda9ddf8d531a9",
+      "problem": "taxi_axi_t3",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "gpt-6-luna",
+      "agent": "codex",
+      "agent_version": "0.141.0",
+      "agent_config": "2cecbd080e27ee2bccb659f5ffb17f23998eaf38a6b96491490378b148637045",
+      "thinking": "xhigh",
+      "protocol": "a2e80907c2e33d757c0af91e061e5c62378813a9be9699f01cb3a7098bdde293",
+      "generation": "8c1ebc7148046f0541ac5f84070a3d7e3fd19d81f372694429866f4937436545",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "334a987655eec9ff6c0cd3d13e6b1820247f2b5c3ca015ecaae3d861767174ae",
+          "evidence": [
+            "sha256:2905681eaa46693e6d9a8b2ef2399bf34e89205a801ee1ee36c5d62cd26b7913"
+          ],
+          "event_id": "d4d50bc22145fdb349d9c6cf631abe308a845cc29d90e588a3cd24a06ddec4ba",
+          "assessment": null,
+          "evaluation": "8cb41e4be19df85cf08de9bd706c370a5ea59e9dac6adea39acaf1b894e79029",
+          "attempt": "157c1537532840988dc581adfa8dadef"
+        },
+        {
+          "namespace": "implementation",
+          "label": "structure_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "334a987655eec9ff6c0cd3d13e6b1820247f2b5c3ca015ecaae3d861767174ae",
+          "evidence": [
+            "sha256:2905681eaa46693e6d9a8b2ef2399bf34e89205a801ee1ee36c5d62cd26b7913"
+          ],
+          "event_id": "352f6b751989be5598ae9fc888b1f0562775673fef4578d3044f310414f8b950",
+          "assessment": null,
+          "evaluation": "8cb41e4be19df85cf08de9bd706c370a5ea59e9dac6adea39acaf1b894e79029",
+          "attempt": "157c1537532840988dc581adfa8dadef"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_1"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.0,
+      "selected_attempt": "157c1537532840988dc581adfa8dadef",
+      "selected_evaluation": "8cb41e4be19df85cf08de9bd706c370a5ea59e9dac6adea39acaf1b894e79029",
+      "evaluation_generation": "02156ba8ac56777341b8b75c14a27781191c36f6b82ad5e5c96401db9bec4c01",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_1",
+          "state": "failed",
+          "gate_passed": false,
+          "candidate": "334a987655eec9ff6c0cd3d13e6b1820247f2b5c3ca015ecaae3d861767174ae",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "369952aee4b354886dc7293cfb2f20691717572c0626d0a0a20c310c1b8ded2e",
+          "evaluation_sha256": "2905681eaa46693e6d9a8b2ef2399bf34e89205a801ee1ee36c5d62cd26b7913",
+          "started_at": "2026-10-27T09:22:07.986123Z",
+          "completed_at": "2026-10-27T10:17:32.918869Z",
+          "inference_seconds": 3324.932746,
+          "evaluation_seconds": 815.5663731098175,
+          "native_steps": 221,
+          "tokens": {
+            "cache_read": 7608832,
+            "cache_write": 0,
+            "input": 7933523,
+            "output": 90689,
+            "reasoning": 42165
+          },
+          "official_cost": {
+            "usd": 0.15390192000000003,
+            "coverage": "complete",
+            "pricebook": "gpt6-luna-standard-user-provided-2026-10-23"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_decode_errors",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_nondefault_region",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_response_ids",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_routing",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_write_burst_ownership",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_core_structure",
+              "group": "Structure",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_axi_fifo_behavior",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 0,
+              "total": 1
+            },
+            "core": {
+              "passed": 5,
+              "total": 5
+            },
+            "regression": {
+              "passed": 1,
+              "total": 1
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 6,
+              "total": 7
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": 42,
+            "native_events": 287,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "compatibility": {
+            "score": "compatible",
+            "time": "compatible",
+            "cost": "compatible",
+            "calls": "compatible"
+          },
+          "defects": [],
+          "tags": [],
+          "candidate_artifact": {
+            "path": "experiments/artifacts/4b8f0f5ee764fd154e748e258fe370ad8129c1eb921bd600b9cd50d63292582f.tar.gz",
+            "sha256": "4b8f0f5ee764fd154e748e258fe370ad8129c1eb921bd600b9cd50d63292582f",
+            "file_count": 26,
+            "size_bytes": 27360,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-10-27T09:22:05.437870+00:00",
+      "completed_at": "2026-10-27T10:31:20.401693+00:00",
+      "wall_seconds_all_attempts": 4154.959759775549,
+      "official_cost_all_attempts": 0.15390192000000003,
+      "known_official_cost": 0.15390192000000003,
+      "cost_coverage": "complete"
+    },
+    {
+      "id": "cbbc3121d2be91035d989159c0d20c3f911091fd7a164c6907d026a259142f79",
+      "problem": "taxi_axi_t3",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "gpt-6-luna",
+      "agent": "codex",
+      "agent_version": "0.141.0",
+      "agent_config": "c178411ac3d7042f21b8f6cbef6ae32b4b4c9935c42e067d32d601c754dc5317",
+      "thinking": "xhigh",
+      "protocol": "a2e80907c2e33d757c0af91e061e5c62378813a9be9699f01cb3a7098bdde293",
+      "generation": "0fd0f2b51302fd61547dbe1a4722686ea991048a1e01f2da6d6a1acc8b460f81",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_2",
+          "candidate": "947e0000a50d30eac6a641713e8270f198f98d98db4580c5d803d44c754ffeaf",
+          "evidence": [
+            "sha256:778c4d3fd5d0ac22c0146274170d043742c27a854a15e9d0ef2c57881c68fdae"
+          ],
+          "event_id": "81cd2e9ea65b059a773025358251046bc1b7e4c48186db57f088db9cf78f8bcb",
+          "assessment": null,
+          "evaluation": "01a4f947d6c0a62183e004f837ee6bc6f41b5ef65a250f69ff82760118733cd4",
+          "attempt": "5c0a3fc5ad65468e97dff04bdc28d1b0"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_2",
+          "candidate": "947e0000a50d30eac6a641713e8270f198f98d98db4580c5d803d44c754ffeaf",
+          "evidence": [
+            "sha256:778c4d3fd5d0ac22c0146274170d043742c27a854a15e9d0ef2c57881c68fdae"
+          ],
+          "event_id": "f10ef6fd8c7cb2d054a5e7417cf55ddee69212ad0443dc0835d2543c56919771",
+          "assessment": null,
+          "evaluation": "01a4f947d6c0a62183e004f837ee6bc6f41b5ef65a250f69ff82760118733cd4",
+          "attempt": "5c0a3fc5ad65468e97dff04bdc28d1b0"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_2"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.0,
+      "selected_attempt": "5c0a3fc5ad65468e97dff04bdc28d1b0",
+      "selected_evaluation": "01a4f947d6c0a62183e004f837ee6bc6f41b5ef65a250f69ff82760118733cd4",
+      "evaluation_generation": "29db9e37f7032e6a2354612e58e362b6d0a79736ac5a18383b0d3c358d64f9c3",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_2",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "947e0000a50d30eac6a641713e8270f198f98d98db4580c5d803d44c754ffeaf",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "9e4981cafab5beac1c9938f4c46ca1efd7d4af77011708d2fad0304525f8cd8b",
+          "evaluation_sha256": "778c4d3fd5d0ac22c0146274170d043742c27a854a15e9d0ef2c57881c68fdae",
+          "started_at": "2026-10-27T09:29:13.651801Z",
+          "completed_at": "2026-10-27T10:46:01.298428Z",
+          "inference_seconds": 4607.646627,
+          "evaluation_seconds": 1016.435215473175,
+          "native_steps": 304,
+          "tokens": {
+            "cache_read": 16267392,
+            "cache_write": 0,
+            "input": 16620839,
+            "output": 103958,
+            "reasoning": 51149
+          },
+          "official_cost": {
+            "usd": 0.24999762000000003,
+            "coverage": "complete",
+            "pricebook": "gpt6-luna-standard-user-provided-2026-10-23"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_decode_errors",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_nondefault_region",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_response_ids",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_routing",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_write_burst_ownership",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_axi_fifo_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_admission_accept",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_admission_thread",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_decode_errors",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_independent_read_write_pressure",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_issue_limit",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_nondefault_region",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_register_types",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_routing",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_source_id_restoration",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_core_structure",
+              "group": "Structure",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 6,
+              "total": 9
+            },
+            "regression": {
+              "passed": 6,
+              "total": 6
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 13,
+              "total": 16
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": 67,
+            "native_events": 407,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "compatibility": {
+            "score": "compatible",
+            "time": "compatible",
+            "cost": "compatible",
+            "calls": "compatible"
+          },
+          "defects": [],
+          "tags": [],
+          "candidate_artifact": {
+            "path": "experiments/artifacts/75cd259706d9d40b70021b9823a789267d9c1a35fee347674d423dafc6869514.tar.gz",
+            "sha256": "75cd259706d9d40b70021b9823a789267d9c1a35fee347674d423dafc6869514",
+            "file_count": 38,
+            "size_bytes": 36677,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-10-27T09:29:11.268232+00:00",
+      "completed_at": "2026-10-27T11:03:13.301075+00:00",
+      "wall_seconds_all_attempts": 5642.028670433909,
+      "official_cost_all_attempts": 0.24999762000000003,
+      "known_official_cost": 0.24999762000000003,
+      "cost_coverage": "complete"
+    },
+    {
+      "id": "2f05249784dc3631f9306b66b1556f89ab5454322a6640f6f321ebb155b532f7",
+      "problem": "taxi_axi_t3",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "gpt-6-luna",
+      "agent": "codex",
+      "agent_version": "0.141.0",
+      "agent_config": "a91dcb3b323e285a600ece7a20bfbf160eb98310beb3885dd6c952d122fafc11",
+      "thinking": "xhigh",
+      "protocol": "a2e80907c2e33d757c0af91e061e5c62378813a9be9699f01cb3a7098bdde293",
+      "generation": "f14fe6f8881a5b6f224c4e79a7055a3ff189afa267136361a4abe53b965b373a",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_3"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "6e572e7f05d04071902a931457a78bdf",
+      "selected_evaluation": "6a2fe25731c489846460e13163b2436f1c901ee427ed21c8cd72602d8592694c",
+      "evaluation_generation": "370ac7a2193ab320f1aef712de75e6c9f8159e404f3336f0c021d7b76048326d",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_3",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "0c8344b1d56e0ba64533374daa0a9e63517a2277c00d85d1a22744cae8cd5a56",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "cf7a7cf9de25228d5ecebf236f787c03739b8f2625a812cd20e152bd4742d052",
+          "evaluation_sha256": "8c5c78abe98e334fc02af43e6b620b41820c08cd0c627d5bdccc77168992f2b1",
+          "started_at": "2026-10-27T10:11:27.740500Z",
+          "completed_at": "2026-10-27T10:31:13.902159Z",
+          "inference_seconds": 1186.161659,
+          "evaluation_seconds": 2042.7610244750977,
+          "native_steps": 145,
+          "tokens": {
+            "cache_read": 3230336,
+            "cache_write": 0,
+            "input": 3394481,
+            "output": 39798,
+            "reasoning": 22013
+          },
+          "official_cost": {
+            "usd": 0.06861686,
+            "coverage": "complete",
+            "pricebook": "gpt6-luna-standard-user-provided-2026-10-23"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_decode_errors",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_nondefault_region",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_response_ids",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_routing",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_write_burst_ownership",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_axi_fifo_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_admission_accept",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_admission_thread",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_decode_errors",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_independent_read_write_pressure",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_issue_limit",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_nondefault_region",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_register_types",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_routing",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_source_id_restoration",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_axi_interconnect_1s_endpoint_behavior_decode_errors",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_axi_interconnect_1s_endpoint_behavior_nondefault_region",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_axi_interconnect_1s_endpoint_behavior_response_id",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_axi_interconnect_1s_endpoint_behavior_routing",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_core_structure",
+              "group": "Structure",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 4,
+              "total": 4
+            },
+            "regression": {
+              "passed": 15,
+              "total": 15
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 20,
+              "total": 20
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": 36,
+            "native_events": 193,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "compatibility": {
+            "score": "compatible",
+            "time": "compatible",
+            "cost": "compatible",
+            "calls": "compatible"
+          },
+          "defects": [],
+          "tags": [],
+          "candidate_artifact": {
+            "path": "experiments/artifacts/c863d0e344fab4168e6a5ebd3faec1f1de20aefcd3f0af17b465004b94d2b60d.tar.gz",
+            "sha256": "c863d0e344fab4168e6a5ebd3faec1f1de20aefcd3f0af17b465004b94d2b60d",
+            "file_count": 49,
+            "size_bytes": 40708,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-10-27T10:11:25.271631+00:00",
+      "completed_at": "2026-10-27T11:05:30.511406+00:00",
+      "wall_seconds_all_attempts": 3245.236027467996,
+      "official_cost_all_attempts": 0.06861686,
+      "known_official_cost": 0.06861686,
+      "cost_coverage": "complete"
+    },
+    {
+      "id": "e62f0cbdb9ac67e6f61af45a2ceed8254019d02e0c0ce9d87a4e24e0f7e7ceee",
+      "problem": "taxi_axi_t3",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "gpt-6-luna",
+      "agent": "codex",
+      "agent_version": "0.141.0",
+      "agent_config": "0ad41f17c4efe3a87578aa5e57fdd05facf19a450f9ebacae9456a2b4fc5bd54",
+      "thinking": "xhigh",
+      "protocol": "a2e80907c2e33d757c0af91e061e5c62378813a9be9699f01cb3a7098bdde293",
+      "generation": "f776062936ee93a52ec96eebb6056dc46f371037936d2155d0c4efa8ccec0bc7",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_4"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "c3a81fee080b4c04a69aa2ea1f4224e1",
+      "selected_evaluation": "d96931b3106699125b813353e0abae62e6dcfc05fbba4410680bea90567cb585",
+      "evaluation_generation": "222833562465de303ef18a3ec7598c6b9be81b212eeddd2ea935fbea39004f06",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_4",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "e9b73db07630cb4c0bbef734dc7d44dcbcbe959218e0433c22d92acd2d9679c9",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "8efae00ddba4e36a60d180dba268fa22382de95d761cdd4e3c080cb766b43f75",
+          "evaluation_sha256": "37548f0ae3af380e1fe2b2c001998687d529f31dc195ec1bd2af69f4b676dbbe",
+          "started_at": "2026-10-27T10:59:54.545800Z",
+          "completed_at": "2026-10-27T11:26:36.436441Z",
+          "inference_seconds": 1601.890641,
+          "evaluation_seconds": 2517.554958820343,
+          "native_steps": 134,
+          "tokens": {
+            "cache_read": 3226240,
+            "cache_write": 0,
+            "input": 3398126,
+            "output": 37287,
+            "reasoning": 18406
+          },
+          "official_cost": {
+            "usd": 0.0680945,
+            "coverage": "complete",
+            "pricebook": "gpt6-luna-standard-user-provided-2026-10-23"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_decode_errors",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_nondefault_region",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_response_ids",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_routing",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_write_burst_ownership",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_axi_fifo_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_admission_accept",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_admission_thread",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_decode_errors",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_independent_read_write_pressure",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_issue_limit",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_nondefault_region",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_register_types",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_routing",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_source_id_restoration",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_axi_interconnect_1s_endpoint_behavior_decode_errors",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_axi_interconnect_1s_endpoint_behavior_nondefault_region",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_axi_interconnect_1s_endpoint_behavior_response_id",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_axi_interconnect_1s_endpoint_behavior_routing",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_axi_crossbar_1s_endpoint_behavior_admission_accept",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_axi_crossbar_1s_endpoint_behavior_admission_thread",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_axi_crossbar_1s_endpoint_behavior_decode_errors",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_axi_crossbar_1s_endpoint_behavior_issue_limit",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_axi_crossbar_1s_endpoint_behavior_nondefault_region",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_axi_crossbar_1s_endpoint_behavior_register_types",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_axi_crossbar_1s_endpoint_behavior_response_id",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_axi_crossbar_1s_endpoint_behavior_routing",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_core_structure",
+              "group": "Structure",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 8,
+              "total": 8
+            },
+            "regression": {
+              "passed": 19,
+              "total": 19
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 28,
+              "total": 28
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": 41,
+            "native_events": 184,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "compatibility": {
+            "score": "compatible",
+            "time": "compatible",
+            "cost": "compatible",
+            "calls": "compatible"
+          },
+          "defects": [],
+          "tags": [],
+          "candidate_artifact": {
+            "path": "experiments/artifacts/91e129f638ff7f6697779fc7b03260c1e908f0027680dd7d9b31d1aa45046667.tar.gz",
+            "sha256": "91e129f638ff7f6697779fc7b03260c1e908f0027680dd7d9b31d1aa45046667",
+            "file_count": 58,
+            "size_bytes": 43209,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-10-27T10:59:51.769259+00:00",
+      "completed_at": "2026-10-27T12:08:48.162385+00:00",
+      "wall_seconds_all_attempts": 4136.3877332136035,
+      "official_cost_all_attempts": 0.0680945,
+      "known_official_cost": 0.0680945,
+      "cost_coverage": "complete"
+    },
+    {
+      "id": "0aa3b7dc2669e37e71509175ae84698cda4984ed64a042ea915564b3522f3750",
+      "problem": "taxi_axi_t3",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "gpt-6-luna",
+      "agent": "codex",
+      "agent_version": "0.141.0",
+      "agent_config": "2b09f123af4c3f0a83a336c07f9a5eef2ad38a708a684689f67139bffa6cf60a",
+      "thinking": "xhigh",
+      "protocol": "a2e80907c2e33d757c0af91e061e5c62378813a9be9699f01cb3a7098bdde293",
+      "generation": "76e7b29c9247ff0b0b07d454f30acc1972054bcc0ffc77db67d0b6b40e217ba4",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_5"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "9ae040fa0d604f4397210a2b156b5f01",
+      "selected_evaluation": "98199e580e5959497a16806b81cb60045baf586cba5ff79e493455535d20a591",
+      "evaluation_generation": "ff8781b63bcd644e38aa7c54fb00801b1b7f483c9153a5b31448c820c930a59c",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_5",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "c775c2f9ca4fba640d4f6031ae1c5822242fb43a018fad26962057e7e5a434b9",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "fc5b37025c7eac295349976fc214afe0bc30cf201a1aacc0c013b90352675fa6",
+          "evaluation_sha256": "5149affc9b822c405e0e55631853e15462e8c671d35bf38c80d07ede710f6dec",
+          "started_at": "2026-10-27T11:05:33.840343Z",
+          "completed_at": "2026-10-27T11:31:54.535215Z",
+          "inference_seconds": 1580.694872,
+          "evaluation_seconds": 3934.284927368164,
+          "native_steps": 159,
+          "tokens": {
+            "cache_read": 4541440,
+            "cache_write": 0,
+            "input": 4674819,
+            "output": 57435,
+            "reasoning": 36537
+          },
+          "official_cost": {
+            "usd": 0.0874698,
+            "coverage": "complete",
+            "pricebook": "gpt6-luna-standard-user-provided-2026-10-23"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_decode_errors",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_nondefault_region",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_response_ids",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_routing",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_write_burst_ownership",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_axi_fifo_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_admission_accept",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_admission_thread",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_decode_errors",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_independent_read_write_pressure",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_issue_limit",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_nondefault_region",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_register_types",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_routing",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_source_id_restoration",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_axi_interconnect_1s_endpoint_behavior_decode_errors",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_axi_interconnect_1s_endpoint_behavior_nondefault_region",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_axi_interconnect_1s_endpoint_behavior_response_id",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_axi_interconnect_1s_endpoint_behavior_routing",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_axi_crossbar_1s_endpoint_behavior_admission_accept",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_axi_crossbar_1s_endpoint_behavior_admission_thread",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_axi_crossbar_1s_endpoint_behavior_decode_errors",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_axi_crossbar_1s_endpoint_behavior_issue_limit",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_axi_crossbar_1s_endpoint_behavior_nondefault_region",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_axi_crossbar_1s_endpoint_behavior_register_types",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_axi_crossbar_1s_endpoint_behavior_response_id",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_axi_crossbar_1s_endpoint_behavior_routing",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_axi_dp_ram_endpoint_behavior_basic_rw",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_axi_dp_ram_endpoint_behavior_cross_port_sharing",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_axi_dp_ram_endpoint_behavior_interleave_order",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_axi_dp_ram_endpoint_behavior_nondefault_port_options",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_axi_dp_ram_endpoint_behavior_pipeline_latency",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_core_structure",
+              "group": "Structure",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 5,
+              "total": 5
+            },
+            "regression": {
+              "passed": 27,
+              "total": 27
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 33,
+              "total": 33
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": 27,
+            "native_events": 194,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "compatibility": {
+            "score": "compatible",
+            "time": "compatible",
+            "cost": "compatible",
+            "calls": "compatible"
+          },
+          "defects": [],
+          "tags": [],
+          "candidate_artifact": {
+            "path": "experiments/artifacts/732e6622e5c3d1e04e6bcc8553068d652a68c88a5282ac327c04e7b4e1e7b282.tar.gz",
+            "sha256": "732e6622e5c3d1e04e6bcc8553068d652a68c88a5282ac327c04e7b4e1e7b282",
+            "file_count": 67,
+            "size_bytes": 47423,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-10-27T11:05:31.238981+00:00",
+      "completed_at": "2026-10-27T12:37:43.867411+00:00",
+      "wall_seconds_all_attempts": 5532.621574053541,
+      "official_cost_all_attempts": 0.0874698,
+      "known_official_cost": 0.0874698,
+      "cost_coverage": "complete"
+    },
+    {
+      "id": "3940c0f68e1372db7e2b208139f53ee552a569b5e332ba118d2066462c79e0d7",
+      "problem": "taxi_axi_t3",
+      "mode": "pipeline",
+      "prompt_arm": "original",
+      "model": "gpt-6-luna",
+      "agent": "codex",
+      "agent_version": "0.141.0",
+      "agent_config": "2cecbd080e27ee2bccb659f5ffb17f23998eaf38a6b96491490378b148637045",
+      "thinking": "xhigh",
+      "protocol": "a2e80907c2e33d757c0af91e061e5c62378813a9be9699f01cb3a7098bdde293",
+      "generation": "0f15e207c7b97356aff5a4a0c9564bcc121c3bdd299dc3fba38736fc1430d35b",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "d72b3eeed4b650c19985b1fb82e5efc51bdec31a937ffbdb567ae1b402f6a9d0",
+          "evidence": [
+            "sha256:a22213fd4138c42a8f0549f5da581762f2def8333b53963c97a99c9f355c9dc1"
+          ],
+          "event_id": "068f090c3ea59c780bffcd9d8ec9ad6ff78d97a44196a4b3dbfcd1a01bf22a63",
+          "assessment": null,
+          "evaluation": "0bf970137a52fece36f958f1775099713956002b466b3d8101a5cddbe8a17bd0",
+          "attempt": "a60421b3de354d019c45cfe7e07ace3b"
+        },
+        {
+          "namespace": "implementation",
+          "label": "structure_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "d72b3eeed4b650c19985b1fb82e5efc51bdec31a937ffbdb567ae1b402f6a9d0",
+          "evidence": [
+            "sha256:a22213fd4138c42a8f0549f5da581762f2def8333b53963c97a99c9f355c9dc1"
+          ],
+          "event_id": "04d8ad211e5d1293427fa82e28b762312c0d2ac355e6cfc90ba6e662bf134f7d",
+          "assessment": null,
+          "evaluation": "0bf970137a52fece36f958f1775099713956002b466b3d8101a5cddbe8a17bd0",
+          "attempt": "a60421b3de354d019c45cfe7e07ace3b"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 5,
+      "planned_targets": [
+        "checkpoint_1",
+        "checkpoint_2",
+        "checkpoint_3",
+        "checkpoint_4",
+        "checkpoint_5"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.0,
+      "selected_attempt": "a60421b3de354d019c45cfe7e07ace3b",
+      "selected_evaluation": "0bf970137a52fece36f958f1775099713956002b466b3d8101a5cddbe8a17bd0",
+      "evaluation_generation": "764e9f31cea88ade2d2de2aa205ef8012c2ee9232286cc074cd343a88b75b6a8",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_1",
+          "state": "failed",
+          "gate_passed": false,
+          "candidate": "d72b3eeed4b650c19985b1fb82e5efc51bdec31a937ffbdb567ae1b402f6a9d0",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "317bdf235aa265a8ccfd99f81f6102fa1b78a43178d96dc4fd061236d6d81d4a",
+          "evaluation_sha256": "a22213fd4138c42a8f0549f5da581762f2def8333b53963c97a99c9f355c9dc1",
+          "started_at": "2026-10-27T11:10:25.468406Z",
+          "completed_at": "2026-10-27T12:15:46.269003Z",
+          "inference_seconds": 3920.800597,
+          "evaluation_seconds": 844.1768035888672,
+          "native_steps": 229,
+          "tokens": {
+            "cache_read": 9922432,
+            "cache_write": 0,
+            "input": 10177211,
+            "output": 94690,
+            "reasoning": 42027
+          },
+          "official_cost": {
+            "usd": 0.17204722,
+            "coverage": "complete",
+            "pricebook": "gpt6-luna-standard-user-provided-2026-10-23"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_decode_errors",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_nondefault_region",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_response_ids",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_routing",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_write_burst_ownership",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_core_structure",
+              "group": "Structure",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_axi_fifo_behavior",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 0,
+              "total": 1
+            },
+            "core": {
+              "passed": 5,
+              "total": 5
+            },
+            "regression": {
+              "passed": 1,
+              "total": 1
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 6,
+              "total": 7
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": 63,
+            "native_events": 312,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "compatibility": {
+            "score": "compatible",
+            "time": "compatible",
+            "cost": "compatible",
+            "calls": "compatible"
+          },
+          "defects": [],
+          "tags": [],
+          "candidate_artifact": {
+            "path": "experiments/artifacts/91fab2933d56f241440c5025dc552908894ce50dac24475b706ecb6d279096c4.tar.gz",
+            "sha256": "91fab2933d56f241440c5025dc552908894ce50dac24475b706ecb6d279096c4",
+            "file_count": 26,
+            "size_bytes": 25712,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_2",
+          "target_checkpoint": "checkpoint_2",
+          "state": "stopped_by_policy",
+          "gate_passed": null,
+          "candidate": null,
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": null,
+          "evaluation_sha256": null,
+          "started_at": null,
+          "completed_at": null,
+          "inference_seconds": null,
+          "evaluation_seconds": null,
+          "native_steps": null,
+          "tokens": null,
+          "official_cost": {
+            "usd": 0,
+            "coverage": "complete",
+            "pricebook": "gpt6-luna-standard-user-provided-2026-10-23"
+          },
+          "tests": [],
+          "test_counts": null,
+          "score": 0,
+          "calls": {
+            "http_requests": 0,
+            "http_retries": 0,
+            "observed_responses": 0,
+            "observed_tool_calls": 0,
+            "coverage": "not_invoked"
+          },
+          "compatibility": {
+            "score": "compatible",
+            "time": "compatible",
+            "cost": "compatible",
+            "calls": "compatible"
+          },
+          "defects": [],
+          "tags": []
+        },
+        {
+          "checkpoint": "checkpoint_3",
+          "target_checkpoint": "checkpoint_3",
+          "state": "stopped_by_policy",
+          "gate_passed": null,
+          "candidate": null,
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": null,
+          "evaluation_sha256": null,
+          "started_at": null,
+          "completed_at": null,
+          "inference_seconds": null,
+          "evaluation_seconds": null,
+          "native_steps": null,
+          "tokens": null,
+          "official_cost": {
+            "usd": 0,
+            "coverage": "complete",
+            "pricebook": "gpt6-luna-standard-user-provided-2026-10-23"
+          },
+          "tests": [],
+          "test_counts": null,
+          "score": 0,
+          "calls": {
+            "http_requests": 0,
+            "http_retries": 0,
+            "observed_responses": 0,
+            "observed_tool_calls": 0,
+            "coverage": "not_invoked"
+          },
+          "compatibility": {
+            "score": "compatible",
+            "time": "compatible",
+            "cost": "compatible",
+            "calls": "compatible"
+          },
+          "defects": [],
+          "tags": []
+        },
+        {
+          "checkpoint": "checkpoint_4",
+          "target_checkpoint": "checkpoint_4",
+          "state": "stopped_by_policy",
+          "gate_passed": null,
+          "candidate": null,
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": null,
+          "evaluation_sha256": null,
+          "started_at": null,
+          "completed_at": null,
+          "inference_seconds": null,
+          "evaluation_seconds": null,
+          "native_steps": null,
+          "tokens": null,
+          "official_cost": {
+            "usd": 0,
+            "coverage": "complete",
+            "pricebook": "gpt6-luna-standard-user-provided-2026-10-23"
+          },
+          "tests": [],
+          "test_counts": null,
+          "score": 0,
+          "calls": {
+            "http_requests": 0,
+            "http_retries": 0,
+            "observed_responses": 0,
+            "observed_tool_calls": 0,
+            "coverage": "not_invoked"
+          },
+          "compatibility": {
+            "score": "compatible",
+            "time": "compatible",
+            "cost": "compatible",
+            "calls": "compatible"
+          },
+          "defects": [],
+          "tags": []
+        },
+        {
+          "checkpoint": "checkpoint_5",
+          "target_checkpoint": "checkpoint_5",
+          "state": "stopped_by_policy",
+          "gate_passed": null,
+          "candidate": null,
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": null,
+          "evaluation_sha256": null,
+          "started_at": null,
+          "completed_at": null,
+          "inference_seconds": null,
+          "evaluation_seconds": null,
+          "native_steps": null,
+          "tokens": null,
+          "official_cost": {
+            "usd": 0,
+            "coverage": "complete",
+            "pricebook": "gpt6-luna-standard-user-provided-2026-10-23"
+          },
+          "tests": [],
+          "test_counts": null,
+          "score": 0,
+          "calls": {
+            "http_requests": 0,
+            "http_retries": 0,
+            "observed_responses": 0,
+            "observed_tool_calls": 0,
+            "coverage": "not_invoked"
+          },
+          "compatibility": {
+            "score": "compatible",
+            "time": "compatible",
+            "cost": "compatible",
+            "calls": "compatible"
+          },
+          "defects": [],
+          "tags": []
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-10-27T11:10:22.838034+00:00",
+      "completed_at": "2026-10-27T12:30:03.723195+00:00",
+      "wall_seconds_all_attempts": 4780.8804920352995,
+      "official_cost_all_attempts": 0.17204722,
+      "known_official_cost": 0.17204722,
+      "cost_coverage": "complete",
+      "expected_test_counts": {
+        "checkpoint_5": {
+          "total": 37,
+          "groups": {
+            "core": 5,
+            "error": 0,
+            "functionality": 0,
+            "regression": 31,
+            "structure": 1
+          },
+          "inventory": "855d0e68cb39360d0884edfb5f374d74ef3d1444e816c5b20e0748cd15dd5401"
+        }
+      }
+    }
+  ]
+}
