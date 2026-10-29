@@ -4,7 +4,7 @@ export const primaryLabels = {pipeline_fdr:'FDR',pipeline_cc:'CC',pipeline_fc:'F
 const auxiliaryLabels = {
   pipeline_core_pass_rate:'Pipeline Core Pass Rate',sr_core_pass_rate:'SR Core Pass Rate',
   sr_core_completion:'SR Core Completion',sr_regression_failure_rate:'SR Regression Failure Rate ↓',
-  pipeline_trajectory_success_rate:'Pipeline Trajectory Success',
+  pipeline_cpr:'Pipeline CPR (checkpoint mean)',pipeline_trajectory_success_rate:'Pipeline Trajectory Success',
   sr_all_checkpoint_success_rate:'SR All-Checkpoint Success',sr_chain_macro:'SR Chain Macro',
 };
 const percent = value => value == null ? 'N/A' : `${(100*value).toFixed(2)}%`;
@@ -72,6 +72,26 @@ export function simulateThresholdGroup(group, recordsGroup, threshold='structure
   return {pipeline_fdr:metric(fdr,'task_chain',eligible),pipeline_cc:metric(cc,'task_chain',eligible),pipeline_fc:metric(fc,'task_chain',eligible),threshold};
 }
 
+/** Auxiliary Pipeline analogue of CPR: every planned checkpoint is one unit. */
+export function pipelineCheckpointPassRate(group, recordsGroup, taskType='') {
+  const chains=(group.chains||[]).filter(chain=>!taskType||chain.task_type===taskType);
+  const records=recordsGroup?.checkpoint_records||[];
+  const values=[];
+  for(const chain of chains){
+    const rows=new Map(records.filter(row=>row.mode==='pipeline'&&row.chain_id===chain.chain_id)
+      .map(row=>[row.checkpoint_index,row]));
+    for(let index=1;index<=chain.planned_length;index++){
+      const row=rows.get(index);
+      if(!row){values.push(null);continue;}
+      if(row.execution_status==='not_reached'){values.push(0);continue;}
+      if(row.execution_status!=='executed'||row.strict_pass==null){values.push(null);continue;}
+      values.push(row.strict_pass===1?1:0);
+    }
+  }
+  const eligible=group.primary?.pipeline_cc?.value!=null;
+  return metric(values,'checkpoint',eligible);
+}
+
 export function selectPaperGroups(report,filters={}) {
   return report.groups.filter(g=>['model','agent','prompt_arm'].every(k=>!filters[k]||g.config[k]===filters[k]) &&
     (!filters.scope||(filters.scope==='formal')===g.config.formal) &&
@@ -118,8 +138,9 @@ export function renderPaperMetrics(report,filters,params,records=null) {
     const base=scoreFor(g);
     if(!base||threshold==='structure-case')return base;
     const simulated=simulateThresholdGroup(g,recordGroups.get(g.id),threshold,scope);
-    return {...base,primary:{...base.primary,...simulated}};
+    return {...base,primary:{...base.primary,...simulated},auxiliary:{...base.auxiliary,pipeline_cpr:pipelineCheckpointPassRate(g,recordGroups.get(g.id),scope)}};
   };
+  const withAuxiliary=g=>{const score=scoredFor(g);return score?{...score,auxiliary:{...score.auxiliary,pipeline_cpr:pipelineCheckpointPassRate(g,recordGroups.get(g.id),scope)}}:score;};
   const relevant=groups.filter(g=>scoredFor(g));
   return `<section class="paper-metrics" aria-label="EvoRTL paper metrics">
     <div class="matrix-section-title"><h2>Benchmark performance · FDR / CC / FC / CPR</h2><span>${esc(report.scoring_version)}</span></div>
@@ -127,7 +148,7 @@ export function renderPaperMetrics(report,filters,params,records=null) {
     <div class="paper-controls"><label>Progression threshold <select data-paper-select="threshold" aria-label="Pipeline progression threshold">${Object.entries(thresholdLabels).map(([value,label])=>`<option value="${value}" ${threshold===value?'selected':''}>${esc(label)}</option>`).join('')}</select></label><label><input type="checkbox" data-paper-param="aux" ${extra?'checked':''}> Auxiliary metrics</label><label><input type="checkbox" data-paper-param="overhead" ${cost?'checked':''}> Cost, time & efficiency</label><label>Task type <select data-paper-select="task_type"><option value="">All task chains</option>${['RTL design evolution','test-suite evolution'].map(v=>`<option ${scope===v?'selected':''}>${esc(v)}</option>`).join('')}</select></label><button id="paper-csv">Metrics CSV ↗</button><button id="paper-json">Metrics JSON ↗</button></div>
     <div class="matrix-scroll"><table class="matrix-checkpoints paper-primary"><caption class="sr-only">Formal performance metrics, with explicit coverage and unverified raw diagnostics</caption><thead><tr><th>Model / agent / setting</th><th>FDR<small>Pipeline final delivery · chain mean</small></th><th>CC<small>Pipeline completion · chain macro mean</small></th><th>FC<small>Pipeline Final Completion · chain mean</small></th><th>CPR<small>SR strict pass · checkpoint mean</small></th></tr></thead><tbody>${relevant.map(g=>{const score=scoredFor(g);return `<tr><th>${heading(g.config)}<small>${esc(g.config.protocol)}</small></th>${Object.keys(primaryLabels).map(k=>`<td>${displayMetric(score.primary[k])}</td>`).join('')}</tr>`}).join('')||'<tr><td colspan="5">No matching scoring configurations.</td></tr>'}</tbody></table></div>
     <p class="matrix-method">Frozen manifest: ${groups[0]?.coverage.num_chains??'—'} chains / ${groups[0]?.coverage.num_checkpoints??'—'} checkpoints. Current records use Structure-case progression. Core-case and Strict-case are simulations over those same checkpoint results: Core-case stops after the first Structure or Core failure; Strict-case stops after the first strict required-test failure. They do not represent new agent runs or new evidence. FDR, CC and FC are recomputed under the selected threshold; CPR remains the independent SR score. FC scores the preset final checkpoint only: zero if not reached or Structure fails, otherwise the applicable Core + Regression pass fraction.</p>
-    ${extra?`<div class="matrix-section-title"><h2>Auxiliary analysis</h2></div><div class="matrix-scroll"><table class="matrix-checkpoints paper-auxiliary"><thead><tr><th>Configuration</th>${Object.values(auxiliaryLabels).map(v=>`<th>${esc(v)}</th>`).join('')}</tr></thead><tbody>${relevant.map(g=>`<tr><th>${heading(g.config)}</th>${Object.keys(auxiliaryLabels).map(k=>`<td>${displayMetric(scoreFor(g).auxiliary[k])}</td>`).join('')}</tr>`).join('')}</tbody></table></div><p class="matrix-method">Core pass rate includes all planned checkpoints; Pipeline not_reached contributes zero. Regression failure rate averages only SR checkpoints with applicable Regression tests. SR Chain Macro aligns the weights with CC; it does not replace CPR.</p><div class="matrix-scroll"><table class="matrix-checkpoints paper-activities"><thead><tr><th>SR primary activity</th><th>Configuration</th><th>CPR / checkpoint coverage</th></tr></thead><tbody>${groups.flatMap(g=>Object.entries(g.sr_by_activity).map(([activity,m])=>`<tr><th>${esc(activity)}</th><td>${heading(g.config)}</td><td>${displayMetric(m)}</td></tr>`)).join('')}</tbody></table></div>`:''}
+    ${extra?`<div class="matrix-section-title"><h2>Auxiliary analysis</h2></div><div class="matrix-scroll"><table class="matrix-checkpoints paper-auxiliary"><thead><tr><th>Configuration</th>${Object.values(auxiliaryLabels).map(v=>`<th>${esc(v)}</th>`).join('')}</tr></thead><tbody>${relevant.map(g=>{const score=withAuxiliary(g);return `<tr><th>${heading(g.config)}</th>${Object.keys(auxiliaryLabels).map(k=>`<td>${displayMetric(score.auxiliary[k])}</td>`).join('')}</tr>`}).join('')}</tbody></table></div><p class="matrix-method">Pipeline CPR treats all planned Pipeline checkpoints as independent checkpoint units; verified not_reached checkpoints contribute zero. It is an auxiliary checkpoint-weighted view and does not replace chain-weighted CC or independent SR CPR. Core pass rate includes all planned checkpoints; Regression failure rate averages only SR checkpoints with applicable Regression tests. SR Chain Macro aligns the weights with CC; it does not replace CPR.</p><div class="matrix-scroll"><table class="matrix-checkpoints paper-activities"><thead><tr><th>SR primary activity</th><th>Configuration</th><th>CPR / checkpoint coverage</th></tr></thead><tbody>${groups.flatMap(g=>Object.entries(g.sr_by_activity).map(([activity,m])=>`<tr><th>${esc(activity)}</th><td>${heading(g.config)}</td><td>${displayMetric(m)}</td></tr>`)).join('')}</tbody></table></div>`:''}
     ${cost?`<div class="matrix-section-title"><h2>Cost, time & efficiency</h2><label>Input-cache policy <select data-paper-select="cache"><option value="actual" ${policy==='actual'?'selected':''}>Actual recorded cache usage</option><option value="fixed_85" ${policy==='fixed_85'?'selected':''}>Uniform 85% cache-read scenario</option></select></label></div><div class="matrix-scroll"><table class="matrix-checkpoints paper-resources"><thead><tr><th>Configuration / mode</th><th>Total cost</th><th>Mean cost</th><th>Mean time</th><th>Record coverage</th></tr></thead><tbody>${relevant.map(g=>resources({...g,resources:scoreFor(g).resources},policy)).join('')}</tbody></table></div><div class="matrix-scroll paper-efficiency-scroll"><table class="matrix-checkpoints paper-efficiencies"><thead><tr><th>Configuration / performance</th><th>Cost efficiency / USD</th><th>Time efficiency / hour</th></tr></thead><tbody>${relevant.map(g=>{const score=scoredFor(g);return efficiencies({...g,efficiencies:scoreFor(g).efficiencies},policy,score.primary)}).join('')}</tbody></table></div><p class="matrix-method">Price version: ${esc(report.price_version)}. Fixed-price estimates use actual input/output tokens. The 85% scenario prices 85% of total prompt input as cache reads and 15% as uncached input, with no separate cache-write charge; output is unchanged. Reasoning tokens are already included in output. Missing usage or prices remain N/A. FDR, CC and FC share USD/chain and seconds/chain; CPR uses USD/checkpoint and seconds/checkpoint. Failed runs and stop rounds are included; invalid-attempt/retry overhead is retained separately in JSON. Agent time includes tools/self-validation; external evaluation and container/scheduling time are excluded by default. Efficiency is performance divided by mean resource use.</p>`:''}
     <details class="paper-issues"><summary>Scoring coverage, evidence issues & price provenance</summary><p>Benchmark ${esc(report.benchmark_version)} · manifest ${esc(report.manifest_sha256.slice(0,16))}</p>${groups.map(g=>`<p>${heading(g.config)}<br>Pipeline: ${g.coverage.pipeline.num_executed} executed / ${g.coverage.pipeline.num_not_reached} not reached / ${g.coverage.pipeline.num_pending} pending / ${g.coverage.pipeline.num_invalid} invalid. SR: ${g.coverage.sr.num_executed} executed / ${g.coverage.sr.num_pending} pending / ${g.coverage.sr.num_invalid} invalid.</p>${g.issues.length?`<ul>${g.issues.map(i=>`<li>${esc(i.chain_id)} ${esc(i.checkpoint_id)} · ${esc(i.mode)} · ${esc(i.reason)}</li>`).join('')}</ul>`:''}`).join('')}<p>Protocol equivalence is applied only when an explicit manifest mapping matches the hash of every execution setting; original protocol and per-task effective configuration identities are retained. Legacy Functionality is counted as Core exactly once; original evidence is retained. Error tests remain required for strict success. A skipped required test is unexecuted, not passed; applicability must come from frozen task evidence.</p>${report.price_metadata.rates.map(r=>`<p>${esc(r.model)}: input ${r.input}, output ${r.output}, cache read ${r.cache_read??'N/A'}, cache write ${r.cache_write??'N/A'} USD / million tokens · ${esc(r.verified_at)} · ${esc(r.source)}</p>`).join('')}</details>
   </section>`;
@@ -143,7 +164,8 @@ export function paperCsv(report,filters,policy='actual',threshold='structure-cas
     if(!base)return [];
     const simulated=threshold==='structure-case'||!base?base:simulateThresholdGroup(g,recordGroups.get(g.id),threshold,scope);
     const primary=simulated?{...base.primary,...simulated}:base.primary;
-    return Object.entries({...primary,...base.auxiliary,...Object.fromEntries(Object.entries(base.resources).filter(([k])=>k.endsWith(`_${policy}`))),...Object.fromEntries(Object.entries(base.efficiencies).filter(([k])=>k.endsWith(`_${policy}`)))}).map(([metric,m])=>({...g.config,metric,...m,cache_policy:policy,threshold_policy:threshold,scoring_version:report.scoring_version}));
+    const auxiliary={...base.auxiliary,pipeline_cpr:pipelineCheckpointPassRate(g,recordGroups.get(g.id),scope)};
+    return Object.entries({...primary,...auxiliary,...Object.fromEntries(Object.entries(base.resources).filter(([k])=>k.endsWith(`_${policy}`))),...Object.fromEntries(Object.entries(base.efficiencies).filter(([k])=>k.endsWith(`_${policy}`)))}).map(([metric,m])=>({...g.config,metric,...m,cache_policy:policy,threshold_policy:threshold,scoring_version:report.scoring_version}));
   });
   return [headers,...rows.map(r=>headers.map(k=>r[k]))].map(row=>row.map(quote).join(',')).join('\r\n');
 }

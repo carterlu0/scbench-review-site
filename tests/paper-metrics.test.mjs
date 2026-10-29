@@ -2,7 +2,7 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
-import {renderPaperMetrics,selectPaperGroups,paperCsv,simulateThresholdGroup} from '../paper-metrics.mjs';
+import {renderPaperMetrics,selectPaperGroups,paperCsv,simulateThresholdGroup,pipelineCheckpointPassRate} from '../paper-metrics.mjs';
 
 const root=new URL('../data/paper/',import.meta.url);
 const load=async path=>JSON.parse(await readFile(new URL(path,root),'utf8'));
@@ -68,6 +68,20 @@ test('core-case and strict-case simulations reuse recorded rows and change only 
     const html=renderPaperMetrics(report,{scope:'formal'},new URLSearchParams('threshold=core-case'),records);
     assert.match(html,/Core-case \(simulated\)/);assert.match(html,/simulations over those same checkpoint results/);
   }
+});
+
+test('Pipeline CPR auxiliary metric treats planned Pipeline checkpoints as independent units',async()=>{
+  const records=await load(report.checkpoint_records_path);
+  const high=report.groups.find(g=>g.config.thinking==='high');
+  const value=pipelineCheckpointPassRate(high,records.groups.find(g=>g.id===high.id));
+  assert.equal(value.unit,'checkpoint');
+  assert.equal(value.denominator,74);
+  assert.equal(value.known_units,74);
+  assert.ok(Math.abs(value.value-17/74)<1e-12);
+  const html=renderPaperMetrics(report,{scope:'formal'},new URLSearchParams('aux=1'),records);
+  assert.match(html,/Pipeline CPR \(checkpoint mean\)/);
+  const csv=paperCsv(report,{scope:'formal'},'actual','structure-case',records);
+  assert.match(csv,/pipeline_cpr/);
 });
 
 test('configuration filters never merge efforts, prompts, protocols or repeats',()=>{
