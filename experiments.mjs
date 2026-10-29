@@ -1,5 +1,5 @@
 import {escapeHtml as esc, modelKey, compareModelSettings, resultKey, latestCells, selectCells, summarize, csv, hydrateCells, testCounts, checkpointRows, plannedTargets, finalResult, fraction, isDeliveryFailure} from './experiments-core.mjs?v=20261027-delivery-display';
-import {renderPaperMetrics, selectPaperGroups, paperCsv} from './paper-metrics.mjs?v=20261028-fc-retest-v2';
+import {renderPaperMetrics, selectPaperGroups, paperCsv} from './paper-metrics.mjs?v=20261029-threshold-simulation';
 let catalogPromise;
 let paperCatalogPromise;
 let metadataPromise;
@@ -97,11 +97,13 @@ export async function renderExperiments() {
     const release=await releases.get(entry.id);
     const problem=params.get('problem');
     let paperReport=null;
+    let paperRecords=null;
     if(!problem){
       paperCatalogPromise ||= json('data/paper/catalog.json').catch(()=>null);
       const paperCatalog=await paperCatalogPromise;
       const paperEntry=paperCatalog?.reports.find(r=>r.analysis_id===entry.id);
       paperReport=paperEntry?await json(`data/paper/${paperEntry.path}`):null;
+      paperRecords=paperReport?await json(`data/paper/${paperReport.checkpoint_records_path}`):null;
     }
     metadataPromise ||= json('data/problems.json').then(data=>data.problems||[]).catch(()=>{metadataPromise=null;return [];});
     const problemsMetadata=await metadataPromise;
@@ -139,7 +141,7 @@ export async function renderExperiments() {
         <label>Scope<select name="scope"><option value="formal" ${filters.scope==='formal'?'selected':''}>Formal</option><option value="diagnostic" ${filters.scope==='diagnostic'?'selected':''}>Historical / diagnostic</option></select></label>
         ${problem?'':`<label class="matrix-search">Find problem<input name="q" value="${esc(filters.q)}" placeholder="Search by name" /></label>`}<button type="submit">Apply</button>
       </form>
-      ${problem?'':paperReport?renderPaperMetrics(paperReport,filters,params):'<p class="matrix-method">Paper metrics have not been built for this analysis. Existing test results remain available below.</p>'}
+      ${problem?'':paperReport?renderPaperMetrics(paperReport,filters,params,paperRecords):'<p class="matrix-method">Paper metrics have not been built for this analysis. Existing test results remain available below.</p>'}
       <details class="paper-legacy-matrix" ${problem?'open':''}><summary>${problem?'Checkpoint evidence matrix':'Detailed problem and checkpoint evidence'}</summary>
       <div class="matrix-kpis"><div><span>${problem?'Recorded trials':'Pipeline trials'}</span><strong>${total.planned}</strong>${problem?'':`<small>${new Set(cells.map(c=>c.problem)).size} problems · ${filtered.length} total trials</small>`}</div><div><span>Comparable trials</span><strong>${total.valid}<small> / ${total.planned}</small></strong></div><div><span>Known checkpoint outcomes</span><strong>${cells.reduce((s,c)=>s+c.checkpoints.filter(cp=>['passed','failed'].includes(cp.state)).length,0)}</strong></div><div><span>SR trials</span><strong>${(problem?cells:filtered).filter(c=>c.mode==='sr').length}</strong><small>Independent checkpoint runs</small></div></div>
       ${problem?problemMatrix(cells,problem,params):mainMatrix(filtered,hydrated,params)}
@@ -149,14 +151,14 @@ export async function renderExperiments() {
     const trial=params.get('trial');
     if(renderedProblem!==problem||(renderedTrial&&!trial))window.scrollTo({top:0,left:0,behavior:'instant'});
     renderedProblem=problem;renderedTrial=trial;
-    app.querySelector('#matrix-filters').addEventListener('submit',event=>{event.preventDefault();const next=new URLSearchParams(new FormData(event.currentTarget));if(problem)next.set('problem',problem);for(const key of ['aux','overhead','cache','task_type'])if(params.has(key))next.set(key,params.get(key));location.hash=`experiments?${next}`;});
+    app.querySelector('#matrix-filters').addEventListener('submit',event=>{event.preventDefault();const next=new URLSearchParams(new FormData(event.currentTarget));if(problem)next.set('problem',problem);for(const key of ['aux','overhead','cache','task_type','threshold'])if(params.has(key))next.set(key,params.get(key));location.hash=`experiments?${next}`;});
     app.querySelector('#matrix-filters select[name="analysis"]').addEventListener('change',event=>{location.hash=hash(new URLSearchParams(),{analysis:event.target.value,problem});});
     app.querySelector('#matrix-csv').onclick=()=>download('scbench-experiments.csv',csv(cells),'text/csv;charset=utf-8');
     app.querySelector('#matrix-json').onclick=()=>download('scbench-experiments.json',JSON.stringify({...release,cells},null,2),'application/json');
     app.querySelectorAll('[data-paper-param]').forEach(input=>input.onchange=()=>{location.hash=hash(params,{[input.dataset.paperParam]:input.checked?'1':null});});
     app.querySelectorAll('[data-paper-select]').forEach(select=>select.onchange=()=>{location.hash=hash(params,{[select.dataset.paperSelect]:select.value});});
     if(paperReport){
-      app.querySelector('#paper-csv').onclick=()=>download('evortl-paper-metrics.csv',paperCsv(paperReport,filters,params.get('cache')||'actual'),'text/csv;charset=utf-8');
+      app.querySelector('#paper-csv').onclick=()=>download('evortl-paper-metrics.csv',paperCsv(paperReport,{...filters,task_type:params.get('task_type')||''},params.get('cache')||'actual',params.get('threshold')||'structure-case',paperRecords),'text/csv;charset=utf-8');
       app.querySelector('#paper-json').onclick=async()=>{
         const records=await json(`data/paper/${paperReport.checkpoint_records_path}`);
         const selected=selectPaperGroups(paperReport,filters);const ids=new Set(selected.map(g=>g.id));

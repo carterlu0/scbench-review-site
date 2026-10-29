@@ -235,7 +235,13 @@ the stored sources. Current Medium: FDR=0/15, CC=0.1411111111 and CPR=28/74.
 In that historical release High remains unchanged and Low/xhigh retain incomplete full-benchmark results.
 
 FDR/CC/FC/CPR and optional auxiliary/resource tables appear only on the experiment
-overview. A single problem route shows the Checkpoint evidence matrix and trial
+overview. The performance table also provides a **Progression threshold** selector.
+Recorded Structure-case is the default; Core-case and Strict-case are simulations
+over the same published checkpoint evidence. Core-case stops at the first Structure
+or Core failure, while Strict-case stops at the first strict required-test failure.
+The selected threshold recomputes Pipeline FDR, CC, and FC; SR CPR remains
+unchanged because it is independently evaluated. These modes add no agent calls,
+evaluations, or evidence and are labelled simulated in the UI. A single problem route shows the Checkpoint evidence matrix and trial
 evidence, and does not fetch the paper report. Its recorded/SR trial counts are
 scoped to that problem. Back-navigation returns to the overview metrics.
 

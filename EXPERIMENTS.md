@@ -23,6 +23,12 @@ same problem, generation, evaluation generation and final checkpoint. It is neve
 borrowed from a different revision or an SR wrapper. Missing denominators display
 `0/?`, with the missing coverage labelled.
 
+The paper metrics table can also simulate **Core-case** and **Strict-case**
+progression from the recorded Structure-case rows. Core-case truncates a trajectory
+at the first Structure or Core failure; Strict-case truncates it at the first strict
+required-test failure. These selections recompute Pipeline FDR, CC, and FC without
+rerunning agents or changing evidence. CPR remains the independent SR metric.
+
 Click a problem to open its matrix. Rows alternate `pipeline c1`, `sr1`,
 `pipeline c2`, `sr2`, and continue through all planned targets. Each recorded result
 shows **Core passed / total** and **Regression passed / total** separately.

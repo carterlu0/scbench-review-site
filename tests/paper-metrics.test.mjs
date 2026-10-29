@@ -2,7 +2,7 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
-import {renderPaperMetrics,selectPaperGroups,paperCsv} from '../paper-metrics.mjs';
+import {renderPaperMetrics,selectPaperGroups,paperCsv,simulateThresholdGroup} from '../paper-metrics.mjs';
 
 const root=new URL('../data/paper/',import.meta.url);
 const load=async path=>JSON.parse(await readFile(new URL(path,root),'utf8'));
@@ -40,12 +40,34 @@ test('main metrics are default; auxiliary and resources require explicit selecti
   const html=renderPaperMetrics(report,{scope:'formal'},new URLSearchParams());
   assert.match(html,/paper-primary/);assert.doesNotMatch(html,/class="matrix-checkpoints paper-auxiliary"/);
   assert.match(html,/<th>FC<small>Pipeline Final Completion/);
+  assert.match(html,/data-paper-select="threshold"/);assert.match(html,/Structure-case \(recorded\)/);
   assert.doesNotMatch(html,/class="matrix-checkpoints paper-resources"/);
   const extra=renderPaperMetrics(report,{scope:'formal'},new URLSearchParams('aux=1&overhead=1&cache=fixed_85'));
   assert.match(extra,/class="matrix-checkpoints paper-auxiliary"/);
   assert.match(extra,/class="matrix-checkpoints paper-resources"/);
   assert.match(extra,/value="fixed_85" selected/);
   assert.match(extra,/input\/output tokens/);
+});
+
+test('core-case and strict-case simulations reuse recorded rows and change only pipeline FDR/CC/FC',async()=>{
+  const records=await load(report.checkpoint_records_path);
+  for(const g of report.groups.filter(g=>['high','medium'].includes(g.config.thinking))){
+    const rg=records.groups.find(item=>item.id===g.id);
+    const structure=simulateThresholdGroup(g,rg,'structure-case');
+    assert.ok(Math.abs(structure.pipeline_fdr.value-g.primary.pipeline_fdr.value)<1e-12);
+    assert.ok(Math.abs(structure.pipeline_cc.value-g.primary.pipeline_cc.value)<1e-12);
+    assert.ok(Math.abs(structure.pipeline_fc.value-g.primary.pipeline_fc.value)<1e-12);
+    for(const threshold of ['core-case','strict-case']){
+      const simulated=simulateThresholdGroup(g,rg,threshold);
+      for(const key of ['pipeline_fdr','pipeline_cc','pipeline_fc']){
+        assert.equal(simulated[key].denominator,g.primary[key].denominator);
+        assert.equal(simulated[key].known_units,g.primary[key].known_units);
+      }
+      assert.equal(simulated.threshold,threshold);
+    }
+    const html=renderPaperMetrics(report,{scope:'formal'},new URLSearchParams('threshold=core-case'),records);
+    assert.match(html,/Core-case \(simulated\)/);assert.match(html,/simulations over those same checkpoint results/);
+  }
 });
 
 test('configuration filters never merge efforts, prompts, protocols or repeats',()=>{
