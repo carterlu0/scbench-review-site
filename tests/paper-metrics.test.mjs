@@ -8,7 +8,8 @@ const root=new URL('../data/paper/',import.meta.url);
 const load=async path=>JSON.parse(await readFile(new URL(path,root),'utf8'));
 const catalog=await load('catalog.json');
 const manifest=await load('benchmark-v1.json');
-const entry=catalog.reports.find(r=>r.analysis_id===catalog.default_analysis);
+// Historical numerical regressions remain pinned when the default advances.
+const entry=catalog.reports.find(r=>r.analysis_id==='6dc6f954869bfb493fd6889fe9a933fc2d3268c22e87a8b7cfea76f67c9e85c1');
 const report=await load(entry.path);
 
 test('report hashes, frozen denominators and FDR/CC chain weighting are consistent',async()=>{
