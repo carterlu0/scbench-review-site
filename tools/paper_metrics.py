@@ -611,8 +611,11 @@ def normalize_checkpoint(
                 break
             failed_before |= previous.get("state") == "inference_error"
         not_invoked = (failed_before and cp.get("state") == "missing"
+                       and elapsed is None and evaluation_elapsed is None
                        and not any(cp.get(k) for k in
-                                   ("started_at", "completed_at", "candidate", "inference_sha256", "tokens")))
+                                   ("started_at", "completed_at", "candidate", "inference_sha256", "tokens"))
+                       and not any((cp.get("calls") or {}).get(k) for k in
+                                   ("native_events", "observed_responses", "observed_tool_calls", "http_requests")))
         if not_invoked:
             elapsed = evaluation_elapsed = 0
         return {

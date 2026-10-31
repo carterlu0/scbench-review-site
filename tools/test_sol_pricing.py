@@ -119,6 +119,14 @@ class SolPricing(unittest.TestCase):
         self.assertEqual(tail["agent_elapsed_seconds"], 0)
         self.assertEqual(tail["timing_source"], "not_invoked_after_recorded_failure")
         self.assertIsNone(tail["raw_agent_elapsed_seconds"])
+        second["inference_seconds"] = 5
+        measured = normalize_checkpoint(cell, second, chain, chain["checkpoints"][1], "pipeline", self.book)
+        self.assertEqual(measured["agent_elapsed_seconds"], 5)
+        second.pop("inference_seconds")
+        second["calls"] = {"native_events": 3}
+        ambiguous = normalize_checkpoint(cell, second, chain, chain["checkpoints"][1], "pipeline", self.book)
+        self.assertIsNone(ambiguous["agent_elapsed_seconds"])
+        second.pop("calls")
         first["state"] = "passed"
         unknown = normalize_checkpoint(cell, second, chain, chain["checkpoints"][1], "pipeline", self.book)
         self.assertIsNone(unknown["agent_elapsed_seconds"])
