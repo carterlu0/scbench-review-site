@@ -55,6 +55,28 @@ class SolPricing(unittest.TestCase):
         self.assertIn("source_pricebook_sha256", self.book)
         self.assertIs(builder.apply_price_overrides(self.base, {"cells": [{"model": "other"}]}, self.override), self.base)
 
+    def test_declared_bound_prices_aggregate_only_in_scoped_protocol(self):
+        protocol = self.override["aggregate_request_bounds"][0]["protocols"][0]
+        cell = {"agent": "codex", "model": "gpt-6.1-sol", "protocol": protocol}
+        cp = {"tokens": {"input": 400000, "output": 2000, "cache_read": 200000, "cache_write": 0}}
+        cost = checkpoint_cost(cp, cell, self.book, "actual")
+        self.assertAlmostEqual(cost["usd"], 0.44)
+        self.assertEqual(cost["context_tier_basis"], "user_declared_request_bound")
+        self.assertAlmostEqual(checkpoint_cost(cp, cell, self.book, "fixed_85")["usd"], 0.174)
+        cell["protocol"] = "unapproved"
+        self.assertIsNone(checkpoint_cost(cp, cell, self.book, "actual")["usd"])
+        self.assertIsNone(estimate_cost(cp["tokens"], self.book, "gpt-6.1-sol", "inclusive_cache",
+                                       request_input_upper_bound=300000)["usd"])
+
+    def test_observed_requests_override_declared_bound(self):
+        protocol = self.override["aggregate_request_bounds"][0]["protocols"][0]
+        usage = {"input": 400000, "output": 2000, "cache_read": 200000, "cache_write": 0}
+        cp = {"tokens": usage, "calls": {"responses": [{"usage": usage}]}}
+        cell = {"agent": "codex", "model": "gpt-6.1-sol", "protocol": protocol}
+        cost = checkpoint_cost(cp, cell, self.book, "actual")
+        self.assertAlmostEqual(cost["usd"], 0.87)
+        self.assertEqual(cost["source"], "reconciled_native_requests")
+
 
 if __name__ == "__main__":
     unittest.main()

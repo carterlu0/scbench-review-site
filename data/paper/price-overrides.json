@@ -1,5 +1,5 @@
 {
-  "version": "luna-sol-standard-user-provided-20261031",
+  "version": "luna-sol-standard-codex272k-user-assumption-20261031",
   "currency": "USD",
   "unit": "per_million_tokens",
   "rates": [
@@ -28,5 +28,14 @@
       "service": "standard"
     }
   ],
-  "notes": "Site-owned Standard pricing supplied by the user. Luna prices are inherited unchanged. Sol prompt tiers require reconciled per-request usage; checkpoint aggregates cannot select a tier. Missing request evidence remains N/A. No agent or evaluator is rerun."
+  "aggregate_request_bounds": [
+    {
+      "model": "gpt-6.1-sol",
+      "agent": "codex",
+      "protocols": ["db776950e92d4ea418907ba2c04331c06d2ce572f6d4c68c0ff03fcd668ec3ba"],
+      "max_request_input_tokens": 272000,
+      "source": "User-confirmed pricing assumption, 2026-10-31: this Codex batch did not exceed the 272K prompt limit. Use base Standard rates for aggregate usage; not independently verified from per-request logs."
+    }
+  ],
+  "notes": "Site-owned Standard prices and a user-confirmed 272K request-input bound for the recorded Sol/Codex protocol. Aggregate usage in that batch uses base rates; complete per-request evidence takes precedence. Missing token usage remains N/A. Luna prices and all performance scores are unchanged."
 }

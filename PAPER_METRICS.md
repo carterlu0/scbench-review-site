@@ -214,9 +214,15 @@ prices provided by the user on 2026-10-31. At per-request prompt input up to
 272,000 tokens, input/output/cache-read/cache-write rates are 2/10/0.10/2.50 USD
 per million tokens. Above 272,000, the entire request uses 4/15/0.20/5.00.
 The threshold includes cached prompt tokens and is not a checkpoint-total
-threshold. The existing request-tier scorer requires complete, reconciled
-request usage; aggregate-only Sol records therefore retain N/A costs. Both
-actual-cache and fixed-85% scenarios apply the request's original prompt tier.
+threshold. For the recorded Sol/Codex protocol, the user subsequently confirmed
+the pricing assumption that each request remained within the 272K prompt limit.
+The scoped `aggregate_request_bounds` entry therefore permits base-rate estimates
+from checkpoint usage and records `context_tier_basis=user_declared_request_bound`.
+Complete reconciled request usage takes precedence if available. Other protocols
+still need request evidence or an explicit bound. Actual-cache and fixed-85%
+scenarios use the same tier. Missing token usage remains unknown; the UI shows
+only the known cost subtotal when coverage is incomplete, leaving full mean costs
+and efficiencies unavailable rather than treating missing attempts as free.
 This override is merged at report build time and survives scheduled source
 syncs. Immutable source analyses and pricebooks are unchanged; effective reports
 retain source-pricebook and override hashes. Prior performance scores, task

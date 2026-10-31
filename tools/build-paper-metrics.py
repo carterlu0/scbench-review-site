@@ -37,6 +37,8 @@ def apply_price_overrides(book, analysis, overrides):
                            if rate["model"] not in replaced] + rates,
                  "source_pricebook_sha256": identity(book),
                  "override_sha256": identity(overrides),
+                 "aggregate_request_bounds": [rule for rule in overrides.get("aggregate_request_bounds", [])
+                                              if rule["model"] in replaced],
                  "notes": overrides.get("notes", "Site-owned pricing override")}
     effective.pop("id", None)
     effective["id"] = identity(effective)

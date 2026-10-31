@@ -19,10 +19,16 @@ test('published Sol prices distinguish entire-request context tiers',()=>{
   assert.match(html,/request_context_required/);
 });
 
-test('Sol aggregate usage remains unavailable instead of receiving a guessed tier',async()=>{
+test('Sol batch uses declared base-tier assumption without fabricating missing usage',async()=>{
   const records=await load(report.checkpoint_records_path);
   const sol=records.groups.find(g=>g.config.model==='gpt-6.1-sol');
   const costs=sol.checkpoint_records.filter(r=>r.execution_status==='executed').flatMap(r=>Object.values(r.costs));
-  assert.ok(costs.some(c=>c.reason==='request_context_required'));
-  assert.ok(costs.every(c=>c.usd==null));
+  const priced=costs.filter(c=>c.usd!=null);
+  assert.ok(priced.length>0);
+  assert.ok(priced.every(c=>c.context_tier_basis==='user_declared_request_bound'));
+  assert.ok(priced.every(c=>c.rate.input===2&&c.rate.cache_read===0.1));
+  assert.ok(costs.some(c=>c.usd==null&&c.reason==='not_scheduled'));
+  const html=renderPaperMetrics(report,{scope:'formal'},new URLSearchParams('overhead=1'));
+  assert.match(html,/user-declared per-request input bound/);
+  assert.match(html,/USD known subtotal · incomplete/);
 });

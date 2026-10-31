@@ -220,6 +220,7 @@ def estimate_cost(
     policy: str = "actual",
     *,
     per_request: bool = False,
+    request_input_upper_bound: int | None = None,
 ) -> dict[str, Any]:
     """Inclusive input already contains cache tokens; reasoning is in output.
 
@@ -269,13 +270,20 @@ def estimate_cost(
     rates = [r for r in book.get("rates", []) if r["model"] == model]
     if not rates:
         return missing("unregistered_model")
+    context = prompt
+    assumed_bound = False
     if len(rates) > 1 and not per_request:
-        return missing("request_context_required")
+        boundaries = [r["max_context"] for r in rates if r.get("max_context") is not None]
+        if (not integer(request_input_upper_bound) or request_input_upper_bound <= 0
+                or not boundaries or request_input_upper_bound > min(boundaries)):
+            return missing("request_context_required")
+        context = request_input_upper_bound
+        assumed_bound = True
     rates = sorted(
         (
             r
             for r in rates
-            if r.get("max_context") is None or prompt <= r["max_context"]
+            if r.get("max_context") is None or context <= r["max_context"]
         ),
         key=lambda r: r.get("max_context") or float("inf"),
     )
@@ -303,6 +311,8 @@ def estimate_cost(
         "components_usd": amounts,
         "rate": rate,
         "cache_hit_rate": ratio(read, prompt),
+        **({"request_input_upper_bound": request_input_upper_bound,
+            "context_tier_basis": "user_declared_request_bound"} if assumed_bound else {}),
         "estimate_kind": "fixed_cache_scenario"
         if policy == "fixed_85"
         else "usage_based_estimate",
@@ -315,9 +325,16 @@ def checkpoint_cost(
     semantics = cp.get("usage_input_semantics") or SEMANTICS.get(
         cell["agent"], "unknown"
     )
+    bounds = [rule for rule in book.get("aggregate_request_bounds", [])
+              if rule["model"] == cell["model"] and rule["agent"] == cell["agent"]
+              and cell.get("protocol") in rule.get("protocols", [])]
+    bound = bounds[0] if len(bounds) == 1 else None
     result = estimate_cost(
-        cp.get("tokens"), book, cell["model"], semantics, policy
+        cp.get("tokens"), book, cell["model"], semantics, policy,
+        request_input_upper_bound=bound["max_request_input_tokens"] if bound else None,
     )
+    if result.get("context_tier_basis") == "user_declared_request_bound":
+        result["context_bound_source"] = bound["source"]
     requests = (cp.get("calls") or {}).get("responses", [])
     # A native lower bound is not enough: reconcile every billed token first.
     if requests and all(
@@ -901,6 +918,7 @@ def summarize(
                 "unit": "task_chain" if mode == "pipeline" else "checkpoint",
                 "denominator": units,
                 "total_cost_usd": total_cost,
+                "known_total_cost_usd": sum(v for v in known_costs if number(v)),
                 "mean_cost_usd": ratio(total_cost, units),
                 "known_cost_records": sum(number(v) for v in known_costs),
                 "expected_cost_records": len(mode_rows),

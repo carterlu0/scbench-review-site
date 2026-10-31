@@ -24,7 +24,8 @@ function priceRates(report) {
       bounds.length?`prompt input > ${Math.max(...bounds).toLocaleString('en-US')} tokens`:'all prompt lengths';
     return `<p>${esc(r.model)} (${esc(scope)}): input ${r.input}, output ${r.output}, cache read ${r.cache_read??'N/A'}, cache write ${r.cache_write??'N/A'} USD / million tokens · ${esc(r.verified_at)} · ${esc(r.source)}</p>`;
   }).join('');
-  return rows+(rates.some(r=>r.max_context!=null)?'<p>Context tiers apply to the entire individual request, including cached prompt input. Complete per-request usage must reconcile with checkpoint totals. Aggregate-only records remain N/A (request_context_required); a large checkpoint total does not establish a long request.</p>':'');
+  const bounds=(report.price_metadata.aggregate_request_bounds||[]).map(rule=>`<p>${esc(rule.model)} / ${esc(rule.agent)}: base-rate estimate under a user-declared per-request input bound of ${numeric(rule.max_request_input_tokens)} tokens for the listed protocol. ${esc(rule.source)}</p>`).join('');
+  return rows+bounds+(rates.some(r=>r.max_context!=null)?'<p>Context tiers apply to the entire individual request, including cached prompt input. Reconciled per-request evidence takes precedence. Otherwise a scoped user-declared bound may establish the base tier; without either, aggregate-only records remain N/A (request_context_required). Missing token usage is never filled with zero.</p>':'');
 }
 
 function metric(values, unit, eligible) {
@@ -122,7 +123,8 @@ function resources(group,policy) {
     const r=group.resources[`${mode}_${policy}`];
     const unit=mode==='pipeline'?'chain':'checkpoint';
     const reasons=Object.entries(r.cost_missing_reasons).map(([k,v])=>`${k}: ${v}`).join('; ');
-    return `<tr><th>${heading(group.config)}<small>${mode==='pipeline'?'Pipeline':'SR'}</small></th><td>${numeric(r.total_cost_usd)}<small>USD total</small></td><td>${numeric(r.mean_cost_usd)}<small>USD/${unit} · denominator ${r.denominator}</small></td><td>${numeric(r.mean_time_seconds)}<small>s/${unit} · ${esc(r.timing_policy)}</small></td><td>${r.known_cost_records}/${r.expected_cost_records}<small>${esc(reasons||'Complete cost coverage')}; time ${r.known_time_records}/${r.expected_cost_records}</small></td></tr>`;
+    const partial=r.total_cost_usd==null&&r.known_total_cost_usd!=null&&r.known_cost_records>0;
+    return `<tr><th>${heading(group.config)}<small>${mode==='pipeline'?'Pipeline':'SR'}</small></th><td>${numeric(partial?r.known_total_cost_usd:r.total_cost_usd)}<small>${partial?'USD known subtotal · incomplete':'USD total'}</small></td><td>${numeric(r.mean_cost_usd)}<small>USD/${unit} · denominator ${r.denominator}</small></td><td>${numeric(r.mean_time_seconds)}<small>s/${unit} · ${esc(r.timing_policy)}</small></td><td>${r.known_cost_records}/${r.expected_cost_records}<small>${esc(reasons||'Complete cost coverage')}; time ${r.known_time_records}/${r.expected_cost_records}</small></td></tr>`;
   }).join('');
 }
 function efficiencies(group,policy,performance=group.efficiencies) {
