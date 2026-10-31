@@ -1,5 +1,5 @@
 {
-  "version": "luna-sol-standard-codex272k-user-assumption-20261031",
+  "version": "luna-sol-standard-codex272k-zero-failures-20261031",
   "currency": "USD",
   "unit": "per_million_tokens",
   "rates": [
@@ -37,5 +37,16 @@
       "source": "User-confirmed pricing assumption, 2026-10-31: this Codex batch did not exceed the 272K prompt limit. Use base Standard rates for aggregate usage; not independently verified from per-request logs."
     }
   ],
-  "notes": "Site-owned Standard prices and a user-confirmed 272K request-input bound for the recorded Sol/Codex protocol. Aggregate usage in that batch uses base rates; complete per-request evidence takes precedence. Missing token usage remains N/A. Luna prices and all performance scores are unchanged."
+  "temporary_failure_cost_policy": {
+    "model": "gpt-6.1-sol",
+    "agent": "codex",
+    "cell_ids": [
+      "83d7012a266dbc24426884d33f68c523e569d61bf7c64d579d883fec7ce71135",
+      "a4a5042a04fe9e13ac6b458488dab899655d538917c55fd6b635f55a936f04d2"
+    ],
+    "value_usd": 0,
+    "temporary": true,
+    "source": "User instruction, 2026-10-31: temporarily count the two explicitly listed provisional failed runs as USD 0. Original usage and pre-override cost estimates are retained separately; missing timings remain unknown."
+  },
+  "notes": "Sol/Codex uses the user-declared 272K request bound. The two explicitly listed provisional failed runs are temporarily counted as USD 0 by user instruction; original usage and pre-override costs remain in the evidence. Other runs retain their observed costs. Missing times and unrelated missing usage remain unknown. Performance scores are unchanged."
 }

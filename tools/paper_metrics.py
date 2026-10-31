@@ -588,6 +588,20 @@ def normalize_checkpoint(
         totals = {key: value for key, value in totals.items() if integer(value)}
         if "functionality" in totals:
             totals["core"] = totals.get("core", 0) + totals["functionality"]
+        costs = {p: checkpoint_cost(cp, cell, book, p) if cp.get("tokens")
+                 else row["costs"][p] for p in ("actual", "fixed_85")}
+        policy = book.get("temporary_failure_cost_policy", {})
+        approved = (cell.get("id") in policy.get("cell_ids", [])
+                    and cell.get("model") == policy.get("model")
+                    and cell.get("agent") == policy.get("agent")
+                    and policy.get("value_usd") == 0 and policy.get("temporary") is True)
+        if approved:
+            costs = {p: {
+                "usd": 0, "policy": p, "reason": None,
+                "price_version": book.get("version"), "currency": "USD",
+                "imputed": True, "estimate_kind": "temporary_user_zero_for_failed_run",
+                "imputation_source": policy["source"], "original_cost": c,
+            } for p, c in costs.items()}
         return {
             **row,
             "execution_status": "executed",
@@ -598,6 +612,9 @@ def normalize_checkpoint(
             "raw_execution_status": cp.get("state"),
             "score_override": override,
             "failure_group_totals": totals,
+            "costs": costs,
+            "cost_compatible": approved or cp.get("compatibility", {}).get("cost")
+            in {"identical", "compatible"},
         }
     row.update(
         {
@@ -921,6 +938,7 @@ def summarize(
                 "known_total_cost_usd": sum(v for v in known_costs if number(v)),
                 "mean_cost_usd": ratio(total_cost, units),
                 "known_cost_records": sum(number(v) for v in known_costs),
+                "imputed_cost_records": sum(bool(r["costs"][policy].get("imputed")) for r in mode_rows),
                 "expected_cost_records": len(mode_rows),
                 "total_time_seconds": total_time,
                 "mean_time_seconds": ratio(total_time, units),

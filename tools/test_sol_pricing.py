@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 import unittest
 
-from paper_metrics import checkpoint_cost, estimate_cost
+from paper_metrics import checkpoint_cost, estimate_cost, normalize_checkpoint
 
 ROOT = Path(__file__).resolve().parents[1]
 spec = importlib.util.spec_from_file_location("builder", ROOT / "tools/build-paper-metrics.py")
@@ -76,6 +76,29 @@ class SolPricing(unittest.TestCase):
         cost = checkpoint_cost(cp, cell, self.book, "actual")
         self.assertAlmostEqual(cost["usd"], 0.87)
         self.assertEqual(cost["source"], "reconciled_native_requests")
+
+    def test_only_listed_failed_runs_get_temporary_zero_cost(self):
+        policy = self.book["temporary_failure_cost_policy"]
+        cell = {"id": policy["cell_ids"][0], "model": "gpt-6.1-sol", "agent": "codex",
+                "status": "completed", "outcome": "agent_failure",
+                "protocol": self.override["aggregate_request_bounds"][0]["protocols"][0],
+                "score_override": {"value": 0, "reason": "agent_failure", "provisional": True}}
+        cp = {"state": "inference_error", "compatibility": {"score": "identical"}}
+        chain = {"id": "task", "checkpoints": [{"id": "checkpoint_1"}]}
+        row = normalize_checkpoint(cell, cp, chain, chain["checkpoints"][0], "pipeline", self.book)
+        self.assertEqual(row["costs"]["actual"]["usd"], 0)
+        self.assertTrue(row["costs"]["actual"]["imputed"])
+        self.assertIsNone(row["costs"]["actual"]["original_cost"]["usd"])
+        self.assertIsNone(row["agent_elapsed_seconds"])
+        self.assertEqual(row["raw_execution_status"], "inference_error")
+        cp["tokens"] = {"input": 1000, "output": 100, "cache_read": 0, "cache_write": 0}
+        row = normalize_checkpoint(cell, cp, chain, chain["checkpoints"][0], "pipeline", self.book)
+        self.assertEqual(row["costs"]["actual"]["usd"], 0)
+        self.assertAlmostEqual(row["costs"]["actual"]["original_cost"]["usd"], 0.003)
+        cp.pop("tokens")
+        cell["id"] = "unapproved-failure"
+        row = normalize_checkpoint(cell, cp, chain, chain["checkpoints"][0], "pipeline", self.book)
+        self.assertIsNone(row["costs"]["actual"]["usd"])
 
 
 if __name__ == "__main__":

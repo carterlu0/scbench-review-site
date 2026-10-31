@@ -220,9 +220,14 @@ The scoped `aggregate_request_bounds` entry therefore permits base-rate estimate
 from checkpoint usage and records `context_tier_basis=user_declared_request_bound`.
 Complete reconciled request usage takes precedence if available. Other protocols
 still need request evidence or an explicit bound. Actual-cache and fixed-85%
-scenarios use the same tier. Missing token usage remains unknown; the UI shows
-only the known cost subtotal when coverage is incomplete, leaving full mean costs
-and efficiencies unavailable rather than treating missing attempts as free.
+scenarios use the same tier. By subsequent user instruction, the costs of
+the two explicitly listed provisional Sol failed runs are temporarily counted as
+USD 0. Each imputation retains its source and original unknown cost, and the
+UI reports imputed counts separately. Original costs are preserved separately;
+all other runs keep their observed costs.
+Full mean costs and cost efficiencies include these temporary zeros. Missing
+durations and unrelated missing usage remain unknown; time metrics are not
+zero-imputed. Other incomplete costs still show only a known subtotal.
 This override is merged at report build time and survives scheduled source
 syncs. Immutable source analyses and pricebooks are unchanged; effective reports
 retain source-pricebook and override hashes. Prior performance scores, task

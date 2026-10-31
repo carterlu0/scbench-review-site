@@ -39,6 +39,7 @@ def apply_price_overrides(book, analysis, overrides):
                  "override_sha256": identity(overrides),
                  "aggregate_request_bounds": [rule for rule in overrides.get("aggregate_request_bounds", [])
                                               if rule["model"] in replaced],
+                 "temporary_failure_cost_policy": overrides.get("temporary_failure_cost_policy", {}),
                  "notes": overrides.get("notes", "Site-owned pricing override")}
     effective.pop("id", None)
     effective["id"] = identity(effective)

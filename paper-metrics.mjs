@@ -25,7 +25,9 @@ function priceRates(report) {
     return `<p>${esc(r.model)} (${esc(scope)}): input ${r.input}, output ${r.output}, cache read ${r.cache_read??'N/A'}, cache write ${r.cache_write??'N/A'} USD / million tokens · ${esc(r.verified_at)} · ${esc(r.source)}</p>`;
   }).join('');
   const bounds=(report.price_metadata.aggregate_request_bounds||[]).map(rule=>`<p>${esc(rule.model)} / ${esc(rule.agent)}: base-rate estimate under a user-declared per-request input bound of ${numeric(rule.max_request_input_tokens)} tokens for the listed protocol. ${esc(rule.source)}</p>`).join('');
-  return rows+bounds+(rates.some(r=>r.max_context!=null)?'<p>Context tiers apply to the entire individual request, including cached prompt input. Reconciled per-request evidence takes precedence. Otherwise a scoped user-declared bound may establish the base tier; without either, aggregate-only records remain N/A (request_context_required). Missing token usage is never filled with zero.</p>':'');
+  const zero=report.price_metadata.temporary_failure_cost_policy;
+  const zeroNote=zero?.temporary?`<p>Temporary failed-run cost policy: ${esc(zero.source)} Imputed costs are flagged in JSON; missing durations remain unknown.</p>`:'';
+  return rows+bounds+zeroNote+(rates.some(r=>r.max_context!=null)?'<p>Context tiers apply to the entire individual request, including cached prompt input. Reconciled per-request evidence takes precedence. Otherwise a scoped user-declared bound may establish the base tier; without either, aggregate-only records remain N/A (request_context_required). Unrelated missing token usage remains unknown.</p>':'');
 }
 
 function metric(values, unit, eligible) {
@@ -122,7 +124,8 @@ function resources(group,policy) {
   return ['pipeline','sr'].map(mode=>{
     const r=group.resources[`${mode}_${policy}`];
     const unit=mode==='pipeline'?'chain':'checkpoint';
-    const reasons=Object.entries(r.cost_missing_reasons).map(([k,v])=>`${k}: ${v}`).join('; ');
+    const reasons=[...Object.entries(r.cost_missing_reasons).map(([k,v])=>`${k}: ${v}`),
+      ...(r.imputed_cost_records?[`${r.imputed_cost_records} temporary zero cost records`]:[])].join('; ');
     const partial=r.total_cost_usd==null&&r.known_total_cost_usd!=null&&r.known_cost_records>0;
     return `<tr><th>${heading(group.config)}<small>${mode==='pipeline'?'Pipeline':'SR'}</small></th><td>${numeric(partial?r.known_total_cost_usd:r.total_cost_usd)}<small>${partial?'USD known subtotal · incomplete':'USD total'}</small></td><td>${numeric(r.mean_cost_usd)}<small>USD/${unit} · denominator ${r.denominator}</small></td><td>${numeric(r.mean_time_seconds)}<small>s/${unit} · ${esc(r.timing_policy)}</small></td><td>${r.known_cost_records}/${r.expected_cost_records}<small>${esc(reasons||'Complete cost coverage')}; time ${r.known_time_records}/${r.expected_cost_records}</small></td></tr>`;
   }).join('');
@@ -131,8 +134,9 @@ function efficiencies(group,policy,performance=group.efficiencies) {
   return Object.entries(primaryLabels).map(([key,label])=>{
     const e=group.efficiencies[`${key}_${policy}`];
     const selected=performance[key];
-    const meanCost=group.resources?.[`pipeline_${policy}`]?.mean_cost_usd;
-    const meanTime=group.resources?.[`pipeline_${policy}`]?.mean_time_seconds;
+    const mode=key==='sr_cpr'?'sr':'pipeline';
+    const meanCost=group.resources?.[`${mode}_${policy}`]?.mean_cost_usd;
+    const meanTime=group.resources?.[`${mode}_${policy}`]?.mean_time_seconds;
     const costEfficiency=selected?.value!=null&&meanCost>0?selected.value/meanCost:e.cost_efficiency_per_usd;
     const timeEfficiency=selected?.value!=null&&meanTime>0?selected.value/(meanTime/3600):e.time_efficiency_per_hour;
     return `<tr><th>${heading(group.config)}<small>${label}: ${percent(selected?.value??e.performance)}</small></th><td>${numeric(costEfficiency)}<small>${esc(e.reason_cost||'per USD')}</small></td><td>${numeric(timeEfficiency)}<small>${esc(e.reason_time||'per hour')}</small></td></tr>`;
