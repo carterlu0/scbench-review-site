@@ -128,7 +128,10 @@ function efficiencies(group,policy,performance=group.efficiencies) {
 
 export function renderPaperMetrics(report,filters,params,records=null) {
   const groups=selectPaperGroups(report,filters);
-  const extra=params.get('aux')==='1',cost=params.get('overhead')==='1';
+  // Auxiliary benchmark metrics were historically visible from the main
+  // matrix entry point. Keep them on by default; `aux=0` remains available for
+  // a compact primary-only view and the checkbox can toggle them interactively.
+  const extra=params.get('aux')!=='0',cost=params.get('overhead')==='1';
   const policy=params.get('cache')==='fixed_85'?'fixed_85':'actual';
   const threshold=thresholdLabels[params.get('threshold')]?params.get('threshold'):'structure-case';
   const recordGroups=new Map((records?.groups||[]).map(group=>[group.id,group]));

@@ -37,9 +37,11 @@ test('report hashes, frozen denominators and FDR/CC chain weighting are consiste
   }
 });
 
-test('main metrics are default; auxiliary and resources require explicit selection',()=>{
+test('auxiliary metrics are visible by default; resources remain opt-in',()=>{
   const html=renderPaperMetrics(report,{scope:'formal'},new URLSearchParams());
-  assert.match(html,/paper-primary/);assert.doesNotMatch(html,/class="matrix-checkpoints paper-auxiliary"/);
+  assert.match(html,/paper-primary/);assert.match(html,/class="matrix-checkpoints paper-auxiliary"/);
+  assert.match(html,/Auxiliary metrics/);
+  assert.doesNotMatch(html,/class="matrix-checkpoints paper-resources"/);
   assert.match(html,/<th>FC<small>Pipeline Final Completion/);
   assert.match(html,/data-paper-select="threshold"/);assert.match(html,/Structure-case \(recorded\)/);
   assert.doesNotMatch(html,/class="matrix-checkpoints paper-resources"/);
