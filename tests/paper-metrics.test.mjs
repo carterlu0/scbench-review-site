@@ -45,6 +45,8 @@ test('auxiliary metrics are visible by default; resources remain opt-in',()=>{
   assert.match(html,/<th>FC<small>Pipeline Final Completion/);
   assert.match(html,/data-paper-select="threshold"/);assert.match(html,/Structure-case \(recorded\)/);
   assert.doesNotMatch(html,/class="matrix-checkpoints paper-resources"/);
+  const compact=renderPaperMetrics(report,{scope:'formal'},new URLSearchParams('aux=0'));
+  assert.doesNotMatch(compact,/class="matrix-checkpoints paper-auxiliary"/);
   const extra=renderPaperMetrics(report,{scope:'formal'},new URLSearchParams('aux=1&overhead=1&cache=fixed_85'));
   assert.match(extra,/class="matrix-checkpoints paper-auxiliary"/);
   assert.match(extra,/class="matrix-checkpoints paper-resources"/);

@@ -1,5 +1,5 @@
 import {escapeHtml as esc, modelKey, compareModelSettings, resultKey, latestCells, selectCells, summarize, csv, hydrateCells, testCounts, checkpointRows, plannedTargets, finalResult, fraction, isDeliveryFailure} from './experiments-core.mjs?v=20261031-agent-failure';
-import {renderPaperMetrics, selectPaperGroups, paperCsv} from './paper-metrics.mjs?v=20261029-threshold-simulation';
+import {renderPaperMetrics, selectPaperGroups, paperCsv} from './paper-metrics.mjs?v=20261031-auxiliary-default';
 let catalogPromise;
 let paperCatalogPromise;
 let metadataPromise;
@@ -156,7 +156,7 @@ export async function renderExperiments() {
     app.querySelector('#matrix-filters select[name="analysis"]').addEventListener('change',event=>{location.hash=hash(new URLSearchParams(),{analysis:event.target.value,problem});});
     app.querySelector('#matrix-csv').onclick=()=>download('scbench-experiments.csv',csv(cells),'text/csv;charset=utf-8');
     app.querySelector('#matrix-json').onclick=()=>download('scbench-experiments.json',JSON.stringify({...release,cells},null,2),'application/json');
-    app.querySelectorAll('[data-paper-param]').forEach(input=>input.onchange=()=>{location.hash=hash(params,{[input.dataset.paperParam]:input.checked?'1':null});});
+    app.querySelectorAll('[data-paper-param]').forEach(input=>input.onchange=()=>{location.hash=hash(params,{[input.dataset.paperParam]:input.checked?'1':input.dataset.paperParam==='aux'?'0':null});});
     app.querySelectorAll('[data-paper-select]').forEach(select=>select.onchange=()=>{location.hash=hash(params,{[select.dataset.paperSelect]:select.value});});
     if(paperReport){
       app.querySelector('#paper-csv').onclick=()=>download('evortl-paper-metrics.csv',paperCsv(paperReport,{...filters,task_type:params.get('task_type')||''},params.get('cache')||'actual',params.get('threshold')||'structure-case',paperRecords),'text/csv;charset=utf-8');
