@@ -69,6 +69,15 @@ const validCount = value => Number.isInteger(value) && value >= 0;
 export function testCounts(checkpoint, group = 'total') {
   if (!checkpoint) return null;
   const key = group.toLowerCase() === 'functionality' ? 'core' : group.toLowerCase();
+  if (checkpoint.score_override?.value === 0 && checkpoint.score_override.reason === 'agent_failure') {
+    const expected = checkpoint.expected_test_counts;
+    const total = key === 'total' ? expected?.total : key === 'core' && expected?.groups
+      ? (expected.groups.core || 0) + (expected.groups.functionality || 0) : expected?.groups?.[key];
+    if (validCount(total)) return {passed: 0, total};
+    // Retain the recorded nodes and verdicts; only the counted score is overridden.
+    const original = testCounts({...checkpoint, score_override: null}, group);
+    return original ? {...original, passed: 0} : null;
+  }
   const saved = checkpoint.test_counts?.[key];
   if (key === 'core' && checkpoint.test_counts?.functionality != null) {
     const legacy = checkpoint.test_counts.functionality;
@@ -156,6 +165,10 @@ export function finalResult(cell, peers = []) {
   if (cell.progression_policy !== 'structure-cases') return unknown(cell.progression_policy === 'unknown' || !cell.progression_policy ? 'policy_unknown' : 'other_policy');
   const target = plannedTargets(cell).at(-1);
   const final = cell.checkpoints.find(cp => cp.target_checkpoint === target);
+  if (cell.score_override?.value === 0 && cell.score_override.reason === 'agent_failure') {
+    const total = cell.expected_test_counts?.[target]?.total ?? testCounts(final)?.total;
+    return {passed: 0, total: validCount(total) ? total : null, target, reason: 'agent_failure'};
+  }
   const counts = testCounts(final);
   if (counts?.total > 0 && ['passed', 'failed'].includes(final.state)) return {...counts, target, reason: isDeliveryFailure(final) ? 'delivery_failure' : 'evaluated'};
   const lastEvaluated = [...cell.checkpoints].filter(cp => ['passed', 'failed'].includes(cp.state)).sort((a,b) => checkpointOrder(a.target_checkpoint,b.target_checkpoint)).at(-1);

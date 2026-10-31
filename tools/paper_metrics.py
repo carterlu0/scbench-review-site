@@ -549,6 +549,26 @@ def normalize_checkpoint(
     if cell is None or cp is None:
         row["reason"] = "missing_checkpoint_result" if cell else "not_scheduled"
         return row
+    override = cell.get("score_override", {})
+    if (
+        override.get("value") == 0
+        and override.get("reason") == "agent_failure"
+        and cell.get("status") == "completed"
+        and cell.get("outcome") == "agent_failure"
+        and not reason
+    ):
+        # An explicitly reviewed group-level zero is a counted failure. Preserve
+        # raw states/verdicts separately; no missing simulation is fabricated.
+        return {
+            **row,
+            "execution_status": "executed",
+            "strict_pass": 0,
+            "compatible": cp.get("compatibility", {}).get("score")
+            in {"identical", "compatible"},
+            "reason": "provisional_agent_failure",
+            "raw_execution_status": cp.get("state"),
+            "score_override": override,
+        }
     row.update(
         {
             "candidate": cp.get("candidate"),

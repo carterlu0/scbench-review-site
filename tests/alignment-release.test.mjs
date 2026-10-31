@@ -8,7 +8,7 @@ const load=async path=>JSON.parse(await readFile(new URL(path,root),'utf8'));
 
 test('aligned release keeps four columns, precise supersession and immutable retained evidence',async()=>{
   const catalog=await load('experiments/catalog.json');
-  const analysis=await load(`experiments/analyses/${catalog.default_analysis}.json`);
+  const analysis=await load(`experiments/analyses/53a6f5490ee32e32b62c32260f0ce50fdf1037cdd75778a821c46c0ae0d0b879.json`);
   const release=analysis.publication;
   assert.equal(release.version,'four-effort-alignment-20261029-v1');
   assert.equal(release.regenerated_groups,48);
@@ -54,9 +54,9 @@ test('aligned release keeps four columns, precise supersession and immutable ret
   }
 });
 
-test('aligned default has four complete paper metric settings',async()=>{
+test('aligned release has four complete paper metric settings',async()=>{
   const catalog=await load('experiments/catalog.json');
-  const report=await load(`paper/reports/${catalog.default_analysis}.json`);
+  const report=await load(`paper/reports/53a6f5490ee32e32b62c32260f0ce50fdf1037cdd75778a821c46c0ae0d0b879.json`);
   assert.equal(report.groups.length,4);
   const expectedFc={high:0.5734126446569767,medium:0.33132053377281373,low:0.22595245937637243,xhigh:0.5672448086615546};
   for(const group of report.groups){

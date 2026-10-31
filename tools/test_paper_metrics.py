@@ -5,6 +5,7 @@ import unittest
 from paper_metrics import calculate
 from paper_metrics import estimate_cost
 from paper_metrics import group_results
+from paper_metrics import normalize_checkpoint
 
 
 class PaperAcceptance(unittest.TestCase):
@@ -56,6 +57,17 @@ class PaperAcceptance(unittest.TestCase):
         self.assertEqual(group["primary"]["pipeline_fc"]["value"], 0.5)
         self.assertEqual(group["primary"]["sr_cpr"]["value"], 0.8)
         self.assertEqual(group["auxiliary"]["sr_chain_macro"]["value"], 0.75)
+
+    def test_provisional_agent_failure_overrides_group_with_raw_states_retained(self):
+        override = {"value": 0, "reason": "agent_failure", "provisional": True}
+        cell = {"id": "failed", "status": "completed", "outcome": "agent_failure", "score_override": override}
+        for state in ("passed", "inference_error", "missing"):
+            cp = {"state": state, "compatibility": {"score": "identical"}}
+            row = normalize_checkpoint(cell, cp, {"id": "task", "checkpoints": [{"id": "checkpoint_1"}]}, {"id": "checkpoint_1"}, "pipeline", {})
+            self.assertEqual(row["strict_pass"], 0)
+            self.assertEqual(row["reason"], "provisional_agent_failure")
+            self.assertEqual(row["raw_execution_status"], state)
+            self.assertEqual(cp["state"], state)
 
     def test_cache_scenarios(self):
         book = {"version": "synthetic", "currency": "USD", "unit": "per_million_tokens",

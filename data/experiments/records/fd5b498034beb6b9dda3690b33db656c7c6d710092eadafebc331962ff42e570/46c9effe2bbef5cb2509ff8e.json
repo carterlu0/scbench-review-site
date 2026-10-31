@@ -1,0 +1,886 @@
+{
+  "schema_version": 4,
+  "analysis": "fd5b498034beb6b9dda3690b33db656c7c6d710092eadafebc331962ff42e570",
+  "problem": "clic_t2",
+  "cells": [
+    {
+      "id": "480a54aee199026ed4993a42dc41bdee2a5c979282583760d83c08ac55f4b6f7",
+      "problem": "clic_t2",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "gpt-6.1-sol",
+      "agent": "codex",
+      "agent_version": "0.141.0",
+      "agent_config": "af6184e6ed8385b368a2517021113a5fbee49156bf7d3e8bba51ad39451f40a9",
+      "thinking": "high",
+      "protocol": "db776950e92d4ea418907ba2c04331c06d2ce572f6d4c68c0ff03fcd668ec3ba",
+      "generation": "d36797ab3cbf1caf85139a673f7f5c4760b92099433dcc4ed7cf77df8f677958",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_3"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "72ddf8032d9f4809894983035c9acfa0",
+      "selected_evaluation": null,
+      "evaluation_generation": "d36797ab3cbf1caf85139a673f7f5c4760b92099433dcc4ed7cf77df8f677958",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_3",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "b425e7ce249b006360d6a40812d1660069618df18e480b927927cc93feaa2c35",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "c3ebaaf43f2bad35d26dde6758b1166c018cbe54535f69a3b195aeaecd42f71a",
+          "evaluation_sha256": "334854286ac31a600332adea4c4eb40178255071bad32ee46da9f96d28d656da",
+          "started_at": "2026-10-30T06:24:19.624042Z",
+          "completed_at": "2026-10-30T07:21:02.995248Z",
+          "inference_seconds": 3403.371206,
+          "evaluation_seconds": 962.2717180252075,
+          "native_steps": 90,
+          "tokens": {
+            "cache_read": 2137984,
+            "cache_write": 0,
+            "input": 2360840,
+            "output": 35313,
+            "reasoning": 16751
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "gpt61-sol-official-price-pending-20261030",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_preserves_fixed_rtl",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_protocol_boundary_suite_and_regression",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_rejects_missing_preemption",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_retained_checkpoint_1_candidate_suite_rejects_missing_irq_offer",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_retained_checkpoint_2_rejects_reversed_priority_selection",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 2,
+              "total": 2
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 2,
+              "total": 2
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 5,
+              "total": 5
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": 24,
+            "native_events": 132,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "candidate_artifact": {
+            "path": "experiments/artifacts/4c7df9dfab6d20345a2c2ece78adc9259efcee90e8b029ab37c84e330c07fa37.tar.gz",
+            "sha256": "4c7df9dfab6d20345a2c2ece78adc9259efcee90e8b029ab37c84e330c07fa37",
+            "file_count": 35,
+            "size_bytes": 67954,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-10-30T06:24:17.250067+00:00",
+      "completed_at": "2026-10-30T07:37:13.722382+00:00",
+      "wall_seconds_all_attempts": 4376.466800635681,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown"
+    },
+    {
+      "id": "721d85d24aff8a661ef820c599e1bf40a21ea1efb69602070846d2022a54e3eb",
+      "problem": "clic_t2",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "gpt-6.1-sol",
+      "agent": "codex",
+      "agent_version": "0.141.0",
+      "agent_config": "af6184e6ed8385b368a2517021113a5fbee49156bf7d3e8bba51ad39451f40a9",
+      "thinking": "high",
+      "protocol": "db776950e92d4ea418907ba2c04331c06d2ce572f6d4c68c0ff03fcd668ec3ba",
+      "generation": "77433b483c0c021bd02ad364055df06e05d81d79468e9020126fe318249eac5b",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_1"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "d304d4c31252436f83099ff6032a73d9",
+      "selected_evaluation": null,
+      "evaluation_generation": "77433b483c0c021bd02ad364055df06e05d81d79468e9020126fe318249eac5b",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_1",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "17d3ffdf9647b6a2ddad1e5446170c4ca60340e168bf65319d4efeaff861deb1",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "2e953d0d7b4e6e74fefd5514023c59f5cc31043b8c1b474c7e702c4e49f49d9b",
+          "evaluation_sha256": "ba900ef8caeb3dd3d10e998336ed23e5b793bb130939b039080448c5f8c37334",
+          "started_at": "2026-10-30T08:31:44.312892Z",
+          "completed_at": "2026-10-30T09:13:22.512167Z",
+          "inference_seconds": 2498.199275,
+          "evaluation_seconds": 227.87655091285706,
+          "native_steps": 83,
+          "tokens": {
+            "cache_read": 2160384,
+            "cache_write": 0,
+            "input": 2457500,
+            "output": 18887,
+            "reasoning": 7768
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "gpt61-sol-official-price-pending-20261030",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_candidate_suite_passes_golden",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_candidate_suite_rejects_missing_irq_offer",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_fixed_rtl",
+              "group": "Structure",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 2,
+              "total": 2
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 0,
+              "total": 0
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 3,
+              "total": 3
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": 27,
+            "native_events": 122,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "candidate_artifact": {
+            "path": "experiments/artifacts/5f9131b5ebb1fc703e9e014788632ec93036e20456518d5c2430e60fca396fee.tar.gz",
+            "sha256": "5f9131b5ebb1fc703e9e014788632ec93036e20456518d5c2430e60fca396fee",
+            "file_count": 34,
+            "size_bytes": 56753,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-10-30T08:31:41.834996+00:00",
+      "completed_at": "2026-10-30T09:17:18.863516+00:00",
+      "wall_seconds_all_attempts": 2737.024781750515,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown"
+    },
+    {
+      "id": "ab34761ba6c07f03b0e62a1c6241f8d70d86f091cfd96439cce4190f04b2414b",
+      "problem": "clic_t2",
+      "mode": "pipeline",
+      "prompt_arm": "original",
+      "model": "gpt-6.1-sol",
+      "agent": "codex",
+      "agent_version": "0.141.0",
+      "agent_config": "af6184e6ed8385b368a2517021113a5fbee49156bf7d3e8bba51ad39451f40a9",
+      "thinking": "high",
+      "protocol": "db776950e92d4ea418907ba2c04331c06d2ce572f6d4c68c0ff03fcd668ec3ba",
+      "generation": "f81520f6041b521d1cc20e44d631e36dab54eca08bebb2763af43ea62f15d5cf",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "execution",
+          "label": "infrastructure_failure",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:83b7ebea235ff52b295e9d631c5bcfb25086c631fad5b3bdd4ce3a6c0cf94cb0"
+          ],
+          "event_id": "7cbf84f4b7ba7b8a12526f55f3d81ed0bd68d58f95238a07e722fba696701c3c",
+          "assessment": "bedab5b5979940f8d9e9bf2f3d10b141ae1c8997958cdab0ef78eedd93cf6476",
+          "attempt": "cd0719022ddd4bb28b20029e1486e878"
+        },
+        {
+          "namespace": "execution",
+          "label": "unknown",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "5bcf03c450ed77f7951fae0f83d58d1e265a102611c8c93b08ac200e266185e5",
+          "evidence": [
+            "sha256:83b7ebea235ff52b295e9d631c5bcfb25086c631fad5b3bdd4ce3a6c0cf94cb0"
+          ],
+          "event_id": "d75c7294c43c769c61c49401031f8336431a850beddd15f4c4ebb5aaf5bf7c83",
+          "assessment": "bedab5b5979940f8d9e9bf2f3d10b141ae1c8997958cdab0ef78eedd93cf6476",
+          "attempt": "cd0719022ddd4bb28b20029e1486e878"
+        },
+        {
+          "namespace": "execution",
+          "label": "inference_error",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "5bcf03c450ed77f7951fae0f83d58d1e265a102611c8c93b08ac200e266185e5",
+          "evidence": [
+            "sha256:83b7ebea235ff52b295e9d631c5bcfb25086c631fad5b3bdd4ce3a6c0cf94cb0"
+          ],
+          "event_id": "f5d6753e0a95edade6c79e7002c45655c021e75b4a1d2b12068552603247a59d",
+          "assessment": "bedab5b5979940f8d9e9bf2f3d10b141ae1c8997958cdab0ef78eedd93cf6476",
+          "attempt": "cd0719022ddd4bb28b20029e1486e878"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 3,
+      "planned_targets": [
+        "checkpoint_1",
+        "checkpoint_2",
+        "checkpoint_3"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "cc97d4b200ff4dfebb24f4500002c141",
+      "selected_evaluation": null,
+      "evaluation_generation": "f81520f6041b521d1cc20e44d631e36dab54eca08bebb2763af43ea62f15d5cf",
+      "attempt_count": 2,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_1",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "df2909fdff18b5eb09b701310301014be5383532ce33578a5d9c5b6ace792ccb",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "ae89f20080d11a9a0373d19f07bce83bbfdbfdfa291644b30b7d0209a828a6a0",
+          "evaluation_sha256": "2c992e8f0bc45135dce1fa20266d5746173cce6ea817ceafc1df8dbd86fb2a91",
+          "started_at": "2026-10-30T15:34:30.722277Z",
+          "completed_at": "2026-10-30T15:54:41.222024Z",
+          "inference_seconds": 1210.499747,
+          "evaluation_seconds": 169.1352207660675,
+          "native_steps": 74,
+          "tokens": {
+            "cache_read": 1767168,
+            "cache_write": 0,
+            "input": 1938553,
+            "output": 20775,
+            "reasoning": 9270
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "gpt61-sol-official-price-pending-20261030",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_candidate_suite_passes_golden",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_candidate_suite_rejects_missing_irq_offer",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_fixed_rtl",
+              "group": "Structure",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 2,
+              "total": 2
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 0,
+              "total": 0
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 3,
+              "total": 3
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": 23,
+            "native_events": 106,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "candidate_artifact": {
+            "path": "experiments/artifacts/0b36e94f981f7767e32105ebcd8c5c000096ff4d09b5a9a40743a196a7e23370.tar.gz",
+            "sha256": "0b36e94f981f7767e32105ebcd8c5c000096ff4d09b5a9a40743a196a7e23370",
+            "file_count": 34,
+            "size_bytes": 56724,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_2",
+          "target_checkpoint": "checkpoint_2",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "1b856966b37335619a32dea73038373c20b947d448a607cfa4cac0e6875acf11",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "a5f405df32b2b664ef92d901987227fba8a16d9e5c5d059c92c76de99171a0b5",
+          "evaluation_sha256": "240c76797bee0d839a6ee56965c92c24f897525df67a510700efd415bba7414c",
+          "started_at": "2026-10-30T15:57:34.801528Z",
+          "completed_at": "2026-10-30T16:11:42.713196Z",
+          "inference_seconds": 847.911668,
+          "evaluation_seconds": 441.1666646003723,
+          "native_steps": 61,
+          "tokens": {
+            "cache_read": 1801984,
+            "cache_write": 0,
+            "input": 1898936,
+            "output": 17002,
+            "reasoning": 5833
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "gpt61-sol-official-price-pending-20261030",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_candidate_suite_rejects_missing_irq_offer",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_preserves_fixed_rtl",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_reference_model_and_c1_regression",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_rejects_reversed_priority_selection",
+              "group": "Core",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 2,
+              "total": 2
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 1,
+              "total": 1
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 4,
+              "total": 4
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": 23,
+            "native_events": 93,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "candidate_artifact": {
+            "path": "experiments/artifacts/4769d9ca404bcf1cd4d0c8299a0c959fa0f0be069c4d598029981b7b9ef83a2f.tar.gz",
+            "sha256": "4769d9ca404bcf1cd4d0c8299a0c959fa0f0be069c4d598029981b7b9ef83a2f",
+            "file_count": 35,
+            "size_bytes": 58930,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_3",
+          "target_checkpoint": "checkpoint_3",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "590eee5b2e27687939a207a2672ad5f1b59137f25f776a7ae5897da8259f3065",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "9bceb499e768a4cc80367c68ebef6c7cff23de28c0297566e8fa909e32c55611",
+          "evaluation_sha256": "9a72f3a5f9015f3a7d0ace5e16532d10a2fd6de5848cff0b00f4a0042328f67c",
+          "started_at": "2026-10-30T16:19:09.197203Z",
+          "completed_at": "2026-10-30T16:39:33.496734Z",
+          "inference_seconds": 1224.299531,
+          "evaluation_seconds": 1335.3461124897003,
+          "native_steps": 81,
+          "tokens": {
+            "cache_read": 2721024,
+            "cache_write": 0,
+            "input": 2846499,
+            "output": 25512,
+            "reasoning": 10592
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "gpt61-sol-official-price-pending-20261030",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_candidate_suite_rejects_missing_irq_offer",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_rejects_reversed_priority_selection",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_preserves_fixed_rtl",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_protocol_boundary_suite_and_regression",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_rejects_missing_preemption",
+              "group": "Core",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 2,
+              "total": 2
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 2,
+              "total": 2
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 5,
+              "total": 5
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": 31,
+            "native_events": 122,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "candidate_artifact": {
+            "path": "experiments/artifacts/181f35bb99549573b43637e8fa364eb9acbaffae6811e8d1b6151b89d3eaaaf0.tar.gz",
+            "sha256": "181f35bb99549573b43637e8fa364eb9acbaffae6811e8d1b6151b89d3eaaaf0",
+            "file_count": 36,
+            "size_bytes": 61317,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 4,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-10-30T14:54:48.970929+00:00",
+      "completed_at": "2026-10-30T17:01:59.374786+00:00",
+      "wall_seconds_all_attempts": 5300.949731701985,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_3": {
+          "total": 5,
+          "groups": {
+            "core": 2,
+            "error": 0,
+            "functionality": 0,
+            "regression": 2,
+            "structure": 1
+          },
+          "inventory": "13f1bea67e27a46edd71a406947024772a2873aa04cd8e075bcb6aaa17bd50b9"
+        }
+      }
+    },
+    {
+      "id": "f1da84ab1b725d1227b01ce798e1af357e84e39274ffa3525358ad5c6b0d315f",
+      "problem": "clic_t2",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "gpt-6.1-sol",
+      "agent": "codex",
+      "agent_version": "0.141.0",
+      "agent_config": "af6184e6ed8385b368a2517021113a5fbee49156bf7d3e8bba51ad39451f40a9",
+      "thinking": "high",
+      "protocol": "db776950e92d4ea418907ba2c04331c06d2ce572f6d4c68c0ff03fcd668ec3ba",
+      "generation": "9ef666d213b2f0e61e70e76781f4c7f835e5b30f3d1c539819d6003c87a70109",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "execution",
+          "label": "infrastructure_failure",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:386c087dd54f2a6976805f14c0ea656bb32056f389db8f6938df81469445f508"
+          ],
+          "event_id": "341997137a361d7aab7751f808893f769b4a19be39f6d9581c479ff47683879c",
+          "assessment": "45affdd5e6ea4a11bc7217dbe8292407143698b355b3106e761c5e3a7979eda3",
+          "attempt": "86f1176940cd40e4892cf4ad53ed8489"
+        },
+        {
+          "namespace": "execution",
+          "label": "unknown",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_2",
+          "candidate": "95e6c3b49cfeda29816a0726d70c76b1af67b0b34e4a8297b7db825406fb4c82",
+          "evidence": [
+            "sha256:386c087dd54f2a6976805f14c0ea656bb32056f389db8f6938df81469445f508"
+          ],
+          "event_id": "67d418527b4dd91aade6f28286563544e6c66ff291d20d0e85b77160b895aacd",
+          "assessment": "45affdd5e6ea4a11bc7217dbe8292407143698b355b3106e761c5e3a7979eda3",
+          "attempt": "86f1176940cd40e4892cf4ad53ed8489"
+        },
+        {
+          "namespace": "execution",
+          "label": "inference_error",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_2",
+          "candidate": "95e6c3b49cfeda29816a0726d70c76b1af67b0b34e4a8297b7db825406fb4c82",
+          "evidence": [
+            "sha256:386c087dd54f2a6976805f14c0ea656bb32056f389db8f6938df81469445f508"
+          ],
+          "event_id": "3c1a6c3a5adcb66cfc5b0dbb0f4394686e410634ddb9585408feed8fbbf5bab3",
+          "assessment": "45affdd5e6ea4a11bc7217dbe8292407143698b355b3106e761c5e3a7979eda3",
+          "attempt": "86f1176940cd40e4892cf4ad53ed8489"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_2"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "5750aaa3fd204a08b3d79b7944ca7b60",
+      "selected_evaluation": null,
+      "evaluation_generation": "9ef666d213b2f0e61e70e76781f4c7f835e5b30f3d1c539819d6003c87a70109",
+      "attempt_count": 2,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_2",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "42a6e0608288a20ae59fb41d63365c1219fbb2692b094e984a900220dcd3fcf1",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "a94ee7cd5c77383b2589e98bd0322623f1e43e3f3b76831ee0968b58cd6fdb72",
+          "evaluation_sha256": "934637047fc67f2d67afddea7d4426c1c0fa235243744d8a4d18f5f0ecabaab9",
+          "started_at": "2026-10-30T17:46:46.462852Z",
+          "completed_at": "2026-10-30T18:22:52.036870Z",
+          "inference_seconds": 2165.574018,
+          "evaluation_seconds": 613.3507447242737,
+          "native_steps": 119,
+          "tokens": {
+            "cache_read": 4945152,
+            "cache_write": 0,
+            "input": 5156886,
+            "output": 34889,
+            "reasoning": 16498
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "gpt61-sol-official-price-pending-20261030",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_preserves_fixed_rtl",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_reference_model_and_c1_regression",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_rejects_reversed_priority_selection",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_retained_checkpoint_1_candidate_suite_rejects_missing_irq_offer",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 2,
+              "total": 2
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 1,
+              "total": 1
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 4,
+              "total": 4
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": 40,
+            "native_events": 169,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "candidate_artifact": {
+            "path": "experiments/artifacts/9bddc66776cb03f6d32f41a9ee1829ea75e1c706c6c11e818c7c0ac9c0332b22.tar.gz",
+            "sha256": "9bddc66776cb03f6d32f41a9ee1829ea75e1c706c6c11e818c7c0ac9c0332b22",
+            "file_count": 34,
+            "size_bytes": 67258,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 2,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-10-30T14:57:29.890068+00:00",
+      "completed_at": "2026-10-30T18:33:13.758471+00:00",
+      "wall_seconds_all_attempts": 2837.185384515673,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown"
+    }
+  ]
+}
