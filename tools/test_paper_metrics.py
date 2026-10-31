@@ -69,6 +69,38 @@ class PaperAcceptance(unittest.TestCase):
             self.assertEqual(row["raw_execution_status"], state)
             self.assertEqual(cp["state"], state)
 
+    def test_agent_failure_auxiliaries_count_zero_without_fabricating_groups(self):
+        for regression_total in (0, 1):
+            manifest = {"schema_version": 1, "benchmark_version": "agent-failure", "chains": [
+                {"id": "task", "task_type": "synthetic", "checkpoints": [{"id": "checkpoint_1"}]}]}
+            cells = []
+            for mode in ("pipeline", "sr"):
+                cells.append({"id": mode, "problem": "task", "mode": mode,
+                    "model": "m", "agent": "codex", "formal": True, "repeat": 0,
+                    "planned_targets": ["checkpoint_1"], "status": "completed",
+                    "outcome": "agent_failure", "progression_policy": "structure-cases",
+                    "score_override": {"value": 0, "reason": "agent_failure", "provisional": True},
+                    "expected_test_counts": {"checkpoint_1": {"groups": {
+                        "core": 2, "regression": regression_total, "structure": 1}}},
+                    "checkpoints": [{"target_checkpoint": "checkpoint_1", "state": "inference_error",
+                        "compatibility": {"score": "identical"}}]})
+            group = calculate({"cells": cells}, manifest, {})["groups"][0]
+            for key in ("pipeline_core_pass_rate", "sr_core_pass_rate", "sr_core_completion"):
+                self.assertEqual(group["auxiliary"][key]["value"], 0)
+                self.assertEqual(group["auxiliary"][key]["known_units"], 1)
+            regression = group["auxiliary"]["sr_regression_failure_rate"]
+            self.assertEqual(regression["denominator"], regression_total)
+            self.assertEqual(regression["value"], 1 if regression_total else None)
+            for row in group["checkpoint_records"]:
+                self.assertIsNone(row["groups"])
+                self.assertEqual(row["raw_execution_status"], "inference_error")
+            # Unknown group sizes remain unavailable, even for a counted failure.
+            for cell in cells:
+                cell.pop("expected_test_counts")
+            unknown = calculate({"cells": cells}, manifest, {})["groups"][0]
+            self.assertIsNone(unknown["auxiliary"]["sr_regression_failure_rate"]["value"])
+            self.assertIsNone(unknown["auxiliary"]["sr_core_completion"]["value"])
+
     def test_cache_scenarios(self):
         book = {"version": "synthetic", "currency": "USD", "unit": "per_million_tokens",
                 "rates": [{"model": "m", "input": 2, "output": 10, "cache_read": 0.2, "cache_write": 2.5}]}

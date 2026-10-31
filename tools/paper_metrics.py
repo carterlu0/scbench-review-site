@@ -559,6 +559,18 @@ def normalize_checkpoint(
     ):
         # An explicitly reviewed group-level zero is a counted failure. Preserve
         # raw states/verdicts separately; no missing simulation is fabricated.
+        inventory = cell.get("expected_test_counts", {}).get(
+            spec["id"], cp.get("expected_test_counts", {})
+        )
+        totals = inventory.get("groups")
+        if totals is None:
+            totals = {
+                key: value.get("total")
+                for key, value in (cp.get("test_counts") or {}).items()
+            }
+        totals = {key: value for key, value in totals.items() if integer(value)}
+        if "functionality" in totals:
+            totals["core"] = totals.get("core", 0) + totals["functionality"]
         return {
             **row,
             "execution_status": "executed",
@@ -568,6 +580,7 @@ def normalize_checkpoint(
             "reason": "provisional_agent_failure",
             "raw_execution_status": cp.get("state"),
             "score_override": override,
+            "failure_group_totals": totals,
         }
     row.update(
         {
@@ -806,7 +819,14 @@ def summarize(
     def regression(r):
         return (r.get("groups") or {}).get("regression")
 
+    def failure_total(r, group):
+        if r.get("reason") == "provisional_agent_failure":
+            return r.get("failure_group_totals", {}).get(group)
+        return None
+
     def core_pass(r):
+        if r.get("reason") == "provisional_agent_failure":
+            return 0
         return (
             int(core(r)["all_passed"])
             if core(r)
@@ -816,7 +836,9 @@ def summarize(
         )
 
     sr_reg = [
-        r for r in sr if regression(r) is None or regression(r)["applicable"]
+        r for r in sr
+        if (regression(r) is None and failure_total(r, "regression") != 0)
+        or (regression(r) is not None and regression(r)["applicable"])
     ]
     auxiliary = {
         "pipeline_core_pass_rate": metric(
@@ -829,6 +851,8 @@ def summarize(
             [
                 ratio(core(r)["passed"], core(r)["expected"])
                 if core(r)
+                else 0
+                if (failure_total(r, "core") or 0) > 0
                 else None
                 for r in sr
             ],
@@ -839,6 +863,8 @@ def summarize(
             [
                 1 - regression(r)["passed"] / regression(r)["expected"]
                 if regression(r)
+                else 1
+                if (failure_total(r, "regression") or 0) > 0
                 else None
                 for r in sr_reg
             ],

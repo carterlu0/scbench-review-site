@@ -34,4 +34,10 @@ test('default release includes all 89 Sol trials and retains the 356 Luna trials
  const report=await load(`paper/reports/${catalog.default_analysis}.json`);
  assert.equal(report.groups.length,5);
  for(const g of report.groups){assert.deepEqual(g.issues,[]);assert.equal(g.coverage.num_chains,15);assert.equal(g.coverage.num_checkpoints,74);for(const metric of Object.values(g.primary))assert.notEqual(metric.value,null);}
+ const solGroup=report.groups.find(g=>g.config.model==='gpt-6.1-sol');
+ for(const key of ['pipeline_core_pass_rate','sr_core_pass_rate','sr_core_completion','sr_regression_failure_rate']) {
+  assert.notEqual(solGroup.auxiliary[key].value,null,key);
+  assert.equal(solGroup.auxiliary[key].reason,null,key);
+  assert.equal(solGroup.auxiliary[key].known_units,solGroup.auxiliary[key].denominator,key);
+ }
 });
