@@ -209,6 +209,19 @@ Pricebook version/date/source are preserved. Current GPT-6-Luna rates are the
 existing user-provided 2026-10-23 Standard rates, explicitly marked independently
 unverified; they are not presented as a current provider quote or actual bill.
 
+The site-owned `data/paper/price-overrides.json` supplies GPT-6.1-Sol Standard
+prices provided by the user on 2026-10-31. At per-request prompt input up to
+272,000 tokens, input/output/cache-read/cache-write rates are 2/10/0.10/2.50 USD
+per million tokens. Above 272,000, the entire request uses 4/15/0.20/5.00.
+The threshold includes cached prompt tokens and is not a checkpoint-total
+threshold. The existing request-tier scorer requires complete, reconciled
+request usage; aggregate-only Sol records therefore retain N/A costs. Both
+actual-cache and fixed-85% scenarios apply the request's original prompt tier.
+This override is merged at report build time and survives scheduled source
+syncs. Immutable source analyses and pricebooks are unchanged; effective reports
+retain source-pricebook and override hashes. Prior performance scores, task
+identities and evidence remain unchanged.
+
 Costs and durations correspond to the selected valid trajectory (including failed
 executed rounds). FDR/CC/FC use mean USD and seconds per chain; CPR uses mean USD and
 seconds per checkpoint. Missing consumption prevents complete efficiency, without

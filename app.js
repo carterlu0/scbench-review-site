@@ -625,7 +625,7 @@ function renderRoute() {
     return;
   }
   if (window.location.hash.startsWith("#experiments")) {
-    import("./experiments.mjs?v=20261031-auxiliary-default").then(module => module.renderExperiments());
+    import("./experiments.mjs?v=20261031-sol-pricing").then(module => module.renderExperiments());
     return;
   }
   const match = window.location.hash.match(/^#review\/([^/]+)(?:\/(history|compressed)(?:\/(\d+))?)?$/);

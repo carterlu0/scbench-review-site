@@ -14,15 +14,33 @@ from paper_metrics import identity
 
 
 def load(path: Path):
-    return json.loads(path.read_text())
+    return json.loads(path.read_text(encoding="utf-8"))
 
 
 def write_changed(path: Path, value):
     content = json.dumps(value, ensure_ascii=False, separators=(",", ":"), allow_nan=False) + "\n"
-    if not path.exists() or path.read_text() != content:
+    if not path.exists() or path.read_text(encoding="utf-8") != content:
         path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(content)
+        path.write_text(content, encoding="utf-8", newline="\n")
     return hashlib.sha256(content.encode()).hexdigest()
+
+
+def apply_price_overrides(book, analysis, overrides):
+    """Apply site-owned prices without rewriting immutable source evidence."""
+    models = {cell["model"] for cell in analysis.get("cells", [])}
+    rates = [rate for rate in overrides.get("rates", []) if rate["model"] in models]
+    if not rates:
+        return book
+    replaced = {rate["model"] for rate in rates}
+    effective = {**book, "version": overrides["version"],
+                 "rates": [rate for rate in book.get("rates", [])
+                           if rate["model"] not in replaced] + rates,
+                 "source_pricebook_sha256": identity(book),
+                 "override_sha256": identity(overrides),
+                 "notes": overrides.get("notes", "Site-owned pricing override")}
+    effective.pop("id", None)
+    effective["id"] = identity(effective)
+    return effective
 
 
 def build(site: Path):
@@ -32,6 +50,8 @@ def build(site: Path):
     catalog = load(source / "catalog.json")
     previous = load(destination / "catalog.json") if (destination / "catalog.json").exists() else {}
     previous_reports = {r["analysis_id"]: r for r in previous.get("reports", [])}
+    override_path = destination / "price-overrides.json"
+    overrides = load(override_path) if override_path.exists() else {}
     index = {"schema_version": 1, "scoring_version": SCORING_VERSION,
              "manifest_sha256": identity(default_manifest),
              "engine_sha256": hashlib.sha256(Path(__file__).with_name("paper_metrics.py").read_bytes()).hexdigest(),
@@ -65,6 +85,7 @@ def build(site: Path):
             by_id = {c["id"]: c for path in analysis["detail_paths"].values() for c in verified(path)["cells"]}
             analysis["cells"] = [by_id[c["id"]] for c in analysis["cells"]]
         book = verified(f"pricing/{analysis['pricebook']}.json")
+        book = apply_price_overrides(book, analysis, overrides)
         protocol_ids = analysis.get("protocol_ids", [analysis["protocol"]["id"]])
         analysis["protocols"] = {key: verified(f"protocols/{key}.json") for key in protocol_ids}
         cached_entry = previous_reports.get(entry["id"])
