@@ -42,3 +42,28 @@ test('Sol batch uses declared base-tier assumption without fabricating missing u
   assert.equal(g.resources.pipeline_actual.imputed_cost_records,5);
   assert.equal(g.resources.sr_actual.imputed_cost_records,1);
 });
+
+test('Sol mean times include recorded failed invocations and zero only uninvoked tail',async()=>{
+  const records=await load(report.checkpoint_records_path);
+  const sol=records.groups.find(g=>g.config.model==='gpt-6.1-sol');
+  const g=report.groups.find(g=>g.config.model==='gpt-6.1-sol');
+  const taxi=sol.checkpoint_records.filter(r=>r.chain_id==='taxi_axi_t3');
+  assert.equal(taxi.find(r=>r.mode==='pipeline'&&r.checkpoint_id==='checkpoint_1').agent_elapsed_seconds,4291.581326);
+  assert.equal(taxi.find(r=>r.mode==='pipeline'&&r.checkpoint_id==='checkpoint_2').agent_elapsed_seconds,7201.48349);
+  assert.equal(taxi.find(r=>r.mode==='sr'&&r.checkpoint_id==='checkpoint_1').agent_elapsed_seconds,2941.006189);
+  const tail=taxi.filter(r=>r.mode==='pipeline'&&r.checkpoint_index>=3);
+  assert.equal(tail.length,3);
+  assert.ok(tail.every(r=>r.agent_elapsed_seconds===0&&r.timing_source==='not_invoked_after_recorded_failure'));
+  for(const mode of ['pipeline','sr']){
+    const resource=g.resources[`${mode}_actual`];
+    assert.equal(resource.known_time_records,74);
+    assert.ok(resource.mean_time_seconds>0);
+    const sum=sol.checkpoint_records.filter(r=>r.mode===mode).reduce((s,r)=>s+r.agent_elapsed_seconds,0);
+    assert.ok(Math.abs(resource.mean_time_seconds-sum/(mode==='pipeline'?15:74))<1e-10);
+  }
+  assert.ok(g.efficiencies.sr_cpr_actual.time_efficiency_per_hour>0);
+  const luna=report.groups.find(g=>g.config.model==='gpt-6-luna'&&g.config.thinking==='high');
+  assert.equal(luna.efficiencies.sr_cpr_actual.time_efficiency_per_hour,null);
+  assert.ok(luna.efficiencies.sr_cpr_actual.observed_time_efficiency_per_hour>0);
+  assert.match(renderPaperMetrics(report,{scope:'formal'},new URLSearchParams('overhead=1')),/Observed estimate · timing not comparable/);
+});

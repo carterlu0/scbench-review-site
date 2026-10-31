@@ -1,5 +1,5 @@
 import {escapeHtml as esc, modelKey, compareModelSettings, resultKey, latestCells, selectCells, summarize, csv, hydrateCells, testCounts, checkpointRows, plannedTargets, finalResult, fraction, isDeliveryFailure} from './experiments-core.mjs?v=20261031-agent-failure';
-import {renderPaperMetrics, selectPaperGroups, paperCsv} from './paper-metrics.mjs?v=20261031-zero-failure-costs';
+import {renderPaperMetrics, selectPaperGroups, paperCsv} from './paper-metrics.mjs?v=20261031-retained-failure-times';
 let catalogPromise;
 let paperCatalogPromise;
 let metadataPromise;

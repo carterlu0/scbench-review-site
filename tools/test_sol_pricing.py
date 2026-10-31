@@ -100,6 +100,29 @@ class SolPricing(unittest.TestCase):
         row = normalize_checkpoint(cell, cp, chain, chain["checkpoints"][0], "pipeline", self.book)
         self.assertIsNone(row["costs"]["actual"]["usd"])
 
+    def test_failure_score_override_retains_real_time_and_proves_uninvoked_tail(self):
+        cell = {"id": "failure", "model": "gpt-6.1-sol", "agent": "codex",
+                "status": "completed", "outcome": "agent_failure",
+                "score_override": {"value": 0, "reason": "agent_failure", "provisional": True}}
+        first = {"target_checkpoint": "checkpoint_1", "state": "inference_error",
+                 "inference_seconds": 123.5, "evaluation_seconds": None,
+                 "compatibility": {"score": "identical", "time": "identical"}}
+        second = {"target_checkpoint": "checkpoint_2", "state": "missing",
+                  "compatibility": {"score": "identical", "time": "identical"}}
+        chain = {"id": "task", "checkpoints": [{"id": "checkpoint_1"}, {"id": "checkpoint_2"}]}
+        cell["checkpoints"] = [first, second]
+        row = normalize_checkpoint(cell, first, chain, chain["checkpoints"][0], "pipeline", self.book)
+        self.assertEqual(row["strict_pass"], 0)
+        self.assertEqual(row["agent_elapsed_seconds"], 123.5)
+        self.assertTrue(row["time_compatible"])
+        tail = normalize_checkpoint(cell, second, chain, chain["checkpoints"][1], "pipeline", self.book)
+        self.assertEqual(tail["agent_elapsed_seconds"], 0)
+        self.assertEqual(tail["timing_source"], "not_invoked_after_recorded_failure")
+        self.assertIsNone(tail["raw_agent_elapsed_seconds"])
+        first["state"] = "passed"
+        unknown = normalize_checkpoint(cell, second, chain, chain["checkpoints"][1], "pipeline", self.book)
+        self.assertIsNone(unknown["agent_elapsed_seconds"])
+
 
 if __name__ == "__main__":
     unittest.main()

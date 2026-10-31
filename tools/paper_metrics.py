@@ -602,6 +602,19 @@ def normalize_checkpoint(
                 "imputed": True, "estimate_kind": "temporary_user_zero_for_failed_run",
                 "imputation_source": policy["source"], "original_cost": c,
             } for p, c in costs.items()}
+        # A score override must not discard already recorded execution times.
+        elapsed = cp.get("inference_seconds")
+        evaluation_elapsed = cp.get("evaluation_seconds")
+        failed_before = False
+        for previous in cell.get("checkpoints", []):
+            if (previous.get("target_checkpoint") or previous.get("checkpoint")) == spec["id"]:
+                break
+            failed_before |= previous.get("state") == "inference_error"
+        not_invoked = (failed_before and cp.get("state") == "missing"
+                       and not any(cp.get(k) for k in
+                                   ("started_at", "completed_at", "candidate", "inference_sha256", "tokens")))
+        if not_invoked:
+            elapsed = evaluation_elapsed = 0
         return {
             **row,
             "execution_status": "executed",
@@ -614,6 +627,12 @@ def normalize_checkpoint(
             "failure_group_totals": totals,
             "costs": costs,
             "cost_compatible": approved or cp.get("compatibility", {}).get("cost")
+            in {"identical", "compatible"},
+            "agent_elapsed_seconds": elapsed,
+            "evaluation_elapsed_seconds": evaluation_elapsed,
+            "raw_agent_elapsed_seconds": cp.get("inference_seconds"),
+            "timing_source": "not_invoked_after_recorded_failure" if not_invoked else "recorded_inference_seconds",
+            "time_compatible": cp.get("compatibility", {}).get("time")
             in {"identical", "compatible"},
         }
     row.update(
@@ -943,6 +962,7 @@ def summarize(
                 "total_time_seconds": total_time,
                 "mean_time_seconds": ratio(total_time, units),
                 "known_time_records": sum(number(v) for v in times),
+                "incompatible_time_records": sum(r.get("time_compatible") is False for r in mode_rows),
                 "evaluation_seconds": complete_sum(
                     [r["evaluation_elapsed_seconds"] for r in mode_rows]
                 ),
@@ -988,6 +1008,8 @@ def summarize(
                     "time_efficiency_per_hour": ratio(q, avg_time) * 3600
                     if time_compatible and ratio(q, avg_time) is not None
                     else None,
+                    "observed_time_efficiency_per_hour": ratio(q, avg_time) * 3600
+                    if ratio(q, avg_time) is not None else None,
                     "reason_cost": "unverified_comparability"
                     if not cost_compatible
                     else "missing_or_zero_denominator"

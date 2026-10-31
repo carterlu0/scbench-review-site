@@ -228,6 +228,15 @@ all other runs keep their observed costs.
 Full mean costs and cost efficiencies include these temporary zeros. Missing
 durations and unrelated missing usage remain unknown; time metrics are not
 zero-imputed. Other incomplete costs still show only a known subtotal.
+
+Provisional score-zero handling retains original `inference_seconds` and timing
+compatibility. After a recorded inference failure, a later explicit `missing`
+checkpoint with no invocation evidence has zero execution consumption; an
+unexplained missing checkpoint remains unknown. This recovers the Sol mean times
+without imputing zero duration for its failed invocations. Mean time reports
+observed durations. Where old evidence marks timing incompatible, the UI labels
+the numerical performance/hour ratio as an observed estimate; JSON retains the
+restricted comparable ratio and a separate `observed_time_efficiency_per_hour`.
 This override is merged at report build time and survives scheduled source
 syncs. Immutable source analyses and pricebooks are unchanged; effective reports
 retain source-pricebook and override hashes. Prior performance scores, task

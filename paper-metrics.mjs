@@ -127,7 +127,8 @@ function resources(group,policy) {
     const reasons=[...Object.entries(r.cost_missing_reasons).map(([k,v])=>`${k}: ${v}`),
       ...(r.imputed_cost_records?[`${r.imputed_cost_records} temporary zero cost records`]:[])].join('; ');
     const partial=r.total_cost_usd==null&&r.known_total_cost_usd!=null&&r.known_cost_records>0;
-    return `<tr><th>${heading(group.config)}<small>${mode==='pipeline'?'Pipeline':'SR'}</small></th><td>${numeric(partial?r.known_total_cost_usd:r.total_cost_usd)}<small>${partial?'USD known subtotal · incomplete':'USD total'}</small></td><td>${numeric(r.mean_cost_usd)}<small>USD/${unit} · denominator ${r.denominator}</small></td><td>${numeric(r.mean_time_seconds)}<small>s/${unit} · ${esc(r.timing_policy)}</small></td><td>${r.known_cost_records}/${r.expected_cost_records}<small>${esc(reasons||'Complete cost coverage')}; time ${r.known_time_records}/${r.expected_cost_records}</small></td></tr>`;
+    const timingNote=r.incompatible_time_records?` · ${r.incompatible_time_records} timing records not comparable`:'';
+    return `<tr><th>${heading(group.config)}<small>${mode==='pipeline'?'Pipeline':'SR'}</small></th><td>${numeric(partial?r.known_total_cost_usd:r.total_cost_usd)}<small>${partial?'USD known subtotal · incomplete':'USD total'}</small></td><td>${numeric(r.mean_cost_usd)}<small>USD/${unit} · denominator ${r.denominator}</small></td><td>${numeric(r.mean_time_seconds)}<small>s/${unit} · ${esc(r.timing_policy)}${esc(timingNote)}</small></td><td>${r.known_cost_records}/${r.expected_cost_records}<small>${esc(reasons||'Complete cost coverage')}; time ${r.known_time_records}/${r.expected_cost_records}</small></td></tr>`;
   }).join('');
 }
 function efficiencies(group,policy,performance=group.efficiencies) {
@@ -139,7 +140,8 @@ function efficiencies(group,policy,performance=group.efficiencies) {
     const meanTime=group.resources?.[`${mode}_${policy}`]?.mean_time_seconds;
     const costEfficiency=selected?.value!=null&&meanCost>0?selected.value/meanCost:e.cost_efficiency_per_usd;
     const timeEfficiency=selected?.value!=null&&meanTime>0?selected.value/(meanTime/3600):e.time_efficiency_per_hour;
-    return `<tr><th>${heading(group.config)}<small>${label}: ${percent(selected?.value??e.performance)}</small></th><td>${numeric(costEfficiency)}<small>${esc(e.reason_cost||'per USD')}</small></td><td>${numeric(timeEfficiency)}<small>${esc(e.reason_time||'per hour')}</small></td></tr>`;
+    const timeNote=e.reason_time==='unverified_comparability'&&timeEfficiency!=null?'Observed estimate · timing not comparable':e.reason_time||'per hour';
+    return `<tr><th>${heading(group.config)}<small>${label}: ${percent(selected?.value??e.performance)}</small></th><td>${numeric(costEfficiency)}<small>${esc(e.reason_cost||'per USD')}</small></td><td>${numeric(timeEfficiency)}<small>${esc(timeNote)}</small></td></tr>`;
   }).join('');
 }
 
