@@ -34,6 +34,9 @@ jobs:
       - name: Build paper metrics from frozen experiment evidence
         run: python3 tools/build-paper-metrics.py
 
+      - name: Build the current result for each model setting
+        run: python3 tools/build-latest-results.py
+
       - name: Validate experiment integration
         run: |
           node --test tests/*.test.mjs
@@ -43,6 +46,6 @@ jobs:
         run: |
           git config user.name "scbench-sync[bot]"
           git config user.email "scbench-sync[bot]@users.noreply.github.com"
-          git add data/problems.json data/experiments data/paper
+          git add data/problems.json data/experiments data/paper data/results
           git diff --cached --quiet || git commit -m "chore: sync SCBench problem data"
           git push

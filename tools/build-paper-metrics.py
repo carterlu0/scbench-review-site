@@ -46,7 +46,7 @@ def apply_price_overrides(book, analysis, overrides):
     return effective
 
 
-def build(site: Path):
+def build(site: Path, rebuild: bool = False):
     source = site / "data/experiments"
     destination = site / "data/paper"
     default_manifest = load(destination / "benchmark-v1.json")
@@ -98,7 +98,9 @@ def build(site: Path):
         protocol_ids = analysis.get("protocol_ids", [analysis["protocol"]["id"]])
         analysis["protocols"] = {key: verified(f"protocols/{key}.json") for key in protocol_ids}
         cached_entry = previous_reports.get(entry["id"])
-        if cached_entry and previous.get("engine_sha256") == index["engine_sha256"]:
+        # Published reports remain frozen when their input/evidence hashes
+        # match. Current-view scorer changes must not rewrite old snapshots.
+        if cached_entry and not rebuild:
             cached_path = destination / cached_entry["path"]
             cached_bytes = cached_path.read_bytes() if cached_path.exists() else b""
             if hashlib.sha256(cached_bytes).hexdigest() == cached_entry["sha256"]:
@@ -139,6 +141,7 @@ def build(site: Path):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--site", type=Path, default=Path(__file__).resolve().parents[1])
+    parser.add_argument("--rebuild", action="store_true", help="Explicitly recompute historical reports")
     args = parser.parse_args()
-    result = build(args.site)
+    result = build(args.site, rebuild=args.rebuild)
     print(f"Built {len(result['reports'])} paper reports ({result['scoring_version']})")

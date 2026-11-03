@@ -43,7 +43,7 @@ export function latestCells(cells) {
   return [...selected.values()];
 }
 export function selectCells(release, filters) {
-  return release.cells.filter(cell => ['mode', 'prompt_arm', 'protocol', 'model', 'agent'].every(key => !filters[key] || cell[key] === filters[key]) &&
+  return release.cells.filter(cell => ['mode', 'prompt_arm', 'protocol', 'model', 'agent', 'thinking'].every(key => !filters[key] || cell[key] === filters[key]) &&
     (!filters.scope || (filters.scope === 'formal') === cell.formal) &&
     (!filters.q || cell.problem.toLowerCase().includes(filters.q.toLowerCase())));
 }

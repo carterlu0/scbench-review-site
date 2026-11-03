@@ -77,6 +77,16 @@ class SolPricing(unittest.TestCase):
         self.assertAlmostEqual(cost["usd"], 0.87)
         self.assertEqual(cost["source"], "reconciled_native_requests")
 
+    def test_original_inference_protocol_controls_reused_price_assumptions(self):
+        protocol = self.override["aggregate_request_bounds"][0]["protocols"][0]
+        cell = {"agent": "codex", "model": "gpt-6.1-sol", "protocol": "new-evaluator"}
+        cp = {"inference_protocol": protocol, "tokens": {
+            "input": 400000, "output": 2000, "cache_read": 200000, "cache_write": 0}}
+        self.assertAlmostEqual(checkpoint_cost(cp, cell, self.book, "actual")["usd"], 0.44)
+        cell["protocol"] = protocol
+        cp["inference_protocol"] = "unapproved"
+        self.assertIsNone(checkpoint_cost(cp, cell, self.book, "actual")["usd"])
+
     def test_only_listed_failed_runs_get_temporary_zero_cost(self):
         policy = self.book["temporary_failure_cost_policy"]
         cell = {"id": policy["cell_ids"][0], "model": "gpt-6.1-sol", "agent": "codex",

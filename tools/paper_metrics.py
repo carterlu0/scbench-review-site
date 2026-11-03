@@ -327,7 +327,7 @@ def checkpoint_cost(
     )
     bounds = [rule for rule in book.get("aggregate_request_bounds", [])
               if rule["model"] == cell["model"] and rule["agent"] == cell["agent"]
-              and cell.get("protocol") in rule.get("protocols", [])]
+              and cp.get("inference_protocol", cell.get("protocol")) in rule.get("protocols", [])]
     bound = bounds[0] if len(bounds) == 1 else None
     result = estimate_cost(
         cp.get("tokens"), book, cell["model"], semantics, policy,
@@ -566,12 +566,13 @@ def normalize_checkpoint(
     if cell is None or cp is None:
         row["reason"] = "missing_checkpoint_result" if cell else "not_scheduled"
         return row
-    override = cell.get("score_override", {})
+    checkpoint_override = cp.get("score_override", {})
+    override = checkpoint_override or cell.get("score_override", {})
     if (
         override.get("value") == 0
         and override.get("reason") == "agent_failure"
         and cell.get("status") == "completed"
-        and cell.get("outcome") == "agent_failure"
+        and (checkpoint_override or cell.get("outcome") == "agent_failure")
         and not reason
     ):
         # An explicitly reviewed group-level zero is a counted failure. Preserve
@@ -662,6 +663,13 @@ def normalize_checkpoint(
     )
     if reason:
         return {**row, "execution_status": "invalid", "reason": reason}
+    if cp.get("candidate_failure") == "delivery_failure":
+        inventory = cell.get("expected_test_counts", {}).get(spec["id"]) or {}
+        totals = dict(inventory.get("groups", {}))
+        if "functionality" in totals:
+            totals["core"] = totals.get("core", 0) + totals.pop("functionality")
+        return {**row, "execution_status": "executed", "strict_pass": 0,
+                "reason": "delivery_failure", "failure_group_totals": totals}
     state = cp.get("execution_status", cp.get("state"))
     if (
         state in {"invalid", "evaluation_error"}
@@ -876,12 +884,12 @@ def summarize(
         return (r.get("groups") or {}).get("regression")
 
     def failure_total(r, group):
-        if r.get("reason") == "provisional_agent_failure":
+        if r.get("reason") in {"provisional_agent_failure", "delivery_failure"}:
             return r.get("failure_group_totals", {}).get(group)
         return None
 
     def core_pass(r):
-        if r.get("reason") == "provisional_agent_failure":
+        if r.get("reason") in {"provisional_agent_failure", "delivery_failure"}:
             return 0
         return (
             int(core(r)["all_passed"])
@@ -1135,6 +1143,7 @@ def calculate(
                     and pcp
                     and pcp.get("state")
                     not in {"stopped_by_policy", "not_reached", "missing"}
+                    and not (pcp.get("inherited_failure") and not pcp.get("attempted"))
                 ):
                     reason = "executed_after_structure_failure"
                 if (
@@ -1167,7 +1176,10 @@ def calculate(
                     pcell
                     and pcell.get("status") == "completed"
                     and pcp
-                    and pcp.get("valid_execution_failure") is True
+                    and (pcp.get("valid_execution_failure") is True
+                         or pcp.get("candidate_failure") == "delivery_failure"
+                         or (pcp.get("score_override", {}).get("reason") == "agent_failure"
+                             and pcp["score_override"].get("value") == 0))
                     and prow["execution_status"] == "executed"
                     and not (structure and structure["all_passed"])
                 ):

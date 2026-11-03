@@ -1,10 +1,11 @@
-import {escapeHtml as esc, modelKey, compareModelSettings, resultKey, latestCells, selectCells, summarize, csv, hydrateCells, testCounts, checkpointRows, plannedTargets, finalResult, fraction, isDeliveryFailure} from './experiments-core.mjs?v=20261103-final-suite';
-import {renderPaperMetrics, selectPaperGroups, paperCsv} from './paper-metrics.mjs?v=20261031-retained-failure-times';
+import {escapeHtml as esc, modelKey, compareModelSettings, resultKey, latestCells, selectCells, summarize, csv, hydrateCells, testCounts, checkpointRows, plannedTargets, finalResult, fraction, isDeliveryFailure} from './experiments-core.mjs?v=20261103-latest-settings';
+import {renderPaperMetrics, selectPaperGroups, paperCsv} from './paper-metrics.mjs?v=20261103-latest-settings';
 let catalogPromise;
 let paperCatalogPromise;
 let metadataPromise;
 let renderedProblem;
 let renderedTrial;
+let latestPromise;
 const releases = new Map();
 const percent = n => n == null ? '—' : `${(n*100).toFixed(0)}%`;
 const dollars = n => n == null ? 'unknown' : `$${n.toFixed(3)}`;
@@ -44,29 +45,30 @@ function resultClass(result) {
   if (result.passed == null || result.total == null) return 'pending';
   return result.passed === result.total ? 'pass' : result.passed === 0 ? 'fail' : 'partial';
 }
-function mainMatrix(cells, peers, params) {
+function mainMatrix(cells, peers, params, latest=false) {
   const pipeline = cells.filter(c=>c.mode==='pipeline');
   const {columns,keyOf} = modelColumns(pipeline);
   const problems = [...new Set(cells.map(c=>c.problem))].sort();
   return `<div class="matrix-section-title"><h2>Pipeline · final checkpoint</h2><span>structure-cases · passed / total tests</span></div>
-    <div class="matrix-scroll" tabindex="0" role="region" aria-label="Main pipeline results"><table class="experiment-matrix main-matrix"><caption class="sr-only">Pipeline final checkpoint results under the structure-cases progression policy</caption><thead><tr><th scope="col">Problem / experiment arm</th>${columns.map(([,c])=>columnHeader(c)).join('')}</tr></thead><tbody>
-    ${problems.flatMap(problem=>[...new Set(cells.filter(c=>c.problem===problem).map(c=>c.prompt_arm))].sort().map(arm=>`<tr><th scope="row"><a class="matrix-problem-link" href="${hash(params,{problem,prompt_arm:arm,trial:null})}">${esc(problem)}</a><small>${esc(arm)}</small></th>${columns.map(([key])=>{
+    <div class="matrix-scroll" tabindex="0" role="region" aria-label="Main pipeline results"><table class="experiment-matrix main-matrix"><caption class="sr-only">Pipeline final checkpoint results under the structure-cases progression policy</caption><thead><tr><th scope="col">${latest?'Problem':'Problem / experiment arm'}</th>${columns.map(([,c])=>columnHeader(c)).join('')}</tr></thead><tbody>
+    ${problems.flatMap(problem=>[...new Set(cells.filter(c=>c.problem===problem).map(c=>c.prompt_arm))].sort().map(arm=>`<tr><th scope="row"><a class="matrix-problem-link" href="${hash(params,{problem,prompt_arm:latest?null:arm,trial:null})}">${esc(problem)}</a>${latest?'':`<small>${esc(arm)}</small>`}</th>${columns.map(([key])=>{
       const matches=pipeline.filter(c=>c.problem===problem&&c.prompt_arm===arm&&keyOf(c)===key);
       if(!matches.length)return '<td class="matrix-empty">—</td>';
-      return `<td>${matches.map(cell=>{const result=finalResult(cell,peers);return `<a class="matrix-cell ${resultClass(result)}" href="${hash(params,{problem,prompt_arm:arm,trial:cell.id})}" aria-label="Inspect ${esc(problem)} ${esc(cell.model)}"><strong>${fraction(result)}</strong><span>${esc(reasons[result.reason]||result.reason)}</span><small>${esc(result.target||'')} · latest${cell.formal?'':' · historical / unverified'}</small></a>`;}).join('')}</td>`;
+      return `<td>${matches.map(cell=>{const result=finalResult(cell,peers);return `<a class="matrix-cell ${resultClass(result)}" href="${hash(params,{problem,prompt_arm:latest?null:arm,trial:cell.id})}" aria-label="Inspect ${esc(problem)} ${esc(cell.model)}"><strong>${fraction(result)}</strong><span>${esc(reasons[result.reason]||result.reason)}</span><small>${esc(result.target||'')} · latest${cell.formal?'':' · historical / unverified'}</small></a>`;}).join('')}</td>`;
     }).join('')}</tr>`)).join('')||`<tr><td colspan="${columns.length+1}">No trials match these filters.</td></tr>`}</tbody></table></div>
     <p class="matrix-method">Only the latest experiment for each configuration is shown, ordered by start time (completion time when unavailable). Each result is the final checkpoint’s passed / total tests, including every test group. A verified structure-gate stop or delivery failure contributes 0 / the final total. Delivery failures are labeled separately; their missing deliverables are shown in trial evidence. Unknown policy, missing evaluation and infrastructure failures remain unscored. Click a problem to compare pipeline checkpoints and SR results.</p>`;
 }
-function problemMatrix(cells, problem, params) {
+function problemMatrix(cells, problem, params, latest=false) {
   const {columns,keyOf}=modelColumns(cells,true);
   const rows=checkpointRows(cells);
   return `<div class="matrix-section-title"><h2>Checkpoint × model / agent</h2><span>Core and Regression · passed / total</span></div>
-    <div class="matrix-scroll" tabindex="0" role="region" aria-label="Problem checkpoint results"><table class="experiment-matrix problem-matrix"><caption class="sr-only">Interleaved pipeline and SR checkpoint results, with Core and Regression counts</caption><thead><tr><th scope="col">Checkpoint / experiment</th>${columns.map(([,c])=>columnHeader(c,true)).join('')}</tr></thead><tbody>${rows.map(row=>`<tr data-mode="${row.mode}" data-checkpoint="${esc(row.target)}"><th scope="row"><span class="checkpoint-label">${row.label}</span><small>${row.mode==='pipeline'?'Cumulative workspace':'Adjacent golden predecessor'}</small></th>${columns.map(([key])=>{
+    <div class="matrix-scroll" tabindex="0" role="region" aria-label="Problem checkpoint results"><table class="experiment-matrix problem-matrix"><caption class="sr-only">Interleaved pipeline and SR checkpoint results, with Core and Regression counts</caption><thead><tr><th scope="col">${latest?'Checkpoint / mode':'Checkpoint / experiment'}</th>${columns.map(([,c])=>columnHeader(c,!latest)).join('')}</tr></thead><tbody>${rows.map(row=>`<tr data-mode="${row.mode}" data-checkpoint="${esc(row.target)}"><th scope="row"><span class="checkpoint-label">${row.label}</span><small>${row.mode==='pipeline'?'Cumulative workspace':'Adjacent golden predecessor'}</small></th>${columns.map(([key])=>{
       const matches=cells.filter(c=>keyOf(c)===key&&c.mode===row.mode&&(row.mode==='pipeline'?plannedTargets(c).includes(row.target):c.checkpoints.some(cp=>cp.target_checkpoint===row.target)));
       if(!matches.length)return '<td class="matrix-empty">—<small>No recorded run</small></td>';
       return `<td>${matches.map(cell=>{
         const cp=cell.checkpoints.find(cp=>cp.target_checkpoint===row.target);
-        const agentFailure=cell.score_override?.value===0&&cell.score_override.reason==='agent_failure';
+        const override=cp?.score_override||cell.score_override;
+        const agentFailure=override?.value===0&&override.reason==='agent_failure';
         const evaluated=cp&&(['passed','failed'].includes(cp.state)||agentFailure);
         const core=evaluated?testCounts(cp,'core'):null;
         const regression=evaluated?testCounts(cp,'regression'):null;
@@ -126,6 +128,69 @@ export function renderFinalSuiteSummary(summary) {
     ${retries.length?`<details class="matrix-final-suite-details"><summary>${retries.length} nonselected retry failures · excluded from the slot denominator</summary><div class="matrix-scroll"><table class="matrix-checkpoints"><thead><tr><th>Slot ID</th><th>Attempt result</th><th>Phase</th><th>Attempt ID</th></tr></thead><tbody>${retryRows}</tbody></table></div></details>`:''}
   </section>`;
 }
+
+export function renderLatestStatus(data,filters={}) {
+  const groups=data.group_status.filter(g=>(!filters.model||g.model===filters.model)&&(!filters.thinking||g.thinking===filters.thinking)).sort(compareModelSettings);
+  return `<section class="latest-status"><div class="matrix-section-title"><h2>Result coverage by setting</h2></div><div class="matrix-scroll"><table class="matrix-checkpoints"><thead><tr><th>Model / effort</th><th>Planned checkpoints</th><th>Passed</th><th>Nonpass</th><th>Stopped</th><th>Pending</th></tr></thead><tbody>${groups.map(g=>`<tr><th>${esc(g.model)} · ${esc(g.thinking)}</th>${['planned','passed','nonpassed','stopped','pending'].map(k=>`<td>${g[k]||0}</td>`).join('')}</tr>`).join('')}</tbody></table></div></section>`;
+}
+
+export function renderLatestFailures(data,filters={},params=new URLSearchParams()) {
+  const rows=data.nonpass_units.filter(g=>(!filters.model||g.model===filters.model)&&(!filters.thinking||g.effort===filters.thinking));
+  const labels={build_error:'Build error',missing_implementation:'Missing implementation',interface_mismatch:'Interface mismatch',implementation_error:'Implementation error',agent_failure:'Agent failure'};
+  const counts=Object.fromEntries(Object.keys(labels).map(key=>[key,rows.filter(row=>row.category===key).length]));
+  const scale=Math.max(1,...Object.values(counts));
+  const visibleCells=new Set(data.cells.filter(c=>(!filters.model||c.model===filters.model)&&(!filters.thinking||c.thinking===filters.thinking)).map(c=>c.id));
+  const retries=(data.nonselected_failures||[]).filter(row=>visibleCells.has(row.planned_unit_id.split('--')[0]));
+  return `<details class="latest-failures paper-legacy-matrix"><summary>Failure distribution and all ${rows.length} nonpass outcomes</summary><div class="matrix-final-suite-chart" role="img" aria-label="All ${rows.length} current nonpass outcomes">${Object.entries(labels).map(([key,label])=>`<div class="matrix-final-suite-row"><span>${label}</span><div class="matrix-final-suite-track"><span class="failure-${key}" style="--bar-width:${counts[key]/scale*100}%"></span></div><strong>${counts[key]}</strong></div>`).join('')}</div><div class="matrix-scroll"><table class="matrix-checkpoints"><thead><tr><th>Model / effort</th><th>Problem</th><th>Mode / checkpoint</th><th>Category</th></tr></thead><tbody>${rows.map(row=>`<tr><td>${esc(row.model)} · ${esc(row.effort)}</td><td><a href="${hash(params,{problem:row.problem,trial:row.cell_id,checkpoint:row.target_checkpoint})}">${esc(row.problem)}</a></td><td>${esc(row.mode)} · ${esc(row.target_checkpoint)}</td><td>${esc(labels[row.category])}<small>${esc(row.subtype)}</small></td></tr>`).join('')}</tbody></table></div><p class="matrix-method">Every current nonpass checkpoint is listed once. Uninvoked policy stops remain separate in the coverage table.</p>${retries.length?`<details><summary>${retries.length} nonselected retry failures · excluded from the score denominator</summary><div class="matrix-scroll"><table class="matrix-checkpoints"><thead><tr><th>Result slot</th><th>Attempt</th><th>Phase / outcome</th></tr></thead><tbody>${retries.map(row=>`<tr><td>${esc(row.planned_unit_id)}</td><td>${esc(row.attempt_id)}</td><td>${esc(row.phase)} · ${esc(row.state)}</td></tr>`).join('')}</tbody></table></div></details>`:''}</details>`;
+}
+
+async function renderLatestResults(route,params,app) {
+  latestPromise ||= json('data/results/latest.json');
+  const data=await latestPromise;
+  const problem=params.get('problem');
+  let allCells=data.cells;
+  if(problem&&data.details[problem]){
+    const detail=data.details[problem];
+    const key=`latest:${problem}:${detail.sha256}`;
+    if(!releases.has(key))releases.set(key,json(`data/results/${detail.path}`));
+    allCells=(await releases.get(key)).cells;
+  }
+  allCells=allCells.map(cell=>({...cell,prompt_arm:'latest',checkpoints:cell.checkpoints.map(cp=>({
+    tests:[],defects:[],tags:[],calls:{},official_cost:{usd:null,coverage:'unknown'},
+    compatibility:{score:'unknown',time:'unknown',cost:'unknown',calls:'unknown'},...cp,
+  }))}));
+  const filters={scope:'formal',model:params.get('model')||'',thinking:params.get('thinking')||'',q:params.get('q')||''};
+  const filtered=selectCells({cells:allCells},filters);
+  const cells=problem?filtered.filter(c=>c.problem===problem):filtered;
+  const shown=selectPaperGroups(data.report,filters);
+  if(location.hash!==route)return;
+  app.innerHTML=`<section class="experiment-page latest-results">
+    ${problem?`<a class="matrix-back" href="${hash(params,{problem:null,trial:null,checkpoint:null})}">← Latest results</a>`:''}
+    <div class="matrix-heading"><div><p class="eyebrow">SCBENCH / RESULTS</p><h1>${esc(problem||'Latest results')}<span class="matrix-dot">.</span></h1><p class="matrix-subtitle">${problem?'Pipeline and SR checkpoint results':'The latest result for each model and reasoning effort · 15 task chains · 74 SR checkpoints per setting'}</p></div><div class="matrix-actions"><button id="matrix-csv">Export CSV ↗</button><button id="matrix-json">JSON ↗</button></div></div>
+    <form id="latest-filters" class="matrix-filters"><label>Model<select name="model">${options(data.report.groups.map(g=>g.config.model),filters.model,'All models')}</select></label><label>Reasoning effort<select name="thinking">${options(data.report.groups.map(g=>g.config.thinking),filters.thinking,'All efforts')}</select></label>${problem?'':`<label class="matrix-search">Find problem<input name="q" value="${esc(filters.q)}" placeholder="Search by name" /></label>`}<button type="submit">Apply</button></form>
+    ${problem?problemMatrix(cells,problem,params,true):renderPaperMetrics(data.report,filters,params,data.records)}
+    ${problem?'<section id="matrix-detail" class="matrix-detail" aria-live="polite"><p class="matrix-muted">Select a checkpoint to inspect its evidence.</p></section>':`${renderLatestStatus(data,filters)}${renderLatestFailures(data,filters,params)}<details class="paper-legacy-matrix"><summary>Results by problem and checkpoint</summary>${mainMatrix(cells,allCells,params,true)}</details><details class="paper-legacy-matrix"><summary>Historical results</summary><p class="matrix-method">Previous published snapshots remain available for reference.</p><a href="#experiments?analysis=${encodeURIComponent(data.sources[0].analysis_id)}">Browse historical snapshots →</a></details>`}
+  </section>`;
+  app.querySelector('#latest-filters').addEventListener('submit',event=>{
+    event.preventDefault();const next=new URLSearchParams(params);const form=new FormData(event.currentTarget);
+    for(const key of ['model','thinking','q']){const v=form.get(key);if(v)next.set(key,v);else next.delete(key);}
+    next.delete('trial');next.delete('checkpoint');location.hash=hash(next);
+  });
+  app.querySelector('#matrix-csv').onclick=()=>download('latest-results.csv',problem?csv(cells):paperCsv(data.report,{...filters,task_type:params.get('task_type')||''},params.get('cache')||'actual',params.get('threshold')||'structure-case',data.records),'text/csv;charset=utf-8');
+  app.querySelector('#matrix-json').onclick=()=>download('latest-experiment-results.json',JSON.stringify({...data,cells,report:{...data.report,groups:shown}},null,2),'application/json');
+  app.querySelectorAll('[data-paper-param]').forEach(input=>input.onchange=()=>{location.hash=hash(params,{[input.dataset.paperParam]:input.checked?'1':'0'});});
+  app.querySelectorAll('[data-paper-select]').forEach(select=>select.onchange=()=>{location.hash=hash(params,{[select.dataset.paperSelect]:select.value});});
+  if(!problem){
+    app.querySelector('#paper-csv').onclick=()=>download('latest-performance-metrics.csv',paperCsv(data.report,{...filters,task_type:params.get('task_type')||''},params.get('cache')||'actual',params.get('threshold')||'structure-case',data.records),'text/csv;charset=utf-8');
+    app.querySelector('#paper-json').onclick=()=>download('latest-performance-metrics.json',JSON.stringify({...data.report,groups:shown,checkpoint_records:data.records.groups.filter(g=>shown.some(s=>s.id===g.id))},null,2),'application/json');
+  }
+  if(problem&&params.get('trial')){
+    renderEvidence(cells.filter(c=>c.id===params.get('trial')),problem,null);
+    for(const detail of app.querySelectorAll('.matrix-trial details'))if(detail.querySelector('summary').textContent.startsWith(params.get('checkpoint')+' /'))detail.open=true;
+    app.querySelector('#matrix-detail').scrollIntoView({block:'start',behavior:'instant'});
+  }
+}
+
 export async function renderExperiments() {
   const route=location.hash;
   if(!route.startsWith('#experiments'))return;
@@ -133,6 +198,7 @@ export async function renderExperiments() {
   const params=new URLSearchParams(route.split('?')[1]||'');
   app.innerHTML='<section class="experiment-page"><p role="status">Loading experiment matrix…</p></section>';
   try {
+    if(!params.has('analysis')){await renderLatestResults(route,params,app);return;}
     catalogPromise ||= json('data/experiments/catalog.json');
     const catalog=await catalogPromise;
     if(location.hash!==route)return;
@@ -174,6 +240,7 @@ export async function renderExperiments() {
     const subtitle=problem?'Pipeline and SR · checkpoint test results':`${esc(release.name)} · ${release.final_suite?'Checkpoint results and nonpass distribution':'FDR / CC / FC / CPR'}`;
     if(location.hash!==route)return;
     app.innerHTML=`<section class="experiment-page">
+      <p class="matrix-method">Historical snapshot · <a href="#experiments">View the latest result for every model setting →</a></p>
       ${problem?`<a class="matrix-back" href="${hash(params,{problem:null,trial:null,checkpoint:null})}">← All experiment results</a>`:''}
       <div class="matrix-heading"><div><p class="eyebrow">SCBENCH / EXPERIMENTS${problem?' / PROBLEM':''}</p><h1>${esc(name)}<span class="matrix-dot">.</span></h1><p class="matrix-subtitle">${subtitle}</p></div><div class="matrix-actions"><button id="matrix-csv">Export CSV ↗</button><button id="matrix-json">JSON ↗</button></div></div>
       <div class="matrix-provenance"><span>Analysis <code>${esc(entry.id.slice(0,12))}</code></span><span>Source <code>${esc((catalog.source?.commit||'local').slice(0,12))}</code></span><span>Pricebook <code>${esc((release.pricebook||'unknown').slice(0,12))}</code></span><span>${esc(release.created_at.slice(0,10))}</span></div>
@@ -225,7 +292,7 @@ export async function renderExperiments() {
     }
   } catch(error) {
     if(location.hash===route)app.innerHTML=`<section class="experiment-page"><h1>Experiment matrix</h1><p role="alert">${esc(error.message)}</p><button id="matrix-retry">Retry</button></section>`;
-    document.querySelector('#matrix-retry')?.addEventListener('click',()=>{catalogPromise=null;metadataPromise=null;releases.clear();renderExperiments();});
+    document.querySelector('#matrix-retry')?.addEventListener('click',()=>{catalogPromise=null;latestPromise=null;metadataPromise=null;releases.clear();renderExperiments();});
   }
 }
 function renderEvidence(cells,problem,sourceCommit){

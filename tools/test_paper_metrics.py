@@ -109,6 +109,40 @@ class PaperAcceptance(unittest.TestCase):
         self.assertAlmostEqual(estimate_cost(usage, book, "m", "inclusive_cache", "fixed_85")["usd"], 0.00147)
         self.assertIsNone(estimate_cost({}, book, "m", "inclusive_cache")["usd"])
 
+    def test_delivery_and_checkpoint_agent_failures_preserve_earlier_success(self):
+        targets = ["checkpoint_1", "checkpoint_2", "checkpoint_3"]
+        manifest = {"schema_version": 1, "benchmark_version": "checkpoint-failures",
+                    "chains": [{"id": "task", "task_type": "synthetic",
+                    "checkpoints": [{"id": cp} for cp in targets]}]}
+        for agent_failure in (False, True):
+            passed = {"target_checkpoint": targets[0], "state": "passed",
+                      "compatibility": {"score": "identical"}, "test_counts": {
+                          "structure": {"passed": 1, "total": 1},
+                          "core": {"passed": 2, "total": 2},
+                          "regression": {"passed": 1, "total": 1}}}
+            failed = {"target_checkpoint": targets[1], "state": "inference_error" if agent_failure else "failed",
+                      "compatibility": {"score": "compatible"}}
+            tail = {"target_checkpoint": targets[2], "state": "stopped_by_policy"}
+            if agent_failure:
+                failed["score_override"] = {"value": 0, "reason": "agent_failure"}
+                tail.update(state="inference_error", inherited_failure=True, attempted=False,
+                            score_override=failed["score_override"])
+            else:
+                failed["candidate_failure"] = "delivery_failure"
+            cell = {"id": "pipeline", "problem": "task", "mode": "pipeline", "model": "m",
+                    "agent": "codex", "formal": True, "repeat": 0, "status": "completed",
+                    "outcome": "failed", "progression_policy": "structure-cases", "planned_targets": targets,
+                    "expected_test_counts": {cp: {"groups": {"structure": 1, "core": 2, "regression": 1}} for cp in targets},
+                    "checkpoints": [passed, failed, tail]}
+            group = calculate({"cells": [cell]}, manifest, {})["groups"][0]
+            rows = [r for r in group["checkpoint_records"] if r["mode"] == "pipeline"]
+            self.assertEqual([r["strict_pass"] for r in rows], [1, 0, 0])
+            self.assertEqual(rows[2]["execution_status"], "not_reached")
+            self.assertIsNone(rows[1]["groups"])
+            self.assertEqual(rows[1]["failure_group_totals"]["core"], 2)
+            self.assertAlmostEqual(group["primary"]["pipeline_cc"]["value"], 1 / 3)
+            self.assertEqual(group["primary"]["pipeline_fc"]["value"], 0)
+
 
 if __name__ == "__main__":
     unittest.main()
