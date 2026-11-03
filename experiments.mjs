@@ -1,4 +1,4 @@
-import {escapeHtml as esc, modelKey, compareModelSettings, resultKey, latestCells, selectCells, summarize, csv, hydrateCells, testCounts, checkpointRows, plannedTargets, finalResult, fraction, isDeliveryFailure} from './experiments-core.mjs?v=20261031-agent-failure';
+import {escapeHtml as esc, modelKey, compareModelSettings, resultKey, latestCells, selectCells, summarize, csv, hydrateCells, testCounts, checkpointRows, plannedTargets, finalResult, fraction, isDeliveryFailure} from './experiments-core.mjs?v=20261103-final-suite';
 import {renderPaperMetrics, selectPaperGroups, paperCsv} from './paper-metrics.mjs?v=20261031-retained-failure-times';
 let catalogPromise;
 let paperCatalogPromise;
@@ -86,6 +86,39 @@ export function renderPublicationNotes(publication) {
   const notes=Array.isArray(publication?.display_notes)?publication.display_notes.filter(note=>typeof note==='string'&&note.trim()):[];
   return notes.length?`<div class="matrix-publication-notes matrix-method">${notes.map(note=>`<p>${esc(note)}</p>`).join('')}</div>`:'';
 }
+export function renderFinalSuiteSummary(summary) {
+  if(!summary)return '';
+  const categories=[
+    ['build_error','Build error'],
+    ['missing_implementation','Missing implementation'],
+    ['interface_mismatch','Interface mismatch'],
+    ['implementation_error','Implementation error'],
+    ['agent_failure','Agent failure']
+  ];
+  const count=key=>Number(summary.category_counts?.[key]||0);
+  const nonpasses=summary.nonpass_units||[];
+  const categorized=categories.reduce((total,[key])=>total+count(key),0);
+  const expected=summary.totals?.nonpassed;
+  const totals=summary.totals||{};
+  const conserved=totals.passed+totals.nonpassed+totals.policy_stopped+totals.pending===totals.planned_units;
+  const uniqueSlots=new Set(nonpasses.map(row=>row.planned_unit_id)).size===nonpasses.length;
+  const retries=(summary.observed_nonpass_attempts||[]).filter(row=>!row.selected_for_scoring);
+  if(!summary.complete||!summary.uniform_suite_verified||!summary.suite_release_id||totals.pending!==0||!conserved||
+      !Number.isInteger(expected)||categorized!==expected||nonpasses.length!==expected||!uniqueSlots||
+      retries.length!==(summary.unselected_nonpass_attempt_count||0))
+    return '<p class="matrix-method" role="alert">Final-suite failure distribution failed its count check and is withheld.</p>';
+  const scale=Math.max(1,...categories.map(([key])=>count(key)));
+  const bars=categories.map(([key,label])=>`<div class="matrix-final-suite-row"><span>${label}</span><div class="matrix-final-suite-track" aria-hidden="true"><span class="failure-${key}" style="--bar-width:${(count(key)/scale)*100}%"></span></div><strong>${count(key)}</strong></div>`).join('');
+  const slots=nonpasses.map(row=>`<tr><td>${esc(row.model)} · ${esc(row.effort)}</td><td>${esc(row.problem)}</td><td>${esc(row.mode)} · ${esc(row.target_checkpoint)}</td><td><code title="${esc(row.planned_unit_id)}">${esc(row.planned_unit_id.slice(0,12))}</code></td><td>${esc(row.actual_category)} · ${esc(row.actual_subtype)}</td></tr>`).join('');
+  const retryRows=retries.map(row=>`<tr><td><code>${esc(row.planned_unit_id.slice(0,12))}</code></td><td>${esc(row.state)}</td><td>${esc(row.phase)}</td><td><code>${esc(row.attempt_id.slice(0,12))}</code></td></tr>`).join('');
+  return `<section class="matrix-final-suite" aria-labelledby="final-suite-title">
+    <div class="matrix-section-title"><div><p class="eyebrow">FROZEN FINAL SUITE</p><h2 id="final-suite-title">Selected nonpass distribution</h2></div><span>${expected} nonpass slots · ${esc(summary.suite_release_id.slice(0,12))}</span></div>
+    <div class="matrix-final-suite-chart" role="img" aria-label="All ${expected} selected nonpass slots, counted once across five categories">${bars}</div>
+    <p class="matrix-method">${summary.totals.passed} passed · ${expected} nonpass · ${summary.totals.policy_stopped} stopped by policy · ${summary.totals.pending} pending · ${summary.totals.planned_units} planned slots. The category bars count each selected slot once; ${retries.length} nonselected retry failures are listed separately.</p>
+    <details class="matrix-final-suite-details"><summary>All ${expected} nonpass slots</summary><div class="matrix-scroll"><table class="matrix-checkpoints"><thead><tr><th>Model · effort</th><th>Problem</th><th>Result slot</th><th>Slot ID</th><th>Category · subtype</th></tr></thead><tbody>${slots}</tbody></table></div></details>
+    ${retries.length?`<details class="matrix-final-suite-details"><summary>${retries.length} nonselected retry failures · excluded from the slot denominator</summary><div class="matrix-scroll"><table class="matrix-checkpoints"><thead><tr><th>Slot ID</th><th>Attempt result</th><th>Phase</th><th>Attempt ID</th></tr></thead><tbody>${retryRows}</tbody></table></div></details>`:''}
+  </section>`;
+}
 export async function renderExperiments() {
   const route=location.hash;
   if(!route.startsWith('#experiments'))return;
@@ -147,7 +180,8 @@ export async function renderExperiments() {
         <label>Scope<select name="scope"><option value="formal" ${filters.scope==='formal'?'selected':''}>Formal</option><option value="diagnostic" ${filters.scope==='diagnostic'?'selected':''}>Historical / diagnostic</option></select></label>
         ${problem?'':`<label class="matrix-search">Find problem<input name="q" value="${esc(filters.q)}" placeholder="Search by name" /></label>`}<button type="submit">Apply</button>
       </form>
-      ${problem?'':paperReport?renderPaperMetrics(paperReport,filters,params,paperRecords):'<p class="matrix-method">Paper metrics have not been built for this analysis. Existing test results remain available below.</p>'}
+      ${problem?'':renderFinalSuiteSummary(release.final_suite)}
+      ${problem?'':paperReport?renderPaperMetrics(paperReport,filters,params,paperRecords):release.final_suite?'':'<p class="matrix-method">Paper metrics have not been built for this analysis. Existing test results remain available below.</p>'}
       <details class="paper-legacy-matrix" ${problem?'open':''}><summary>${problem?'Checkpoint evidence matrix':'Detailed problem and checkpoint evidence'}</summary>
       <div class="matrix-kpis"><div><span>${problem?'Recorded trials':'Pipeline trials'}</span><strong>${total.planned}</strong>${problem?'':`<small>${new Set(cells.map(c=>c.problem)).size} problems · ${filtered.length} total trials</small>`}</div><div><span>Comparable trials</span><strong>${total.valid}<small> / ${total.planned}</small></strong></div><div><span>Known checkpoint outcomes</span><strong>${cells.reduce((s,c)=>s+c.checkpoints.filter(cp=>['passed','failed'].includes(cp.state)).length,0)}</strong></div><div><span>SR trials</span><strong>${(problem?cells:filtered).filter(c=>c.mode==='sr').length}</strong><small>Independent checkpoint runs</small></div></div>
       ${problem?problemMatrix(cells,problem,params):mainMatrix(filtered,hydrated,params)}
