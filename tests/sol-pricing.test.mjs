@@ -5,7 +5,8 @@ import {renderPaperMetrics} from '../paper-metrics.mjs';
 
 const load=async path=>JSON.parse(await readFile(new URL(`../data/paper/${path}`,import.meta.url),'utf8'));
 const catalog=await load('catalog.json');
-const report=await load(catalog.reports.find(r=>r.analysis_id===catalog.default_analysis).path);
+const experimentManifest=JSON.parse(await readFile(new URL('../data/experiments/TERRA-HIGH89-20261103.json',import.meta.url),'utf8'));
+const report=await load(catalog.reports.find(r=>r.analysis_id===experimentManifest.combined_analysis).path);
 
 test('published Sol prices distinguish entire-request context tiers',()=>{
   const rates=report.price_metadata.rates.filter(r=>r.model==='gpt-6.1-sol');

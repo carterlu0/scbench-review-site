@@ -18,15 +18,20 @@ const publication=()=>publicationPromise||=(async()=>{
     assert.equal(createHash('sha256').update(text).digest('hex'),entry.files[entry.path]);
     return {entry,value:JSON.parse(text)};
   };
-  const [terra,combined,previous]=await Promise.all([manifest.terra_analysis,manifest.combined_analysis,manifest.previous_analysis].map(analysis));
+  const [terra,combined,previous,defaultRelease]=await Promise.all([
+    manifest.terra_analysis,manifest.combined_analysis,manifest.previous_analysis,
+    catalog.default_analysis,
+  ].map(analysis));
   const paths=Object.values(terra.value.detail_paths||{});
   const details=paths.length?(await Promise.all(paths.map(path=>load(`experiments/${path}`)))).flatMap(detail=>detail.cells):terra.value.cells;
-  return {manifest,catalog,terra,combined,previous,details};
+  return {manifest,catalog,terra,combined,previous,defaultRelease,details};
 })();
 
 test('Terra publication contains all 89 completed trials and 148 planned checkpoints',async()=>{
-  const {catalog,terra,combined}=await publication();
-  assert.equal(catalog.default_analysis,combined.entry.id);
+  const {terra,defaultRelease}=await publication();
+  assert.equal(defaultRelease.entry.id,defaultRelease.value.id);
+  assert.equal(defaultRelease.value.final_suite.complete,true);
+  assert.equal(defaultRelease.value.final_suite.uniform_suite_verified,true);
   assert.equal(terra.value.schema_version,4);
   assert.equal(terra.value.cells.length,89);
   assert.equal(new Set(terra.value.cells.map(cell=>cell.id)).size,89);
@@ -46,7 +51,7 @@ test('Terra publication contains all 89 completed trials and 148 planned checkpo
   assert.equal(checkpoints.filter(checkpoint=>checkpoint.state==='stopped_by_policy').length,10);
 });
 
-test('new default adds Terra while retaining every previous 445 trial unchanged',async()=>{
+test('archived combined release retains Terra and every previous 445 trial unchanged',async()=>{
   const {terra,combined,previous}=await publication();
   assert.equal(previous.value.cells.length,445);
   assert.equal(combined.value.cells.length,534);
@@ -93,7 +98,7 @@ test('WB SR4 retains its 42 of 43 test failure and pipeline retains all four pas
   assert.ok(pipeline.checkpoints.every(checkpoint=>checkpoint.state==='passed'));
 });
 
-test('default paper report contains six settings including complete Terra metrics with unknown cost',async()=>{
+test('archived Terra paper report contains six settings and complete metrics with unknown cost',async()=>{
   const {manifest}=await publication();
   const report=await load(`paper/reports/${manifest.combined_analysis}.json`);
   assert.equal(report.groups.length,6);

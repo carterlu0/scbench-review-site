@@ -100,10 +100,12 @@ export function renderFinalSuiteSummary(summary) {
   const categorized=categories.reduce((total,[key])=>total+count(key),0);
   const expected=summary.totals?.nonpassed;
   const totals=summary.totals||{};
+  const complete=summary.complete===true;
   const conserved=totals.passed+totals.nonpassed+totals.policy_stopped+totals.pending===totals.planned_units;
   const uniqueSlots=new Set(nonpasses.map(row=>row.planned_unit_id)).size===nonpasses.length;
   const retries=(summary.observed_nonpass_attempts||[]).filter(row=>!row.selected_for_scoring);
-  if(!summary.complete||!summary.uniform_suite_verified||!summary.suite_release_id||totals.pending!==0||!conserved||
+  if(!summary.uniform_suite_verified||!summary.suite_release_id||!conserved||
+      (complete?totals.pending!==0:totals.pending<1)||
       !Number.isInteger(expected)||categorized!==expected||nonpasses.length!==expected||!uniqueSlots||
       retries.length!==(summary.unselected_nonpass_attempt_count||0))
     return '<p class="matrix-method" role="alert">Final-suite failure distribution failed its count check and is withheld.</p>';
@@ -111,10 +113,15 @@ export function renderFinalSuiteSummary(summary) {
   const bars=categories.map(([key,label])=>`<div class="matrix-final-suite-row"><span>${label}</span><div class="matrix-final-suite-track" aria-hidden="true"><span class="failure-${key}" style="--bar-width:${(count(key)/scale)*100}%"></span></div><strong>${count(key)}</strong></div>`).join('');
   const slots=nonpasses.map(row=>`<tr><td>${esc(row.model)} · ${esc(row.effort)}</td><td>${esc(row.problem)}</td><td>${esc(row.mode)} · ${esc(row.target_checkpoint)}</td><td><code title="${esc(row.planned_unit_id)}">${esc(row.planned_unit_id.slice(0,12))}</code></td><td>${esc(row.actual_category)} · ${esc(row.actual_subtype)}</td></tr>`).join('');
   const retryRows=retries.map(row=>`<tr><td><code>${esc(row.planned_unit_id.slice(0,12))}</code></td><td>${esc(row.state)}</td><td>${esc(row.phase)}</td><td><code>${esc(row.attempt_id.slice(0,12))}</code></td></tr>`).join('');
+  const status=complete?'Complete':`Provisional · ${totals.pending} pending`;
+  const chartScope=complete?'All selected nonpass slots':'All observed terminal nonpass slots';
+  const detail=complete
+    ? `The category bars count each selected slot once; ${retries.length} nonselected retry failures are listed separately.`
+    : `The category bars include every terminal selected nonpass once; pending slots are excluded from the nonpass denominator. ${retries.length} nonselected retry failures are listed separately.`;
   return `<section class="matrix-final-suite" aria-labelledby="final-suite-title">
-    <div class="matrix-section-title"><div><p class="eyebrow">FROZEN FINAL SUITE</p><h2 id="final-suite-title">Selected nonpass distribution</h2></div><span>${expected} nonpass slots · ${esc(summary.suite_release_id.slice(0,12))}</span></div>
-    <div class="matrix-final-suite-chart" role="img" aria-label="All ${expected} selected nonpass slots, counted once across five categories">${bars}</div>
-    <p class="matrix-method">${summary.totals.passed} passed · ${expected} nonpass · ${summary.totals.policy_stopped} stopped by policy · ${summary.totals.pending} pending · ${summary.totals.planned_units} planned slots. The category bars count each selected slot once; ${retries.length} nonselected retry failures are listed separately.</p>
+    <div class="matrix-section-title"><div><p class="eyebrow">FROZEN FINAL SUITE · ${status}</p><h2 id="final-suite-title">Selected nonpass distribution</h2></div><span>${expected} nonpass slots · ${esc(summary.suite_release_id.slice(0,12))}</span></div>
+    <div class="matrix-final-suite-chart" role="img" aria-label="${chartScope}: ${expected} outcomes counted once across five categories">${bars}</div>
+    <p class="matrix-method">${summary.totals.passed} passed · ${expected} nonpass · ${summary.totals.policy_stopped} stopped by policy · ${summary.totals.pending} pending · ${summary.totals.planned_units} planned slots. ${detail}</p>
     <details class="matrix-final-suite-details"><summary>All ${expected} nonpass slots</summary><div class="matrix-scroll"><table class="matrix-checkpoints"><thead><tr><th>Model · effort</th><th>Problem</th><th>Result slot</th><th>Slot ID</th><th>Category · subtype</th></tr></thead><tbody>${slots}</tbody></table></div></details>
     ${retries.length?`<details class="matrix-final-suite-details"><summary>${retries.length} nonselected retry failures · excluded from the slot denominator</summary><div class="matrix-scroll"><table class="matrix-checkpoints"><thead><tr><th>Slot ID</th><th>Attempt result</th><th>Phase</th><th>Attempt ID</th></tr></thead><tbody>${retryRows}</tbody></table></div></details>`:''}
   </section>`;
@@ -164,7 +171,7 @@ export async function renderExperiments() {
     const total=summarize(cells);
     params.set('analysis',entry.id);
     const name=problem||'Experiment matrix';
-    const subtitle=problem?'Pipeline and SR · checkpoint test results':`${esc(release.name)} · FDR / CC / FC / CPR`;
+    const subtitle=problem?'Pipeline and SR · checkpoint test results':`${esc(release.name)} · ${release.final_suite?'Checkpoint results and nonpass distribution':'FDR / CC / FC / CPR'}`;
     if(location.hash!==route)return;
     app.innerHTML=`<section class="experiment-page">
       ${problem?`<a class="matrix-back" href="${hash(params,{problem:null,trial:null,checkpoint:null})}">← All experiment results</a>`:''}

@@ -83,6 +83,12 @@ def build(site: Path):
             return json.loads(payload)
 
         analysis = verified(entry["path"])
+        if entry.get("paper_metrics_status") == "not_recomputed":
+            if not analysis.get("final_suite"):
+                raise ValueError("Only a frozen-suite analysis can defer paper metrics")
+            # The current checkpoint results must never inherit a paper report
+            # computed from different candidates or evaluator generations.
+            continue
         source_analysis_sha256 = identity(analysis)
         if analysis.get("detail_paths"):
             by_id = {c["id"]: c for path in analysis["detail_paths"].values() for c in verified(path)["cells"]}
