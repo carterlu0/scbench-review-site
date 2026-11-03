@@ -13,11 +13,12 @@ test('provisional Agent failure counts zero while retaining raw test verdicts',(
  assert.equal(cp.state,'inference_error');
 });
 
-test('default release includes all 89 Sol trials and retains the 356 Luna trials',async()=>{
+test('historical Sol release includes all 89 Sol trials and retains the 356 Luna trials',async()=>{
  const {readFile}=await import('node:fs/promises');
  const load=async path=>JSON.parse(await readFile(new URL(`../data/${path}`,import.meta.url),'utf8'));
- const catalog=await load('experiments/catalog.json');
- const release=await load(`experiments/analyses/${catalog.default_analysis}.json`);
+ // Keep this numerical regression pinned when another model advances the default.
+ const baseline='54ed6c0ecbf87b7652747bc6066d75d1d54c30fc4c8bc81c1c55f7d088bdf4ca';
+ const release=await load(`experiments/analyses/${baseline}.json`);
  const old=await load(`experiments/analyses/${release.publication.previous_analysis}.json`);
  assert.equal(release.cells.length,445);
  assert.deepEqual(release.cells.slice(0,356),old.cells);
@@ -31,7 +32,7 @@ test('default release includes all 89 Sol trials and retains the 356 Luna trials
  for(const c of failures){assert.equal(c.score,0);assert.equal(c.score_override.provisional,true);assert.equal(c.problem,'taxi_axi_t3');}
  const pipeline=failures.find(c=>c.mode==='pipeline');
  assert.equal(fraction(finalResult(pipeline)),'0/37');
- const report=await load(`paper/reports/${catalog.default_analysis}.json`);
+ const report=await load(`paper/reports/${baseline}.json`);
  assert.equal(report.groups.length,5);
  for(const g of report.groups){assert.deepEqual(g.issues,[]);assert.equal(g.coverage.num_chains,15);assert.equal(g.coverage.num_checkpoints,74);for(const metric of Object.values(g.primary))assert.notEqual(metric.value,null);}
  const solGroup=report.groups.find(g=>g.config.model==='gpt-6.1-sol');

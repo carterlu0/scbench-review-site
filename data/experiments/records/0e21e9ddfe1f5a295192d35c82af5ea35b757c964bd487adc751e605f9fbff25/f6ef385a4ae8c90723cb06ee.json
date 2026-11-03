@@ -1,0 +1,1472 @@
+{
+  "schema_version": 4,
+  "analysis": "0e21e9ddfe1f5a295192d35c82af5ea35b757c964bd487adc751e605f9fbff25",
+  "problem": "verilog_ethernet_t2",
+  "cells": [
+    {
+      "id": "3de8c7beb1f841e939c61c2007ffd4f2391b306d4f3561a2c20fb643acb02de4",
+      "problem": "verilog_ethernet_t2",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "gpt-6.1-terra",
+      "agent": "codex",
+      "agent_version": "0.141.0",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "b543d4dec14aa17e6aaaa5d2c21863f3f05e02cca272b0f1c461aae2e63cb165",
+      "generation": "f94dec8b912adc50568d3a0564f0351b93958ae05f574c04d173d40af72282da",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "bd679801e99dd3c926e7821ae5f4b4a29ffd99dc3bf39937b088047985dd33e0",
+          "evidence": [
+            "sha256:7886e803446b13e11ca222b1665bb766988c6fb7aa69e66bd0adae4ffb62eab8"
+          ],
+          "event_id": "6b43a72eab5427fb49e6c13e93c8a4341da084e0653328458262e160f5e26ed7",
+          "assessment": "039754d2849fe5e7da4c70262cf7ebcc843af09264c971a945c4b90cf8d8e2a5",
+          "attempt": "a28954a63bbd48e5b721743f841b20ce"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "bd679801e99dd3c926e7821ae5f4b4a29ffd99dc3bf39937b088047985dd33e0",
+          "evidence": [
+            "sha256:7886e803446b13e11ca222b1665bb766988c6fb7aa69e66bd0adae4ffb62eab8"
+          ],
+          "event_id": "a1626eb5ec2bdaf94a19c8025e2a94c67445008155acc4e7f3a5c0cd38362cda",
+          "assessment": "039754d2849fe5e7da4c70262cf7ebcc843af09264c971a945c4b90cf8d8e2a5",
+          "attempt": "a28954a63bbd48e5b721743f841b20ce"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_1"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.0,
+      "selected_attempt": "a28954a63bbd48e5b721743f841b20ce",
+      "selected_evaluation": null,
+      "evaluation_generation": "f94dec8b912adc50568d3a0564f0351b93958ae05f574c04d173d40af72282da",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_1",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "bd679801e99dd3c926e7821ae5f4b4a29ffd99dc3bf39937b088047985dd33e0",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "c6b128cdb4e695ee53b370e7e6ae74eb721ea6ad161656400df9a8b8e3c1e20e",
+          "evaluation_sha256": "7886e803446b13e11ca222b1665bb766988c6fb7aa69e66bd0adae4ffb62eab8",
+          "started_at": "2026-11-02T10:13:28.333201Z",
+          "completed_at": "2026-11-02T10:25:58.997711Z",
+          "inference_seconds": 750.66451,
+          "evaluation_seconds": 1206.3987166881561,
+          "native_steps": 57,
+          "tokens": {
+            "cache_read": 1387264,
+            "cache_write": 0,
+            "input": 1484802,
+            "output": 8160,
+            "reasoning": 985
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "gpt61-terra-official-price-pending-20261031",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_candidate_runner_executes_all_focused_components",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_pause_control_frame_mutation_is_killed",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_payload_fcs_oracle_directed",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_ptp_association_oracle_directed",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_ptp_timestamp_mutation_is_killed",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_reset_and_final_drain_oracles_are_directed",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_lfc_count_oracle_directed",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_pfc_range_oracle_directed",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_candidate_surface_is_tb_only",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_entrypoint_accepts_checkpoint_name",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_entrypoint_does_not_vendor_dependencies",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_has_no_generated_artifacts",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_candidate_tb_passes_trusted_target",
+              "group": "Functionality",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 4,
+              "total": 4
+            },
+            "core": {
+              "passed": 6,
+              "total": 8
+            },
+            "functionality": {
+              "passed": 1,
+              "total": 1
+            },
+            "regression": {
+              "passed": 0,
+              "total": 0
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 11,
+              "total": 13
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": 22,
+            "native_events": 91,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "candidate_artifact": {
+            "path": "experiments/artifacts/980626348405a620c0082b376b2e5a856cbabb60af8d6a0cbf45d0c7e4ce3761.tar.gz",
+            "sha256": "980626348405a620c0082b376b2e5a856cbabb60af8d6a0cbf45d0c7e4ce3761",
+            "file_count": 105,
+            "size_bytes": 118223,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-02T10:13:25.536615+00:00",
+      "completed_at": "2026-11-02T10:46:17.361774+00:00",
+      "wall_seconds_all_attempts": 1971.8183433432132,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_1": {
+          "total": 13,
+          "groups": {
+            "core": 8,
+            "error": 0,
+            "functionality": 1,
+            "regression": 0,
+            "structure": 4
+          },
+          "inventory": "2d4d46077533c110be3374fff084f197a13ea96cb83f8591a5c0517d755e3c69"
+        }
+      }
+    },
+    {
+      "id": "5b31a9cf7dd35d80dcca58baa25b7929d4e12a21a9abb5104390a18ceca40bfe",
+      "problem": "verilog_ethernet_t2",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "gpt-6.1-terra",
+      "agent": "codex",
+      "agent_version": "0.141.0",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "b543d4dec14aa17e6aaaa5d2c21863f3f05e02cca272b0f1c461aae2e63cb165",
+      "generation": "34192611af174ded63d360a11cb424a8a9be5d45364b9df883bb648c567e27ed",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_2"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "b17e5dde32da4c8c99787340b6226783",
+      "selected_evaluation": null,
+      "evaluation_generation": "34192611af174ded63d360a11cb424a8a9be5d45364b9df883bb648c567e27ed",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_2",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "9d1a76effe91f82ee0a949a355d4f3ddf9e2e1da398bdebf4042fe72baa5cdd3",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "d2ad0f3ddad16cfa9d80a41c823896a8a15c555816b10d1626814163566fa5b9",
+          "evaluation_sha256": "2556d525da11665b5dd7bf04e154650d5383484e6f9dc6d83e88d410b01eba26",
+          "started_at": "2026-11-02T10:50:20.474009Z",
+          "completed_at": "2026-11-02T11:05:45.392729Z",
+          "inference_seconds": 924.91872,
+          "evaluation_seconds": 3041.7189042568207,
+          "native_steps": 61,
+          "tokens": {
+            "cache_read": 1456384,
+            "cache_write": 0,
+            "input": 1656843,
+            "output": 7044,
+            "reasoning": 1062
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "gpt61-terra-official-price-pending-20261031",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_candidate_runner_executes_all_focused_components_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_lfc_count_oracle_directed_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_pause_control_frame_mutation_is_killed_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_payload_fcs_oracle_directed_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_pfc_range_oracle_directed_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_ptp_association_oracle_directed_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_ptp_timestamp_mutation_is_killed_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_reset_and_final_drain_oracles_are_directed_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_preserves_ptp_mutation_detection",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_candidate_surface_is_tb_only",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_single_round_entrypoint_accepts_checkpoint_name",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_single_round_entrypoint_does_not_vendor_dependencies",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_single_round_has_no_generated_artifacts",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_candidate_tb_passes_trusted_target",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_drives_endpoint_configuration_signals",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_preserves_directed_pause_count_oracles",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_rejects_legacy_ptp_clock_keyword",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_rejects_weakened_pause_count_assertion",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_targets_cocotbext_eth_0_1_22",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_uses_new_ptp_clock_api",
+              "group": "Core",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 4,
+              "total": 4
+            },
+            "core": {
+              "passed": 6,
+              "total": 6
+            },
+            "functionality": {
+              "passed": 1,
+              "total": 1
+            },
+            "regression": {
+              "passed": 9,
+              "total": 9
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 20,
+              "total": 20
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": 19,
+            "native_events": 90,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "candidate_artifact": {
+            "path": "experiments/artifacts/523b8b355babe58021161915b7a2831f019c5c23fc310924e067ec2b0c50a2b1.tar.gz",
+            "sha256": "523b8b355babe58021161915b7a2831f019c5c23fc310924e067ec2b0c50a2b1",
+            "file_count": 109,
+            "size_bytes": 130024,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-02T10:50:17.877764+00:00",
+      "completed_at": "2026-11-02T11:56:40.103326+00:00",
+      "wall_seconds_all_attempts": 3982.2214970439672,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_2": {
+          "total": 20,
+          "groups": {
+            "core": 6,
+            "error": 0,
+            "functionality": 1,
+            "regression": 9,
+            "structure": 4
+          },
+          "inventory": "191541dcc38bc383a1dcb544728eef7a3b4af648121b3aefc6635051e33ada25"
+        }
+      }
+    },
+    {
+      "id": "ad112912c23aef4e454f8c21a8fb84cc47457ec93e4a1a2e29315eede954b131",
+      "problem": "verilog_ethernet_t2",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "gpt-6.1-terra",
+      "agent": "codex",
+      "agent_version": "0.141.0",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "b543d4dec14aa17e6aaaa5d2c21863f3f05e02cca272b0f1c461aae2e63cb165",
+      "generation": "e49e952ea02a0bced236c1555425de4c08b814f3ed8ffb31dfcabe096738e4bd",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_3"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "3773a8eced36435eb2564b31a20b8134",
+      "selected_evaluation": null,
+      "evaluation_generation": "e49e952ea02a0bced236c1555425de4c08b814f3ed8ffb31dfcabe096738e4bd",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_3",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "52a6ea3b58b14d091fd0d1fa4fea877865a32ab1406c48b1836bede8c1a0e9a7",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "ee72ef352117493c05c6915342dc84f499f67906e0a0464f8e945996bad88811",
+          "evaluation_sha256": "068c8eb804ee6acc47049765c3415506cf801910d13d6b565b5bb068819d7cd0",
+          "started_at": "2026-11-02T13:01:14.759427Z",
+          "completed_at": "2026-11-02T13:18:58.735577Z",
+          "inference_seconds": 1063.97615,
+          "evaluation_seconds": 4466.222757101059,
+          "native_steps": 91,
+          "tokens": {
+            "cache_read": 3634944,
+            "cache_write": 0,
+            "input": 3761704,
+            "output": 10680,
+            "reasoning": 1695
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "gpt61-terra-official-price-pending-20261031",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_candidate_runner_executes_all_focused_components_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_lfc_count_oracle_directed_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_payload_fcs_oracle_directed_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_pfc_range_oracle_directed_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_ptp_association_oracle_directed_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_ptp_timestamp_mutation_is_killed_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_reset_and_final_drain_oracles_are_directed_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_drives_endpoint_configuration_signals_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_preserves_directed_pause_count_oracles_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_rejects_weakened_pause_count_assertion_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_targets_cocotbext_eth_0_1_22_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_uses_new_ptp_clock_api_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_preserves_ptp_mutation_detection",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_rejects_weakened_pause_count_assertion",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_detects_eth_mac_error_indication_fault",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_detects_post_error_recovery_fault",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_detects_tx_error_indication_fault",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_detects_tx_underrun_indication_fault",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_focused_scenario_matrix_is_preserved",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_mac_underrun_and_error_oracles_directed",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_tx_underrun_and_error_oracles_directed",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_candidate_surface_is_tb_only",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_single_round_entrypoint_accepts_checkpoint_name",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_single_round_entrypoint_does_not_vendor_dependencies",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_single_round_has_no_generated_artifacts",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_candidate_tb_passes_trusted_target",
+              "group": "Functionality",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 4,
+              "total": 4
+            },
+            "core": {
+              "passed": 8,
+              "total": 8
+            },
+            "functionality": {
+              "passed": 1,
+              "total": 1
+            },
+            "regression": {
+              "passed": 13,
+              "total": 13
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 26,
+              "total": 26
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": 37,
+            "native_events": 137,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "candidate_artifact": {
+            "path": "experiments/artifacts/3894d9bfe08aae68fbbd7b932daf1c391e524db6b9e8ea9dbf8258f6d05c8264.tar.gz",
+            "sha256": "3894d9bfe08aae68fbbd7b932daf1c391e524db6b9e8ea9dbf8258f6d05c8264",
+            "file_count": 109,
+            "size_bytes": 130557,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-02T13:01:12.113364+00:00",
+      "completed_at": "2026-11-02T14:33:37.324713+00:00",
+      "wall_seconds_all_attempts": 5545.182167973369,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_3": {
+          "total": 26,
+          "groups": {
+            "core": 8,
+            "error": 0,
+            "functionality": 1,
+            "regression": 13,
+            "structure": 4
+          },
+          "inventory": "6db22a91e9ee7df08efd84a2fa73bd36a8343ec10594f05fc2c4e382d5ec268e"
+        }
+      }
+    },
+    {
+      "id": "e9ec1b08029c5728fe698d3d3953f9ba3abcb795f922bf1e62b09b8f57abf607",
+      "problem": "verilog_ethernet_t2",
+      "mode": "pipeline",
+      "prompt_arm": "original",
+      "model": "gpt-6.1-terra",
+      "agent": "codex",
+      "agent_version": "0.141.0",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "b543d4dec14aa17e6aaaa5d2c21863f3f05e02cca272b0f1c461aae2e63cb165",
+      "generation": "b4d3863827c791e00dcbe25fcfa5f0717085f8fc40de4ff280d64dc762000313",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_2",
+          "candidate": "125f1755446fc170f5a09f88c2343950b4e490475081613318d85e3c24ae6fc0",
+          "evidence": [
+            "sha256:af5a543f0864e974826dd273cd477330d5366dcab1d33084326e82e162a7c727"
+          ],
+          "event_id": "7a1e55e839ffaf41186447976839f75a1b33ad827cadcc3b9cc1dd1e4e9edd75",
+          "assessment": "71ebc0b510e408297a2d067151b19c41bafc1c87606204ab82f2a8cfdebad596",
+          "attempt": "210ae29cb5c947c99cff38615892fb84"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_2",
+          "candidate": "125f1755446fc170f5a09f88c2343950b4e490475081613318d85e3c24ae6fc0",
+          "evidence": [
+            "sha256:af5a543f0864e974826dd273cd477330d5366dcab1d33084326e82e162a7c727"
+          ],
+          "event_id": "e6c61b3fe592500664470abd97b5dbc7738ed8c9c384d02c0c970d9b1d43a16b",
+          "assessment": "71ebc0b510e408297a2d067151b19c41bafc1c87606204ab82f2a8cfdebad596",
+          "attempt": "210ae29cb5c947c99cff38615892fb84"
+        },
+        {
+          "namespace": "implementation",
+          "label": "functionality_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_2",
+          "candidate": "125f1755446fc170f5a09f88c2343950b4e490475081613318d85e3c24ae6fc0",
+          "evidence": [
+            "sha256:af5a543f0864e974826dd273cd477330d5366dcab1d33084326e82e162a7c727"
+          ],
+          "event_id": "4ced018c9655f0978de10903e4a925ae3c07285eb34601243ebc4ecba9df7d94",
+          "assessment": "71ebc0b510e408297a2d067151b19c41bafc1c87606204ab82f2a8cfdebad596",
+          "attempt": "210ae29cb5c947c99cff38615892fb84"
+        },
+        {
+          "namespace": "implementation",
+          "label": "regression_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_2",
+          "candidate": "125f1755446fc170f5a09f88c2343950b4e490475081613318d85e3c24ae6fc0",
+          "evidence": [
+            "sha256:af5a543f0864e974826dd273cd477330d5366dcab1d33084326e82e162a7c727"
+          ],
+          "event_id": "72d797da2695360953521fabaa1068661d85c81e3cfefb9c1eac20916c658e86",
+          "assessment": "71ebc0b510e408297a2d067151b19c41bafc1c87606204ab82f2a8cfdebad596",
+          "attempt": "210ae29cb5c947c99cff38615892fb84"
+        },
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "d71e14b9073db34c120e672dea5c67a12ad3afc1b017664aaf3b7aae0dc2e8da",
+          "evidence": [
+            "sha256:8514a56bad713ccd5d883a8b7780cb16f8806d763c3923dcbf5f50780229aa01"
+          ],
+          "event_id": "f9eeb4840ad9a7eae0528a93d047d410f7c5c9d3ea5da6ef19c0fdb60fcc803f",
+          "assessment": "71ebc0b510e408297a2d067151b19c41bafc1c87606204ab82f2a8cfdebad596",
+          "attempt": "210ae29cb5c947c99cff38615892fb84"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "d71e14b9073db34c120e672dea5c67a12ad3afc1b017664aaf3b7aae0dc2e8da",
+          "evidence": [
+            "sha256:8514a56bad713ccd5d883a8b7780cb16f8806d763c3923dcbf5f50780229aa01"
+          ],
+          "event_id": "94b6058cf85709f388dc229e90a9954610d40b1ea2fdb647be744ca5b716114b",
+          "assessment": "71ebc0b510e408297a2d067151b19c41bafc1c87606204ab82f2a8cfdebad596",
+          "attempt": "210ae29cb5c947c99cff38615892fb84"
+        },
+        {
+          "namespace": "implementation",
+          "label": "functionality_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "d71e14b9073db34c120e672dea5c67a12ad3afc1b017664aaf3b7aae0dc2e8da",
+          "evidence": [
+            "sha256:8514a56bad713ccd5d883a8b7780cb16f8806d763c3923dcbf5f50780229aa01"
+          ],
+          "event_id": "cd1ed13d7ddec47abff86413907b47aed1899d0bda5bfd0120dd914059980ac1",
+          "assessment": "71ebc0b510e408297a2d067151b19c41bafc1c87606204ab82f2a8cfdebad596",
+          "attempt": "210ae29cb5c947c99cff38615892fb84"
+        },
+        {
+          "namespace": "implementation",
+          "label": "regression_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "d71e14b9073db34c120e672dea5c67a12ad3afc1b017664aaf3b7aae0dc2e8da",
+          "evidence": [
+            "sha256:8514a56bad713ccd5d883a8b7780cb16f8806d763c3923dcbf5f50780229aa01"
+          ],
+          "event_id": "c326062394d6072b969cd1391b1ca09cd6aa7b2d980dbffc428a340ea2359697",
+          "assessment": "71ebc0b510e408297a2d067151b19c41bafc1c87606204ab82f2a8cfdebad596",
+          "attempt": "210ae29cb5c947c99cff38615892fb84"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 3,
+      "planned_targets": [
+        "checkpoint_1",
+        "checkpoint_2",
+        "checkpoint_3"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.3333333333333333,
+      "selected_attempt": "210ae29cb5c947c99cff38615892fb84",
+      "selected_evaluation": null,
+      "evaluation_generation": "b4d3863827c791e00dcbe25fcfa5f0717085f8fc40de4ff280d64dc762000313",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_1",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "b08d03cdb95117080a79d25603eb56af6d4dd6a77b344705efa457d503e007f1",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "1ae2eb40d037e0bd015c5e2865a92707e511665b8c4d0e7763ee617330a46f9a",
+          "evaluation_sha256": "88f28646308a0229f1af1b7fdc98d5e4c49c29cc442e17cdd5c174306552d6f5",
+          "started_at": "2026-11-02T14:45:16.374138Z",
+          "completed_at": "2026-11-02T14:59:07.706811Z",
+          "inference_seconds": 831.332673,
+          "evaluation_seconds": 1191.043823003769,
+          "native_steps": 110,
+          "tokens": {
+            "cache_read": 3644032,
+            "cache_write": 0,
+            "input": 3739550,
+            "output": 15027,
+            "reasoning": 2948
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "gpt61-terra-official-price-pending-20261031",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_candidate_runner_executes_all_focused_components",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_lfc_count_oracle_directed",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_pause_control_frame_mutation_is_killed",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_payload_fcs_oracle_directed",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_pfc_range_oracle_directed",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_ptp_association_oracle_directed",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_ptp_timestamp_mutation_is_killed",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_reset_and_final_drain_oracles_are_directed",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_candidate_surface_is_tb_only",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_entrypoint_accepts_checkpoint_name",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_entrypoint_does_not_vendor_dependencies",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_has_no_generated_artifacts",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_candidate_tb_passes_trusted_target",
+              "group": "Functionality",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 4,
+              "total": 4
+            },
+            "core": {
+              "passed": 8,
+              "total": 8
+            },
+            "functionality": {
+              "passed": 1,
+              "total": 1
+            },
+            "regression": {
+              "passed": 0,
+              "total": 0
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 13,
+              "total": 13
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": 40,
+            "native_events": 160,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "candidate_artifact": {
+            "path": "experiments/artifacts/f6056be1887af1e7c506cb9b0df03f248abc4ebfc7828c63b09b9275fd071285.tar.gz",
+            "sha256": "f6056be1887af1e7c506cb9b0df03f248abc4ebfc7828c63b09b9275fd071285",
+            "file_count": 105,
+            "size_bytes": 118497,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_2",
+          "target_checkpoint": "checkpoint_2",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "125f1755446fc170f5a09f88c2343950b4e490475081613318d85e3c24ae6fc0",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "7120b2d6fc603549a6959ead7ff1cb94d270510b03b4358e965fae618c581635",
+          "evaluation_sha256": "af5a543f0864e974826dd273cd477330d5366dcab1d33084326e82e162a7c727",
+          "started_at": "2026-11-02T15:19:06.169791Z",
+          "completed_at": "2026-11-02T15:20:49.801467Z",
+          "inference_seconds": 103.631676,
+          "evaluation_seconds": 47.07293128967285,
+          "native_steps": 25,
+          "tokens": {
+            "cache_read": 328192,
+            "cache_write": 0,
+            "input": 359517,
+            "output": 2349,
+            "reasoning": 174
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "gpt61-terra-official-price-pending-20261031",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_lfc_count_oracle_directed",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_payload_fcs_oracle_directed",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_pfc_range_oracle_directed",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_ptp_association_oracle_directed",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_reset_and_final_drain_oracles_are_directed",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_candidate_runner_executes_all_focused_components",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_pause_control_frame_mutation_is_killed",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_ptp_timestamp_mutation_is_killed",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_candidate_surface_is_tb_only",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_entrypoint_accepts_checkpoint_name",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_entrypoint_does_not_vendor_dependencies",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_has_no_generated_artifacts",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_candidate_surface_is_tb_only",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_entrypoint_accepts_prior_checkpoint_name",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_candidate_tb_passes_trusted_target",
+              "group": "Functionality",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_drives_endpoint_configuration_signals",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_preserves_directed_pause_count_oracles",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_rejects_weakened_pause_count_assertion",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_targets_cocotbext_eth_0_1_22",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_uses_new_ptp_clock_api",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_rejects_legacy_ptp_clock_keyword",
+              "group": "Core",
+              "status": "failed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 6,
+              "total": 6
+            },
+            "core": {
+              "passed": 5,
+              "total": 6
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 1
+            },
+            "regression": {
+              "passed": 5,
+              "total": 8
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 16,
+              "total": 21
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": 8,
+            "native_events": 39,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "candidate_artifact": {
+            "path": "experiments/artifacts/a8d7df0b041bd899ef694f863c462a2faec676a1d86656678e639c228e6a67b9.tar.gz",
+            "sha256": "a8d7df0b041bd899ef694f863c462a2faec676a1d86656678e639c228e6a67b9",
+            "file_count": 105,
+            "size_bytes": 118506,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_3",
+          "target_checkpoint": "checkpoint_3",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "d71e14b9073db34c120e672dea5c67a12ad3afc1b017664aaf3b7aae0dc2e8da",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "2aa4266997eb54eea72dbaeeb0a1dda1c77bbc54a40d3779d69b530472af7184",
+          "evaluation_sha256": "8514a56bad713ccd5d883a8b7780cb16f8806d763c3923dcbf5f50780229aa01",
+          "started_at": "2026-11-02T15:21:49.698204Z",
+          "completed_at": "2026-11-02T15:35:10.100118Z",
+          "inference_seconds": 800.401914,
+          "evaluation_seconds": 83.50348973274231,
+          "native_steps": 73,
+          "tokens": {
+            "cache_read": 2749440,
+            "cache_write": 0,
+            "input": 2838131,
+            "output": 9841,
+            "reasoning": 1543
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "gpt61-terra-official-price-pending-20261031",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_lfc_count_oracle_directed",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_payload_fcs_oracle_directed",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_pfc_range_oracle_directed",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_ptp_association_oracle_directed",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_reset_and_final_drain_oracles_are_directed",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_candidate_runner_executes_all_focused_components",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_pause_control_frame_mutation_is_killed",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_ptp_timestamp_mutation_is_killed",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_candidate_surface_is_tb_only",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_entrypoint_accepts_checkpoint_name",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_entrypoint_does_not_vendor_dependencies",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_has_no_generated_artifacts",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_candidate_surface_is_tb_only",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_entrypoint_accepts_prior_checkpoint_name",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_drives_endpoint_configuration_signals",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_preserves_directed_pause_count_oracles",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_rejects_weakened_pause_count_assertion",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_targets_cocotbext_eth_0_1_22",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_uses_new_ptp_clock_api",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_rejects_legacy_ptp_clock_keyword",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_candidate_surface_is_tb_only",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_entrypoint_accepts_all_checkpoint_names",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_candidate_tb_passes_trusted_target",
+              "group": "Functionality",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_focused_scenario_matrix_is_preserved",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_mac_underrun_and_error_oracles_directed",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_tx_underrun_and_error_oracles_directed",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_detects_eth_mac_error_indication_fault",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_detects_post_error_recovery_fault",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_detects_tx_error_indication_fault",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_detects_tx_underrun_indication_fault",
+              "group": "Core",
+              "status": "failed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 8,
+              "total": 8
+            },
+            "core": {
+              "passed": 3,
+              "total": 7
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 1
+            },
+            "regression": {
+              "passed": 10,
+              "total": 14
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 21,
+              "total": 30
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": 26,
+            "native_events": 107,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "candidate_artifact": {
+            "path": "experiments/artifacts/0b9aae0d8a56f1aba99b011bd67a0bf67598dbe5febee7192a04248ce2d1fa7a.tar.gz",
+            "sha256": "0b9aae0d8a56f1aba99b011bd67a0bf67598dbe5febee7192a04248ce2d1fa7a",
+            "file_count": 105,
+            "size_bytes": 119276,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 3,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-02T14:45:13.544982+00:00",
+      "completed_at": "2026-11-02T15:36:53.941256+00:00",
+      "wall_seconds_all_attempts": 3100.3905088510364,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_3": {
+          "total": 30,
+          "groups": {
+            "core": 7,
+            "error": 0,
+            "functionality": 1,
+            "regression": 14,
+            "structure": 8
+          },
+          "inventory": "96a91116d8a47a17d482d0b39f6c27df04cce2faf74133fedb5fd559eab5efbc"
+        }
+      }
+    }
+  ]
+}

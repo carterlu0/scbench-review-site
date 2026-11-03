@@ -82,6 +82,10 @@ function supplementary(release) {
   return `<div class="matrix-bottom"><section><h2>Implementation defects · full analysis</h2><p>Candidate defects are independent of the problem’s four-dimensional attribution.</p>${Object.keys(release.implementation_defects).length?`<dl>${Object.entries(release.implementation_defects).map(([k,v])=>`<div><dt>${esc(k)}</dt><dd>${v} events</dd></div>`).join('')}</dl>`:'<p class="matrix-muted">No reviewed defect events in this analysis.</p>'}</section><section><h2>Annotation coverage · full analysis</h2><p>Revision-bound annotations also apply to matching historical records.</p><dl>${Object.entries(release.annotation_coverage).map(([k,v])=>`<div><dt>${esc(k.replaceAll('_',' '))}</dt><dd>${v}</dd></div>`).join('')||'<p class="matrix-muted">No classified test records.</p>'}</dl></section></div>
     <section class="matrix-label-statistics"><h2>Problem tag analysis · full analysis</h2>${release.problem_tag_statistics?.length?`<div class="matrix-scroll"><table class="matrix-checkpoints"><thead><tr><th>Tag</th><th>Problems</th><th>Passed tests</th><th>Failed tests</th><th>Macro test pass rate</th></tr></thead><tbody>${release.problem_tag_statistics.map(s=>`<tr><th>${esc(s.label)}</th><td>${s.problems}</td><td>${s.passed_tests}</td><td>${s.failed_tests}</td><td>${percent(s.macro_test_pass_rate)}</td></tr>`).join('')}</tbody></table></div>`:'<p class="matrix-muted">No reviewed problem tags in this analysis.</p>'}</section>`;
 }
+export function renderPublicationNotes(publication) {
+  const notes=Array.isArray(publication?.display_notes)?publication.display_notes.filter(note=>typeof note==='string'&&note.trim()):[];
+  return notes.length?`<div class="matrix-publication-notes matrix-method">${notes.map(note=>`<p>${esc(note)}</p>`).join('')}</div>`:'';
+}
 export async function renderExperiments() {
   const route=location.hash;
   if(!route.startsWith('#experiments'))return;
@@ -133,6 +137,7 @@ export async function renderExperiments() {
       ${problem?`<a class="matrix-back" href="${hash(params,{problem:null,trial:null,checkpoint:null})}">← All experiment results</a>`:''}
       <div class="matrix-heading"><div><p class="eyebrow">SCBENCH / EXPERIMENTS${problem?' / PROBLEM':''}</p><h1>${esc(name)}<span class="matrix-dot">.</span></h1><p class="matrix-subtitle">${subtitle}</p></div><div class="matrix-actions"><button id="matrix-csv">Export CSV ↗</button><button id="matrix-json">JSON ↗</button></div></div>
       <div class="matrix-provenance"><span>Analysis <code>${esc(entry.id.slice(0,12))}</code></span><span>Source <code>${esc((catalog.source?.commit||'local').slice(0,12))}</code></span><span>Pricebook <code>${esc((release.pricebook||'unknown').slice(0,12))}</code></span><span>${esc(release.created_at.slice(0,10))}</span></div>
+      ${renderPublicationNotes(release.publication)}
       <form id="matrix-filters" class="matrix-filters">
         <label>Analysis<select name="analysis">${catalog.releases.map(r=>`<option value="${esc(r.id)}" ${r.id===entry.id?'selected':''}>${esc(r.name)} · ${esc(r.id.slice(0,8))}</option>`).join('')}</select></label>
         <label>Protocol<select name="protocol">${options(protocolIds,filters.protocol,'All protocols')}</select></label>
@@ -155,7 +160,7 @@ export async function renderExperiments() {
     app.querySelector('#matrix-filters').addEventListener('submit',event=>{event.preventDefault();const next=new URLSearchParams(new FormData(event.currentTarget));if(problem)next.set('problem',problem);for(const key of ['aux','overhead','cache','task_type','threshold'])if(params.has(key))next.set(key,params.get(key));location.hash=`experiments?${next}`;});
     app.querySelector('#matrix-filters select[name="analysis"]').addEventListener('change',event=>{location.hash=hash(new URLSearchParams(),{analysis:event.target.value,problem});});
     app.querySelector('#matrix-csv').onclick=()=>download('scbench-experiments.csv',csv(cells),'text/csv;charset=utf-8');
-    app.querySelector('#matrix-json').onclick=()=>download('scbench-experiments.json',JSON.stringify({...release,cells},null,2),'application/json');
+    app.querySelector('#matrix-json').onclick=()=>download('scbench-experiments.json',JSON.stringify({...release,cells:problem?cells:filtered},null,2),'application/json');
     app.querySelectorAll('[data-paper-param]').forEach(input=>input.onchange=()=>{location.hash=hash(params,{[input.dataset.paperParam]:input.checked?'1':input.dataset.paperParam==='aux'?'0':null});});
     app.querySelectorAll('[data-paper-select]').forEach(select=>select.onchange=()=>{location.hash=hash(params,{[select.dataset.paperSelect]:select.value});});
     if(paperReport){

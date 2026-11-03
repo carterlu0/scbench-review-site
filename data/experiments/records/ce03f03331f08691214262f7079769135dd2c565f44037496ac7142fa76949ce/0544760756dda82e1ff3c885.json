@@ -1,0 +1,1884 @@
+{
+  "schema_version": 4,
+  "analysis": "ce03f03331f08691214262f7079769135dd2c565f44037496ac7142fa76949ce",
+  "problem": "taxi_axi_t3",
+  "cells": [
+    {
+      "id": "0b44df79ce4e334884bb20272a124961aecefa3d3900dec0692b2fce0c08f344",
+      "problem": "taxi_axi_t3",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "gpt-6.1-terra",
+      "agent": "codex",
+      "agent_version": "0.141.0",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "0e885bc1b6bb1a0506e00943064a6cab946049f7829ea82a1b4314eabc1e60ee",
+      "generation": "2c915880c456b077a12811042a4a8f75ef485cab0259ad59ca88b37158dd7488",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "implementation",
+          "label": "delivery_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_2",
+          "candidate": "3393267cbcd6794036f48b99eedf2b1a1bf89214249d649040e5b942d0ebdfdd",
+          "evidence": [
+            "sha256:2d8392964c7797a96fcc375a664b5f813a690533b811ec02bd6cef450557945b"
+          ],
+          "event_id": "a5d94ab8c3711125b0e7f7617097e3577b626ac289ef8d3c79d87e5385b44343",
+          "assessment": "63c5820bc59b27d024f5e6e8e43f1f93f2858ee11cc1933d6268d74a629d4f03",
+          "attempt": "dde7762e5c384d5b9671fffb18098278"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_2"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.0,
+      "selected_attempt": "dde7762e5c384d5b9671fffb18098278",
+      "selected_evaluation": null,
+      "evaluation_generation": "2c915880c456b077a12811042a4a8f75ef485cab0259ad59ca88b37158dd7488",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_2",
+          "state": "failed",
+          "gate_passed": false,
+          "candidate": "3393267cbcd6794036f48b99eedf2b1a1bf89214249d649040e5b942d0ebdfdd",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": "delivery_failure",
+          "candidate_failure_reason": "candidate entrypoint failed with exit code 1: stdout=\n\n stderr=\n\nerror: missing /workspace/repo/src/axi/rtl/taxi_axi_crossbar.sv\nerror: missing /workspace/repo/src/axi/rtl/taxi_axi_crossbar_rd.sv\nerror: missing /workspace/repo/src/axi/rtl/taxi_axi_crossbar_wr.sv\nerror: missing /workspace/repo/src/axi/rtl/taxi_axi_register_rd.sv\nerror: missing /workspace/repo/src/axi/rtl/taxi_axi_register_wr.sv\nerror: missing /workspace/repo/src/axi/rtl/taxi_axi_crossbar.f\nerror: missing /workspace/repo/src/axi/rtl/taxi_axi_crossbar_rd.f\nerror: missing /workspace/repo/src/axi/rtl/taxi_axi_crossbar_wr.f\n setup_stdout=\n\n setup_stderr=HANDLE_ENTRY.sh: /tmp/agent_home/.bash_profile: Permission denied\n\n\n",
+          "inference_sha256": "dd5258731155461bf0a0aa0377e0594c3e1198fb396a16916390cb7b8f272621",
+          "evaluation_sha256": "2d8392964c7797a96fcc375a664b5f813a690533b811ec02bd6cef450557945b",
+          "started_at": "2026-10-31T04:48:48.448387Z",
+          "completed_at": "2026-10-31T04:54:59.234568Z",
+          "inference_seconds": 370.786181,
+          "evaluation_seconds": 5.980813849717379,
+          "native_steps": 48,
+          "tokens": {
+            "cache_read": 941568,
+            "cache_write": 0,
+            "input": 1004387,
+            "output": 9867,
+            "reasoning": 3073
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "gpt61-terra-official-price-pending-20261031",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_decode_errors",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_nondefault_region",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_response_ids",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_routing",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_write_burst_ownership",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_axi_fifo_behavior",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_admission_accept",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_admission_thread",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_decode_errors",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_independent_read_write_pressure",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_issue_limit",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_nondefault_region",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_register_types",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_routing",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_source_id_restoration",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_core_structure",
+              "group": "Structure",
+              "status": "failed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 0,
+              "total": 1
+            },
+            "core": {
+              "passed": 0,
+              "total": 9
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 0,
+              "total": 6
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 0,
+              "total": 16
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": 17,
+            "native_events": 73,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [
+            {
+              "id": "evaluation:2d8392964c7797a96fcc375a664b5f813a690533b811ec02bd6cef450557945b",
+              "event_id": "fb9a5193b8823c2ab1cde5465ce1feee0c61494ce39d446b4e555233cdcdc60f",
+              "labels": [
+                "delivery_failure"
+              ],
+              "evidence": [
+                "sha256:2d8392964c7797a96fcc375a664b5f813a690533b811ec02bd6cef450557945b"
+              ],
+              "reviewer": "evaluator-delivery-contract",
+              "confidence": "reviewed"
+            }
+          ],
+          "tags": [],
+          "candidate_artifact": {
+            "path": "experiments/artifacts/a9a8e5e0e34c2cc6da8b76cbfe8017261664b36be3b458a2ee76c127d08f4e3e.tar.gz",
+            "sha256": "a9a8e5e0e34c2cc6da8b76cbfe8017261664b36be3b458a2ee76c127d08f4e3e",
+            "file_count": 30,
+            "size_bytes": 27478,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-10-31T04:48:45.779163+00:00",
+      "completed_at": "2026-10-31T04:55:11.387765+00:00",
+      "wall_seconds_all_attempts": 385.60354567691684,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_2": {
+          "total": 16,
+          "groups": {
+            "core": 9,
+            "error": 0,
+            "functionality": 0,
+            "regression": 6,
+            "structure": 1
+          },
+          "inventory": "7221dd11db6ed5c10b3caf2b433c571f55d878e18dd351773ee2116a53f4aea4"
+        }
+      }
+    },
+    {
+      "id": "4fd84164e46deea1b1974e3e9fa9fdd63c5b5bb82d6ac0a93496a5a8ef083223",
+      "problem": "taxi_axi_t3",
+      "mode": "pipeline",
+      "prompt_arm": "original",
+      "model": "gpt-6.1-terra",
+      "agent": "codex",
+      "agent_version": "0.141.0",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "0e885bc1b6bb1a0506e00943064a6cab946049f7829ea82a1b4314eabc1e60ee",
+      "generation": "04c358a623074207f27f8c801317368b3e293d9c57eb7b96f8d7e1294265d4e0",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "execution",
+          "label": "infrastructure_failure",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:caa8023970761b53c6d433a7e95beaa8874d02816e2008afdbc92e5949d05ac1"
+          ],
+          "event_id": "8e3d1ff12d61378db8d1e8c9b372f36bd2a3f6df03bed259832bbd1fd35fc48f",
+          "assessment": "9834404b02f2c62be884babacb16f0b851db965ae2dfabe16a66864bd882d020",
+          "attempt": "254081362a51433a98fe89c5cbb67798"
+        },
+        {
+          "namespace": "implementation",
+          "label": "delivery_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_2",
+          "candidate": "f9238776c5586b0266f3269f46d822cdc1d5816832eaa7e79b62ecf1ffd45321",
+          "evidence": [
+            "sha256:3c4cf9eaec159f3ed1782ad7065d514cc8ae305a6c860177dcf98b292d5a488f"
+          ],
+          "event_id": "f5449148e73b6009300acecf7cb1d6634fe6d0d8199921b3a44a17cd38d4fb1b",
+          "assessment": "9e438e432d84d6472fa7005bb91256b8b05eb8051708a28ac2b9582a1131c974",
+          "attempt": "a8fb6e023c7a4764a821031f5cd9f711"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 5,
+      "planned_targets": [
+        "checkpoint_1",
+        "checkpoint_2",
+        "checkpoint_3",
+        "checkpoint_4",
+        "checkpoint_5"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.2,
+      "selected_attempt": "a8fb6e023c7a4764a821031f5cd9f711",
+      "selected_evaluation": null,
+      "evaluation_generation": "04c358a623074207f27f8c801317368b3e293d9c57eb7b96f8d7e1294265d4e0",
+      "attempt_count": 2,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_1",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "0d4731f73269eeec72dc62db080e5993cf5baf82c2633307315e713dc7e40aa0",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "7485a0236e65b32c184a4ea8575812ae4fab88283199bc0c2447f7dbb11f8c8c",
+          "evaluation_sha256": "55dc681a932d56b6d7f7ff6aedbb524ac0f055345c2e2c02074a5193b8c2a4e5",
+          "started_at": "2026-10-31T05:12:41.370982Z",
+          "completed_at": "2026-10-31T07:02:42.373933Z",
+          "inference_seconds": 6601.002951,
+          "evaluation_seconds": 830.8375811576843,
+          "native_steps": 74,
+          "tokens": {
+            "cache_read": 1649408,
+            "cache_write": 0,
+            "input": 1716780,
+            "output": 21768,
+            "reasoning": 5640
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "gpt61-terra-official-price-pending-20261031",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_decode_errors",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_nondefault_region",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_response_ids",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_routing",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_write_burst_ownership",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_core_structure",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_axi_fifo_behavior",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 5,
+              "total": 5
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 1,
+              "total": 1
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 7,
+              "total": 7
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": 22,
+            "native_events": 107,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "candidate_artifact": {
+            "path": "experiments/artifacts/c92a086bb255f74f923267801f0441f8eba0b588eb005513093cee23239e2567.tar.gz",
+            "sha256": "c92a086bb255f74f923267801f0441f8eba0b588eb005513093cee23239e2567",
+            "file_count": 26,
+            "size_bytes": 22906,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_2",
+          "target_checkpoint": "checkpoint_2",
+          "state": "failed",
+          "gate_passed": false,
+          "candidate": "f9238776c5586b0266f3269f46d822cdc1d5816832eaa7e79b62ecf1ffd45321",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": "delivery_failure",
+          "candidate_failure_reason": "candidate entrypoint failed with exit code 1: stdout=\n\n stderr=\n\nMissing /workspace/repo/src/axi/rtl/taxi_axi_crossbar.sv\n setup_stdout=\n\n setup_stderr=HANDLE_ENTRY.sh: /tmp/agent_home/.bash_profile: Permission denied\n\n\n",
+          "inference_sha256": "c8f491fd463bf81238a0003596674e3699fde6942960467e9f0b4f24ca0c9f74",
+          "evaluation_sha256": "3c4cf9eaec159f3ed1782ad7065d514cc8ae305a6c860177dcf98b292d5a488f",
+          "started_at": "2026-11-01T05:18:32.432540Z",
+          "completed_at": "2026-11-01T05:20:19.470360Z",
+          "inference_seconds": 107.03782,
+          "evaluation_seconds": 11.89345827512443,
+          "native_steps": 27,
+          "tokens": {
+            "cache_read": 245504,
+            "cache_write": 0,
+            "input": 283898,
+            "output": 3242,
+            "reasoning": 794
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "gpt61-terra-official-price-pending-20261031",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_decode_errors",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_nondefault_region",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_response_ids",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_routing",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_write_burst_ownership",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_core_structure",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_axi_fifo_behavior",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_admission_accept",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_admission_thread",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_decode_errors",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_independent_read_write_pressure",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_issue_limit",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_nondefault_region",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_register_types",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_routing",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_source_id_restoration",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_core_structure",
+              "group": "Structure",
+              "status": "failed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 0,
+              "total": 1
+            },
+            "core": {
+              "passed": 0,
+              "total": 9
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 0,
+              "total": 7
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 0,
+              "total": 17
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": 8,
+            "native_events": 40,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [
+            {
+              "id": "evaluation:3c4cf9eaec159f3ed1782ad7065d514cc8ae305a6c860177dcf98b292d5a488f",
+              "event_id": "b03044c8ffaaada34788d2bcabc5bc2d50495a07939301fc61f347bddf2d2365",
+              "labels": [
+                "delivery_failure"
+              ],
+              "evidence": [
+                "sha256:3c4cf9eaec159f3ed1782ad7065d514cc8ae305a6c860177dcf98b292d5a488f"
+              ],
+              "reviewer": "evaluator-delivery-contract",
+              "confidence": "reviewed"
+            }
+          ],
+          "tags": [],
+          "candidate_artifact": {
+            "path": "experiments/artifacts/f66e1f77e0eb6d71cb1bf9bd065ba49dad78e3661131bf707a7a1c9ec3fa0e99.tar.gz",
+            "sha256": "f66e1f77e0eb6d71cb1bf9bd065ba49dad78e3661131bf707a7a1c9ec3fa0e99",
+            "file_count": 29,
+            "size_bytes": 23427,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_3",
+          "target_checkpoint": "checkpoint_3",
+          "state": "stopped_by_policy",
+          "gate_passed": null,
+          "candidate": null,
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": null,
+          "evaluation_sha256": null,
+          "started_at": null,
+          "completed_at": null,
+          "inference_seconds": null,
+          "evaluation_seconds": null,
+          "native_steps": null,
+          "tokens": null,
+          "official_cost": {
+            "usd": 0,
+            "coverage": "complete",
+            "pricebook": "gpt61-terra-official-price-pending-20261031"
+          },
+          "tests": [],
+          "test_counts": null,
+          "score": 0,
+          "calls": {
+            "http_requests": 0,
+            "http_retries": 0,
+            "observed_responses": 0,
+            "observed_tool_calls": 0,
+            "coverage": "not_invoked"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": []
+        },
+        {
+          "checkpoint": "checkpoint_4",
+          "target_checkpoint": "checkpoint_4",
+          "state": "stopped_by_policy",
+          "gate_passed": null,
+          "candidate": null,
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": null,
+          "evaluation_sha256": null,
+          "started_at": null,
+          "completed_at": null,
+          "inference_seconds": null,
+          "evaluation_seconds": null,
+          "native_steps": null,
+          "tokens": null,
+          "official_cost": {
+            "usd": 0,
+            "coverage": "complete",
+            "pricebook": "gpt61-terra-official-price-pending-20261031"
+          },
+          "tests": [],
+          "test_counts": null,
+          "score": 0,
+          "calls": {
+            "http_requests": 0,
+            "http_retries": 0,
+            "observed_responses": 0,
+            "observed_tool_calls": 0,
+            "coverage": "not_invoked"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": []
+        },
+        {
+          "checkpoint": "checkpoint_5",
+          "target_checkpoint": "checkpoint_5",
+          "state": "stopped_by_policy",
+          "gate_passed": null,
+          "candidate": null,
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": null,
+          "evaluation_sha256": null,
+          "started_at": null,
+          "completed_at": null,
+          "inference_seconds": null,
+          "evaluation_seconds": null,
+          "native_steps": null,
+          "tokens": null,
+          "official_cost": {
+            "usd": 0,
+            "coverage": "complete",
+            "pricebook": "gpt61-terra-official-price-pending-20261031"
+          },
+          "tests": [],
+          "test_counts": null,
+          "score": 0,
+          "calls": {
+            "http_requests": 0,
+            "http_retries": 0,
+            "observed_responses": 0,
+            "observed_tool_calls": 0,
+            "coverage": "not_invoked"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": []
+        }
+      ],
+      "agent_invocations": 2,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-10-31T05:12:38.971144+00:00",
+      "completed_at": "2026-11-01T05:20:37.890336+00:00",
+      "wall_seconds_all_attempts": 70325.50663543679,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_5": {
+          "total": 37,
+          "groups": {
+            "core": 5,
+            "error": 0,
+            "functionality": 0,
+            "regression": 31,
+            "structure": 1
+          },
+          "inventory": "2ae7728ca4764e719d51230ed8638823e2d6ba154c289f920bc8f160d07a0f40"
+        }
+      }
+    },
+    {
+      "id": "5e0eb73d1c7983f4eaae3b90b8f78eb52850e7248737c16eea689ac15c0e5a69",
+      "problem": "taxi_axi_t3",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "gpt-6.1-terra",
+      "agent": "codex",
+      "agent_version": "0.141.0",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "0e885bc1b6bb1a0506e00943064a6cab946049f7829ea82a1b4314eabc1e60ee",
+      "generation": "42e097c2ea35cfd850ca8651de108baa2f7657fe50db4c7fb334fb15e5ae177e",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "execution",
+          "label": "infrastructure_failure",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:c70f3953cae0d4d08716d4648d9e361bde3cf8d8f27de98625440835c98fca95"
+          ],
+          "event_id": "77f61d4c39be0d9737a7f2e5643a41d7777a1ea8d5785cf73d4e9843da85e76b",
+          "assessment": "ad067c826491fa0be3687876ab0272a35e46a52df722c323faa88c81427bb2ee",
+          "attempt": "5a7cfdf4882c4719825bc97a0b53f50e"
+        },
+        {
+          "namespace": "execution",
+          "label": "timeout",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_4",
+          "candidate": "520f62404f6bb20c59c3f691f9da394f2dcc0ab77ac5d7c2c9140040c23cd760",
+          "evidence": [
+            "sha256:c70f3953cae0d4d08716d4648d9e361bde3cf8d8f27de98625440835c98fca95"
+          ],
+          "event_id": "48e65892bdac053cddaaa16a6a4b00f2495cb1aae3ea4788b8f753afeaefea2b",
+          "assessment": "ad067c826491fa0be3687876ab0272a35e46a52df722c323faa88c81427bb2ee",
+          "attempt": "5a7cfdf4882c4719825bc97a0b53f50e"
+        },
+        {
+          "namespace": "execution",
+          "label": "inference_error",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_4",
+          "candidate": "520f62404f6bb20c59c3f691f9da394f2dcc0ab77ac5d7c2c9140040c23cd760",
+          "evidence": [
+            "sha256:c70f3953cae0d4d08716d4648d9e361bde3cf8d8f27de98625440835c98fca95"
+          ],
+          "event_id": "7563639d247d1149d55d22dc2638b3d58509208deaf711e40266a8921f264e97",
+          "assessment": "ad067c826491fa0be3687876ab0272a35e46a52df722c323faa88c81427bb2ee",
+          "attempt": "5a7cfdf4882c4719825bc97a0b53f50e"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_4"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "210026f747be492bbb6a418ea0c4b302",
+      "selected_evaluation": null,
+      "evaluation_generation": "42e097c2ea35cfd850ca8651de108baa2f7657fe50db4c7fb334fb15e5ae177e",
+      "attempt_count": 2,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_4",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "c2a3785159907531da78dc0c5426a144136efdf1b78e93781c70efb8f8a6df5f",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "adec99ac7b6f6abeed307f4a06a0f053913ad046304b6d1744b91b161f3494cb",
+          "evaluation_sha256": "3b919a2cd750e60f1ffe32fe21c8222d8e524d337b2cdfe68a0ba0a9b9e95c48",
+          "started_at": "2026-11-01T05:08:54.107570Z",
+          "completed_at": "2026-11-01T05:19:32.478333Z",
+          "inference_seconds": 638.370763,
+          "evaluation_seconds": 2521.124167442322,
+          "native_steps": 99,
+          "tokens": {
+            "cache_read": 2470016,
+            "cache_write": 0,
+            "input": 2505093,
+            "output": 15211,
+            "reasoning": 3039
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "gpt61-terra-official-price-pending-20261031",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_decode_errors",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_nondefault_region",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_response_ids",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_routing",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_write_burst_ownership",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_axi_fifo_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_admission_accept",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_admission_thread",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_decode_errors",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_independent_read_write_pressure",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_issue_limit",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_nondefault_region",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_register_types",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_routing",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_source_id_restoration",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_axi_interconnect_1s_endpoint_behavior_decode_errors",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_axi_interconnect_1s_endpoint_behavior_nondefault_region",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_axi_interconnect_1s_endpoint_behavior_response_id",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_axi_interconnect_1s_endpoint_behavior_routing",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_axi_crossbar_1s_endpoint_behavior_admission_accept",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_axi_crossbar_1s_endpoint_behavior_admission_thread",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_axi_crossbar_1s_endpoint_behavior_decode_errors",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_axi_crossbar_1s_endpoint_behavior_issue_limit",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_axi_crossbar_1s_endpoint_behavior_nondefault_region",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_axi_crossbar_1s_endpoint_behavior_register_types",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_axi_crossbar_1s_endpoint_behavior_response_id",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_axi_crossbar_1s_endpoint_behavior_routing",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_core_structure",
+              "group": "Structure",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 8,
+              "total": 8
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 19,
+              "total": 19
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 28,
+              "total": 28
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": 28,
+            "native_events": 141,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "candidate_artifact": {
+            "path": "experiments/artifacts/7808cec1ff6a26f779b4b78b986d76bee4f8241f4e812af7ec4f694fc0d2d86d.tar.gz",
+            "sha256": "7808cec1ff6a26f779b4b78b986d76bee4f8241f4e812af7ec4f694fc0d2d86d",
+            "file_count": 58,
+            "size_bytes": 43140,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 2,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-10-31T07:00:17.622418+00:00",
+      "completed_at": "2026-11-01T06:01:51.154683+00:00",
+      "wall_seconds_all_attempts": 66082.94348883443,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_4": {
+          "total": 28,
+          "groups": {
+            "core": 8,
+            "error": 0,
+            "functionality": 0,
+            "regression": 19,
+            "structure": 1
+          },
+          "inventory": "2b27cfc16caaa2b6d7b7c6291f30d044545e20d41d55be87fb1ccb9dbe778204"
+        }
+      }
+    },
+    {
+      "id": "5f0e16f7595a929d92dc9b652801b704d77d0715e0b94467793565389e19e9db",
+      "problem": "taxi_axi_t3",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "gpt-6.1-terra",
+      "agent": "codex",
+      "agent_version": "0.141.0",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "0e885bc1b6bb1a0506e00943064a6cab946049f7829ea82a1b4314eabc1e60ee",
+      "generation": "b8d4711ff27b6b58f0bbfec3f301090f5fbe24d1275bb5bf4d35ffc838cb7798",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "execution",
+          "label": "infrastructure_failure",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:f7d685b735b51dea8562471f26b7704886e6df2f7587f46f2b2f04b98cc16ba6"
+          ],
+          "event_id": "6f02ac39c42f98dd265738c43adbd85a1f0bd613bef76477ef06333b5648bbb9",
+          "assessment": "ed30a4716ddf600022a7449b77974fec47699fcb1bfda7b2c06a703320408121",
+          "attempt": "f022bd3e3855403db5ef37af4cd39ff2"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_5"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "b4470e09369c4c19bc25299c6217fd86",
+      "selected_evaluation": null,
+      "evaluation_generation": "b8d4711ff27b6b58f0bbfec3f301090f5fbe24d1275bb5bf4d35ffc838cb7798",
+      "attempt_count": 2,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_5",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "d7bdbbe2a645894aecb13244e36cf3911113996bc48e4d16526cba4b830fdeec",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "7c645e992d72b28fe7a39e69eea8e89cfae4330accb1bd68588da7a354c5f328",
+          "evaluation_sha256": "980e6f0050919a4c47c43c5cd063f64413e5a824036b45e8103093183c3609fc",
+          "started_at": "2026-11-01T05:09:17.135267Z",
+          "completed_at": "2026-11-01T05:18:23.076707Z",
+          "inference_seconds": 545.94144,
+          "evaluation_seconds": 3758.6994619369507,
+          "native_steps": 69,
+          "tokens": {
+            "cache_read": 1543552,
+            "cache_write": 0,
+            "input": 1574441,
+            "output": 14374,
+            "reasoning": 2260
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "gpt61-terra-official-price-pending-20261031",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_decode_errors",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_nondefault_region",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_response_ids",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_routing",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_write_burst_ownership",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_axi_fifo_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_admission_accept",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_admission_thread",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_decode_errors",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_independent_read_write_pressure",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_issue_limit",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_nondefault_region",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_register_types",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_routing",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_source_id_restoration",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_axi_interconnect_1s_endpoint_behavior_decode_errors",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_axi_interconnect_1s_endpoint_behavior_nondefault_region",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_axi_interconnect_1s_endpoint_behavior_response_id",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_axi_interconnect_1s_endpoint_behavior_routing",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_axi_crossbar_1s_endpoint_behavior_admission_accept",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_axi_crossbar_1s_endpoint_behavior_admission_thread",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_axi_crossbar_1s_endpoint_behavior_decode_errors",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_axi_crossbar_1s_endpoint_behavior_issue_limit",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_axi_crossbar_1s_endpoint_behavior_nondefault_region",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_axi_crossbar_1s_endpoint_behavior_register_types",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_axi_crossbar_1s_endpoint_behavior_response_id",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_axi_crossbar_1s_endpoint_behavior_routing",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_axi_dp_ram_endpoint_behavior_basic_rw",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_axi_dp_ram_endpoint_behavior_cross_port_sharing",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_axi_dp_ram_endpoint_behavior_interleave_order",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_axi_dp_ram_endpoint_behavior_nondefault_port_options",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_axi_dp_ram_endpoint_behavior_pipeline_latency",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_core_structure",
+              "group": "Structure",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 5,
+              "total": 5
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 27,
+              "total": 27
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 33,
+              "total": 33
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": 19,
+            "native_events": 98,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "candidate_artifact": {
+            "path": "experiments/artifacts/821eac9f2e1bf7278b16595ca472b0b996a68243429f10bc1cc9dfe997efcea2.tar.gz",
+            "sha256": "821eac9f2e1bf7278b16595ca472b0b996a68243429f10bc1cc9dfe997efcea2",
+            "file_count": 67,
+            "size_bytes": 46087,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 2,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-10-31T07:00:27.050568+00:00",
+      "completed_at": "2026-11-01T06:21:18.286173+00:00",
+      "wall_seconds_all_attempts": 67210.5599018652,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_5": {
+          "total": 33,
+          "groups": {
+            "core": 5,
+            "error": 0,
+            "functionality": 0,
+            "regression": 27,
+            "structure": 1
+          },
+          "inventory": "1bcff6e24bfc799c1cd8e5e91ead286dcb757d5ac7e71f18186bbbf8f3351efc"
+        }
+      }
+    },
+    {
+      "id": "d350ac5cca853adb9c498ec88665503e6a43b6f1a70ad2013a46998c17d566a1",
+      "problem": "taxi_axi_t3",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "gpt-6.1-terra",
+      "agent": "codex",
+      "agent_version": "0.141.0",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "0e885bc1b6bb1a0506e00943064a6cab946049f7829ea82a1b4314eabc1e60ee",
+      "generation": "ef693c9d71e10232251d966441f1bebfafc7db4270c1c90941cd0ba91112ab3c",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "execution",
+          "label": "infrastructure_failure",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:a92d4dd3bc401b7fd7a2d31fe5b6bf22121923f0979e19838509e2926d9e99b9"
+          ],
+          "event_id": "25ef19305e5c61c5b5d13800732f4de519ffa987dcc8b784b3ee1ddbb700ea77",
+          "assessment": "d90394b46cddf4c8c12bb8f9cc2fc69062c57041246292b4b0e7a5cb872a186c",
+          "attempt": "898d628ec85c4d929829a3b303f08b7f"
+        },
+        {
+          "namespace": "execution",
+          "label": "unknown",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "1b75e0138a15071a7374689c5c2f980d0f43a80f8129f4ead22ee2b442ac2031",
+          "evidence": [
+            "sha256:a92d4dd3bc401b7fd7a2d31fe5b6bf22121923f0979e19838509e2926d9e99b9"
+          ],
+          "event_id": "1a3b9e2b14e51161406007215cc23476d08d1e9374de411032c81f5af8b99da0",
+          "assessment": "d90394b46cddf4c8c12bb8f9cc2fc69062c57041246292b4b0e7a5cb872a186c",
+          "attempt": "898d628ec85c4d929829a3b303f08b7f"
+        },
+        {
+          "namespace": "execution",
+          "label": "inference_error",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "1b75e0138a15071a7374689c5c2f980d0f43a80f8129f4ead22ee2b442ac2031",
+          "evidence": [
+            "sha256:a92d4dd3bc401b7fd7a2d31fe5b6bf22121923f0979e19838509e2926d9e99b9"
+          ],
+          "event_id": "bff1620a671e74198d92435935debb3b41baf2ba2f2f97559f511de6869dfb91",
+          "assessment": "d90394b46cddf4c8c12bb8f9cc2fc69062c57041246292b4b0e7a5cb872a186c",
+          "attempt": "898d628ec85c4d929829a3b303f08b7f"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_1"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "d22cec3ba2094beab3d20ae21bb5bdab",
+      "selected_evaluation": null,
+      "evaluation_generation": "ef693c9d71e10232251d966441f1bebfafc7db4270c1c90941cd0ba91112ab3c",
+      "attempt_count": 2,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_1",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "4c6106c836a761889c9dc048648384e91d77db732572cba3183b42f7dffaaa11",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "4ee9a2925d3022bd2901b76f07f851bf31789516f01e613619a8ddb2160fedc1",
+          "evaluation_sha256": "3008810c8e619a07f4e719688b653ae014b02f6d85ef951ca483ddf94e839858",
+          "started_at": "2026-11-01T06:30:03.986574Z",
+          "completed_at": "2026-11-01T06:39:01.693084Z",
+          "inference_seconds": 537.70651,
+          "evaluation_seconds": 812.6385028362274,
+          "native_steps": 59,
+          "tokens": {
+            "cache_read": 1537024,
+            "cache_write": 0,
+            "input": 1592900,
+            "output": 15166,
+            "reasoning": 2397
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "gpt61-terra-official-price-pending-20261031",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_decode_errors",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_nondefault_region",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_response_ids",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_routing",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_write_burst_ownership",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_core_structure",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_axi_fifo_behavior",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 5,
+              "total": 5
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 1,
+              "total": 1
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 7,
+              "total": 7
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": 19,
+            "native_events": 89,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "candidate_artifact": {
+            "path": "experiments/artifacts/7cabddb1c4034278806f8e8280f446a0dd643e71860c98a8cdbfe64f106b2253.tar.gz",
+            "sha256": "7cabddb1c4034278806f8e8280f446a0dd643e71860c98a8cdbfe64f106b2253",
+            "file_count": 26,
+            "size_bytes": 22667,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 2,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-01T05:42:40.545233+00:00",
+      "completed_at": "2026-11-01T06:52:48.135898+00:00",
+      "wall_seconds_all_attempts": 1418.1812372524291,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_1": {
+          "total": 7,
+          "groups": {
+            "core": 5,
+            "error": 0,
+            "functionality": 0,
+            "regression": 1,
+            "structure": 1
+          },
+          "inventory": "aeb0d7aa54784cea0a5cfaacb8aa1d890137a904cc882e0519cb4167ec12461c"
+        }
+      }
+    },
+    {
+      "id": "f9ced53cd8e4f55204d9e20c646482f2b207ed9dfdfd2ab918b2dfb59cfabdcb",
+      "problem": "taxi_axi_t3",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "gpt-6.1-terra",
+      "agent": "codex",
+      "agent_version": "0.141.0",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "0e885bc1b6bb1a0506e00943064a6cab946049f7829ea82a1b4314eabc1e60ee",
+      "generation": "a2a0f9b023156857c78672b237e476f6b84544f9ef03c7896ae70b43c2f12178",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "execution",
+          "label": "infrastructure_failure",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:64a25dc781e58ea7ee7b70381de321a5ea816a61e6c46bb55658feeb16c2d817"
+          ],
+          "event_id": "544a4822a67071947667cba10f16baab8ca1c30b567357ab62d9c8c04810bbe6",
+          "assessment": "b8282d1bc5cd231f0748c8da37f0a15da42b2ee3e3e17c188b9bed5741d96d88",
+          "attempt": "5ea547d8fd1441ad83b5f0eabd31e309"
+        },
+        {
+          "namespace": "execution",
+          "label": "unknown",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "40e43a995783014be312e5ff8ba71d094897096794b1d18ce99ba86b32052b49",
+          "evidence": [
+            "sha256:64a25dc781e58ea7ee7b70381de321a5ea816a61e6c46bb55658feeb16c2d817"
+          ],
+          "event_id": "dfaca8cf74c0b780b6c6a89b142fc9e311a0d7adc49ca03c62c0de3319096045",
+          "assessment": "b8282d1bc5cd231f0748c8da37f0a15da42b2ee3e3e17c188b9bed5741d96d88",
+          "attempt": "5ea547d8fd1441ad83b5f0eabd31e309"
+        },
+        {
+          "namespace": "execution",
+          "label": "inference_error",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "40e43a995783014be312e5ff8ba71d094897096794b1d18ce99ba86b32052b49",
+          "evidence": [
+            "sha256:64a25dc781e58ea7ee7b70381de321a5ea816a61e6c46bb55658feeb16c2d817"
+          ],
+          "event_id": "8e1fb31cbbf55216d3056f5c7bba095d896d6f789c3e36d6069c5985c2efd741",
+          "assessment": "b8282d1bc5cd231f0748c8da37f0a15da42b2ee3e3e17c188b9bed5741d96d88",
+          "attempt": "5ea547d8fd1441ad83b5f0eabd31e309"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_3"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "e084611ad21f4739a67ae42e8dd2b5bb",
+      "selected_evaluation": null,
+      "evaluation_generation": "a2a0f9b023156857c78672b237e476f6b84544f9ef03c7896ae70b43c2f12178",
+      "attempt_count": 2,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_3",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "86e4fcdf411b57e56ab8c604d93ad7cd6d7c59eae5e46c412a74457c71070d02",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "c2037a30e85177b8d879a03e09f93195733b3edc23cd059bc030be1d80b15336",
+          "evaluation_sha256": "1fa0c4d6ea9583e8b96ff3eda5f8ed79cc20613004f41adca667031a3a31e30b",
+          "started_at": "2026-11-01T06:52:51.110374Z",
+          "completed_at": "2026-11-01T07:00:11.792965Z",
+          "inference_seconds": 440.682591,
+          "evaluation_seconds": 2111.476257801056,
+          "native_steps": 50,
+          "tokens": {
+            "cache_read": 1339136,
+            "cache_write": 0,
+            "input": 1397629,
+            "output": 9420,
+            "reasoning": 943
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "gpt61-terra-official-price-pending-20261031",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_decode_errors",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_nondefault_region",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_response_ids",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_routing",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_write_burst_ownership",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_axi_fifo_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_admission_accept",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_admission_thread",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_decode_errors",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_independent_read_write_pressure",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_issue_limit",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_nondefault_region",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_register_types",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_routing",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_source_id_restoration",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_axi_interconnect_1s_endpoint_behavior_decode_errors",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_axi_interconnect_1s_endpoint_behavior_nondefault_region",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_axi_interconnect_1s_endpoint_behavior_response_id",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_axi_interconnect_1s_endpoint_behavior_routing",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_core_structure",
+              "group": "Structure",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 4,
+              "total": 4
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 15,
+              "total": 15
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 20,
+              "total": 20
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": null,
+            "observed_tool_calls": 19,
+            "native_events": 78,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "candidate_artifact": {
+            "path": "experiments/artifacts/d867556b6b3166e13d4667ba6462a2fa2c5e98757ab02f4581c27c0875936245.tar.gz",
+            "sha256": "d867556b6b3166e13d4667ba6462a2fa2c5e98757ab02f4581c27c0875936245",
+            "file_count": 49,
+            "size_bytes": 41131,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 2,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-01T05:45:36.263170+00:00",
+      "completed_at": "2026-11-01T07:35:39.069223+00:00",
+      "wall_seconds_all_attempts": 2619.806363971904,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_3": {
+          "total": 20,
+          "groups": {
+            "core": 4,
+            "error": 0,
+            "functionality": 0,
+            "regression": 15,
+            "structure": 1
+          },
+          "inventory": "a8a1c5cbe6fdf1858de7e03d0383c7710be2d2cf949ab4c5fff1dee147e3a861"
+        }
+      }
+    }
+  ]
+}
