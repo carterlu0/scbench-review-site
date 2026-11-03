@@ -165,7 +165,8 @@ export function finalResult(cell, peers = []) {
   if (cell.progression_policy !== 'structure-cases') return unknown(cell.progression_policy === 'unknown' || !cell.progression_policy ? 'policy_unknown' : 'other_policy');
   const target = plannedTargets(cell).at(-1);
   const final = cell.checkpoints.find(cp => cp.target_checkpoint === target);
-  if (cell.score_override?.value === 0 && cell.score_override.reason === 'agent_failure') {
+  const override=final?.score_override||cell.score_override;
+  if (override?.value === 0 && override.reason === 'agent_failure') {
     const total = cell.expected_test_counts?.[target]?.total ?? testCounts(final)?.total;
     return {passed: 0, total: validCount(total) ? total : null, target, reason: 'agent_failure'};
   }

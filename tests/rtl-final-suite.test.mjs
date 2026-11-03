@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import {renderFinalSuiteSummary} from '../experiments.mjs?v=20261103-final-suite';
+import {finalResult} from '../experiments-core.mjs';
 
 const categories=['build_error','missing_implementation','interface_mismatch','implementation_error','agent_failure'];
 
@@ -114,6 +115,14 @@ test('published default conserves all frozen slots and binds every nonpass and s
   const measured=checkpoints.filter(cp=>cp.evaluation_sha256);
   assert.equal(measured.length,summary.selected_evaluation_attempts);
   assert.ok(measured.every(cp=>cp.suite_application_proof_sha256&&cp.suite_id&&cp.environment_sha256));
+  for(const cell of release.cells.filter(cell=>cell.mode==='pipeline')){
+    const last=cell.checkpoints.at(-1);
+    if(last.score_override?.reason==='agent_failure'){
+      const result=finalResult(cell,release.cells);
+      assert.equal(result.passed,0);
+      assert.equal(result.reason,'agent_failure');
+    }
+  }
   assert.equal(summary.observed_nonpass_attempts.filter(row=>!row.selected_for_scoring).length,
     summary.unselected_nonpass_attempt_count);
   assert.match(renderFinalSuiteSummary(summary),new RegExp(`All ${failures.length} nonpass slots`));
