@@ -2,7 +2,7 @@
 
 The implementation follows `rtl_repo_scout/paper/EvoRTL评分指标.md`
 (2026-10-26), with the user-specified FC extension (2026-10-28).
-Scoring version: `evortl-paper-2026-10-28-v3`.
+Scoring version: `evortl-paper-2026-11-04-v4`.
 It reads saved results; it never calls models, executes RTL tests, edits task
 definitions, or rewrites attempts and qualification evidence.
 
@@ -30,6 +30,17 @@ Outputs: `summary.json`, `summary.csv`, `chains.csv`, `checkpoints.csv`, and
 hashes, per-group counts/applicability, configuration and repeat bindings,
 missing-data reasons, both cache scenarios, and repeat means/stddevs.
 Decimals remain unrounded through aggregation and efficiency calculation.
+
+SR Regression Failure Rate (SR RFR) is the fraction of noninitial SR checkpoints
+with valid, applicable Regression results in which at least one Regression check
+fails. It counts checkpoint events, not the mean fraction of failed test items.
+The initial position in each task chain is excluded even when its checkpoint ID
+is not `checkpoint_1`. Delivery failures, missing entrypoints, agent failures
+without Regression observations, and incomplete Regression execution are excluded
+from this metric. A Structure/Core failure or an all-zero vector alone is not an
+exclusion. Delivery failures remain failures for FDR, CC, CPR and other scoring;
+only RFR excludes them. Reports expose the failure numerator, valid-checkpoint
+denominator and exclusion counts; records retain the delivery-validity annotation.
 
 FDR is the chain mean of strict success at each manifest-defined final node.
 CC averages strict checkpoint completion within each chain, then across chains.

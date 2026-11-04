@@ -13,6 +13,7 @@ from paper_metrics import calculate
 from paper_metrics import checkpoint_cost
 from paper_metrics import identity
 from paper_metrics import summarize
+from paper_metrics import refresh_sr_regression
 
 
 def load(path: Path):
@@ -21,10 +22,11 @@ def load(path: Path):
 
 def write_changed(path: Path, value):
     content = json.dumps(value, ensure_ascii=False, separators=(",", ":"), allow_nan=False) + "\n"
-    if not path.exists() or path.read_text(encoding="utf-8") != content:
+    payload = content.encode("utf-8")
+    if not path.exists() or path.read_bytes() != payload:
         path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(content, encoding="utf-8")
-    return hashlib.sha256(content.encode()).hexdigest()
+        path.write_bytes(payload)
+    return hashlib.sha256(payload).hexdigest()
 
 
 def apply_price_overrides(book, analysis, overrides):
@@ -149,14 +151,28 @@ def build(site: Path, rebuild: bool = False):
             if hashlib.sha256(cached_bytes).hexdigest() == cached_entry["sha256"]:
                 cached = json.loads(cached_bytes)
                 record_path = destination / cached["checkpoint_records_path"]
-                if (cached.get("scoring_version") == SCORING_VERSION
+                migrate_rfr = (cached.get("scoring_version") == "evortl-paper-2026-10-28-v3"
+                               and SCORING_VERSION == "evortl-paper-2026-11-04-v4")
+                if ((cached.get("scoring_version") == SCORING_VERSION or migrate_rfr)
                         and cached.get("manifest_sha256") == identity(manifest)
                         and cached.get("published_analysis_sha256") == source_analysis_sha256
                         and record_path.exists()
                         and hashlib.sha256(record_path.read_bytes()).hexdigest() == cached["checkpoint_records_sha256"]):
-                    if cached.get("pricebook_sha256") != identity(book):
+                    reprice = cached.get("pricebook_sha256") != identity(book)
+                    if reprice or migrate_rfr:
                         details = load(record_path)
-                        reprice_report(cached, details, analysis, manifest, book)
+                        if reprice:
+                            reprice_report(cached, details, analysis, manifest, book)
+                        if migrate_rfr:
+                            checkpoints = {(c["id"], cp["target_checkpoint"]): cp
+                                           for c in analysis["cells"] for cp in c["checkpoints"]}
+                            by_group = {g["id"]: g["checkpoint_records"] for g in details["groups"]}
+                            for group in cached["groups"]:
+                                refresh_sr_regression(group, by_group[group["id"]], checkpoints)
+                            cached["scoring_version"] = details["scoring_version"] = SCORING_VERSION
+                            cached["policies"]["sr_regression_failure_rate"] = (
+                                "binary failure among noninitial SR checkpoints with valid applicable Regression; "
+                                "exclude delivery failures and missing entrypoints only from RFR")
                         cached["checkpoint_records_sha256"] = write_changed(record_path, details)
                         cached_entry = {**cached_entry, "sha256": write_changed(cached_path, cached)}
                     index["reports"].append(cached_entry)

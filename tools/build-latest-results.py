@@ -10,6 +10,7 @@ from pathlib import Path
 
 from paper_metrics import calculate
 from paper_metrics import identity
+from paper_metrics import refresh_sr_regression
 
 
 def load(path):
@@ -77,7 +78,7 @@ def normalize_cells(analysis, resource_input):
 def compact_record(row):
     result = {k: deepcopy(row[k]) for k in ("mode", "chain_id", "checkpoint_id",
         "cell_id", "checkpoint_index", "execution_status", "strict_pass", "reason",
-        "groups", "compatible", "costs") if k in row}
+        "groups", "compatible", "costs", "regression_result_exclusion") if k in row}
     if result.get("groups"):
         result["groups"] = {name: {k: v for k, v in group.items()
                                  if k not in ("tests", "non_applicable")}
@@ -113,6 +114,10 @@ def verify_reused_records(group, cells):
         for field in ("candidate", "evaluation_sha256", "inference_sha256"):
             if row.get(field) != cp.get(field):
                 raise ValueError(f"Archived metric evidence differs: {field}")
+    # The selected export can contain richer delivery diagnostics than its
+    # archived score report. Refresh only RFR's validity annotation, keeping
+    # archived strict scores and consumption unchanged.
+    refresh_sr_regression(group, group["checkpoint_records"], checkpoints)
 
 
 def build(site):

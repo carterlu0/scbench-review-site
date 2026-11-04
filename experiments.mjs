@@ -1,5 +1,5 @@
-import {escapeHtml as esc, modelKey, compareModelSettings, resultKey, latestCells, selectCells, summarize, csv, hydrateCells, testCounts, checkpointRows, plannedTargets, finalResult, fraction, isDeliveryFailure, applyRecordCosts} from './experiments-core.mjs?v=20261104-standard-prices-v2';
-import {renderPaperMetrics, selectPaperGroups, paperCsv} from './paper-metrics.mjs?v=20261104-standard-prices-v2';
+import {escapeHtml as esc, modelKey, compareModelSettings, resultKey, latestCells, selectCells, summarize, csv, hydrateCells, testCounts, checkpointRows, plannedTargets, finalResult, fraction, isDeliveryFailure, applyRecordCosts} from './experiments-core.mjs?v=20261104-sr-rfr-v4';
+import {renderPaperMetrics, selectPaperGroups, paperCsv} from './paper-metrics.mjs?v=20261104-sr-rfr-v4';
 let catalogPromise;
 let paperCatalogPromise;
 let metadataPromise;

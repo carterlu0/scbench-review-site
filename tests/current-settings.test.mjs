@@ -62,6 +62,43 @@ test('current problem details preserve the selected candidate and evaluation ide
   assert.equal(count,534);
 });
 
+test('SR RFR counts binary failures only among valid noninitial checkpoints',()=>{
+  const expected={
+    'gpt-6-luna/low':[10,53], 'gpt-6-luna/medium':[7,56],
+    'gpt-6-luna/high':[7,56], 'gpt-6-luna/xhigh':[6,59],
+    'gpt-6.1-sol/high':[7,59], 'gpt-6.1-terra/high':[3,58],
+  };
+  for(const group of data.report.groups){
+    const rows=data.records.groups.find(g=>g.id===group.id).checkpoint_records;
+    const valid=rows.filter(r=>r.mode==='sr'&&r.checkpoint_index>1
+      &&r.execution_status==='executed'&&!r.regression_result_exclusion
+      &&!['delivery_failure','provisional_agent_failure'].includes(r.reason)
+      &&r.groups?.regression?.applicable
+      &&!r.groups.regression.error&&!r.groups.regression.not_executed);
+    const failures=valid.filter(r=>r.groups.regression.passed<r.groups.regression.expected);
+    const metric=group.auxiliary.sr_regression_failure_rate;
+    assert.deepEqual([failures.length,valid.length],expected[`${group.config.model}/${group.config.thinking}`]);
+    assert.equal(metric.numerator,failures.length);
+    assert.equal(metric.denominator,valid.length);
+    assert.equal(metric.value,failures.length/valid.length);
+    assert.equal(metric.excluded_checkpoints.chain_initial_checkpoint,15);
+    for(const r of rows.filter(r=>r.reason==='delivery_failure'))assert.equal(r.strict_pass,0);
+    for(const [type,subset] of Object.entries(group.by_task_type)){
+      // Task types are assigned at chain level, so use their chain membership.
+      const ids=new Set(subset.chains.map(c=>c.chain_id));
+      const cohort=valid.filter(r=>ids.has(r.chain_id));
+      const failed=cohort.filter(r=>r.groups.regression.passed<r.groups.regression.expected);
+      const rfr=subset.auxiliary.sr_regression_failure_rate;
+      assert.equal(rfr.denominator,cohort.length,type);
+      assert.equal(rfr.numerator,failed.length,type);
+      assert.equal(rfr.value,failed.length/cohort.length,type);
+    }
+  }
+  const html=renderPaperMetrics(data.report,{},new URLSearchParams(),data.records);
+  assert.match(html,/counts checkpoints with at least one failed Regression check/);
+  assert.match(html,/delivery failures still score as failures elsewhere/);
+});
+
 test('latest tables filter by effort, retain resources, and list every failure once',()=>{
   const filters={model:'gpt-6-luna',thinking:'low'};
   assert.equal(selectPaperGroups(data.report,filters).length,1);
@@ -100,7 +137,9 @@ test('Standard costs agree across summaries, trial details and both cache export
     for(const cell of (await load(`results/${detail.path}`)).cells){
       if(!cell.model.startsWith('gpt-6.1-'))continue;
       const projected=applyRecordCosts([cell],data.records,data.report.price_version)[0];
-      assert.equal(projected.official_cost_selected_attempt,cell.official_cost_selected_attempt);
+      // Python 3.12 compensated sum and JavaScript's sequential reduce can
+      // differ in the last floating-point bit when projecting the same costs.
+      assert.ok(Math.abs(projected.official_cost_selected_attempt-cell.official_cost_selected_attempt)<1e-12);
       assert.ok(cell.official_cost_selected_attempt>=0);
       assert.ok(csv([cell]).includes(data.report.price_version));
       for(const cp of cell.checkpoints){

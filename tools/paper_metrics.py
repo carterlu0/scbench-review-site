@@ -18,7 +18,7 @@ from statistics import mean
 from statistics import pstdev
 from typing import Any
 
-SCORING_VERSION = "evortl-paper-2026-10-28-v3"
+SCORING_VERSION = "evortl-paper-2026-11-04-v4"
 GROUPS = ("structure", "core", "regression")
 EXTRA_GROUPS = ("error",)
 
@@ -510,6 +510,23 @@ def group_results(
     return groups, None
 
 
+def regression_result_exclusion(cp: dict[str, Any] | None) -> str | None:
+    """Identify synthetic/unavailable behavior results from saved evidence.
+
+    A Structure failure or an all-zero test vector alone is not sufficient.
+    Missing-entrypoint diagnostics also cover older exports without the
+    candidate_failure flag. This annotation does not change strict scoring.
+    """
+    cp = cp or {}
+    if cp.get("candidate_failure") == "delivery_failure":
+        return "delivery_failure"
+    if cp.get("nonpass_subtype") == "missing_entrypoint":
+        return "missing_entrypoint"
+    if cp.get("valid_execution_failure") is True:
+        return "valid_execution_failure"
+    return None
+
+
 def normalize_checkpoint(
     cell: dict[str, Any] | None,
     cp: dict[str, Any] | None,
@@ -537,6 +554,7 @@ def normalize_checkpoint(
         "strict_pass": None,
         "reason": reason,
         "groups": None,
+        "regression_result_exclusion": regression_result_exclusion(cp),
         "cell_id": (cell or {}).get("id"),
         "compatible": False,
         "costs": {
@@ -748,6 +766,60 @@ def metric(
     }
 
 
+def sr_regression_failure_rate(rows: list[dict[str, Any]], eligible: bool) -> dict[str, Any]:
+    """Binary checkpoint failure among noninitial SRs with valid Regression.
+
+    Exclusions are retained for auditing. Regression failures remain eligible
+    when Structure or Core fails, provided actual Regression results exist.
+    """
+    values, excluded = [], Counter()
+    for row in rows:
+        if row["mode"] != "sr":
+            continue
+        regression = (row.get("groups") or {}).get("regression")
+        reason = None
+        if row["checkpoint_index"] == 1:
+            reason = "chain_initial_checkpoint"
+        elif row.get("regression_result_exclusion"):
+            reason = row["regression_result_exclusion"]
+        elif row.get("reason") in {"delivery_failure", "provisional_agent_failure"}:
+            reason = row["reason"]
+        elif regression and not regression["applicable"]:
+            reason = "no_applicable_regression"
+        elif (row["execution_status"] != "executed" or not regression
+              or not integer(regression.get("expected")) or regression["expected"] <= 0
+              or not integer(regression.get("passed"))
+              or regression["passed"] > regression["expected"]):
+            reason = "no_valid_regression_results"
+        elif regression.get("error") or regression.get("not_executed"):
+            reason = "incomplete_regression_results"
+        if reason:
+            excluded[reason] += 1
+            continue
+        values.append(int(regression["passed"] < regression["expected"]))
+    return {
+        **metric(values, "valid_noninitial_sr_checkpoint", eligible),
+        "numerator": sum(values),
+        "excluded_checkpoints": dict(sorted(excluded.items())),
+    }
+
+
+def refresh_sr_regression(group: dict, rows: list[dict], checkpoints: dict) -> None:
+    """Migrate only RFR from bound saved evidence; preserve all other scores."""
+    for row in rows:
+        cp = checkpoints.get((row.get("cell_id"), row["checkpoint_id"]))
+        if cp is not None:
+            row["regression_result_exclusion"] = regression_result_exclusion(cp)
+    sr = [r for r in rows if r["mode"] == "sr"]
+    formal = bool(group["config"]["formal"])
+    group["auxiliary"]["sr_regression_failure_rate"] = sr_regression_failure_rate(
+        sr, formal and all(r["compatible"] for r in sr))
+    for task_type, summary in group["by_task_type"].items():
+        subset = [r for r in sr if r["task_type"] == task_type]
+        summary["auxiliary"]["sr_regression_failure_rate"] = sr_regression_failure_rate(
+            subset, formal and all(r["compatible"] for r in subset))
+
+
 def summarize(
     rows: list[dict[str, Any]],
     chains: list[dict[str, Any]],
@@ -880,9 +952,6 @@ def summarize(
     def core(r):
         return (r.get("groups") or {}).get("core")
 
-    def regression(r):
-        return (r.get("groups") or {}).get("regression")
-
     def failure_total(r, group):
         if r.get("reason") in {"provisional_agent_failure", "delivery_failure"}:
             return r.get("failure_group_totals", {}).get(group)
@@ -899,11 +968,6 @@ def summarize(
             else None
         )
 
-    sr_reg = [
-        r for r in sr
-        if (regression(r) is None and failure_total(r, "regression") != 0)
-        or (regression(r) is not None and regression(r)["applicable"])
-    ]
     auxiliary = {
         "pipeline_core_pass_rate": metric(
             [core_pass(r) for r in pipeline], "checkpoint", p_eligible
@@ -923,18 +987,7 @@ def summarize(
             "checkpoint",
             s_eligible,
         ),
-        "sr_regression_failure_rate": metric(
-            [
-                1 - regression(r)["passed"] / regression(r)["expected"]
-                if regression(r)
-                else 1
-                if (failure_total(r, "regression") or 0) > 0
-                else None
-                for r in sr_reg
-            ],
-            "applicable_sr_checkpoint",
-            s_eligible,
-        ),
+        "sr_regression_failure_rate": sr_regression_failure_rate(sr, s_eligible),
         "pipeline_trajectory_success_rate": metric(
             trajectories, "task_chain", p_eligible
         ),
@@ -1349,6 +1402,7 @@ def calculate(
             "legacy_groups": "Functionality maps to Core exactly once for nodes, required IDs, evaluator totals and inventories; source evidence is unchanged; Error remains required for strict success",
             "test_group_aliases": {"Functionality": "Core"},
             "regression_na": "explicit collection inventory zero only",
+            "sr_regression_failure_rate": "binary checkpoint failure (at least one Regression check fails); exclude chain-initial positions, no applicable Regression, delivery/agent failures without valid Regression, missing entrypoints, and incomplete Regression execution; other-group failures alone do not exclude valid Regression results",
             "timing": timing_policy,
             "timing_unit": "seconds",
             "currency": "USD",

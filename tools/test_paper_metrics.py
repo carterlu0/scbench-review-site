@@ -6,6 +6,7 @@ from paper_metrics import calculate
 from paper_metrics import estimate_cost
 from paper_metrics import group_results
 from paper_metrics import normalize_checkpoint
+from paper_metrics import sr_regression_failure_rate
 
 
 class PaperAcceptance(unittest.TestCase):
@@ -89,8 +90,10 @@ class PaperAcceptance(unittest.TestCase):
                 self.assertEqual(group["auxiliary"][key]["value"], 0)
                 self.assertEqual(group["auxiliary"][key]["known_units"], 1)
             regression = group["auxiliary"]["sr_regression_failure_rate"]
-            self.assertEqual(regression["denominator"], regression_total)
-            self.assertEqual(regression["value"], 1 if regression_total else None)
+            # Agent failure still scores zero elsewhere, but has no valid
+            # Regression observation (and this is a chain-initial checkpoint).
+            self.assertEqual(regression["denominator"], 0)
+            self.assertIsNone(regression["value"])
             for row in group["checkpoint_records"]:
                 self.assertIsNone(row["groups"])
                 self.assertEqual(row["raw_execution_status"], "inference_error")
@@ -100,6 +103,80 @@ class PaperAcceptance(unittest.TestCase):
             unknown = calculate({"cells": cells}, manifest, {})["groups"][0]
             self.assertIsNone(unknown["auxiliary"]["sr_regression_failure_rate"]["value"])
             self.assertIsNone(unknown["auxiliary"]["sr_core_completion"]["value"])
+
+    def test_sr_rfr_counts_checkpoint_events_not_failed_test_fraction(self):
+        def row(index, passed, total=10, **extra):
+            return {"mode": "sr", "checkpoint_index": index,
+                    "execution_status": "executed", "groups": {"regression": {
+                        "applicable": total > 0, "expected": total, "passed": passed,
+                        "failed": total - passed, "error": 0, "not_executed": 0}}, **extra}
+        initial = row(1, 0, checkpoint_id="checkpoint_2")
+        partial = row(2, 9, checkpoint_id="checkpoint_3")
+        # Actual all-zero Regression results count, even if other groups fail.
+        all_failed = row(3, 0)
+        all_failed["groups"].update(structure={"all_passed": False}, core={"all_passed": False})
+        passed = row(4, 10)
+        no_regression = row(5, 0, total=0)
+        delivery = row(6, 0, regression_result_exclusion="delivery_failure")
+        missing_entrypoint = row(7, 0, regression_result_exclusion="missing_entrypoint")
+        agent_failure = row(8, 0, reason="provisional_agent_failure", groups=None)
+        incomplete = row(9, 9)
+        incomplete["groups"]["regression"].update(failed=0, not_executed=1)
+        error = row(10, 9)
+        error["groups"]["regression"].update(failed=0, error=1)
+        result = sr_regression_failure_rate([
+            initial, partial, all_failed, passed, no_regression, delivery,
+            missing_entrypoint, agent_failure, incomplete, error], True)
+        self.assertEqual(result["denominator"], 3)
+        self.assertEqual(result["numerator"], 2)
+        self.assertAlmostEqual(result["value"], 2 / 3)
+        self.assertEqual(result["excluded_checkpoints"], {
+            "chain_initial_checkpoint": 1, "no_applicable_regression": 1,
+            "delivery_failure": 1, "missing_entrypoint": 1,
+            "provisional_agent_failure": 1, "incomplete_regression_results": 2})
+        self.assertIsNone(sr_regression_failure_rate([passed], False)["value"])
+
+    def test_missing_entrypoint_is_excluded_only_from_sr_rfr(self):
+        targets = ["checkpoint_2", "checkpoint_3"]
+        manifest = {"schema_version": 1, "benchmark_version": "rfr-delivery",
+                    "chains": [{"id": "task", "task_type": "synthetic",
+                                "checkpoints": [{"id": t} for t in targets]}]}
+        cells = []
+        for mode in ("pipeline", "sr"):
+            for i, target in enumerate(targets):
+                cp = {"target_checkpoint": target, "state": "failed",
+                      "compatibility": {"score": "identical"},
+                      "test_counts": {"structure": {"passed": 1, "total": 1},
+                                      "core": {"passed": 0, "total": 2},
+                                      "regression": {"passed": 0, "total": 2}}}
+                # Keep the pipeline executable; both steps still fail Core.
+                if mode == "sr" and i == 1:
+                    cp.update(nonpass_subtype="missing_entrypoint")
+                    cp["test_counts"]["structure"]["passed"] = 0
+                if mode == "pipeline" and i == 0:
+                    cell = {"id": mode, "problem": "task", "mode": mode,
+                            "model": "m", "agent": "codex", "formal": True,
+                            "repeat": 0, "status": "completed", "planned_targets": targets,
+                            "progression_policy": "structure-cases", "checkpoints": []}
+                    cells.append(cell)
+                elif mode == "sr":
+                    cell = {"id": mode + target, "problem": "task", "mode": mode,
+                            "model": "m", "agent": "codex", "formal": True,
+                            "repeat": 0, "status": "completed", "planned_targets": [target],
+                            "checkpoints": []}
+                    cells.append(cell)
+                cell["checkpoints"].append(cp)
+        group = calculate({"cells": cells}, manifest, {})["groups"][0]
+        for name in ("pipeline_fdr", "pipeline_cc", "sr_cpr"):
+            self.assertEqual(group["primary"][name]["value"], 0)
+        self.assertEqual(group["auxiliary"]["sr_regression_failure_rate"]["denominator"], 0)
+        self.assertEqual(group["by_task_type"]["synthetic"]["auxiliary"]
+                         ["sr_regression_failure_rate"]["denominator"], 0)
+        failed = next(r for r in group["checkpoint_records"]
+                      if r["mode"] == "sr" and r["checkpoint_index"] == 2)
+        self.assertEqual(failed["strict_pass"], 0)
+        self.assertEqual(failed["groups"]["regression"]["passed"], 0)
+        self.assertEqual(failed["regression_result_exclusion"], "missing_entrypoint")
 
     def test_cache_scenarios(self):
         book = {"version": "synthetic", "currency": "USD", "unit": "per_million_tokens",
