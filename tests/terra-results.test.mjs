@@ -61,7 +61,7 @@ test('archived combined release retains Terra and every previous 445 trial uncha
   for(const cell of terra.value.cells)assert.deepEqual(selected.get(cell.id),cell,`Added ${cell.id}`);
 });
 
-test('all 138 executed Terra candidates have archives and unknown prices remain unknown',async()=>{
+test('original Terra evidence retains all 138 archives and its original unknown estimates',async()=>{
   const {terra,details}=await publication();
   assert.equal(details.length,89);
   const executed=details.flatMap(cell=>cell.checkpoints).filter(checkpoint=>checkpoint.state!=='stopped_by_policy');
@@ -98,7 +98,7 @@ test('WB SR4 retains its 42 of 43 test failure and pipeline retains all four pas
   assert.ok(pipeline.checkpoints.every(checkpoint=>checkpoint.state==='passed'));
 });
 
-test('archived Terra paper report contains six settings and complete metrics with unknown cost',async()=>{
+test('archived Terra paper report contains six settings and complete Standard cost metrics',async()=>{
   const {manifest}=await publication();
   const report=await load(`paper/reports/${manifest.combined_analysis}.json`);
   assert.equal(report.groups.length,6);
@@ -109,9 +109,10 @@ test('archived Terra paper report contains six settings and complete metrics wit
   assert.deepEqual(terra[0].issues,[]);
   for(const metric of Object.values(terra[0].primary))assert.notEqual(metric.value,null);
   for(const mode of ['pipeline','sr']){
-    assert.equal(terra[0].resources[`${mode}_actual`].total_cost_usd,null);
-    assert.equal(terra[0].resources[`${mode}_actual`].mean_cost_usd,null);
+    assert.ok(terra[0].resources[`${mode}_actual`].total_cost_usd>0);
+    assert.ok(terra[0].resources[`${mode}_actual`].mean_cost_usd>0);
   }
+  assert.equal(report.price_metadata.rates.find(rate=>rate.model==='gpt-6.1-terra').input,1);
 });
 
 test('publication provenance is rendered as escaped paragraphs without interpreting HTML',async()=>{

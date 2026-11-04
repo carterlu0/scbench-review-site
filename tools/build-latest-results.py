@@ -9,7 +9,6 @@ import json
 from pathlib import Path
 
 from paper_metrics import calculate
-from paper_metrics import checkpoint_cost
 from paper_metrics import identity
 
 
@@ -42,7 +41,7 @@ def load_analysis(site, catalog, analysis_id):
     return analysis, entry
 
 
-def normalize_cells(analysis, resource_input, book):
+def normalize_cells(analysis, resource_input):
     cells = deepcopy(analysis["cells"])
     inputs = resource_input["checkpoints"]
     if resource_input["source_analysis"] != analysis["id"]:
@@ -71,22 +70,38 @@ def normalize_cells(analysis, resource_input, book):
             cp.setdefault("tags", [])
             cp.setdefault("calls", {})
             cp["compatibility"].setdefault("calls", "unknown")
-            cost = checkpoint_cost(cp, cell, book, "actual")
-            cp["official_cost"] = {"usd": cost["usd"],
-                "coverage": "complete" if cost["usd"] is not None else "unknown",
-                "reason": cost.get("reason")}
             cell["expected_test_counts"][cp["target_checkpoint"]] = inventory
     return cells
 
 
 def compact_record(row):
     result = {k: deepcopy(row[k]) for k in ("mode", "chain_id", "checkpoint_id",
-        "checkpoint_index", "execution_status", "strict_pass", "reason", "groups", "compatible") if k in row}
+        "cell_id", "checkpoint_index", "execution_status", "strict_pass", "reason",
+        "groups", "compatible", "costs") if k in row}
     if result.get("groups"):
         result["groups"] = {name: {k: v for k, v in group.items()
                                  if k not in ("tests", "non_applicable")}
                             for name, group in result["groups"].items()}
     return result
+
+
+def apply_record_costs(cells, rows, version):
+    """Use the scored costs in trial details as well as resource summaries."""
+    costs = {(r["cell_id"], r["checkpoint_id"]): r["costs"] for r in rows}
+    for cell in cells:
+        for cp in cell["checkpoints"]:
+            projected = costs.get((cell["id"], cp["target_checkpoint"]))
+            if projected is None:
+                continue
+            cp.setdefault("original_official_cost", deepcopy(cp.get("official_cost")))
+            cp["costs"] = deepcopy(projected)
+            actual = projected["actual"]
+            cp["official_cost"] = {**deepcopy(actual),
+                "coverage": "complete" if actual["usd"] is not None else "unknown",
+                "price_version": version}
+        values = [cp.get("official_cost", {}).get("usd") for cp in cell["checkpoints"]]
+        cell["official_cost_selected_attempt"] = sum(values) if values and all(v is not None for v in values) else None
+        cell["price_version"] = version
 
 
 def verify_reused_records(group, cells):
@@ -122,7 +137,7 @@ def build(site):
         if selection.get("manifest"):
             manifest = load(destination / selection["manifest"])
             selected = normalize_cells({**analysis, "cells": selected},
-                                       load(destination / selection["resources"]), book)
+                                       load(destination / selection["resources"]))
             scoring_input = {**analysis, "cells": selected,
                              "protocols": {p["id"]: p for p in analysis["protocols"]}}
             calculated = calculate(scoring_input, manifest, book)
@@ -157,6 +172,7 @@ def build(site):
                 chain["task_type"] = chain_types[chain["chain_id"]]
             records.append({"id": group["id"], "config": config,
                             "checkpoint_records": [compact_record(r) for r in rows]})
+            apply_record_costs([c for c in selected if c["id"] in binding], rows, book["version"])
             group["source_analysis"] = analysis["id"]
             group["updated_at"] = analysis["created_at"]
             group["configuration_bindings"] = [{k: b[k] for k in ("cell_id", "protocol")}
@@ -196,9 +212,12 @@ def build(site):
         short = {k: deepcopy(v) for k, v in cell.items() if k in (
             "id", "problem", "mode", "prompt_arm", "model", "agent", "agent_version",
             "thinking", "protocol", "formal", "progression_policy", "status", "outcome",
-            "score", "generation", "evaluation_generation", "planned_targets", "expected_test_counts")}
+            "score", "generation", "evaluation_generation", "planned_targets", "expected_test_counts",
+            "official_cost_selected_attempt", "price_version")}
         short["checkpoints"] = [{k: deepcopy(cp[k]) for k in ("target_checkpoint", "state",
-            "gate_passed", "candidate_failure", "score_override", "expected_test_counts", "test_counts") if k in cp}
+            "gate_passed", "candidate_failure", "score_override", "expected_test_counts", "test_counts",
+            ) if k in cp} | {"official_cost": {k: cp.get("official_cost", {}).get(k)
+                                            for k in ("usd", "coverage", "reason", "price_version")}}
                                for cp in cell["checkpoints"]]
         overview.append(short)
     report = {k: calculated.get(k) for k in ("schema_version", "scoring_version", "policies")}

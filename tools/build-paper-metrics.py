@@ -10,7 +10,9 @@ from pathlib import Path
 
 from paper_metrics import SCORING_VERSION
 from paper_metrics import calculate
+from paper_metrics import checkpoint_cost
 from paper_metrics import identity
+from paper_metrics import summarize
 
 
 def load(path: Path):
@@ -21,7 +23,7 @@ def write_changed(path: Path, value):
     content = json.dumps(value, ensure_ascii=False, separators=(",", ":"), allow_nan=False) + "\n"
     if not path.exists() or path.read_text(encoding="utf-8") != content:
         path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(content, encoding="utf-8", newline="\n")
+        path.write_text(content, encoding="utf-8")
     return hashlib.sha256(content.encode()).hexdigest()
 
 
@@ -44,6 +46,47 @@ def apply_price_overrides(book, analysis, overrides):
     effective.pop("id", None)
     effective["id"] = identity(effective)
     return effective
+
+
+def reprice_report(report, details, analysis, manifest, book):
+    """Refresh prices from saved usage while preserving scores and timings."""
+    def update_costs(target, refreshed):
+        for key, resource in target["resources"].items():
+            resource.update({name: value for name, value in refreshed["resources"][key].items()
+                             if "cost" in name})
+        for key, efficiency in target["efficiencies"].items():
+            efficiency.update({name: value for name, value in refreshed["efficiencies"][key].items()
+                               if "cost" in name})
+
+    cells = {cell["id"]: cell for cell in analysis["cells"]}
+    detail_groups = {group["id"]: group for group in details["groups"]}
+    for group in report["groups"]:
+        rows = detail_groups[group["id"]]["checkpoint_records"]
+        for row in rows:
+            cell = cells.get(row.get("cell_id"))
+            if not cell or row["execution_status"] != "executed":
+                continue
+            checkpoint = next((cp for cp in cell["checkpoints"]
+                               if cp["target_checkpoint"] == row["checkpoint_id"]), None)
+            if checkpoint is None:
+                continue
+            checkpoint = {**checkpoint, "tokens": row.get("usage") or checkpoint.get("tokens")}
+            for policy in ("actual", "fixed_85"):
+                old = row["costs"][policy]
+                cost = checkpoint_cost(checkpoint, cell, book, policy)
+                if old.get("imputed"):
+                    cost = {**old, "price_version": book["version"],
+                            "original_cost": cost}
+                row["costs"][policy] = cost
+        refreshed = summarize(rows, manifest["chains"], group["config"]["formal"], report["policies"]["timing"])
+        update_costs(group, refreshed)
+        for task_type, subset in group.get("by_task_type", {}).items():
+            chains = [chain for chain in manifest["chains"] if chain["task_type"] == task_type]
+            chain_ids = {chain["id"] for chain in chains}
+            refreshed = summarize([row for row in rows if row["chain_id"] in chain_ids],
+                                  chains, group["config"]["formal"], report["policies"]["timing"])
+            update_costs(subset, refreshed)
+    report.update(price_version=book["version"], pricebook_sha256=identity(book), price_metadata=book)
 
 
 def build(site: Path, rebuild: bool = False):
@@ -108,10 +151,14 @@ def build(site: Path, rebuild: bool = False):
                 record_path = destination / cached["checkpoint_records_path"]
                 if (cached.get("scoring_version") == SCORING_VERSION
                         and cached.get("manifest_sha256") == identity(manifest)
-                        and cached.get("pricebook_sha256") == identity(book)
                         and cached.get("published_analysis_sha256") == source_analysis_sha256
                         and record_path.exists()
                         and hashlib.sha256(record_path.read_bytes()).hexdigest() == cached["checkpoint_records_sha256"]):
+                    if cached.get("pricebook_sha256") != identity(book):
+                        details = load(record_path)
+                        reprice_report(cached, details, analysis, manifest, book)
+                        cached["checkpoint_records_sha256"] = write_changed(record_path, details)
+                        cached_entry = {**cached_entry, "sha256": write_changed(cached_path, cached)}
                     index["reports"].append(cached_entry)
                     continue
         report = calculate(analysis, manifest, book)

@@ -209,22 +209,23 @@ Pricebook version/date/source are preserved. Current GPT-6-Luna rates are the
 existing user-provided 2026-10-23 Standard rates, explicitly marked independently
 unverified; they are not presented as a current provider quote or actual bill.
 
-The site-owned `data/paper/price-overrides.json` supplies GPT-6.1-Sol Standard
-prices provided by the user on 2026-10-31. At per-request prompt input up to
-272,000 tokens, input/output/cache-read/cache-write rates are 2/10/0.10/2.50 USD
-per million tokens. Above 272,000, the entire request uses 4/15/0.20/5.00.
-The threshold includes cached prompt tokens and is not a checkpoint-total
-threshold. For the recorded Sol/Codex protocol, the user subsequently confirmed
-the pricing assumption that each request remained within the 272K prompt limit.
-The scoped `aggregate_request_bounds` entry therefore permits base-rate estimates
-from checkpoint usage and records `context_tier_basis=user_declared_request_bound`.
-Complete reconciled request usage takes precedence if available. Other protocols
-still need request evidence or an explicit bound. Actual-cache and fixed-85%
-scenarios use the same tier. By subsequent user instruction, the costs of
-the two explicitly listed provisional Sol failed runs are temporarily counted as
-USD 0. Each imputation retains its source and original unknown cost, and the
-UI reports imputed counts separately. Original costs are preserved separately;
-all other runs keep their observed costs.
+The site-owned `data/paper/price-overrides.json` supplies the Standard prices
+provided by the user on 2026-11-04, in USD per million tokens:
+
+| Model | Input | Output | Cached input | Cache writes |
+| --- | ---: | ---: | ---: | ---: |
+| gpt-6.1-sol | 2.00 | 10.00 | 0.10 | 2.50 |
+| gpt-6.1-terra | 1.00 | 5.00 | 0.05 | 1.25 |
+
+These fixed rates replace the previous Sol context-tier assumption and fill the
+missing Terra prices. Both actual-cache and fixed-85% scenarios, current results,
+historical derived reports, trial estimates and CSV/JSON exports use these rates.
+Original experiment analyses and usage remain immutable. Current trial JSON
+retains `original_official_cost`, both `costs` scenarios and the effective
+`price_version`; `official_cost_selected_attempt` is the selected trial's total,
+kept distinct from historical all-attempt totals whose retry usage is unavailable.
+The existing temporary USD 0 policy for the two explicitly listed provisional
+Sol failed runs is retained, with original costs and imputation sources.
 Full mean costs and cost efficiencies include these temporary zeros. Missing
 durations and unrelated missing usage remain unknown; time metrics are not
 zero-imputed. Other incomplete costs still show only a known subtotal.

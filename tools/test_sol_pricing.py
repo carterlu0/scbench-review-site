@@ -1,4 +1,4 @@
-"""Request-tier billing checks for the user-provided Sol Standard prices."""
+"""Coverage for the user-provided GPT-6.1 Standard price overrides."""
 import importlib.util
 import json
 from pathlib import Path
@@ -12,86 +12,50 @@ builder = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(builder)
 
 
-class SolPricing(unittest.TestCase):
+class StandardPricing(unittest.TestCase):
     def setUp(self):
         self.override = json.loads((ROOT / "data/paper/price-overrides.json").read_text())
-        self.base = {"version": "frozen", "currency": "USD", "unit": "per_million_tokens",
-                     "rates": [{"model": "other", "input": 1, "output": 1}]}
         self.book = builder.apply_price_overrides(
-            self.base, {"cells": [{"model": "gpt-6.1-sol"}]}, self.override)
+            {"version": "frozen", "currency": "USD", "unit": "per_million_tokens",
+             "rates": [{"model": "other", "input": 9, "output": 9}]},
+            {"cells": [{"model": "gpt-6.1-sol"}, {"model": "gpt-6.1-terra"}]},
+            self.override,
+        )
 
-    def price(self, prompt, read=100000, write=0, policy="actual"):
-        return estimate_cost({"input": prompt, "cache_read": read, "cache_write": write,
-                              "output": 1000, "reasoning": 800}, self.book,
-                             "gpt-6.1-sol", "inclusive_cache", policy, per_request=True)
+    def test_fixed_standard_rates(self):
+        rates = {rate["model"]: rate for rate in self.book["rates"]}
+        self.assertEqual((rates["gpt-6.1-sol"]["input"], rates["gpt-6.1-sol"]["output"],
+                          rates["gpt-6.1-sol"]["cache_read"], rates["gpt-6.1-sol"]["cache_write"]),
+                         (2, 10, 0.1, 2.5))
+        self.assertEqual((rates["gpt-6.1-terra"]["input"], rates["gpt-6.1-terra"]["output"],
+                          rates["gpt-6.1-terra"]["cache_read"], rates["gpt-6.1-terra"]["cache_write"]),
+                         (1, 5, 0.05, 1.25))
+        self.assertEqual(self.book["aggregate_request_bounds"], [])
 
-    def test_threshold_and_entire_request(self):
-        self.assertAlmostEqual(self.price(272000)["usd"], 0.364)
-        self.assertAlmostEqual(self.price(272001)["usd"], 0.723004)
-        self.assertEqual(self.price(272001)["rate"]["output"], 15)
+    def test_actual_and_fixed_cache_costs(self):
+        usage = {"input": 300_000, "output": 1_000, "cache_read": 200_000, "cache_write": 50_000}
+        sol = estimate_cost(usage, self.book, "gpt-6.1-sol", "inclusive_cache", "actual")
+        terra = estimate_cost(usage, self.book, "gpt-6.1-terra", "inclusive_cache", "actual")
+        self.assertAlmostEqual(sol["usd"], 0.255)
+        self.assertAlmostEqual(terra["usd"], 0.1275)
+        self.assertAlmostEqual(estimate_cost(usage, self.book, "gpt-6.1-sol", "inclusive_cache", "fixed_85")["usd"], 0.1255)
 
-    def test_cache_writes_and_fixed85(self):
-        self.assertAlmostEqual(self.price(300000, 200000, 50000)["usd"], 0.505)
-        self.assertAlmostEqual(self.price(300000, policy="fixed_85")["usd"], 0.246)
+    def test_checkpoint_cost_uses_standard_rates(self):
+        cp = {"tokens": {"input": 400_000, "output": 2_000, "cache_read": 200_000, "cache_write": 0}}
+        cell = {"agent": "codex", "model": "gpt-6.1-terra", "protocol": "unscoped"}
+        result = checkpoint_cost(cp, cell, self.book, "actual")
+        self.assertAlmostEqual(result["usd"], 0.22)
+        self.assertEqual(result["rate"]["input"], 1)
 
-    def test_aggregate_does_not_choose_tier(self):
-        cp = {"tokens": {"input": 400000, "output": 2000, "cache_read": 200000, "cache_write": 0}}
-        result = checkpoint_cost(cp, {"agent": "codex", "model": "gpt-6.1-sol"}, self.book, "actual")
-        self.assertIsNone(result["usd"])
-        self.assertEqual(result["reason"], "request_context_required")
-        cp["calls"] = {"responses": [
-            {"usage": {"input": 200000, "output": 1000, "cache_read": 100000, "cache_write": 0}}
-            for _ in range(2)]}
-        self.assertAlmostEqual(checkpoint_cost(cp, {"agent": "codex", "model": "gpt-6.1-sol"}, self.book, "actual")["usd"], 0.44)
+    def test_missing_usage_stays_unknown(self):
+        self.assertIsNone(estimate_cost({}, self.book, "gpt-6.1-terra", "inclusive_cache")["usd"])
 
-    def test_incomplete_requests_remain_unknown(self):
-        cp = {"tokens": {"input": 400000, "output": 2000, "cache_read": 200000, "cache_write": 0},
-              "calls": {"responses": [{"usage": {"input": 200000, "output": 1000, "cache_read": 100000, "cache_write": 0}}]}}
-        self.assertIsNone(checkpoint_cost(cp, {"agent": "codex", "model": "gpt-6.1-sol"}, self.book, "actual")["usd"])
-
-    def test_override_preserves_source_and_other_models(self):
-        self.assertEqual(len(self.base["rates"]), 1)
-        self.assertEqual(self.book["rates"][0], self.base["rates"][0])
-        self.assertIn("source_pricebook_sha256", self.book)
-        self.assertIs(builder.apply_price_overrides(self.base, {"cells": [{"model": "other"}]}, self.override), self.base)
-
-    def test_declared_bound_prices_aggregate_only_in_scoped_protocol(self):
-        protocol = self.override["aggregate_request_bounds"][0]["protocols"][0]
-        cell = {"agent": "codex", "model": "gpt-6.1-sol", "protocol": protocol}
-        cp = {"tokens": {"input": 400000, "output": 2000, "cache_read": 200000, "cache_write": 0}}
-        cost = checkpoint_cost(cp, cell, self.book, "actual")
-        self.assertAlmostEqual(cost["usd"], 0.44)
-        self.assertEqual(cost["context_tier_basis"], "user_declared_request_bound")
-        self.assertAlmostEqual(checkpoint_cost(cp, cell, self.book, "fixed_85")["usd"], 0.174)
-        cell["protocol"] = "unapproved"
-        self.assertIsNone(checkpoint_cost(cp, cell, self.book, "actual")["usd"])
-        self.assertIsNone(estimate_cost(cp["tokens"], self.book, "gpt-6.1-sol", "inclusive_cache",
-                                       request_input_upper_bound=300000)["usd"])
-
-    def test_observed_requests_override_declared_bound(self):
-        protocol = self.override["aggregate_request_bounds"][0]["protocols"][0]
-        usage = {"input": 400000, "output": 2000, "cache_read": 200000, "cache_write": 0}
-        cp = {"tokens": usage, "calls": {"responses": [{"usage": usage}]}}
-        cell = {"agent": "codex", "model": "gpt-6.1-sol", "protocol": protocol}
-        cost = checkpoint_cost(cp, cell, self.book, "actual")
-        self.assertAlmostEqual(cost["usd"], 0.87)
-        self.assertEqual(cost["source"], "reconciled_native_requests")
-
-    def test_original_inference_protocol_controls_reused_price_assumptions(self):
-        protocol = self.override["aggregate_request_bounds"][0]["protocols"][0]
-        cell = {"agent": "codex", "model": "gpt-6.1-sol", "protocol": "new-evaluator"}
-        cp = {"inference_protocol": protocol, "tokens": {
-            "input": 400000, "output": 2000, "cache_read": 200000, "cache_write": 0}}
-        self.assertAlmostEqual(checkpoint_cost(cp, cell, self.book, "actual")["usd"], 0.44)
-        cell["protocol"] = protocol
-        cp["inference_protocol"] = "unapproved"
-        self.assertIsNone(checkpoint_cost(cp, cell, self.book, "actual")["usd"])
 
     def test_only_listed_failed_runs_get_temporary_zero_cost(self):
         policy = self.book["temporary_failure_cost_policy"]
         cell = {"id": policy["cell_ids"][0], "model": "gpt-6.1-sol", "agent": "codex",
                 "status": "completed", "outcome": "agent_failure",
-                "protocol": self.override["aggregate_request_bounds"][0]["protocols"][0],
+                "protocol": "unscoped",
                 "score_override": {"value": 0, "reason": "agent_failure", "provisional": True}}
         cp = {"state": "inference_error", "compatibility": {"score": "identical"}}
         chain = {"id": "task", "checkpoints": [{"id": "checkpoint_1"}]}

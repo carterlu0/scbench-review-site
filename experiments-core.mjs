@@ -58,8 +58,23 @@ export function summarize(cells) {
     incomplete: cells.some(c=>c.status !== 'completed'),
     incompatible: cells.some(c=>c.checkpoints.some(cp=>!['identical','compatible'].includes(cp.compatibility?.score)))};
 }
+export function applyRecordCosts(cells, records, version) {
+  const costs=new Map((records?.groups||[]).flatMap(g=>g.checkpoint_records.map(r=>[`${r.cell_id}/${r.checkpoint_id}`,r.costs])));
+  return cells.map(cell=>{
+    const checkpoints=cell.checkpoints.map(cp=>{
+      const projected=costs.get(`${cell.id}/${cp.target_checkpoint}`);
+      if(!projected)return cp;
+      const actual=projected.actual;
+      return {...cp,original_official_cost:cp.original_official_cost??cp.official_cost,costs:projected,
+        official_cost:{...actual,coverage:actual.usd==null?'unknown':'complete',price_version:version}};
+    });
+    const values=checkpoints.map(cp=>cp.official_cost?.usd);
+    return {...cell,checkpoints,price_version:version,
+      official_cost_selected_attempt:values.length&&values.every(v=>v!=null)?values.reduce((sum,v)=>sum+v,0):null};
+  });
+}
 export function csv(cells) {
-  const headers = ['problem','model','agent','agent_version','thinking','mode','prompt_arm','repeat','status','outcome','score','progression_policy','final_checkpoint','final_passed_tests','final_total_tests','final_result_reason','official_cost_all_attempts','cost_coverage','agent_invocations','agent_retries'];
+  const headers = ['problem','model','agent','agent_version','thinking','mode','prompt_arm','repeat','status','outcome','score','progression_policy','final_checkpoint','final_passed_tests','final_total_tests','final_result_reason','official_cost_selected_attempt','price_version','official_cost_all_attempts','cost_coverage','agent_invocations','agent_retries'];
   const quote = value => {let text=String(value ?? ''); if (/^[=+@\-]/.test(text)) text="'"+text;return '"'+text.replaceAll('"','""')+'"';};
   return [headers,...cells.map(c=>{const result=finalResult(c,cells);const row={...c,final_checkpoint:result.target,final_passed_tests:result.passed,final_total_tests:result.total,final_result_reason:result.reason};return headers.map(h=>row[h]);})].map(row=>row.map(quote).join(',')).join('\r\n');
 }

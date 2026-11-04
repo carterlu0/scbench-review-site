@@ -1,5 +1,5 @@
-import {escapeHtml as esc, modelKey, compareModelSettings, resultKey, latestCells, selectCells, summarize, csv, hydrateCells, testCounts, checkpointRows, plannedTargets, finalResult, fraction, isDeliveryFailure} from './experiments-core.mjs?v=20261103-latest-settings';
-import {renderPaperMetrics, selectPaperGroups, paperCsv} from './paper-metrics.mjs?v=20261103-latest-settings';
+import {escapeHtml as esc, modelKey, compareModelSettings, resultKey, latestCells, selectCells, summarize, csv, hydrateCells, testCounts, checkpointRows, plannedTargets, finalResult, fraction, isDeliveryFailure, applyRecordCosts} from './experiments-core.mjs?v=20261104-standard-prices';
+import {renderPaperMetrics, selectPaperGroups, paperCsv} from './paper-metrics.mjs?v=20261104-standard-prices';
 let catalogPromise;
 let paperCatalogPromise;
 let metadataPromise;
@@ -209,17 +209,15 @@ export async function renderExperiments() {
     const problem=params.get('problem');
     let paperReport=null;
     let paperRecords=null;
-    if(!problem){
-      paperCatalogPromise ||= json('data/paper/catalog.json').catch(()=>null);
-      const paperCatalog=await paperCatalogPromise;
-      const paperEntry=paperCatalog?.reports.find(r=>r.analysis_id===entry.id);
-      paperReport=paperEntry?await json(`data/paper/${paperEntry.path}`):null;
-      paperRecords=paperReport?await json(`data/paper/${paperReport.checkpoint_records_path}`):null;
-    }
+    paperCatalogPromise ||= json('data/paper/catalog.json').catch(()=>null);
+    const paperCatalog=await paperCatalogPromise;
+    const paperEntry=paperCatalog?.reports.find(r=>r.analysis_id===entry.id);
+    paperReport=paperEntry?await json(`data/paper/${paperEntry.path}`):null;
+    paperRecords=paperReport?await json(`data/paper/${paperReport.checkpoint_records_path}`):null;
     metadataPromise ||= json('data/problems.json').then(data=>data.problems||[]).catch(()=>{metadataPromise=null;return [];});
     const problemsMetadata=await metadataPromise;
     const protocols={[release.protocol.id]:release.protocol};
-    const hydrated=hydrateCells(release.cells,problemsMetadata,protocols);
+    const hydrated=applyRecordCosts(hydrateCells(release.cells,problemsMetadata,protocols),paperRecords,paperReport?.price_version);
     const filters={prompt_arm:params.get('prompt_arm')||'',protocol:params.get('protocol')||'',scope:params.get('scope')||'diagnostic',q:params.get('q')||'',model:params.get('model')||'',agent:params.get('agent')||''};
     if(!params.has('scope')&&hydrated.some(c=>c.formal))filters.scope='formal';
     const protocolIds=[...new Set(hydrated.map(c=>c.protocol))];
@@ -271,7 +269,7 @@ export async function renderExperiments() {
     app.querySelector('#matrix-json').onclick=()=>download('scbench-experiments.json',JSON.stringify({...release,cells:problem?cells:filtered},null,2),'application/json');
     app.querySelectorAll('[data-paper-param]').forEach(input=>input.onchange=()=>{location.hash=hash(params,{[input.dataset.paperParam]:input.checked?'1':input.dataset.paperParam==='aux'?'0':null});});
     app.querySelectorAll('[data-paper-select]').forEach(select=>select.onchange=()=>{location.hash=hash(params,{[select.dataset.paperSelect]:select.value});});
-    if(paperReport){
+    if(paperReport&&!problem){
       app.querySelector('#paper-csv').onclick=()=>download('evortl-paper-metrics.csv',paperCsv(paperReport,{...filters,task_type:params.get('task_type')||''},params.get('cache')||'actual',params.get('threshold')||'structure-case',paperRecords),'text/csv;charset=utf-8');
       app.querySelector('#paper-json').onclick=async()=>{
         const records=await json(`data/paper/${paperReport.checkpoint_records_path}`);
@@ -283,7 +281,7 @@ export async function renderExperiments() {
       let detailCells=cells;
       const path=release.detail_paths?.[problem];
       if(path){const detail=await json(`data/experiments/${path}`);if(location.hash!==route)return;const ids=new Set(cells.map(c=>c.id));detailCells=hydrateCells(detail.cells.filter(c=>ids.has(c.id)),problemsMetadata,protocols);}
-      renderEvidence(detailCells.filter(c=>c.id===params.get('trial')),problem,catalog.source?.commit);
+      renderEvidence(applyRecordCosts(detailCells.filter(c=>c.id===params.get('trial')),paperRecords,paperReport?.price_version),problem,catalog.source?.commit);
       if(params.get('checkpoint')) {
         const summaries=app.querySelectorAll('.matrix-trial details');
         for(const details of summaries)if(details.querySelector('summary').textContent.startsWith(params.get('checkpoint')+' /'))details.open=true;

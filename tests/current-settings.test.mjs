@@ -81,3 +81,33 @@ test('latest tables filter by effort, retain resources, and list every failure o
   assert.match(renderLatestFailures(data,filters),/all 91 nonpass outcomes/);
   assert.match(renderLatestStatus(data,filters),/148/);
 });
+
+test('Standard costs agree across summaries, trial details and both cache exports',async()=>{
+  const {applyRecordCosts,csv}=await import('../experiments-core.mjs');
+  for(const model of ['gpt-6.1-sol','gpt-6.1-terra']){
+    const group=data.report.groups.find(g=>g.config.model===model);
+    const records=data.records.groups.find(g=>g.id===group.id).checkpoint_records;
+    for(const policy of ['actual','fixed_85'])for(const mode of ['pipeline','sr']){
+      const resource=group.resources[`${mode}_${policy}`];
+      assert.equal(resource.known_cost_records,74);
+      assert.deepEqual(resource.cost_missing_reasons,{});
+      const total=records.filter(r=>r.mode===mode).reduce((sum,r)=>sum+r.costs[policy].usd,0);
+      assert.ok(Math.abs(resource.total_cost_usd-total)<1e-10);
+    }
+    assert.ok(group.efficiencies.sr_cpr_actual.cost_efficiency_per_usd>0);
+  }
+  for(const detail of Object.values(data.details)){
+    for(const cell of (await load(`results/${detail.path}`)).cells){
+      if(!cell.model.startsWith('gpt-6.1-'))continue;
+      const projected=applyRecordCosts([cell],data.records,data.report.price_version)[0];
+      assert.equal(projected.official_cost_selected_attempt,cell.official_cost_selected_attempt);
+      assert.ok(cell.official_cost_selected_attempt>=0);
+      assert.ok(csv([cell]).includes(data.report.price_version));
+      for(const cp of cell.checkpoints){
+        assert.equal(cp.official_cost.usd,cp.costs.actual.usd);
+        assert.ok(cp.official_cost.usd>=0);
+        assert.ok('original_official_cost' in cp);
+      }
+    }
+  }
+});

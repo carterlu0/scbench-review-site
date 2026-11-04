@@ -8,32 +8,31 @@ const catalog=await load('catalog.json');
 const experimentManifest=JSON.parse(await readFile(new URL('../data/experiments/TERRA-HIGH89-20261103.json',import.meta.url),'utf8'));
 const report=await load(catalog.reports.find(r=>r.analysis_id===experimentManifest.combined_analysis).path);
 
-test('published Sol prices distinguish entire-request context tiers',()=>{
+test('published Standard prices cover Sol and Terra at fixed rates',()=>{
   const rates=report.price_metadata.rates.filter(r=>r.model==='gpt-6.1-sol');
-  assert.equal(rates.length,2);
-  assert.deepEqual(rates.map(r=>[r.max_context,r.input,r.output,r.cache_read,r.cache_write]),
-    [[272000,2,10,0.1,2.5],[null,4,15,0.2,5]]);
+  assert.equal(rates.length,1);
+  assert.deepEqual(rates.map(r=>[r.input,r.output,r.cache_read,r.cache_write]), [[2,10,0.1,2.5]]);
+  const terra=report.price_metadata.rates.find(r=>r.model==='gpt-6.1-terra');
+  assert.deepEqual([terra.input,terra.output,terra.cache_read,terra.cache_write],[1,5,0.05,1.25]);
   const html=renderPaperMetrics(report,{scope:'formal'},new URLSearchParams('overhead=1'));
-  assert.match(html,/prompt input ≤ 272,000 tokens/);
-  assert.match(html,/prompt input &gt; 272,000 tokens/);
-  assert.match(html,/entire individual request/);
-  assert.match(html,/request_context_required/);
+  assert.match(html,/Standard prices/);
+  assert.match(html,/\$2\.00/);
+  assert.match(html,/\$1\.00/);
+  assert.match(html,/\$0\.05/);
 });
 
-test('Sol batch uses declared base-tier assumption without fabricating missing usage',async()=>{
+test('Sol batch retains complete Standard costs and approved failure imputations',async()=>{
   const records=await load(report.checkpoint_records_path);
   const sol=records.groups.find(g=>g.config.model==='gpt-6.1-sol');
   const costs=sol.checkpoint_records.filter(r=>r.execution_status==='executed').flatMap(r=>Object.values(r.costs));
   const priced=costs.filter(c=>c.usd!=null&&!c.imputed);
   assert.ok(priced.length>0);
-  assert.ok(priced.every(c=>c.context_tier_basis==='user_declared_request_bound'));
   assert.ok(priced.every(c=>c.rate.input===2&&c.rate.cache_read===0.1));
   assert.ok(costs.every(c=>c.usd!=null));
   assert.equal(costs.filter(c=>c.imputed).length,12);
   assert.ok(costs.filter(c=>c.imputed).every(c=>c.usd===0&&'original_cost' in c));
   assert.ok(costs.some(c=>c.imputed&&c.original_cost.usd>0));
   const html=renderPaperMetrics(report,{scope:'formal'},new URLSearchParams('overhead=1'));
-  assert.match(html,/user-declared per-request input bound/);
   assert.match(html,/temporary zero cost records/);
   const g=report.groups.find(g=>g.config.model==='gpt-6.1-sol');
   const e=g.efficiencies.sr_cpr_actual;
