@@ -1,4 +1,4 @@
-import {escapeHtml as esc, compareModelSettings} from './experiments-core.mjs?v=20261104-standard-prices';
+import {escapeHtml as esc, compareModelSettings} from './experiments-core.mjs?v=20261104-standard-prices-v2';
 
 export const primaryLabels = {pipeline_fdr:'FDR',pipeline_cc:'CC',pipeline_fc:'FC',sr_cpr:'CPR'};
 const auxiliaryLabels = {

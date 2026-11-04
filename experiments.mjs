@@ -1,5 +1,5 @@
-import {escapeHtml as esc, modelKey, compareModelSettings, resultKey, latestCells, selectCells, summarize, csv, hydrateCells, testCounts, checkpointRows, plannedTargets, finalResult, fraction, isDeliveryFailure, applyRecordCosts} from './experiments-core.mjs?v=20261104-standard-prices';
-import {renderPaperMetrics, selectPaperGroups, paperCsv} from './paper-metrics.mjs?v=20261104-standard-prices';
+import {escapeHtml as esc, modelKey, compareModelSettings, resultKey, latestCells, selectCells, summarize, csv, hydrateCells, testCounts, checkpointRows, plannedTargets, finalResult, fraction, isDeliveryFailure, applyRecordCosts} from './experiments-core.mjs?v=20261104-standard-prices-v2';
+import {renderPaperMetrics, selectPaperGroups, paperCsv} from './paper-metrics.mjs?v=20261104-standard-prices-v2';
 let catalogPromise;
 let paperCatalogPromise;
 let metadataPromise;
@@ -84,8 +84,9 @@ function supplementary(release) {
   return `<div class="matrix-bottom"><section><h2>Implementation defects · full analysis</h2><p>Candidate defects are independent of the problem’s four-dimensional attribution.</p>${Object.keys(release.implementation_defects).length?`<dl>${Object.entries(release.implementation_defects).map(([k,v])=>`<div><dt>${esc(k)}</dt><dd>${v} events</dd></div>`).join('')}</dl>`:'<p class="matrix-muted">No reviewed defect events in this analysis.</p>'}</section><section><h2>Annotation coverage · full analysis</h2><p>Revision-bound annotations also apply to matching historical records.</p><dl>${Object.entries(release.annotation_coverage).map(([k,v])=>`<div><dt>${esc(k.replaceAll('_',' '))}</dt><dd>${v}</dd></div>`).join('')||'<p class="matrix-muted">No classified test records.</p>'}</dl></section></div>
     <section class="matrix-label-statistics"><h2>Problem tag analysis · full analysis</h2>${release.problem_tag_statistics?.length?`<div class="matrix-scroll"><table class="matrix-checkpoints"><thead><tr><th>Tag</th><th>Problems</th><th>Passed tests</th><th>Failed tests</th><th>Macro test pass rate</th></tr></thead><tbody>${release.problem_tag_statistics.map(s=>`<tr><th>${esc(s.label)}</th><td>${s.problems}</td><td>${s.passed_tests}</td><td>${s.failed_tests}</td><td>${percent(s.macro_test_pass_rate)}</td></tr>`).join('')}</tbody></table></div>`:'<p class="matrix-muted">No reviewed problem tags in this analysis.</p>'}</section>`;
 }
-export function renderPublicationNotes(publication) {
-  const notes=Array.isArray(publication?.display_notes)?publication.display_notes.filter(note=>typeof note==='string'&&note.trim()):[];
+export function renderPublicationNotes(publication, pricing) {
+  let notes=Array.isArray(publication?.display_notes)?publication.display_notes.filter(note=>typeof note==='string'&&note.trim()):[];
+  if(pricing?.rates?.some(rate=>rate.model==='gpt-6.1-terra'))notes=notes.map(note=>note.replace('Terra pricing is unregistered, so cost remains unknown.', 'Terra costs use the user-provided Standard prices shown in the price table.'));
   return notes.length?`<div class="matrix-publication-notes matrix-method">${notes.map(note=>`<p>${esc(note)}</p>`).join('')}</div>`:'';
 }
 export function renderFinalSuiteSummary(summary) {
@@ -242,7 +243,7 @@ export async function renderExperiments() {
       ${problem?`<a class="matrix-back" href="${hash(params,{problem:null,trial:null,checkpoint:null})}">← All experiment results</a>`:''}
       <div class="matrix-heading"><div><p class="eyebrow">SCBENCH / EXPERIMENTS${problem?' / PROBLEM':''}</p><h1>${esc(name)}<span class="matrix-dot">.</span></h1><p class="matrix-subtitle">${subtitle}</p></div><div class="matrix-actions"><button id="matrix-csv">Export CSV ↗</button><button id="matrix-json">JSON ↗</button></div></div>
       <div class="matrix-provenance"><span>Analysis <code>${esc(entry.id.slice(0,12))}</code></span><span>Source <code>${esc((catalog.source?.commit||'local').slice(0,12))}</code></span><span>Pricebook <code>${esc((release.pricebook||'unknown').slice(0,12))}</code></span><span>${esc(release.created_at.slice(0,10))}</span></div>
-      ${renderPublicationNotes(release.publication)}
+      ${renderPublicationNotes(release.publication,paperReport?.price_metadata)}
       <form id="matrix-filters" class="matrix-filters">
         <label>Analysis<select name="analysis">${catalog.releases.map(r=>`<option value="${esc(r.id)}" ${r.id===entry.id?'selected':''}>${esc(r.name)} · ${esc(r.id.slice(0,8))}</option>`).join('')}</select></label>
         <label>Protocol<select name="protocol">${options(protocolIds,filters.protocol,'All protocols')}</select></label>

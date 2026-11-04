@@ -129,3 +129,11 @@ test('publication provenance is rendered as escaped paragraphs without interpret
     assert.equal((html.match(/<p>/g)||[]).length,release.publication.display_notes.length);
   }
 });
+
+test('current pricing replaces the obsolete unknown-price publication note',()=>{
+  const publication={display_notes:['Terra pricing is unregistered, so cost remains unknown.']};
+  const html=renderPublicationNotes(publication,{rates:[{model:'gpt-6.1-terra'}]});
+  assert.match(html,/user-provided Standard prices/);
+  assert.doesNotMatch(html,/cost remains unknown/);
+  assert.match(publication.display_notes[0],/cost remains unknown/);
+});
