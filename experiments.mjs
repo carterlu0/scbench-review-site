@@ -10,7 +10,7 @@ const releases = new Map();
 const percent = n => n == null ? '—' : `${(n*100).toFixed(0)}%`;
 const dollars = n => n == null ? 'unknown' : `$${n.toFixed(3)}`;
 const seconds = n => n == null ? '—' : `${Math.round(n)}s`;
-const reasons = {agent_failure:'Agent failure · provisional', evaluated:'Final checkpoint', delivery_failure:'Delivery failure', delivery_total_unknown:'Delivery failure · total unknown', structure_stop:'Stopped by structure gate', stopped_total_unknown:'Structure gate stopped · total unknown', policy_unknown:'Progression policy unknown', other_policy:'Different progression policy', not_reached:'Final checkpoint not reached'};
+const reasons = {agent_failure:'Agent failure', evaluated:'Final checkpoint', delivery_failure:'Delivery failure', delivery_total_unknown:'Delivery failure · total unknown', structure_stop:'Stopped by structure gate', stopped_total_unknown:'Structure gate stopped · total unknown', policy_unknown:'Progression policy unknown', other_policy:'Different progression policy', not_reached:'Final checkpoint not reached'};
 function download(name, content, type) {
   const url = URL.createObjectURL(new Blob([content], {type}));
   const a = document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
@@ -132,7 +132,7 @@ export function renderFinalSuiteSummary(summary) {
 
 export function renderLatestStatus(data,filters={}) {
   const groups=data.group_status.filter(g=>(!filters.model||g.model===filters.model)&&(!filters.thinking||g.thinking===filters.thinking)).sort(compareModelSettings);
-  return `<section class="latest-status"><div class="matrix-section-title"><h2>Result coverage by setting</h2></div><div class="matrix-scroll"><table class="matrix-checkpoints"><thead><tr><th>Model / effort</th><th>Planned checkpoints</th><th>Passed</th><th>Nonpass</th><th>Stopped</th><th>Pending</th></tr></thead><tbody>${groups.map(g=>`<tr><th>${esc(g.model)} · ${esc(g.thinking)}</th>${['planned','passed','nonpassed','stopped','pending'].map(k=>`<td>${g[k]||0}</td>`).join('')}</tr>`).join('')}</tbody></table></div></section>`;
+  return `<section class="latest-status"><div class="matrix-section-title"><h2>Result coverage by setting</h2></div><div class="matrix-scroll"><table class="matrix-checkpoints"><thead><tr><th>Model / agent / effort</th><th>Planned checkpoints</th><th>Passed</th><th>Nonpass</th><th>Stopped</th><th>Pending</th></tr></thead><tbody>${groups.map(g=>`<tr><th>${esc(g.model)} · ${esc(g.thinking)}<small>${esc(g.agent||'codex')} ${esc(g.agent_version||'')}${g.scored_trials!=null?` · ${g.scored_trials}/${g.planned_trials} trials scored`:''}</small></th>${['planned','passed','nonpassed','stopped','pending'].map(k=>`<td>${g[k]||0}</td>`).join('')}</tr>`).join('')}</tbody></table></div></section>`;
 }
 
 export function renderLatestFailures(data,filters={},params=new URLSearchParams()) {
@@ -169,6 +169,7 @@ async function renderLatestResults(route,params,app) {
     ${problem?`<a class="matrix-back" href="${hash(params,{problem:null,trial:null,checkpoint:null})}">← Latest results</a>`:''}
     <div class="matrix-heading"><div><p class="eyebrow">SCBENCH / RESULTS</p><h1>${esc(problem||'Latest results')}<span class="matrix-dot">.</span></h1><p class="matrix-subtitle">${problem?'Pipeline and SR checkpoint results':'The latest result for each model and reasoning effort · 15 task chains · 74 SR checkpoints per setting'}</p></div><div class="matrix-actions"><button id="matrix-csv">Export CSV ↗</button><button id="matrix-json">JSON ↗</button></div></div>
     <form id="latest-filters" class="matrix-filters"><label>Model<select name="model">${options(data.report.groups.map(g=>g.config.model),filters.model,'All models')}</select></label><label>Reasoning effort<select name="thinking">${options(data.report.groups.map(g=>g.config.thinking),filters.thinking,'All efforts')}</select></label>${problem?'':`<label class="matrix-search">Find problem<input name="q" value="${esc(filters.q)}" placeholder="Search by name" /></label>`}<button type="submit">Apply</button></form>
+    ${shown.map(g=>renderPublicationNotes(g.publication)).join('')}
     ${problem?problemMatrix(cells,problem,params,true):renderPaperMetrics(data.report,filters,params,data.records)}
     ${problem?'<section id="matrix-detail" class="matrix-detail" aria-live="polite"><p class="matrix-muted">Select a checkpoint to inspect its evidence.</p></section>':`${renderLatestStatus(data,filters)}${renderLatestFailures(data,filters,params)}<details class="paper-legacy-matrix"><summary>Results by problem and checkpoint</summary>${mainMatrix(cells,allCells,params,true)}</details><details class="paper-legacy-matrix"><summary>Historical results</summary><p class="matrix-method">Previous published snapshots remain available for reference.</p><a href="#experiments?analysis=${encodeURIComponent(data.sources[0].analysis_id)}">Browse historical snapshots →</a></details>`}
   </section>`;

@@ -111,8 +111,12 @@ def verify_reused_records(group, cells):
                    for c in cells for cp in c["checkpoints"]}
     for row in group["checkpoint_records"]:
         cp = checkpoints[(row["cell_id"], row["checkpoint_id"])]
+        if row.get("score_override"):
+            if row["score_override"] != cp.get("score_override"):
+                raise ValueError("Archived scoring ruling differs")
+            continue
         for field in ("candidate", "evaluation_sha256", "inference_sha256"):
-            if row.get(field) != cp.get(field):
+            if field in row and row.get(field) != cp.get(field):
                 raise ValueError(f"Archived metric evidence differs: {field}")
     # The selected export can contain richer delivery diagnostics than its
     # archived score report. Refresh only RFR's validity annotation, keeping
@@ -136,7 +140,8 @@ def build(site):
     group_keys = set()
     for selection in registry["sources"]:
         analysis, entry = load_analysis(site, catalog, selection["analysis_id"])
-        selected = [c for c in analysis["cells"] if c["model"] in selection["models"]]
+        selected = [c for c in analysis["cells"] if c["model"] in selection["models"]
+                    and (not selection.get("agents") or c["agent"] in selection["agents"])]
         retries.extend(row for row in analysis.get("final_suite", {}).get("observed_nonpass_attempts", [])
                        if row.get("selected_for_scoring") is False)
         if selection.get("manifest"):
@@ -155,7 +160,8 @@ def build(site):
                               calculated["checkpoint_records_sha256"])
             record_map = {g["id"]: g["checkpoint_records"] for g in detail["groups"]}
             calculated_groups = [{**g, "checkpoint_records": record_map[g["id"]]}
-                                 for g in calculated["groups"] if g["config"]["model"] in selection["models"]]
+                                 for g in calculated["groups"] if g["config"]["model"] in selection["models"]
+                                 and (not selection.get("agents") or g["config"]["agent"] in selection["agents"])]
             for group in calculated_groups:
                 verify_reused_records(group, selected)
         for group in calculated_groups:
@@ -164,11 +170,11 @@ def build(site):
             if key in group_keys:
                 raise ValueError("A group has more than one current result")
             group_keys.add(key)
-            binding = {c["id"] for c in selected if c["model"] == config["model"]
+            binding = {c["id"] for c in selected if c["model"] == config["model"] and c["agent"] == config["agent"]
                        and c["thinking"] == config["thinking"]}
             if binding != {b["cell_id"] for b in group["configuration_bindings"]} or len(binding) != 89:
                 raise ValueError("Current metric group does not bind all 89 selected trials")
-            if group["issues"] or any(v["value"] is None for v in group["primary"].values()):
+            if not selection.get("allow_partial") and (group["issues"] or any(v["value"] is None for v in group["primary"].values())):
                 raise ValueError(f"Unresolved scoring in current group {key}: {group['issues'][:3]}")
             group = deepcopy(group)
             rows = group.pop("checkpoint_records")
@@ -180,31 +186,34 @@ def build(site):
             apply_record_costs([c for c in selected if c["id"] in binding], rows, book["version"])
             group["source_analysis"] = analysis["id"]
             group["updated_at"] = analysis["created_at"]
+            group["publication"] = deepcopy(analysis.get("publication", {}))
             group["configuration_bindings"] = [{k: b[k] for k in ("cell_id", "protocol")}
                                                for b in group["configuration_bindings"]]
             groups.append(group)
         cells.extend(selected)
         sources.append({"analysis_id": analysis["id"], "path": entry["path"],
                         "sha256": entry["files"][entry["path"]], "models": selection["models"]})
-    if len(groups) != 6 or len(cells) != 534:
-        raise ValueError("Current result view does not contain all six groups")
+    if len(cells) != 89 * len(groups):
+        raise ValueError("Each current setting must contain its 89 planned trials")
     summary_rows, failure_rows = [], []
     for group in groups:
         config = group["config"]
-        current_cells = [c for c in cells if c["model"] == config["model"] and c["thinking"] == config["thinking"]]
+        current_cells = [c for c in cells if c["model"] == config["model"] and c["agent"] == config["agent"] and c["thinking"] == config["thinking"]]
         outcomes = Counter(dict.fromkeys(("passed", "nonpassed", "stopped", "pending"), 0))
         for cell in current_cells:
             for cp in cell["checkpoints"]:
                 state = cp["state"]
-                key = "passed" if state == "passed" else "stopped" if state == "stopped_by_policy" else "pending" if state in {"pending", "running", "missing"} else "nonpassed"
+                zero = cp.get("score_override", {}).get("value") == 0
+                key = "nonpassed" if zero else "passed" if state == "passed" else "stopped" if state == "stopped_by_policy" else "pending" if state in {"pending", "running", "missing", "awaiting_evaluation", "evaluation_error"} else "nonpassed"
                 outcomes[key] += 1
                 if key == "nonpassed":
-                    failure_rows.append({"model": cell["model"], "effort": cell["thinking"],
+                    failure_rows.append({"model": cell["model"], "agent": cell["agent"], "effort": cell["thinking"],
                         "problem": cell["problem"], "mode": cell["mode"], "cell_id": cell["id"],
                         "target_checkpoint": cp["target_checkpoint"],
-                        "category": cp.get("nonpass_category") or ("interface_mismatch" if cp.get("candidate_failure") else "implementation_error"),
-                        "subtype": cp.get("nonpass_subtype") or "observable_test_failure"})
-        summary_rows.append({"model": config["model"], "thinking": config["thinking"],
+                        "category": "agent_failure" if zero else cp.get("nonpass_category") or ("interface_mismatch" if cp.get("candidate_failure") else "implementation_error"),
+                        "subtype": "delivery_timeout" if zero and cp.get("score_override", {}).get("classification") == "delivery_timeout" else cp.get("nonpass_subtype") or "observable_test_failure"})
+        summary_rows.append({"model": config["model"], "agent": config["agent"], "agent_version": config["agent_version"], "thinking": config["thinking"],
+                             "scored_trials": sum(c["score"] is not None for c in current_cells), "planned_trials": len(current_cells),
                              "planned": sum(outcomes.values()), **outcomes})
     details = {}
     for problem in sorted({c["problem"] for c in cells}):
@@ -217,7 +226,7 @@ def build(site):
         short = {k: deepcopy(v) for k, v in cell.items() if k in (
             "id", "problem", "mode", "prompt_arm", "model", "agent", "agent_version",
             "thinking", "protocol", "formal", "progression_policy", "status", "outcome",
-            "score", "generation", "evaluation_generation", "planned_targets", "expected_test_counts",
+            "score", "score_override", "generation", "evaluation_generation", "planned_targets", "expected_test_counts",
             "official_cost_selected_attempt", "price_version")}
         short["checkpoints"] = [{k: deepcopy(cp[k]) for k in ("target_checkpoint", "state",
             "gate_passed", "candidate_failure", "score_override", "expected_test_counts", "test_counts",

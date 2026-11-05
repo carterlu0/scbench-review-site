@@ -11,12 +11,12 @@ const load=async path=>JSON.parse(await readFile(new URL(path,root),'utf8'));
 const data=await load('results/latest.json');
 const frozen='e5fd63bae542d4f07bc711abf1792ed6a356298138c17c8873ba377d3927472b';
 
-test('current view contains six unique complete settings and the recomputed frozen metrics',()=>{
-  assert.equal(data.report.groups.length,6);
-  assert.equal(data.cells.length,534);
-  assert.equal(new Set(data.report.groups.map(g=>`${g.config.model}/${g.config.thinking}`)).size,6);
+test('current view retains six complete Codex settings alongside OpenCode',()=>{
+  assert.equal(data.report.groups.length,7);
+  assert.equal(data.cells.length,623);
+  assert.equal(new Set(data.report.groups.map(g=>`${g.config.model}/${g.config.agent}/${g.config.thinking}`)).size,7);
   const expected={low:[1/15,0.21055555555555555,0.30002470355731226,19/74],medium:[2/15,0.23833333333333334,0.31410489916587475,31/74],high:[3/15,0.27166666666666667,0.6212004931569692,40/74],xhigh:[5/15,0.34,0.7558546703973533,47/74]};
-  for(const group of data.report.groups){
+  for(const group of data.report.groups.filter(g=>g.config.agent==='codex')){
     assert.deepEqual(group.issues,[]);
     assert.equal(group.configuration_bindings.length,89);
     const primary=Object.values(group.primary);
@@ -51,7 +51,7 @@ test('current problem details preserve the selected candidate and evaluation ide
     for(const cell of JSON.parse(bytes).cells){
       count++;
       assert.equal(cell.problem,problem);
-      const group=data.report.groups.find(g=>g.config.model===cell.model&&g.config.thinking===cell.thinking);
+      const group=data.report.groups.find(g=>g.config.model===cell.model&&g.config.agent===cell.agent&&g.config.thinking===cell.thinking);
       const original=sources.get(group.source_analysis).get(cell.id);
       for(const cp of cell.checkpoints){
         const selected=original.checkpoints.find(c=>c.target_checkpoint===cp.target_checkpoint);
@@ -59,7 +59,7 @@ test('current problem details preserve the selected candidate and evaluation ide
       }
     }
   }
-  assert.equal(count,534);
+  assert.equal(count,623);
 });
 
 test('SR RFR counts binary failures only among valid noninitial checkpoints',()=>{
@@ -68,7 +68,7 @@ test('SR RFR counts binary failures only among valid noninitial checkpoints',()=
     'gpt-6-luna/high':[7,56], 'gpt-6-luna/xhigh':[6,59],
     'gpt-6.1-sol/high':[7,59], 'gpt-6.1-terra/high':[3,58],
   };
-  for(const group of data.report.groups){
+  for(const group of data.report.groups.filter(g=>g.config.agent==='codex')){
     const rows=data.records.groups.find(g=>g.id===group.id).checkpoint_records;
     const valid=rows.filter(r=>r.mode==='sr'&&r.checkpoint_index>1
       &&r.execution_status==='executed'&&!r.regression_result_exclusion
@@ -109,11 +109,11 @@ test('latest tables filter by effort, retain resources, and list every failure o
   assert.match(html,/paper-auxiliary/);
   assert.doesNotMatch(html,/repeat 0/);
   for(const g of data.report.groups)assert.ok(!html.includes(g.config.protocol));
-  assert.equal(data.nonpass_units.length,404);
-  assert.equal(data.group_status.reduce((n,g)=>n+g.pending,0),0);
-  assert.equal(new Set(data.nonpass_units.map(r=>r.cell_id+r.target_checkpoint)).size,404);
+  assert.equal(data.nonpass_units.filter(r=>r.agent==='codex').length,404);
+  assert.equal(data.group_status.filter(g=>g.agent==='codex').reduce((n,g)=>n+g.pending,0),0);
+  assert.equal(new Set(data.nonpass_units.map(r=>r.cell_id+r.target_checkpoint)).size,data.nonpass_units.length);
   const failures=renderLatestFailures(data);
-  assert.match(failures,/all 404 nonpass outcomes/);
+  assert.ok(failures.includes(`all ${data.nonpass_units.length} nonpass outcomes`));
   assert.match(failures,/3 nonselected retry failures/);
   assert.match(renderLatestFailures(data,filters),/all 91 nonpass outcomes/);
   assert.match(renderLatestStatus(data,filters),/148/);
@@ -135,7 +135,7 @@ test('Standard costs agree across summaries, trial details and both cache export
   }
   for(const detail of Object.values(data.details)){
     for(const cell of (await load(`results/${detail.path}`)).cells){
-      if(!cell.model.startsWith('gpt-6.1-'))continue;
+      if(!cell.model.startsWith('gpt-6.1-')||cell.agent!=='codex')continue;
       const projected=applyRecordCosts([cell],data.records,data.report.price_version)[0];
       // Python 3.12 compensated sum and JavaScript's sequential reduce can
       // differ in the last floating-point bit when projecting the same costs.
