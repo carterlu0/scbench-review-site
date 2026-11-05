@@ -3,12 +3,12 @@
 OpenCode 1.18.32, high reasoning effort, seed 42, frozen repaired suite
 `24175ba4016301e8abe61abf31f7d63327657325850cbfb5180a6df1c23843d6`.
 
-The initial publication contains 88 scored trials out of 89 planned trials:
-86 evaluated results and two delivery timeouts scored zero under the confirmed
-7200-second limit. PCIe Pipeline is awaiting its checkpoint_9 evaluation and
-remains unscored. It will be added when evaluation finishes. SR has 58 strict
-passes out of 74. Pipeline has 14 of 15 resolved trials; complete Pipeline
-aggregates remain unavailable until the final result is resolved.
+All 89 planned trials now have a final score: 87 evaluated results and two
+delivery timeouts scored zero under the confirmed 7200-second limit. PCIe
+Pipeline completed its checkpoint_9 evaluation on 2026-11-05 at 04:10 UTC.
+Its first included checkpoint passed and the other seven checkpoints failed.
+SR has 58 strict passes out of 74. The earlier 88-trial partial publication
+remains available as immutable historical evidence.
 
 The 7200-second failures are Taxi AXI T3 Pipeline and AXIS FIFO T1 Pipeline.
 Their raw inference-error states, duration, candidate identity and absence of
