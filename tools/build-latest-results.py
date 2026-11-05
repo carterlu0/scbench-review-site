@@ -11,6 +11,7 @@ from pathlib import Path
 from paper_metrics import calculate
 from paper_metrics import identity
 from paper_metrics import refresh_sr_regression
+from display_test_counts import project_display_counts
 
 
 def load(path):
@@ -195,6 +196,15 @@ def build(site):
                         "sha256": entry["files"][entry["path"]], "models": selection["models"]})
     if len(cells) != 89 * len(groups):
         raise ValueError("Each current setting must contain its 89 planned trials")
+    inventories = load(destination / "inputs/display-test-inventories.json")
+    for inventory in inventories["inventories"]:
+        source = inventory["source"]
+        original = verified(site / source["path"], source["sha256"])
+        if (original["tests"] != inventory["tests"]
+                or original["definition_generation"] != source["definition_generation"]
+                or original["method"] != source["method"]):
+            raise ValueError("Display inventory differs from Docker collection")
+    project_display_counts(cells, records, inventories["inventories"])
     summary_rows, failure_rows = [], []
     for group in groups:
         config = group["config"]
@@ -230,6 +240,7 @@ def build(site):
             "official_cost_selected_attempt", "price_version")}
         short["checkpoints"] = [{k: deepcopy(cp[k]) for k in ("target_checkpoint", "state",
             "gate_passed", "candidate_failure", "score_override", "expected_test_counts", "test_counts",
+            "display_test_counts", "display_test_counts_source", "display_expected_test_counts",
             ) if k in cp} | {"official_cost": {k: cp.get("official_cost", {}).get(k)
                                             for k in ("usd", "coverage", "reason", "price_version")}}
                                for cp in cell["checkpoints"]]

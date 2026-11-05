@@ -93,6 +93,10 @@ export function testCounts(checkpoint, group = 'total') {
     const original = testCounts({...checkpoint, score_override: null}, group);
     return original ? {...original, passed: 0} : null;
   }
+  // Current projections use the reviewed scoring applicability. Raw skipped
+  // nodes and historical evaluator counts remain available as evidence.
+  const display = checkpoint.display_test_counts?.[key];
+  if (display && validCount(display.passed) && validCount(display.total) && display.passed <= display.total) return display;
   const saved = checkpoint.test_counts?.[key];
   if (key === 'core' && checkpoint.test_counts?.functionality != null) {
     const legacy = checkpoint.test_counts.functionality;
@@ -194,7 +198,7 @@ export function finalResult(cell, peers = []) {
   const stopped = cell.outcome === 'failed' && (failedStructure || delivery) && lastEvaluated.target_checkpoint !== target &&
     cell.checkpoints.every(cp => checkpointOrder(cp.target_checkpoint, lastEvaluated.target_checkpoint) <= 0 || ['missing', 'stopped_by_policy'].includes(cp.state));
   if (!stopped) return {...unknown('not_reached'), target};
-  const explicit = cell.expected_test_counts?.[target]?.total ?? final?.expected_test_counts?.total;
+  const explicit = final?.display_expected_test_counts?.total ?? cell.expected_test_counts?.[target]?.total ?? final?.expected_test_counts?.total;
   const sameRevision = peers.filter(other => other.problem === cell.problem && other.mode === 'pipeline' &&
     other.generation === cell.generation && other.evaluation_generation === cell.evaluation_generation && plannedTargets(other).at(-1) === target);
   const totals = [...new Set(sameRevision.map(other => testCounts(other.checkpoints.find(cp => cp.target_checkpoint === target))?.total).filter(value => validCount(value) && value > 0))];

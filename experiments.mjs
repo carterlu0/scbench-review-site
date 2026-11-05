@@ -1,4 +1,4 @@
-import {escapeHtml as esc, modelKey, compareModelSettings, resultKey, latestCells, selectCells, summarize, csv, hydrateCells, testCounts, checkpointRows, plannedTargets, finalResult, fraction, isDeliveryFailure, applyRecordCosts} from './experiments-core.mjs?v=20261104-sr-rfr-v4';
+import {escapeHtml as esc, modelKey, compareModelSettings, resultKey, latestCells, selectCells, summarize, csv, hydrateCells, testCounts, checkpointRows, plannedTargets, finalResult, fraction, isDeliveryFailure, applyRecordCosts} from './experiments-core.mjs?v=20261105-applicable-counts';
 import {renderPaperMetrics, selectPaperGroups, paperCsv} from './paper-metrics.mjs?v=20261104-sr-rfr-v4';
 let catalogPromise;
 let paperCatalogPromise;
@@ -56,7 +56,7 @@ function mainMatrix(cells, peers, params, latest=false) {
       if(!matches.length)return '<td class="matrix-empty">—</td>';
       return `<td>${matches.map(cell=>{const result=finalResult(cell,peers);return `<a class="matrix-cell ${resultClass(result)}" href="${hash(params,{problem,prompt_arm:latest?null:arm,trial:cell.id})}" aria-label="Inspect ${esc(problem)} ${esc(cell.model)}"><strong>${fraction(result)}</strong><span>${esc(reasons[result.reason]||result.reason)}</span><small>${esc(result.target||'')} · latest${cell.formal?'':' · historical / unverified'}</small></a>`;}).join('')}</td>`;
     }).join('')}</tr>`)).join('')||`<tr><td colspan="${columns.length+1}">No trials match these filters.</td></tr>`}</tbody></table></div>
-    <p class="matrix-method">Only the latest experiment for each configuration is shown, ordered by start time (completion time when unavailable). Each result is the final checkpoint’s passed / total tests, including every test group. A verified structure-gate stop or delivery failure contributes 0 / the final total. Delivery failures are labeled separately; their missing deliverables are shown in trial evidence. Unknown policy, missing evaluation and infrastructure failures remain unscored. Click a problem to compare pipeline checkpoints and SR results.</p>`;
+    <p class="matrix-method">Only the latest experiment for each configuration is shown, ordered by start time (completion time when unavailable). Each result is the final checkpoint’s passed / applicable tests across every group. Reviewed superseded tests are excluded; their skipped records remain in trial evidence. A verified structure-gate stop or delivery failure contributes 0 / the expected applicable final total, without implying those tests ran. Delivery failures are labeled separately; their missing deliverables are shown in trial evidence. Unknown policy, missing evaluation and infrastructure failures remain unscored. Click a problem to compare pipeline checkpoints and SR results.</p>`;
 }
 function problemMatrix(cells, problem, params, latest=false) {
   const {columns,keyOf}=modelColumns(cells,true);
