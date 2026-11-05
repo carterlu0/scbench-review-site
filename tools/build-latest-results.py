@@ -214,7 +214,21 @@ def build(site):
             for cp in cell["checkpoints"]:
                 state = cp["state"]
                 zero = cp.get("score_override", {}).get("value") == 0
-                key = "nonpassed" if zero else "passed" if state == "passed" else "stopped" if state == "stopped_by_policy" else "pending" if state in {"pending", "running", "missing", "awaiting_evaluation", "evaluation_error"} else "nonpassed"
+                if zero:
+                    key = "nonpassed"
+                elif cell["status"] in {"infra_failed", "quarantined"}:
+                    # Saved partial evaluations remain evidence. The group
+                    # has no valid final score after an infrastructure error.
+                    key = "pending"
+                elif state == "passed":
+                    key = "passed"
+                elif state == "stopped_by_policy":
+                    key = "stopped"
+                elif state in {"pending", "running", "missing", "awaiting_evaluation",
+                               "evaluation_error", "inference_error"}:
+                    key = "pending"
+                else:
+                    key = "nonpassed"
                 outcomes[key] += 1
                 if key == "nonpassed":
                     failure_rows.append({"model": cell["model"], "agent": cell["agent"], "effort": cell["thinking"],

@@ -8,8 +8,8 @@ import {selectPaperGroups} from '../paper-metrics.mjs';
 const load=async p=>JSON.parse(await readFile(new URL('../data/'+p,import.meta.url),'utf8'));
 const data=await load('results/latest.json');
 const publication=await load('experiments/SOL-OPENCODE-HIGH-20261105.json');
-const cells=data.cells.filter(c=>c.agent==='opencode');
-const group=data.report.groups.find(g=>g.config.agent==='opencode');
+const cells=data.cells.filter(c=>c.agent==='opencode'&&c.model==='gpt-6.1-sol');
+const group=data.report.groups.find(g=>g.config.agent==='opencode'&&g.config.model==='gpt-6.1-sol');
 
 test('OpenCode is a distinct setting and retains all planned trial identities',()=>{
   assert.equal(cells.length,89);
