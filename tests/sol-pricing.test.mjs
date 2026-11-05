@@ -21,6 +21,26 @@ test('published Standard prices cover Sol and Terra at fixed rates',()=>{
   assert.match(html,/\$0\.05/);
 });
 
+test('user-provided Agicto MiMo rates are applied to actual and fixed-cache costs',async()=>{
+  const mimoManifest=JSON.parse(await readFile(new URL('../data/experiments/MIMO-OPENCODE-HIGH-20261105.json',import.meta.url),'utf8'));
+  const entry=catalog.reports.find(r=>r.analysis_id===mimoManifest.analysis_id);
+  const mimo=await load(entry.path);
+  const rate=mimo.price_metadata.rates.find(r=>r.model==='mimo-v2.6-pro');
+  assert.deepEqual([rate.input,rate.output,rate.cache_read,rate.cache_write],[0.435,0.87,0.0036,0.435]);
+  assert.equal(rate.service,'agicto');
+  assert.equal(rate.verified_at,'2026-11-05 (user supplied)');
+  assert.match(rate.source,/per 1M tokens/);
+  assert.match(rate.source,/cache writes use the uncached input rate/);
+  const records=await load(mimo.checkpoint_records_path);
+  const group=records.groups.find(g=>g.config.model==='mimo-v2.6-pro');
+  const costs=group.checkpoint_records.flatMap(r=>Object.values(r.costs));
+  assert.ok(costs.some(c=>c.usd>0));
+  assert.ok(costs.filter(c=>c.usd>0).every(c=>c.rate?.model==='mimo-v2.6-pro'));
+  const html=renderPaperMetrics(mimo,{scope:'formal'},new URLSearchParams());
+  assert.match(html,/\$0\.435/);
+  assert.match(html,/\$0\.87/);
+});
+
 test('Sol batch retains complete Standard costs and approved failure imputations',async()=>{
   const records=await load(report.checkpoint_records_path);
   const sol=records.groups.find(g=>g.config.model==='gpt-6.1-sol');

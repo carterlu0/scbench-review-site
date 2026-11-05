@@ -18,7 +18,8 @@ class StandardPricing(unittest.TestCase):
         self.book = builder.apply_price_overrides(
             {"version": "frozen", "currency": "USD", "unit": "per_million_tokens",
              "rates": [{"model": "other", "input": 9, "output": 9}]},
-            {"cells": [{"model": "gpt-6.1-sol"}, {"model": "gpt-6.1-terra"}]},
+            {"cells": [{"model": "gpt-6.1-sol"}, {"model": "gpt-6.1-terra"},
+                       {"model": "mimo-v2.6-pro"}]},
             self.override,
         )
 
@@ -31,6 +32,17 @@ class StandardPricing(unittest.TestCase):
                           rates["gpt-6.1-terra"]["cache_read"], rates["gpt-6.1-terra"]["cache_write"]),
                          (1, 5, 0.05, 1.25))
         self.assertEqual(self.book["aggregate_request_bounds"], [])
+
+    def test_user_provided_mimo_agicto_rates(self):
+        rate = next(r for r in self.book["rates"] if r["model"] == "mimo-v2.6-pro")
+        self.assertEqual((rate["cache_read"], rate["input"], rate["output"], rate["cache_write"]),
+                         (0.0036, 0.435, 0.87, 0.435))
+        usage = {"input": 100_000, "output": 10_000,
+                 "cache_read": 500_000, "cache_write": 0}
+        actual = estimate_cost(usage, self.book, "mimo-v2.6-pro", "exclusive_cache", "actual")
+        self.assertAlmostEqual(actual["usd"], 0.054)
+        fixed = estimate_cost(usage, self.book, "mimo-v2.6-pro", "exclusive_cache", "fixed_85")
+        self.assertAlmostEqual(fixed["usd"], 0.049686)
 
     def test_actual_and_fixed_cache_costs(self):
         usage = {"input": 300_000, "output": 1_000, "cache_read": 200_000, "cache_write": 50_000}

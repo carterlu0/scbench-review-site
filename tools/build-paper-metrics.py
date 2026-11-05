@@ -91,21 +91,30 @@ def reprice_report(report, details, analysis, manifest, book):
     report.update(price_version=book["version"], pricebook_sha256=identity(book), price_metadata=book)
 
 
-def build(site: Path, rebuild: bool = False):
+def build(site: Path, rebuild: bool = False, analysis_ids: list[str] | None = None):
     source = site / "data/experiments"
     destination = site / "data/paper"
     default_manifest = load(destination / "benchmark-v1.json")
     catalog = load(source / "catalog.json")
     previous = load(destination / "catalog.json") if (destination / "catalog.json").exists() else {}
     previous_reports = {r["analysis_id"]: r for r in previous.get("reports", [])}
+    selected_ids = set(analysis_ids or [])
+    catalog_ids = {entry["id"] for entry in catalog["releases"]}
+    missing_ids = selected_ids - catalog_ids
+    if missing_ids:
+        raise ValueError("Unknown analysis id(s): " + ", ".join(sorted(missing_ids)))
     override_path = destination / "price-overrides.json"
     overrides = load(override_path) if override_path.exists() else {}
     index = {"schema_version": 1, "scoring_version": SCORING_VERSION,
              "manifest_sha256": identity(default_manifest),
              "engine_sha256": hashlib.sha256(Path(__file__).with_name("paper_metrics.py").read_bytes()).hexdigest(),
              "default_analysis": catalog.get("default_analysis"),
-             "source": catalog.get("source"), "reports": []}
+             "source": catalog.get("source"),
+             "reports": ([r for r in previous.get("reports", [])
+                          if r["analysis_id"] not in selected_ids] if selected_ids else [])}
     for entry in catalog["releases"]:
+        if selected_ids and entry["id"] not in selected_ids:
+            continue
         manifest = default_manifest
         manifest_relative = entry.get("paper_manifest")
         if manifest_relative:
@@ -205,6 +214,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--site", type=Path, default=Path(__file__).resolve().parents[1])
     parser.add_argument("--rebuild", action="store_true", help="Explicitly recompute historical reports")
+    parser.add_argument("--analysis-id", action="append", help="Rebuild only this report and preserve other snapshots")
     args = parser.parse_args()
-    result = build(args.site, rebuild=args.rebuild)
+    result = build(args.site, rebuild=args.rebuild, analysis_ids=args.analysis_id)
     print(f"Built {len(result['reports'])} paper reports ({result['scoring_version']})")
