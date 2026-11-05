@@ -527,6 +527,19 @@ def regression_result_exclusion(cp: dict[str, Any] | None) -> str | None:
     return None
 
 
+def terminal_group_zero(cell: dict[str, Any] | None) -> bool:
+    """An explicit final delivery ruling scores the entire selected trial."""
+    override = (cell or {}).get("score_override", {})
+    return (
+        override.get("value") == 0
+        and override.get("reason") == "agent_failure"
+        and override.get("provisional") is False
+        and override.get("classification")
+        in {"delivery_timeout", "incomplete_delivery"}
+        and (cell or {}).get("outcome") == "agent_failure"
+    )
+
+
 def normalize_checkpoint(
     cell: dict[str, Any] | None,
     cp: dict[str, Any] | None,
@@ -589,7 +602,7 @@ def normalize_checkpoint(
     if (
         override.get("value") == 0
         and override.get("reason") == "agent_failure"
-        and cell.get("status") == "completed"
+        and (cell.get("status") == "completed" or terminal_group_zero(cell))
         and (checkpoint_override or cell.get("outcome") == "agent_failure")
         and not reason
     ):
@@ -637,13 +650,20 @@ def normalize_checkpoint(
                                    ("native_events", "observed_responses", "observed_tool_calls", "http_requests")))
         if not_invoked:
             elapsed = evaluation_elapsed = 0
+            if terminal_group_zero(cell):
+                costs = {
+                    p: {"usd": 0, "reason": "not_invoked", "policy": p,
+                        "price_version": book.get("version")}
+                    for p in ("actual", "fixed_85")
+                }
         return {
             **row,
             "execution_status": "executed",
             "strict_pass": 0,
             "compatible": cp.get("compatibility", {}).get("score")
             in {"identical", "compatible"},
-            "reason": "provisional_agent_failure",
+            "reason": "delivery_failure" if terminal_group_zero(cell)
+            else "provisional_agent_failure",
             "raw_execution_status": cp.get("state"),
             "score_override": override,
             "failure_group_totals": totals,
@@ -1218,6 +1238,15 @@ def calculate(
                 rows.append(prow)
                 structure = (prow.get("groups") or {}).get("structure")
                 if (
+                    terminal_group_zero(pcell)
+                    and prow.get("score_override") == pcell["score_override"]
+                    and prow["strict_pass"] == 0
+                ):
+                    # A trial-wide ruling also zeros earlier successful rounds.
+                    # It cannot imply that those recorded rounds never ran.
+                    # Continue normalizing each checkpoint to retain resources.
+                    stop, blocked = False, None
+                elif (
                     pcell
                     and pcell.get("status") == "completed"
                     and structure

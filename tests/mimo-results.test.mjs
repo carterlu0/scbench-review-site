@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {renderPublicationNotes, renderLatestStatus} from '../experiments.mjs';
+import {renderPaperMetrics, simulateThresholdGroup} from '../paper-metrics.mjs';
 const load=async p=>JSON.parse(await readFile(new URL('../data/'+p,import.meta.url),'utf8'));
 const data=await load('results/latest.json');
 const publication=await load('experiments/MIMO-OPENCODE-HIGH-20261105.json');
@@ -18,7 +19,7 @@ test('MiMo publishes every planned group with counts bound to its final receipt'
   const outcomes={};
   for(const c of cells)outcomes[c.outcome]=(outcomes[c.outcome]||0)+1;
   assert.deepEqual(outcomes,{passed:publication.outcomes.passed,failed:publication.outcomes.failed,
-    agent_failure:publication.outcomes.delivery_timeout,not_scored:publication.outcomes.unscored_infrastructure});
+    agent_failure:publication.outcomes.delivery_timeout+(publication.outcomes.incomplete_delivery||0)});
   assert.equal(publication.scored_trials+publication.pending_trials,89);
   assert.ok(publication.physical_attempts>=104);
   assert.equal(publication.max_parallel,8);
@@ -44,6 +45,37 @@ test('infra errors stay unknown and never appear as model nonpass outcomes',()=>
   assert.ok(publication.pending.every(p=>p.physical_attempts>=2&&p.score===null));
   const records=data.records.groups.find(g=>g.id===group.id).checkpoint_records;
   assert.ok(records.filter(r=>pendingIds.has(r.cell_id)).every(r=>r.strict_pass===null));
+});
+
+test('final MiMo ruling resolves every score without replacing raw infrastructure evidence',async()=>{
+  assert.equal(publication.scored_trials,89);
+  assert.equal(publication.pending_trials,0);
+  assert.equal(publication.adjudicated_infrastructure.length,1);
+  const cell=cells.find(c=>task(c)==='register_interface_t1:pipeline');
+  assert.equal(cell.status,'infra_failed');
+  assert.equal(cell.score,0);
+  assert.equal(cell.score_override.classification,'incomplete_delivery');
+  const detail=(await load('results/'+data.details[cell.problem].path)).cells.find(c=>c.id===cell.id);
+  assert.equal(detail.checkpoints[0].state,'inference_error');
+  assert.equal(detail.infrastructure_failure.category,'connection_reset');
+  assert.deepEqual(group.issues,[]);
+  assert.ok(Object.values(group.primary).every(m=>m.value!==null&&m.known_units===m.denominator));
+  assert.ok(Object.values(group.auxiliary).every(m=>m.value!==null));
+  assert.ok(Math.abs(group.primary.pipeline_fdr.value-1/15)<1e-12);
+  assert.ok(Math.abs(group.primary.pipeline_cc.value-1.8666666666666667/15)<1e-12);
+  assert.ok(Math.abs(group.primary.pipeline_fc.value-1.9583333333333333/15)<1e-12);
+  const records=data.records.groups.find(g=>g.id===group.id);
+  const simulated=simulateThresholdGroup(group,records);
+  for(const k of ['pipeline_fdr','pipeline_cc','pipeline_fc'])assert.ok(Math.abs(simulated[k].value-group.primary[k].value)<1e-12);
+  const html=renderPaperMetrics(data.report,{model:'mimo-v2.6-pro'},new URLSearchParams('extra=1'),data.records);
+  const primary=html.match(/<table[^>]*paper-primary[\s\S]*?<\/table>/)?.[0];
+  assert.ok(primary);
+  assert.doesNotMatch(primary,/N\/A/);
+  for(const resource of Object.values(group.resources)){
+    assert.equal(resource.known_cost_records,resource.expected_cost_records);
+    assert.ok(resource.total_cost_usd>0);
+    assert.ok(resource.total_time_seconds>0);
+  }
 });
 
 test('all terminal timeouts score zero while retaining original execution evidence',async()=>{

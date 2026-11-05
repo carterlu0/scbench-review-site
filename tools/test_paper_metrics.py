@@ -10,6 +10,55 @@ from paper_metrics import sr_regression_failure_rate
 
 
 class PaperAcceptance(unittest.TestCase):
+    def test_terminal_trial_zero_preserves_prior_executions_and_resources(self):
+        targets = [f"checkpoint_{i}" for i in range(1, 5)]
+        manifest = {"schema_version": 1, "benchmark_version": "terminal-zero",
+                    "chains": [{"id": "task", "task_type": "synthetic",
+                                "checkpoints": [{"id": cp} for cp in targets]}]}
+        usage = {"input": 100, "output": 20, "cache_read": 0, "cache_write": 0}
+        book = {"version": "test", "currency": "USD", "unit": "per_million_tokens",
+                "rates": [{"model": "m", "input": 1, "output": 2,
+                           "cache_read": 0.1, "cache_write": 1}]}
+        for status, classification, states in [
+            ("completed", "delivery_timeout", ["passed", "passed", "inference_error", "missing"]),
+            ("infra_failed", "incomplete_delivery", ["inference_error", "missing", "missing", "missing"]),
+        ]:
+            override = {"value": 0, "reason": "agent_failure", "provisional": False,
+                        "classification": classification}
+            checkpoints = []
+            for target, state in zip(targets, states):
+                cp = {"target_checkpoint": target, "state": state,
+                      "score_override": override,
+                      "compatibility": {"score": "identical", "cost": "identical", "time": "identical"}}
+                if state != "missing":
+                    cp.update(inference_seconds=10, evaluation_seconds=0, tokens=usage,
+                              inference_sha256=f"evidence-{target}")
+                if state == "passed":
+                    cp["test_counts"] = {"structure": {"passed": 1, "total": 1},
+                                         "core": {"passed": 2, "total": 2},
+                                         "regression": {"passed": 0, "total": 0}}
+                checkpoints.append(cp)
+            cell = {"id": "pipeline", "problem": "task", "mode": "pipeline",
+                    "model": "m", "agent": "opencode", "formal": True,
+                    "status": status, "outcome": "agent_failure", "score_override": override,
+                    "progression_policy": "structure-cases", "planned_targets": targets,
+                    "expected_test_counts": {t: {"groups": {"structure": 1, "core": 2, "regression": 0}} for t in targets},
+                    "checkpoints": checkpoints}
+            group = calculate({"cells": [cell]}, manifest, book)["groups"][0]
+            rows = [r for r in group["checkpoint_records"] if r["mode"] == "pipeline"]
+            self.assertEqual([r["strict_pass"] for r in rows], [0] * 4)
+            self.assertEqual(group["issues"], [])
+            for metric in ("pipeline_fdr", "pipeline_cc", "pipeline_fc"):
+                self.assertEqual(group["primary"][metric]["value"], 0)
+            invoked = states.count("passed") + states.count("inference_error")
+            resource = group["resources"]["pipeline_actual"]
+            self.assertEqual(resource["known_cost_records"], 4)
+            self.assertAlmostEqual(resource["total_cost_usd"], invoked * 0.00014)
+            self.assertEqual(resource["total_time_seconds"], invoked * 10)
+            self.assertEqual([cp["state"] for cp in cell["checkpoints"]], states)
+            if states[0] == "passed":
+                self.assertEqual(cell["checkpoints"][0]["test_counts"]["core"]["passed"], 2)
+
     def test_inventory_excludes_only_proven_superseded_skips(self):
         checkpoint = {"evaluation_generation": "new", "tests": [
             {"nodeid": "old_structure", "group": "Structure", "status": "skipped"},

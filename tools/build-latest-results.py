@@ -125,8 +125,10 @@ def verify_reused_records(group, cells):
     refresh_sr_regression(group, group["checkpoint_records"], checkpoints)
 
 
-def build(site):
+def build(site, models=None):
     destination = site / "data/results"
+    previous = load(destination / "latest.json") if models else None
+    models = set(models or [])
     registry = load(destination / "current-groups.json")
     catalog = load(site / "data/experiments/catalog.json")
     paper_catalog = load(site / "data/paper/catalog.json")
@@ -235,10 +237,26 @@ def build(site):
                         "problem": cell["problem"], "mode": cell["mode"], "cell_id": cell["id"],
                         "target_checkpoint": cp["target_checkpoint"],
                         "category": "agent_failure" if zero else cp.get("nonpass_category") or ("interface_mismatch" if cp.get("candidate_failure") else "implementation_error"),
-                        "subtype": "delivery_timeout" if zero and cp.get("score_override", {}).get("classification") == "delivery_timeout" else cp.get("nonpass_subtype") or "observable_test_failure"})
+                        "subtype": (cp.get("score_override", {}).get("classification") if zero else None)
+                        or cp.get("nonpass_subtype") or "observable_test_failure"})
         summary_rows.append({"model": config["model"], "agent": config["agent"], "agent_version": config["agent_version"], "thinking": config["thinking"],
                              "scored_trials": sum(c["score"] is not None for c in current_cells), "planned_trials": len(current_cells),
                              "planned": sum(outcomes.values()), **outcomes})
+    if models:
+        # A model-specific publication retains every other published snapshot,
+        # including resource projections from its original scoring engine.
+        old_groups = {g["id"]: g for g in previous["report"]["groups"]}
+        old_records = {g["id"]: g for g in previous["records"]["groups"]}
+        old_cells = {c["id"]: c for info in previous["details"].values()
+                     for c in verified(destination / info["path"], info["sha256"])["cells"]}
+        groups = [g if g["config"]["model"] in models else old_groups[g["id"]] for g in groups]
+        records = [g if g["config"]["model"] in models else old_records[g["id"]] for g in records]
+        cells = [c if c["model"] in models else old_cells[c["id"]] for c in cells]
+        key = lambda row: (row["model"], row["agent"], row["thinking"])
+        old_status = {key(s): s for s in previous["group_status"]}
+        summary_rows = [s if s["model"] in models else old_status[key(s)] for s in summary_rows]
+        failure_rows = [r for r in failure_rows if r["model"] in models] + [
+            r for r in previous["nonpass_units"] if r["model"] not in models]
     details = {}
     for problem in sorted({c["problem"] for c in cells}):
         payload = {"cells": [c for c in cells if c["problem"] == problem]}
@@ -277,4 +295,6 @@ def build(site):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--site", type=Path, default=Path(__file__).resolve().parents[1])
-    build(parser.parse_args().site)
+    parser.add_argument("--model", action="append", help="Refresh only this model; preserve other published snapshots")
+    args = parser.parse_args()
+    build(args.site, models=args.model)

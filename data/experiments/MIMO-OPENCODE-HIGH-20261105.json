@@ -1,7 +1,7 @@
 {
-  "analysis_id": "1fb40e05259bf013ef3d771de85eebee27674d814ecb34cb9a126d632b915051",
-  "kind": "partial_formal_batch",
-  "version": "mimo-opencode-high-20261105-scored88",
+  "analysis_id": "127f69929ec66bc888f2c283df649800410de5ce47cea25cd307d97692a7dd58",
+  "kind": "completed_formal_batch",
+  "version": "mimo-opencode-high-20261105-scored89",
   "label": "mimo-v2.6-pro · high+OpenCode",
   "agent_version": "1.18.32",
   "provider": "agicto",
@@ -10,13 +10,14 @@
   },
   "thinking_comparability": "MiMo documents enabled/disabled, without a high effort tier",
   "planned_trials": 89,
-  "scored_trials": 88,
-  "pending_trials": 1,
+  "scored_trials": 89,
+  "pending_trials": 0,
   "outcomes": {
     "passed": 38,
     "failed": 29,
     "delivery_timeout": 21,
-    "unscored_infrastructure": 1
+    "unscored_infrastructure": 0,
+    "incomplete_delivery": 1
   },
   "physical_attempts": 109,
   "max_parallel": 8,
@@ -211,22 +212,9 @@
       "inference_seconds": 7201.428816
     }
   ],
-  "pending": [
-    {
-      "cell": "31361b3e13cd527f4a172e8c049a774d6d61a9c0211355f2863f2739c2773c44",
-      "task": "register_interface_t1:pipeline",
-      "attempt": "bbba2392e7cf49ba8621164996f91e51",
-      "category": "connection_reset",
-      "message": "Connection reset by server",
-      "physical_attempts": 3,
-      "failed_checkpoint": "checkpoint_1",
-      "saved_evaluations": [],
-      "score": null,
-      "retry_stage": null
-    }
-  ],
+  "pending": [],
   "suite_release_id": "24175ba4016301e8abe61abf31f7d63327657325850cbfb5180a6df1c23843d6",
-  "selection": "First completed original or authorized infrastructure retry; latest saved evidence for unresolved groups. No best-score selection. Classification-only timeout attempts do not duplicate physical resources.",
+  "selection": "First completed original or authorized infrastructure retry; latest saved evidence for unresolved groups. No best-score selection. Classification-only timeout attempts do not duplicate physical resources. Final user ruling counts the remaining connection-reset trial as an incomplete delivery scoring zero; no additional inference or evaluator run.",
   "selection_bindings": [
     {
       "cell": "006cbe835989b89d4b988d359cbe7cd027cd6c3b3861b9bd7e9366082f0662e6",
@@ -1031,12 +1019,35 @@
     }
   ],
   "display_notes": [
-    "mimo-v2.6-pro · high+OpenCode 1.18.32: 88/89 trials scored (15 Pipeline + 74 SR planned). 21 runtime timeouts at 7200 seconds are terminal delivery failures, score zero.",
-    "1 infrastructure failures remain unscored after the authorized retest; causes: 1 connection reset. Full planned denominators are retained; unresolved results remain unknown.",
+    "mimo-v2.6-pro · high+OpenCode 1.18.32: 89/89 trials scored (15 Pipeline + 74 SR). 21 runtime timeouts at 7200 seconds and one user-adjudicated incomplete delivery score zero.",
+    "register_interface_t1:pipeline is an incomplete delivery scoring zero by user instruction. Its raw infrastructure-failure status, connection-reset error, candidate and recorded usage remain available; no samples remain pending.",
     "Agicto channel; MiMo native thinking is enabled. The harness label high does not imply a native MiMo high effort tier. Tests, prompts, evaluator and budgets are unchanged.",
     "User-provided Agicto MiMo prices per 1M tokens: cached input $0.0036, uncached input $0.435, output $0.87. Cache-write tokens use the uncached input price because no separate write price was supplied; missing usage remains unknown."
   ],
-  "paper_manifest": "benchmark-mimo-opencode-high-20261105-scored88.json",
+  "previous_analysis": "1fb40e05259bf013ef3d771de85eebee27674d814ecb34cb9a126d632b915051",
+  "execution_finished_at": "2026-11-05T13:09:06.663+00:00",
+  "adjudicated_infrastructure": [
+    {
+      "cell": "31361b3e13cd527f4a172e8c049a774d6d61a9c0211355f2863f2739c2773c44",
+      "task": "register_interface_t1:pipeline",
+      "attempt": "bbba2392e7cf49ba8621164996f91e51",
+      "category": "connection_reset",
+      "message": "Connection reset by server",
+      "physical_attempts": 3,
+      "failed_checkpoint": "checkpoint_1",
+      "saved_evaluations": [],
+      "score": 0,
+      "retry_stage": null,
+      "adjudication": {
+        "value": 0,
+        "reason": "agent_failure",
+        "provisional": false,
+        "classification": "incomplete_delivery",
+        "source": "User instruction, 2026-11-05: register_interface_t1:pipeline is incomplete and scores zero. Retain the connection-reset evidence and raw attempt status."
+      }
+    }
+  ],
+  "paper_manifest": "benchmark-mimo-opencode-high-20261105-scored89.json",
   "candidate_archives": 93,
   "failed_categories": {
     "null": 29
