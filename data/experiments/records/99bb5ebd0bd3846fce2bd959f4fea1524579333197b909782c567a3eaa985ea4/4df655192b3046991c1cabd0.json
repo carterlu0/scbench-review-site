@@ -1,0 +1,2237 @@
+{
+  "schema_version": 4,
+  "analysis": "99bb5ebd0bd3846fce2bd959f4fea1524579333197b909782c567a3eaa985ea4",
+  "problem": "verilog_axis_fifo_t1",
+  "cells": [
+    {
+      "id": "04678c4896353151f703aeb497480e50367bca54321ff2e528a6c3f61648a25c",
+      "problem": "verilog_axis_fifo_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "deepseek-flash",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "c748d9ca619420fbcf865a090e6ebf4c27aaa77a46222626c1ec5de5287b6fa4",
+      "generation": "df56fc51f7ae2927622ca5b8181edbabf845bf42b525c7e113b939be47e71720",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_4"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "29a7ad9f894941b7b3959db005d04671",
+      "selected_evaluation": null,
+      "evaluation_generation": "df56fc51f7ae2927622ca5b8181edbabf845bf42b525c7e113b939be47e71720",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_4",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "0c52c67ab5a8a91b7d5c9511a7fa75695b23c57e02c80d52960820480691fcb6",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "dcaec8fa10e0a7f6138ef5c813036dda1a9b3dbf6b605ddfb387ba1f32e2d8c3",
+          "evaluation_sha256": "09ab9a45d3da3c067452f632d5263f5f6a1882ec8846e0c1a0140c6fb1821435",
+          "started_at": "2026-11-05T14:39:14.450715Z",
+          "completed_at": "2026-11-05T14:45:54.447565Z",
+          "inference_seconds": 399.99685,
+          "evaluation_seconds": 151.6933159828186,
+          "native_steps": 45,
+          "tokens": {
+            "cache_read": 3358592,
+            "cache_write": 0,
+            "input": 58754,
+            "output": 16439,
+            "reasoning": 29114
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_adapter_pause_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_async_pause_ack_reset",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_pause_ack_frame_boundary",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_sync_async_pause_behavior[pause_async]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_sync_async_pause_behavior[pause_sync]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_core_structure[checkpoint_1]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_drop_oversize_endpoint_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_2_checkpoint_2_pipeline_fifo_endpoint_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_3_checkpoint_3_adapter_routing_endpoint_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_3_checkpoint_3_async_status_public_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_3_checkpoint_3_non_byte_pipeline_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_3_checkpoint_3_status_depth_public_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_3_checkpoint_3_switch_routing_endpoint_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_3_checkpoint_3_tdest_route_public_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_3_checkpoint_3_update_tid_public_behavior",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 5,
+              "total": 5
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 9,
+              "total": 9
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 15,
+              "total": 15
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 45,
+            "observed_tool_calls": 52,
+            "native_events": 143,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "2a4b962876d438404232fabaea703e0e530853af1ea131940d7b16e2438c07b0"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 15,
+            "groups": {
+              "core": 5,
+              "error": 0,
+              "functionality": 0,
+              "regression": 9,
+              "structure": 1
+            },
+            "inventory": "5cc5426ea51effccfcdb1e8a98074754df7664cf53c48216fdbd20447d85b09b"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/b4094acad342d262c9a12a95774e3b04f270c6cbda16cadc86d64def319d4043.tar.gz",
+            "sha256": "b4094acad342d262c9a12a95774e3b04f270c6cbda16cadc86d64def319d4043",
+            "file_count": 212,
+            "size_bytes": 127149,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-05T14:39:09.341780+00:00",
+      "completed_at": "2026-11-05T14:49:26.112629+00:00",
+      "wall_seconds_all_attempts": 616.7563175242394,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_4": {
+          "total": 15,
+          "groups": {
+            "core": 5,
+            "error": 0,
+            "functionality": 0,
+            "regression": 9,
+            "structure": 1
+          },
+          "inventory": "5cc5426ea51effccfcdb1e8a98074754df7664cf53c48216fdbd20447d85b09b"
+        }
+      }
+    },
+    {
+      "id": "079c09eeb115db64a80dc95db2ac0e8dae2f0c644527ffcca069d3f680ae0559",
+      "problem": "verilog_axis_fifo_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "deepseek-flash",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "c748d9ca619420fbcf865a090e6ebf4c27aaa77a46222626c1ec5de5287b6fa4",
+      "generation": "f5dc673088d27cf8dc5fae11414fd980539b2b38c0221441e1f1ad92743a04c4",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_2"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "2b761d32801b4ffa9e2cef0bd842b9e2",
+      "selected_evaluation": null,
+      "evaluation_generation": "f5dc673088d27cf8dc5fae11414fd980539b2b38c0221441e1f1ad92743a04c4",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_2",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "4d2520a5538161c2dc71c9e87e5d10e3d6d967fce0e316b474c62175e701ab75",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "1bdde7374caf4c588e6fa565c2379b32c7553d0f1fed8a68807cf624bb1cf51c",
+          "evaluation_sha256": "5352701efa40096ccbbfc2de5cc04fc7bf10baa946257c666b0414a093888c6a",
+          "started_at": "2026-11-05T14:39:14.425354Z",
+          "completed_at": "2026-11-05T14:45:14.131077Z",
+          "inference_seconds": 359.705723,
+          "evaluation_seconds": 152.44445657730103,
+          "native_steps": 36,
+          "tokens": {
+            "cache_read": 2374784,
+            "cache_write": 0,
+            "input": 64092,
+            "output": 13110,
+            "reasoning": 22920
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_adapter_routing_surface_endpoint_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_async_status_surface_endpoint_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_pipeline_fifo_endpoint_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_core_structure[checkpoint_1]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_drop_oversize_endpoint_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_switch_surface_endpoint_behavior",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 3,
+              "total": 3
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 2,
+              "total": 2
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 6,
+              "total": 6
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 36,
+            "observed_tool_calls": 37,
+            "native_events": 110,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "36d989d5096d18ffd64aa13173cb3405b9c42d44e3581683ecb8ded26aa062d5"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 6,
+            "groups": {
+              "core": 3,
+              "error": 0,
+              "functionality": 0,
+              "regression": 2,
+              "structure": 1
+            },
+            "inventory": "dd45235d1a3013d8c3af9a5e2d2ad87e480b1418b149209efce85033bfb15d75"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/54b539ba10ecb097bbd61c6624b645a67b010bbbb301fbe14249f80198245292.tar.gz",
+            "sha256": "54b539ba10ecb097bbd61c6624b645a67b010bbbb301fbe14249f80198245292",
+            "file_count": 210,
+            "size_bytes": 121653,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-05T14:39:09.361973+00:00",
+      "completed_at": "2026-11-05T14:48:48.025746+00:00",
+      "wall_seconds_all_attempts": 578.6504506152123,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_2": {
+          "total": 6,
+          "groups": {
+            "core": 3,
+            "error": 0,
+            "functionality": 0,
+            "regression": 2,
+            "structure": 1
+          },
+          "inventory": "dd45235d1a3013d8c3af9a5e2d2ad87e480b1418b149209efce85033bfb15d75"
+        }
+      }
+    },
+    {
+      "id": "29b67074c69ee2271792400dbcec07c6d18ec7fd90a696a46fbb4824a5b10dd5",
+      "problem": "verilog_axis_fifo_t1",
+      "mode": "pipeline",
+      "prompt_arm": "original",
+      "model": "deepseek-flash",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "c748d9ca619420fbcf865a090e6ebf4c27aaa77a46222626c1ec5de5287b6fa4",
+      "generation": "ba1fe30db71050212879a90a972388bd42ffd5d4448979fa73e299b9c3144b02",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "bac4b669e0bb2b97107c531eda16125d4b626a2d3985b5dce710bc9feb6218ad",
+          "evidence": [
+            "sha256:92ad68c9d8d3aca3562f51ed99240e8f43b83e9d1003f02cc5375703f3cbd9ae"
+          ],
+          "event_id": "ec0832e56eda4603833a322dad0a1a17be2db058fd33b25fff3acb544e5a64d1",
+          "assessment": "0d56a68e1bffa4357d4cc6914e1b93c84208d988a1f0e0128cdc36d5aa9dd86b",
+          "attempt": "76533f87a62741778e44335dc751bf1a"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "bac4b669e0bb2b97107c531eda16125d4b626a2d3985b5dce710bc9feb6218ad",
+          "evidence": [
+            "sha256:92ad68c9d8d3aca3562f51ed99240e8f43b83e9d1003f02cc5375703f3cbd9ae"
+          ],
+          "event_id": "c30e66aac6abaa48418b353810edc07a824364f4bb4442d572bfc139ee2ca804",
+          "assessment": "0d56a68e1bffa4357d4cc6914e1b93c84208d988a1f0e0128cdc36d5aa9dd86b",
+          "attempt": "76533f87a62741778e44335dc751bf1a"
+        },
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_2",
+          "candidate": "4337b3cb1b6c9fbc3b2db379489519e59991a4b2eb89a3bf636d3e6f67071cbf",
+          "evidence": [
+            "sha256:cd2f83e1ac0067afd8afd96fcb2fe2f195c9531a1e5dd970643cdd2e4a2f74a5"
+          ],
+          "event_id": "f2317d38a4388d3b04fa44d51911559179f256f98ad45d80a23f816378cb92ea",
+          "assessment": "0d56a68e1bffa4357d4cc6914e1b93c84208d988a1f0e0128cdc36d5aa9dd86b",
+          "attempt": "76533f87a62741778e44335dc751bf1a"
+        },
+        {
+          "namespace": "implementation",
+          "label": "regression_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_2",
+          "candidate": "4337b3cb1b6c9fbc3b2db379489519e59991a4b2eb89a3bf636d3e6f67071cbf",
+          "evidence": [
+            "sha256:cd2f83e1ac0067afd8afd96fcb2fe2f195c9531a1e5dd970643cdd2e4a2f74a5"
+          ],
+          "event_id": "027a2a40040353d9ebe09b650d9bd88b2c4c087107a615c94a0c67086373fc4d",
+          "assessment": "0d56a68e1bffa4357d4cc6914e1b93c84208d988a1f0e0128cdc36d5aa9dd86b",
+          "attempt": "76533f87a62741778e44335dc751bf1a"
+        },
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "a5454dc723e9c5b9d9f58de47b2e36175c10a9d6a20a9e90d16c6a9f18d74414",
+          "evidence": [
+            "sha256:27b70f09f388662a73a11936fe32659c50e056045ac2d49cbce3601e83c9bc26"
+          ],
+          "event_id": "21395c39a5e17104f6faf808a31f245d9e318dc15f60e3d86f8a1e6fd22a83dc",
+          "assessment": "0d56a68e1bffa4357d4cc6914e1b93c84208d988a1f0e0128cdc36d5aa9dd86b",
+          "attempt": "76533f87a62741778e44335dc751bf1a"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "a5454dc723e9c5b9d9f58de47b2e36175c10a9d6a20a9e90d16c6a9f18d74414",
+          "evidence": [
+            "sha256:27b70f09f388662a73a11936fe32659c50e056045ac2d49cbce3601e83c9bc26"
+          ],
+          "event_id": "4df3b9353aac70b63926c140aa9fc50a67f9eaad7da1c29e1dca729524cdcc08",
+          "assessment": "0d56a68e1bffa4357d4cc6914e1b93c84208d988a1f0e0128cdc36d5aa9dd86b",
+          "attempt": "76533f87a62741778e44335dc751bf1a"
+        },
+        {
+          "namespace": "implementation",
+          "label": "regression_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "a5454dc723e9c5b9d9f58de47b2e36175c10a9d6a20a9e90d16c6a9f18d74414",
+          "evidence": [
+            "sha256:27b70f09f388662a73a11936fe32659c50e056045ac2d49cbce3601e83c9bc26"
+          ],
+          "event_id": "e4e0c14d39617cd998aa5a89bad5814456e9b3e1340f047071e1f0fbb87b66c1",
+          "assessment": "0d56a68e1bffa4357d4cc6914e1b93c84208d988a1f0e0128cdc36d5aa9dd86b",
+          "attempt": "76533f87a62741778e44335dc751bf1a"
+        },
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_4",
+          "candidate": "c32349640d95102536951802dbe94616f651d788fbe2c9f0911306e0e206f045",
+          "evidence": [
+            "sha256:0cf3361ae0b47279c26fada6a54f1fb9bd17c321bfe2ac481e99d6fbfced43d9"
+          ],
+          "event_id": "d603ff7ec363df64e9f1350dd9878678be0042a9a49541432847a0234eb83719",
+          "assessment": "0d56a68e1bffa4357d4cc6914e1b93c84208d988a1f0e0128cdc36d5aa9dd86b",
+          "attempt": "76533f87a62741778e44335dc751bf1a"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_4",
+          "candidate": "c32349640d95102536951802dbe94616f651d788fbe2c9f0911306e0e206f045",
+          "evidence": [
+            "sha256:0cf3361ae0b47279c26fada6a54f1fb9bd17c321bfe2ac481e99d6fbfced43d9"
+          ],
+          "event_id": "a1399b6b74ace950532d251b81ccfb5d15ff83a55df60feee0bfc4c40abd2331",
+          "assessment": "0d56a68e1bffa4357d4cc6914e1b93c84208d988a1f0e0128cdc36d5aa9dd86b",
+          "attempt": "76533f87a62741778e44335dc751bf1a"
+        },
+        {
+          "namespace": "implementation",
+          "label": "regression_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_4",
+          "candidate": "c32349640d95102536951802dbe94616f651d788fbe2c9f0911306e0e206f045",
+          "evidence": [
+            "sha256:0cf3361ae0b47279c26fada6a54f1fb9bd17c321bfe2ac481e99d6fbfced43d9"
+          ],
+          "event_id": "3f4a09c059778bba5ef2b2378632cf64ea35bca694fe0fcbfa3de793422db390",
+          "assessment": "0d56a68e1bffa4357d4cc6914e1b93c84208d988a1f0e0128cdc36d5aa9dd86b",
+          "attempt": "76533f87a62741778e44335dc751bf1a"
+        },
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_5",
+          "candidate": "81bdb1554d26d42b9b14beb98175f10910bda4f5fffbc86db351d254871e3b9f",
+          "evidence": [
+            "sha256:855f05fdb983b1f35c55a8c20be82785cd9c8f1656ee9fa86c33d7ab4f136918"
+          ],
+          "event_id": "41c231235667c6a5b43cc418ed743279d4fffd1e512ff89244825981de5c7650",
+          "assessment": "0d56a68e1bffa4357d4cc6914e1b93c84208d988a1f0e0128cdc36d5aa9dd86b",
+          "attempt": "76533f87a62741778e44335dc751bf1a"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_5",
+          "candidate": "81bdb1554d26d42b9b14beb98175f10910bda4f5fffbc86db351d254871e3b9f",
+          "evidence": [
+            "sha256:855f05fdb983b1f35c55a8c20be82785cd9c8f1656ee9fa86c33d7ab4f136918"
+          ],
+          "event_id": "7d1dac9683d9e057a5c98de74888ef621e60cc40f4e249b54faea6f2ceb9504d",
+          "assessment": "0d56a68e1bffa4357d4cc6914e1b93c84208d988a1f0e0128cdc36d5aa9dd86b",
+          "attempt": "76533f87a62741778e44335dc751bf1a"
+        },
+        {
+          "namespace": "implementation",
+          "label": "regression_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_5",
+          "candidate": "81bdb1554d26d42b9b14beb98175f10910bda4f5fffbc86db351d254871e3b9f",
+          "evidence": [
+            "sha256:855f05fdb983b1f35c55a8c20be82785cd9c8f1656ee9fa86c33d7ab4f136918"
+          ],
+          "event_id": "4fb1ee08132086de3fd8bab6a72c2d27881d7ef97d82cd56796492359a5de28a",
+          "assessment": "0d56a68e1bffa4357d4cc6914e1b93c84208d988a1f0e0128cdc36d5aa9dd86b",
+          "attempt": "76533f87a62741778e44335dc751bf1a"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 5,
+      "planned_targets": [
+        "checkpoint_1",
+        "checkpoint_2",
+        "checkpoint_3",
+        "checkpoint_4",
+        "checkpoint_5"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.0,
+      "selected_attempt": "76533f87a62741778e44335dc751bf1a",
+      "selected_evaluation": null,
+      "evaluation_generation": "ba1fe30db71050212879a90a972388bd42ffd5d4448979fa73e299b9c3144b02",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_1",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "bac4b669e0bb2b97107c531eda16125d4b626a2d3985b5dce710bc9feb6218ad",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "d5dc53c20744f56f3c5fb7fe1e40ed39bfb5003a082bd8f6f6454cc0d6ccb1e6",
+          "evaluation_sha256": "92ad68c9d8d3aca3562f51ed99240e8f43b83e9d1003f02cc5375703f3cbd9ae",
+          "started_at": "2026-11-05T14:58:20.450749Z",
+          "completed_at": "2026-11-05T15:04:46.868483Z",
+          "inference_seconds": 386.417734,
+          "evaluation_seconds": 62.004992961883545,
+          "native_steps": 72,
+          "tokens": {
+            "cache_read": 6169728,
+            "cache_write": 0,
+            "input": 84669,
+            "output": 17485,
+            "reasoning": 36751
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_core_structure[checkpoint_1]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_drop_oversize_endpoint_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_switch_surface_endpoint_behavior",
+              "group": "Core",
+              "status": "failed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 1,
+              "total": 2
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 0,
+              "total": 0
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 2,
+              "total": 3
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 72,
+            "observed_tool_calls": 71,
+            "native_events": 216,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "e22147cbd225d647a093a2977374cbcbaeeb6c02e53a0699e7fd85a252362717"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 3,
+            "groups": {
+              "core": 2,
+              "error": 0,
+              "functionality": 0,
+              "regression": 0,
+              "structure": 1
+            },
+            "inventory": "38ebfbd754aaa06242a8c2bfa5e2968c9448a03366eadaa3e67d450e5c0bc7e6"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/f32f30423e942678993dbe76755da26cf0238937279a3cdefac69c2921e01c89.tar.gz",
+            "sha256": "f32f30423e942678993dbe76755da26cf0238937279a3cdefac69c2921e01c89",
+            "file_count": 202,
+            "size_bytes": 112895,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_2",
+          "target_checkpoint": "checkpoint_2",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "4337b3cb1b6c9fbc3b2db379489519e59991a4b2eb89a3bf636d3e6f67071cbf",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "0da7fe6914bbccda2471b3528b161176ce0f7beeaf80a9aef11999620fc7e2db",
+          "evaluation_sha256": "cd2f83e1ac0067afd8afd96fcb2fe2f195c9531a1e5dd970643cdd2e4a2f74a5",
+          "started_at": "2026-11-05T15:06:43.111862Z",
+          "completed_at": "2026-11-05T15:09:06.943154Z",
+          "inference_seconds": 143.831292,
+          "evaluation_seconds": 123.69001364707947,
+          "native_steps": 21,
+          "tokens": {
+            "cache_read": 752256,
+            "cache_write": 0,
+            "input": 24915,
+            "output": 6287,
+            "reasoning": 13859
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_drop_oversize_endpoint_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_switch_surface_endpoint_behavior",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_adapter_routing_surface_endpoint_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_async_status_surface_endpoint_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_pipeline_fifo_endpoint_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_core_structure[checkpoint_2]",
+              "group": "Structure",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 3,
+              "total": 3
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 1,
+              "total": 2
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 5,
+              "total": 6
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 21,
+            "observed_tool_calls": 22,
+            "native_events": 65,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "a76689d6bb999dbf426e37feffbbb9893544f97f0304682fc2464007abc8c107"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 6,
+            "groups": {
+              "core": 3,
+              "error": 0,
+              "functionality": 0,
+              "regression": 2,
+              "structure": 1
+            },
+            "inventory": "e97f595e90e37dbb2d6dd0aa4aae146a0bd43d7377624b7e3f87787b9cdc81c1"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/5ee90b91e657844c5943c122e36632458601ae8f882643cff79aa6912c413b2e.tar.gz",
+            "sha256": "5ee90b91e657844c5943c122e36632458601ae8f882643cff79aa6912c413b2e",
+            "file_count": 203,
+            "size_bytes": 113483,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_3",
+          "target_checkpoint": "checkpoint_3",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "a5454dc723e9c5b9d9f58de47b2e36175c10a9d6a20a9e90d16c6a9f18d74414",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "d38316c6e9859dc63a24e195d518786a26761f7ef059520f905b0b5c517c7ded",
+          "evaluation_sha256": "27b70f09f388662a73a11936fe32659c50e056045ac2d49cbce3601e83c9bc26",
+          "started_at": "2026-11-05T15:12:05.972563Z",
+          "completed_at": "2026-11-05T15:22:00.845245Z",
+          "inference_seconds": 594.872682,
+          "evaluation_seconds": 1831.1069145202637,
+          "native_steps": 79,
+          "tokens": {
+            "cache_read": 12041856,
+            "cache_write": 0,
+            "input": 120637,
+            "output": 32337,
+            "reasoning": 54588
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_drop_oversize_endpoint_behavior",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_switch_surface_endpoint_behavior",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_pipeline_fifo_endpoint_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_async_status_public_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_non_byte_pipeline_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_status_depth_endpoint_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_status_depth_public_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_tdest_route_public_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_update_tid_public_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_adapter_routing_endpoint_behavior",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_async_status_endpoint_behavior",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_core_structure[checkpoint_3]",
+              "group": "Structure",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 6,
+              "total": 8
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 1,
+              "total": 3
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 8,
+              "total": 12
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 79,
+            "observed_tool_calls": 90,
+            "native_events": 249,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "613ddb9e94e2a29ab527489833b4771a8888a85bcb0f344a0c65f9e792ca123e"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 12,
+            "groups": {
+              "core": 8,
+              "error": 0,
+              "functionality": 0,
+              "regression": 3,
+              "structure": 1
+            },
+            "inventory": "322d6d18dfbcb5fc49c0ca567e33f043a4b111dd742553edb448a6c82ce075a4"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/c17f541a6f0766da7ce3d642fd7f6e40a773a6cfa7776d10c2012d73618887af.tar.gz",
+            "sha256": "c17f541a6f0766da7ce3d642fd7f6e40a773a6cfa7776d10c2012d73618887af",
+            "file_count": 203,
+            "size_bytes": 115957,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_4",
+          "target_checkpoint": "checkpoint_4",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "c32349640d95102536951802dbe94616f651d788fbe2c9f0911306e0e206f045",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "51462e3aae8e0398ff1a82612408ae3c0307b7ff7a4aebd28208eba2b92613b3",
+          "evaluation_sha256": "0cf3361ae0b47279c26fada6a54f1fb9bd17c321bfe2ac481e99d6fbfced43d9",
+          "started_at": "2026-11-05T15:53:27.869615Z",
+          "completed_at": "2026-11-05T15:59:30.366713Z",
+          "inference_seconds": 362.497098,
+          "evaluation_seconds": 1843.1493170261383,
+          "native_steps": 39,
+          "tokens": {
+            "cache_read": 3415936,
+            "cache_write": 0,
+            "input": 73261,
+            "output": 15156,
+            "reasoning": 40689
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_drop_oversize_endpoint_behavior",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_pipeline_fifo_endpoint_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_async_status_public_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_non_byte_pipeline_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_status_depth_public_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_tdest_route_public_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_update_tid_public_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_adapter_routing_endpoint_behavior",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_switch_routing_endpoint_behavior",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_async_pause_ack_reset",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_pause_ack_frame_boundary",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_sync_async_pause_behavior[pause_sync]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_adapter_pause_behavior",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_sync_async_pause_behavior[pause_async]",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_core_structure[checkpoint_4]",
+              "group": "Structure",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 3,
+              "total": 5
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 6,
+              "total": 9
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 10,
+              "total": 15
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 39,
+            "observed_tool_calls": 45,
+            "native_events": 124,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "4c417d2ab9a46eea74195f175f3a9a03e2cf7d02d7f2a85f3b73e60d4da7145a"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 15,
+            "groups": {
+              "core": 5,
+              "error": 0,
+              "functionality": 0,
+              "regression": 9,
+              "structure": 1
+            },
+            "inventory": "437311e374c7a0cc1668686c4da5e21f6d56228e1262e86c87276a866781a136"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/e8872256619bfd74d3d9557382a7ae7700d54ebb8bc3938964f09f537676be83.tar.gz",
+            "sha256": "e8872256619bfd74d3d9557382a7ae7700d54ebb8bc3938964f09f537676be83",
+            "file_count": 203,
+            "size_bytes": 117007,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_5",
+          "target_checkpoint": "checkpoint_5",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "81bdb1554d26d42b9b14beb98175f10910bda4f5fffbc86db351d254871e3b9f",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "690ba0062ee3a64f3c75af974a0d847b28578dad7df65445936d0e1abc9bd69f",
+          "evaluation_sha256": "855f05fdb983b1f35c55a8c20be82785cd9c8f1656ee9fa86c33d7ab4f136918",
+          "started_at": "2026-11-05T16:31:13.045688Z",
+          "completed_at": "2026-11-05T16:37:07.792032Z",
+          "inference_seconds": 354.746344,
+          "evaluation_seconds": 3099.134142637253,
+          "native_steps": 48,
+          "tokens": {
+            "cache_read": 3842944,
+            "cache_write": 0,
+            "input": 80631,
+            "output": 11292,
+            "reasoning": 32673
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_drop_oversize_endpoint_behavior",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_pipeline_fifo_endpoint_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_async_status_public_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_non_byte_pipeline_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_status_depth_public_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_tdest_route_public_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_update_tid_public_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_adapter_routing_endpoint_behavior",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_switch_routing_endpoint_behavior",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_async_pause_ack_reset",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_pause_ack_frame_boundary",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_sync_async_pause_behavior[pause_sync]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_adapter_pause_behavior",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_sync_async_pause_behavior[pause_async]",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_async_precise_marked_frame_behavior[prefix-termination]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_async_precise_marked_frame_behavior[recovery]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_precise_marked_frame_behavior[prefix-termination]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_precise_marked_frame_behavior[recovery]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_rejects_invalid_mark_config[.FRAME_FIFO(1)-axis_async_fifo-axis_async_fifo.v]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_rejects_invalid_mark_config[.FRAME_FIFO(1)-axis_fifo-axis_fifo.v]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_rejects_invalid_mark_config[.LAST_ENABLE(0)-axis_async_fifo-axis_async_fifo.v]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_rejects_invalid_mark_config[.LAST_ENABLE(0)-axis_fifo-axis_fifo.v]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_rejects_invalid_mark_config[.USER_BAD_FRAME_MASK(0)-axis_async_fifo-axis_async_fifo.v]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_rejects_invalid_mark_config[.USER_BAD_FRAME_MASK(0)-axis_fifo-axis_fifo.v]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_adapter_mark_when_full_behavior",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_async_mark_when_full_endpoint_behavior",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_mark_when_full_endpoint_behavior",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_sync_mark_when_full_endpoint_behavior",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_core_structure[checkpoint_5]",
+              "group": "Structure",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 10,
+              "total": 14
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 9,
+              "total": 14
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 20,
+              "total": 29
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 48,
+            "observed_tool_calls": 52,
+            "native_events": 149,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "05c804aae9377f643658b80bd9fd6d5bfab222d70c72fd7ae74af8a3971a0135"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 29,
+            "groups": {
+              "core": 14,
+              "error": 0,
+              "functionality": 0,
+              "regression": 14,
+              "structure": 1
+            },
+            "inventory": "65b804e4aa4f53bcafb74d36de2a2f18c31a1e22d2228f51a157cbb867964298"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/6f090bca81190c1ac4487f37eadcd369f597e681e8be9ddc9ac9930c9bc41c98.tar.gz",
+            "sha256": "6f090bca81190c1ac4487f37eadcd369f597e681e8be9ddc9ac9930c9bc41c98",
+            "file_count": 203,
+            "size_bytes": 118192,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 5,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-05T14:58:17.724989+00:00",
+      "completed_at": "2026-11-05T17:29:51.058517+00:00",
+      "wall_seconds_all_attempts": 9093.322388317436,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_3": {
+          "total": 12,
+          "groups": {
+            "core": 8,
+            "error": 0,
+            "functionality": 0,
+            "regression": 3,
+            "structure": 1
+          },
+          "inventory": "322d6d18dfbcb5fc49c0ca567e33f043a4b111dd742553edb448a6c82ce075a4"
+        },
+        "checkpoint_1": {
+          "total": 3,
+          "groups": {
+            "core": 2,
+            "error": 0,
+            "functionality": 0,
+            "regression": 0,
+            "structure": 1
+          },
+          "inventory": "38ebfbd754aaa06242a8c2bfa5e2968c9448a03366eadaa3e67d450e5c0bc7e6"
+        },
+        "checkpoint_4": {
+          "total": 15,
+          "groups": {
+            "core": 5,
+            "error": 0,
+            "functionality": 0,
+            "regression": 9,
+            "structure": 1
+          },
+          "inventory": "437311e374c7a0cc1668686c4da5e21f6d56228e1262e86c87276a866781a136"
+        },
+        "checkpoint_5": {
+          "total": 29,
+          "groups": {
+            "core": 14,
+            "error": 0,
+            "functionality": 0,
+            "regression": 14,
+            "structure": 1
+          },
+          "inventory": "65b804e4aa4f53bcafb74d36de2a2f18c31a1e22d2228f51a157cbb867964298"
+        },
+        "checkpoint_2": {
+          "total": 6,
+          "groups": {
+            "core": 3,
+            "error": 0,
+            "functionality": 0,
+            "regression": 2,
+            "structure": 1
+          },
+          "inventory": "e97f595e90e37dbb2d6dd0aa4aae146a0bd43d7377624b7e3f87787b9cdc81c1"
+        }
+      }
+    },
+    {
+      "id": "63e069da268142bdb54f3ecb53a05fc88b67b25d398210e5f2a5342c54bba58c",
+      "problem": "verilog_axis_fifo_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "deepseek-flash",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "c748d9ca619420fbcf865a090e6ebf4c27aaa77a46222626c1ec5de5287b6fa4",
+      "generation": "92ea7c1efc208d16a6fa38dddf6a0edb1e37de4f62de99d2f9ce6bd1a79b420d",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_5",
+          "candidate": "036bd4e8545942875545d97fd28a529c48e3df739130a847be6d28cc31936df6",
+          "evidence": [
+            "sha256:cd9cfed608042e7340c1839c971aa11d6a104391e86d4b9102b60e0b87567021"
+          ],
+          "event_id": "4db6b5a1410a44d6300b46409684085f0d8290e5c275b260aabb0d3eff4562b0",
+          "assessment": "45c3740df87822ac17958d676f51d895bd2775ec0049c8004993e5e0bfa56892",
+          "attempt": "bd03e71e66e8465cad4ee06bce00cb90"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_5",
+          "candidate": "036bd4e8545942875545d97fd28a529c48e3df739130a847be6d28cc31936df6",
+          "evidence": [
+            "sha256:cd9cfed608042e7340c1839c971aa11d6a104391e86d4b9102b60e0b87567021"
+          ],
+          "event_id": "60838698f2b703f8950ae6ce9813e550aaff87745414b85787828f22f318da79",
+          "assessment": "45c3740df87822ac17958d676f51d895bd2775ec0049c8004993e5e0bfa56892",
+          "attempt": "bd03e71e66e8465cad4ee06bce00cb90"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_5"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.0,
+      "selected_attempt": "bd03e71e66e8465cad4ee06bce00cb90",
+      "selected_evaluation": null,
+      "evaluation_generation": "92ea7c1efc208d16a6fa38dddf6a0edb1e37de4f62de99d2f9ce6bd1a79b420d",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_5",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "036bd4e8545942875545d97fd28a529c48e3df739130a847be6d28cc31936df6",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "138aa2dca63184af098fc99ec3c41e3523b50128f35236e10064325fb8c1d088",
+          "evaluation_sha256": "cd9cfed608042e7340c1839c971aa11d6a104391e86d4b9102b60e0b87567021",
+          "started_at": "2026-11-05T16:37:43.027782Z",
+          "completed_at": "2026-11-05T16:49:42.094044Z",
+          "inference_seconds": 719.066262,
+          "evaluation_seconds": 373.0180730819702,
+          "native_steps": 86,
+          "tokens": {
+            "cache_read": 9346560,
+            "cache_write": 0,
+            "input": 75819,
+            "output": 28408,
+            "reasoning": 65112
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_async_precise_marked_frame_behavior[prefix-termination]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_async_precise_marked_frame_behavior[recovery]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_precise_marked_frame_behavior[prefix-termination]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_precise_marked_frame_behavior[recovery]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_rejects_invalid_mark_config[.FRAME_FIFO(1)-axis_async_fifo-axis_async_fifo.v]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_rejects_invalid_mark_config[.FRAME_FIFO(1)-axis_fifo-axis_fifo.v]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_rejects_invalid_mark_config[.LAST_ENABLE(0)-axis_async_fifo-axis_async_fifo.v]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_rejects_invalid_mark_config[.LAST_ENABLE(0)-axis_fifo-axis_fifo.v]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_rejects_invalid_mark_config[.USER_BAD_FRAME_MASK(0)-axis_async_fifo-axis_async_fifo.v]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_rejects_invalid_mark_config[.USER_BAD_FRAME_MASK(0)-axis_fifo-axis_fifo.v]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_adapter_mark_when_full_behavior",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_async_mark_when_full_endpoint_behavior",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_mark_when_full_endpoint_behavior",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_sync_mark_when_full_endpoint_behavior",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_core_structure[checkpoint_1]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_drop_oversize_endpoint_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_2_checkpoint_2_pipeline_fifo_endpoint_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_3_checkpoint_3_adapter_routing_endpoint_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_3_checkpoint_3_async_status_public_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_3_checkpoint_3_non_byte_pipeline_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_3_checkpoint_3_status_depth_public_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_3_checkpoint_3_switch_routing_endpoint_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_3_checkpoint_3_tdest_route_public_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_3_checkpoint_3_update_tid_public_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_4_checkpoint_4_adapter_pause_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_4_checkpoint_4_async_pause_ack_reset",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_4_checkpoint_4_pause_ack_frame_boundary",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_4_checkpoint_4_sync_async_pause_behavior[pause_async]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_4_checkpoint_4_sync_async_pause_behavior[pause_sync]",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 10,
+              "total": 14
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 14,
+              "total": 14
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 25,
+              "total": 29
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 86,
+            "observed_tool_calls": 91,
+            "native_events": 264,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "17dd3f28635c7f296c8115088977d3ba5346d748603ae2487e903de5b60495e4"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 29,
+            "groups": {
+              "core": 14,
+              "error": 0,
+              "functionality": 0,
+              "regression": 14,
+              "structure": 1
+            },
+            "inventory": "955848ca474ec34dade24efe7704eb53d61e8b85d05c080a9c326b8293b42471"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/f56b0edd80da0ac415a14ba386df4633024aef7df5f26ebbdc87e30229972aaf.tar.gz",
+            "sha256": "f56b0edd80da0ac415a14ba386df4633024aef7df5f26ebbdc87e30229972aaf",
+            "file_count": 212,
+            "size_bytes": 129742,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-05T16:37:40.405119+00:00",
+      "completed_at": "2026-11-05T16:56:59.275330+00:00",
+      "wall_seconds_all_attempts": 1158.8625305052847,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_5": {
+          "total": 29,
+          "groups": {
+            "core": 14,
+            "error": 0,
+            "functionality": 0,
+            "regression": 14,
+            "structure": 1
+          },
+          "inventory": "955848ca474ec34dade24efe7704eb53d61e8b85d05c080a9c326b8293b42471"
+        }
+      }
+    },
+    {
+      "id": "c68b00cd1da8aada42da7ba8cada87c6514453a88f66182b98db396a1e988b22",
+      "problem": "verilog_axis_fifo_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "deepseek-flash",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "c748d9ca619420fbcf865a090e6ebf4c27aaa77a46222626c1ec5de5287b6fa4",
+      "generation": "02946db81b8063674604ab3104b7f761db09579950601e7285dafc5fd1ba1942",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "35301d88b8bc32d711cd379202ae593dfe65661a5bbfe622c07b065d66065fd4",
+          "evidence": [
+            "sha256:9cf6d80a3aed493d0c28e6018444ebc5c600c71be5f25ab797cb6a962b54b13d"
+          ],
+          "event_id": "d61edfea6845a2165cc133df7e53c371cf5233fc98779673344d479be852821c",
+          "assessment": "c942a696de113a9a1d3af824aa35e85646822d6d95fae3f84a6b75ad2b7783c7",
+          "attempt": "bb6c726876d34db9a32a0c9e56668d3d"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "35301d88b8bc32d711cd379202ae593dfe65661a5bbfe622c07b065d66065fd4",
+          "evidence": [
+            "sha256:9cf6d80a3aed493d0c28e6018444ebc5c600c71be5f25ab797cb6a962b54b13d"
+          ],
+          "event_id": "c29af8ad52a69f39908ba680f1ec1f50603d2763e7ca120ae7949476fa59ba90",
+          "assessment": "c942a696de113a9a1d3af824aa35e85646822d6d95fae3f84a6b75ad2b7783c7",
+          "attempt": "bb6c726876d34db9a32a0c9e56668d3d"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_1"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.0,
+      "selected_attempt": "bb6c726876d34db9a32a0c9e56668d3d",
+      "selected_evaluation": null,
+      "evaluation_generation": "02946db81b8063674604ab3104b7f761db09579950601e7285dafc5fd1ba1942",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_1",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "35301d88b8bc32d711cd379202ae593dfe65661a5bbfe622c07b065d66065fd4",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "20794e44d7388505f71a9ecd9a00c97a1ab5f5ba19fd6742875d14cfb4b1f272",
+          "evaluation_sha256": "9cf6d80a3aed493d0c28e6018444ebc5c600c71be5f25ab797cb6a962b54b13d",
+          "started_at": "2026-11-05T18:54:23.580453Z",
+          "completed_at": "2026-11-05T19:01:16.991847Z",
+          "inference_seconds": 413.411394,
+          "evaluation_seconds": 61.31502056121826,
+          "native_steps": 83,
+          "tokens": {
+            "cache_read": 8128000,
+            "cache_write": 0,
+            "input": 95500,
+            "output": 25309,
+            "reasoning": 38310
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_core_structure[checkpoint_1]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_drop_oversize_endpoint_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_switch_surface_endpoint_behavior",
+              "group": "Core",
+              "status": "failed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 1,
+              "total": 2
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 0,
+              "total": 0
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 2,
+              "total": 3
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 83,
+            "observed_tool_calls": 82,
+            "native_events": 249,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "a4cf264ededbde849d6581a127a25b3481a3790f22c37561c86c0b7d7782161c"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 3,
+            "groups": {
+              "core": 2,
+              "error": 0,
+              "functionality": 0,
+              "regression": 0,
+              "structure": 1
+            },
+            "inventory": "011c877b8d905465794319278df7ddb0eea749cf9efff8a0a5b7acd529f6c97b"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/cbad09888f377dd52ceaa2b09ba85a1fd821f8ec6b90eb926c0cafaffd0e6874.tar.gz",
+            "sha256": "cbad09888f377dd52ceaa2b09ba85a1fd821f8ec6b90eb926c0cafaffd0e6874",
+            "file_count": 202,
+            "size_bytes": 112840,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-05T18:54:20.987058+00:00",
+      "completed_at": "2026-11-05T19:03:17.727453+00:00",
+      "wall_seconds_all_attempts": 536.7306544594467,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_1": {
+          "total": 3,
+          "groups": {
+            "core": 2,
+            "error": 0,
+            "functionality": 0,
+            "regression": 0,
+            "structure": 1
+          },
+          "inventory": "011c877b8d905465794319278df7ddb0eea749cf9efff8a0a5b7acd529f6c97b"
+        }
+      }
+    },
+    {
+      "id": "fec59499f46df01e4fcc2ae450e3a5ae5d5d2c9076646deb056b2d035f8a0f28",
+      "problem": "verilog_axis_fifo_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "deepseek-flash",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "c748d9ca619420fbcf865a090e6ebf4c27aaa77a46222626c1ec5de5287b6fa4",
+      "generation": "700165717ac64d067117e50a214036d1bab57e797f8a12ec638e1a725cab5b0a",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "e56d71639a9c357c01029d2ceb440046a29f72e53a6ceaa7b39be4d50f1876f1",
+          "evidence": [
+            "sha256:dcccd39805220181f99862b9a618cf71f6b8bb9bb7fac1033bf2ea53471f712c"
+          ],
+          "event_id": "6e49261c5f5f08858d6a4cdf9f3dace8f036e9e76b083e24a218e21d28c1375d",
+          "assessment": "129847347d9af7b39f97cbb4fa2edf36a25fa188de556f7d88c19c364a45fa37",
+          "attempt": "4df4d26326b64919b75254f6f5d0f9cf"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "e56d71639a9c357c01029d2ceb440046a29f72e53a6ceaa7b39be4d50f1876f1",
+          "evidence": [
+            "sha256:dcccd39805220181f99862b9a618cf71f6b8bb9bb7fac1033bf2ea53471f712c"
+          ],
+          "event_id": "178970204e7a7f1d173ae809de4c31b83022eb8b82f47b9791693b8d0742d176",
+          "assessment": "129847347d9af7b39f97cbb4fa2edf36a25fa188de556f7d88c19c364a45fa37",
+          "attempt": "4df4d26326b64919b75254f6f5d0f9cf"
+        },
+        {
+          "namespace": "implementation",
+          "label": "regression_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "e56d71639a9c357c01029d2ceb440046a29f72e53a6ceaa7b39be4d50f1876f1",
+          "evidence": [
+            "sha256:dcccd39805220181f99862b9a618cf71f6b8bb9bb7fac1033bf2ea53471f712c"
+          ],
+          "event_id": "c8583ce59929597ef6ca43125b3b5c30eb8fec41a3753f42994ece203bece1cf",
+          "assessment": "129847347d9af7b39f97cbb4fa2edf36a25fa188de556f7d88c19c364a45fa37",
+          "attempt": "4df4d26326b64919b75254f6f5d0f9cf"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_3"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.0,
+      "selected_attempt": "4df4d26326b64919b75254f6f5d0f9cf",
+      "selected_evaluation": null,
+      "evaluation_generation": "700165717ac64d067117e50a214036d1bab57e797f8a12ec638e1a725cab5b0a",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_3",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "e56d71639a9c357c01029d2ceb440046a29f72e53a6ceaa7b39be4d50f1876f1",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "7c636f6132123d1050d4a2450aa966cd1a367354f7bfe15a1413473b2e08363b",
+          "evaluation_sha256": "dcccd39805220181f99862b9a618cf71f6b8bb9bb7fac1033bf2ea53471f712c",
+          "started_at": "2026-11-05T20:45:15.609643Z",
+          "completed_at": "2026-11-05T20:56:45.345556Z",
+          "inference_seconds": 689.735913,
+          "evaluation_seconds": 579.2807760238647,
+          "native_steps": 93,
+          "tokens": {
+            "cache_read": 11529600,
+            "cache_write": 0,
+            "input": 112697,
+            "output": 31385,
+            "reasoning": 61675
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_async_status_public_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_non_byte_pipeline_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_status_depth_endpoint_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_tdest_route_public_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_update_tid_public_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_adapter_routing_endpoint_behavior",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_async_status_endpoint_behavior",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_status_depth_public_behavior",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_core_structure[checkpoint_1]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_drop_oversize_endpoint_behavior",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_switch_surface_endpoint_behavior",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_2_checkpoint_2_pipeline_fifo_endpoint_behavior",
+              "group": "Regression",
+              "status": "failed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 5,
+              "total": 8
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 0,
+              "total": 3
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 6,
+              "total": 12
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 93,
+            "observed_tool_calls": 101,
+            "native_events": 288,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "0120eebf1d4829bcd6a9aa55b27a184b0864d889465f1bdffffea728c3ef62f1"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 12,
+            "groups": {
+              "core": 8,
+              "error": 0,
+              "functionality": 0,
+              "regression": 3,
+              "structure": 1
+            },
+            "inventory": "daa026be0be1e88fe8851fbe0e32b3e9a84638e48cc4fe505d685515ad14b707"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/9d10721280dc013592f80aa64e37e7893e2f9fcc3925c6791484b15580fff9a2.tar.gz",
+            "sha256": "9d10721280dc013592f80aa64e37e7893e2f9fcc3925c6791484b15580fff9a2",
+            "file_count": 212,
+            "size_bytes": 124311,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-05T20:45:12.960305+00:00",
+      "completed_at": "2026-11-05T21:07:25.579454+00:00",
+      "wall_seconds_all_attempts": 1332.609799426049,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_3": {
+          "total": 12,
+          "groups": {
+            "core": 8,
+            "error": 0,
+            "functionality": 0,
+            "regression": 3,
+            "structure": 1
+          },
+          "inventory": "daa026be0be1e88fe8851fbe0e32b3e9a84638e48cc4fe505d685515ad14b707"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,1982 @@
+{
+  "schema_version": 4,
+  "analysis": "99bb5ebd0bd3846fce2bd959f4fea1524579333197b909782c567a3eaa985ea4",
+  "problem": "common_cells_t1",
+  "cells": [
+    {
+      "id": "16e7757fbced8ad97c9968ce10fc26f7ce46d169d30d1fd533b7d7e3f3cc4ef6",
+      "problem": "common_cells_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "deepseek-flash",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "c748d9ca619420fbcf865a090e6ebf4c27aaa77a46222626c1ec5de5287b6fa4",
+      "generation": "50fd48ce38f3d3aead7aa15ecf9b83586350774b6bbe96055f1a4eb51adf2076",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_2",
+          "candidate": "ccdef4eda350a7a4129e118d9cfd1d073a6be4ba8b578785fa1c363c2cf478d1",
+          "evidence": [
+            "sha256:5ba2e8fdd844e0b7f85de835ab1bc5eef444d9bd4ca854bf0818a5ff47bcd841"
+          ],
+          "event_id": "caabcc5d0ef96bbac15a4deebec94d1f5f03f887437258e3c4da64774b866498",
+          "assessment": "fd4953b4206eefcc19ce9f2a4ea1711ac85d9e14f996e513be70010d115b16ca",
+          "attempt": "430ba355eae54b83a44919f93305e634"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_2",
+          "candidate": "ccdef4eda350a7a4129e118d9cfd1d073a6be4ba8b578785fa1c363c2cf478d1",
+          "evidence": [
+            "sha256:5ba2e8fdd844e0b7f85de835ab1bc5eef444d9bd4ca854bf0818a5ff47bcd841"
+          ],
+          "event_id": "8fcad8a3c7b8d5f5811f37a0a3f7c7852f9bd57f097f0bd9423d50bfce269dd8",
+          "assessment": "fd4953b4206eefcc19ce9f2a4ea1711ac85d9e14f996e513be70010d115b16ca",
+          "attempt": "430ba355eae54b83a44919f93305e634"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_2"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.0,
+      "selected_attempt": "430ba355eae54b83a44919f93305e634",
+      "selected_evaluation": null,
+      "evaluation_generation": "50fd48ce38f3d3aead7aa15ecf9b83586350774b6bbe96055f1a4eb51adf2076",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_2",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "ccdef4eda350a7a4129e118d9cfd1d073a6be4ba8b578785fa1c363c2cf478d1",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "6992a182ab4aee9b0b7b758137a25f17951da48f5182333c899516e898f519ff",
+          "evaluation_sha256": "5ba2e8fdd844e0b7f85de835ab1bc5eef444d9bd4ca854bf0818a5ff47bcd841",
+          "started_at": "2026-11-05T14:43:39.351676Z",
+          "completed_at": "2026-11-05T14:54:38.795664Z",
+          "inference_seconds": 659.443988,
+          "evaluation_seconds": 219.22070121765137,
+          "native_steps": 48,
+          "tokens": {
+            "cache_read": 4966912,
+            "cache_write": 0,
+            "input": 61368,
+            "output": 21257,
+            "reasoning": 66677
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_addr_decode_dync_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_ffarnc_surface_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_mem_to_banks_detailed_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_mem_to_banks_detailed_staggered_response_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_passthrough_stream_fifo_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_passthrough_stream_fifo_stall_stability_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_stream_join_dynamic_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_multiaddr_decode_behavior",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_artifact_hygiene",
+              "group": "Error",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_core_structure",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_clock_mux_rejects_single_input",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_clock_mux_switch_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_counter_behavior_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_id_queue_exists_mask_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_lossy_valid_to_stream_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_mem_to_banks_staggered_completion",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_optimal_fifo_rejects_unsupported_depths",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_static_divider_rejects_zero",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_static_divider_reset_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_stream_throttle_exhausted_credit",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[addr_decode]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[addr_decode_napot]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[clk_int_div]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[clk_int_div_static]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[clk_mux_glitch_free]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[mem_to_banks]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[popcount]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[read]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[shift_reg_gated]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[stream_delay]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[stream_fifo_optimal_wrap]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[stream_register]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[stream_throttle]",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 7,
+              "total": 8
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 23,
+              "total": 23
+            },
+            "error": {
+              "passed": 1,
+              "total": 1
+            },
+            "total": {
+              "passed": 32,
+              "total": 33
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 48,
+            "observed_tool_calls": 53,
+            "native_events": 150,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "89d07d2d4f3a4bb32d07fd313ff8a571c8d104dbaf07588b81f72f55d03a4b37"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 33,
+            "groups": {
+              "core": 8,
+              "error": 1,
+              "functionality": 0,
+              "regression": 23,
+              "structure": 1
+            },
+            "inventory": "3476eae4169baf6f2a795ecf621b0c32255151c0a26e043e14fb7cb9c05705d6"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/334609fe31b1199a72752bb0f8bc815b510fcbc3f4226d8ffb48e0ca79bf5a6f.tar.gz",
+            "sha256": "334609fe31b1199a72752bb0f8bc815b510fcbc3f4226d8ffb48e0ca79bf5a6f",
+            "file_count": 170,
+            "size_bytes": 139939,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-05T14:43:36.670490+00:00",
+      "completed_at": "2026-11-05T14:58:27.246903+00:00",
+      "wall_seconds_all_attempts": 890.5700919926167,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_2": {
+          "total": 33,
+          "groups": {
+            "core": 8,
+            "error": 1,
+            "functionality": 0,
+            "regression": 23,
+            "structure": 1
+          },
+          "inventory": "3476eae4169baf6f2a795ecf621b0c32255151c0a26e043e14fb7cb9c05705d6"
+        }
+      }
+    },
+    {
+      "id": "9298c1731bbdd54afd50424439ca8466c5288b81e8653196358a5ca93e4807cf",
+      "problem": "common_cells_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "deepseek-flash",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "c748d9ca619420fbcf865a090e6ebf4c27aaa77a46222626c1ec5de5287b6fa4",
+      "generation": "47f44e5272e9069ddaf5cd37540dc7f71587b0724b7c85f11cefa155858a00f2",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_3"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "bbb00d97dbe34e78bc69250343bf7769",
+      "selected_evaluation": null,
+      "evaluation_generation": "47f44e5272e9069ddaf5cd37540dc7f71587b0724b7c85f11cefa155858a00f2",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_3",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "7a7db128468e28059433d761b68a14e135e38ccb4bfb484bc0319c6f89195555",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "57669f87c378b3a1e11ce9f0f7282777c599432f71cd7986a4a48d1e17f1555d",
+          "evaluation_sha256": "9080edaa33576987b1c6ad970568ab29830af80aded4ad7c524d5322f6c7db93",
+          "started_at": "2026-11-05T17:43:27.147000Z",
+          "completed_at": "2026-11-05T17:55:11.054799Z",
+          "inference_seconds": 703.907799,
+          "evaluation_seconds": 295.32622170448303,
+          "native_steps": 61,
+          "tokens": {
+            "cache_read": 5020416,
+            "cache_write": 0,
+            "input": 69168,
+            "output": 23846,
+            "reasoning": 38425
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_artifact_hygiene",
+              "group": "Error",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_core_structure",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_dead_write_response_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_ffarnc_clear_priority",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_id_queue_extensions",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_stream_and_credit_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_stream_xbar_mask_surface[input]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_stream_xbar_mask_surface[output]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_stream_xbar_unmasked_assertions[input]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_stream_xbar_unmasked_assertions[output]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_delta_counter_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_stream_to_mem_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_clock_mux_rejects_single_input",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_clock_mux_switch_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_counter_behavior_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_id_queue_exists_mask_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_lossy_valid_to_stream_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_mem_to_banks_staggered_completion",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_optimal_fifo_rejects_unsupported_depths",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_static_divider_rejects_zero",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_static_divider_reset_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_stream_throttle_exhausted_credit",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[addr_decode]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[addr_decode_napot]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[clk_int_div]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[clk_int_div_static]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[clk_mux_glitch_free]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[mem_to_banks]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[popcount]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[read]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[shift_reg_gated]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[stream_delay]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[stream_fifo_optimal_wrap]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[stream_register]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_1_checkpoint_1_v1_30_additions_behavior[stream_throttle]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_2_checkpoint_2_addr_decode_dync_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_2_checkpoint_2_ffarnc_surface_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_2_checkpoint_2_mem_to_banks_detailed_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_2_checkpoint_2_mem_to_banks_detailed_staggered_response_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_2_checkpoint_2_multiaddr_decode_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_2_checkpoint_2_passthrough_stream_fifo_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_2_checkpoint_2_passthrough_stream_fifo_stall_stability_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_prior_checkpoint_2_checkpoint_2_stream_join_dynamic_behavior",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 8,
+              "total": 8
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 33,
+              "total": 33
+            },
+            "error": {
+              "passed": 1,
+              "total": 1
+            },
+            "total": {
+              "passed": 43,
+              "total": 43
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 61,
+            "observed_tool_calls": 60,
+            "native_events": 183,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "93033da63b1769475ca96c827b08ea5861e5f083d31cf69882a7b52cc24557f6"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 43,
+            "groups": {
+              "core": 8,
+              "error": 1,
+              "functionality": 0,
+              "regression": 33,
+              "structure": 1
+            },
+            "inventory": "ab5e95ff6985c345e9d68bd10d1434f65a4e22557948f97e9c645c1731cafb03"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/68fbc4d4c7794895e268ac950336c824e355ea99a8de7b4508c633a51ed2102a.tar.gz",
+            "sha256": "68fbc4d4c7794895e268ac950336c824e355ea99a8de7b4508c633a51ed2102a",
+            "file_count": 171,
+            "size_bytes": 143447,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-05T17:43:24.450236+00:00",
+      "completed_at": "2026-11-05T18:00:16.667402+00:00",
+      "wall_seconds_all_attempts": 1012.210198784247,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_3": {
+          "total": 43,
+          "groups": {
+            "core": 8,
+            "error": 1,
+            "functionality": 0,
+            "regression": 33,
+            "structure": 1
+          },
+          "inventory": "ab5e95ff6985c345e9d68bd10d1434f65a4e22557948f97e9c645c1731cafb03"
+        }
+      }
+    },
+    {
+      "id": "c373eeb75ef96e4b8ce60dec4397386b59bd5f98fca5e025f604e16f74db08ae",
+      "problem": "common_cells_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "deepseek-flash",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "c748d9ca619420fbcf865a090e6ebf4c27aaa77a46222626c1ec5de5287b6fa4",
+      "generation": "d4db2b8b579819b6f211e50b69cd76d862bb6bf9c4479f8aec70fa18e872354d",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "ad28933c97a86fa36be466593bc948983c6bbd60f3a00153463a3992ad907395",
+          "evidence": [
+            "sha256:51242053fb9333049f1b96fa693de46ee56080e640c201936f13c9e626871bd6"
+          ],
+          "event_id": "ca29b2ed6815791d006ad4a2c1888ec341e48c0e970611fcd1d3d2e1193df6d4",
+          "assessment": "0ef1d8fd030fbab9f0353d70bd8d734224cc66ae386fa2cf186a9c88522257d5",
+          "attempt": "510505c511fb4da38186878af50bf4bd"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "ad28933c97a86fa36be466593bc948983c6bbd60f3a00153463a3992ad907395",
+          "evidence": [
+            "sha256:51242053fb9333049f1b96fa693de46ee56080e640c201936f13c9e626871bd6"
+          ],
+          "event_id": "8ec8fe183d1fc8f61d2d887d98219d460a6b2aeaf4987870efacd6ce484ebe7a",
+          "assessment": "0ef1d8fd030fbab9f0353d70bd8d734224cc66ae386fa2cf186a9c88522257d5",
+          "attempt": "510505c511fb4da38186878af50bf4bd"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_1"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.0,
+      "selected_attempt": "510505c511fb4da38186878af50bf4bd",
+      "selected_evaluation": null,
+      "evaluation_generation": "d4db2b8b579819b6f211e50b69cd76d862bb6bf9c4479f8aec70fa18e872354d",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_1",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "ad28933c97a86fa36be466593bc948983c6bbd60f3a00153463a3992ad907395",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "11274d8c0600e50ab5a05137e7a5ba522d606007de6009addf9f15a1a4fd0ddc",
+          "evaluation_sha256": "51242053fb9333049f1b96fa693de46ee56080e640c201936f13c9e626871bd6",
+          "started_at": "2026-11-05T18:53:26.260006Z",
+          "completed_at": "2026-11-05T19:09:36.443971Z",
+          "inference_seconds": 970.183965,
+          "evaluation_seconds": 153.68231344223022,
+          "native_steps": 82,
+          "tokens": {
+            "cache_read": 10500992,
+            "cache_write": 0,
+            "input": 66519,
+            "output": 37701,
+            "reasoning": 104987
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_artifact_hygiene",
+              "group": "Error",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_clock_mux_rejects_single_input",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_clock_mux_switch_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_id_queue_exists_mask_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_lossy_valid_to_stream_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_static_divider_rejects_zero",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_static_divider_reset_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_stream_throttle_exhausted_credit",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[addr_decode]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[addr_decode_napot]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[clk_int_div]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[clk_int_div_static]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[clk_mux_glitch_free]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[popcount]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[read]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[shift_reg_gated]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[stream_delay]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[stream_fifo_optimal_wrap]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[stream_register]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[stream_throttle]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_mem_to_banks_staggered_completion",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_optimal_fifo_rejects_unsupported_depths",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[mem_to_banks]",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_core_structure",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_counter_behavior_regression",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 19,
+              "total": 22
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 1,
+              "total": 1
+            },
+            "error": {
+              "passed": 1,
+              "total": 1
+            },
+            "total": {
+              "passed": 22,
+              "total": 25
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 82,
+            "observed_tool_calls": 81,
+            "native_events": 246,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "2c2917f806ef5668b69dd5fd2b8d53c99c19bcb3e72e885dccc0103131ddd906"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 25,
+            "groups": {
+              "core": 22,
+              "error": 1,
+              "functionality": 0,
+              "regression": 1,
+              "structure": 1
+            },
+            "inventory": "6903bd4cfb429efd6535d8565d7060263e3ed7f97eaed48320dd47775afee186"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/cee5193d109a70da927104e2a8bcb1d1f8d51d4e808e1e24fea21198d3de53c5.tar.gz",
+            "sha256": "cee5193d109a70da927104e2a8bcb1d1f8d51d4e808e1e24fea21198d3de53c5",
+            "file_count": 161,
+            "size_bytes": 127109,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-05T18:53:23.825094+00:00",
+      "completed_at": "2026-11-05T19:12:19.125244+00:00",
+      "wall_seconds_all_attempts": 1135.292598966509,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_1": {
+          "total": 25,
+          "groups": {
+            "core": 22,
+            "error": 1,
+            "functionality": 0,
+            "regression": 1,
+            "structure": 1
+          },
+          "inventory": "6903bd4cfb429efd6535d8565d7060263e3ed7f97eaed48320dd47775afee186"
+        }
+      }
+    },
+    {
+      "id": "fc9e4fabd3f8997725152a31d89c4d7b69aec087c18b2b9f10ed9cd5463d52be",
+      "problem": "common_cells_t1",
+      "mode": "pipeline",
+      "prompt_arm": "original",
+      "model": "deepseek-flash",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "c748d9ca619420fbcf865a090e6ebf4c27aaa77a46222626c1ec5de5287b6fa4",
+      "generation": "f7ac7bbed1120fd423adbd04bfb1b6936f29f7963c6810000cd1ef9799d601cc",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "6d25ca182bf325df8419b5620457390df54e8adb935609a821ff723ac3a9a19d",
+          "evidence": [
+            "sha256:af9105fffd211042d1bc72461dabdf7b4c9e16bf435cfced82a67628dc990404"
+          ],
+          "event_id": "020f235ec99118f541e73c624631d8480ab68181c840c18db6bd3aa6d4315d24",
+          "assessment": "ce01d2fcaf17fec3a8e499582f9011fadc5216dcb3bcf58136451a5ec608ba81",
+          "attempt": "a7c0404eeca5459e8cd934ef2055bcbf"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "6d25ca182bf325df8419b5620457390df54e8adb935609a821ff723ac3a9a19d",
+          "evidence": [
+            "sha256:af9105fffd211042d1bc72461dabdf7b4c9e16bf435cfced82a67628dc990404"
+          ],
+          "event_id": "16295a86b54de66ab451ea1c72b796027eae664367d57418904e20492ebdf9cf",
+          "assessment": "ce01d2fcaf17fec3a8e499582f9011fadc5216dcb3bcf58136451a5ec608ba81",
+          "attempt": "a7c0404eeca5459e8cd934ef2055bcbf"
+        },
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_2",
+          "candidate": "3127642a64a74379cf1e474870959588e224deed4861a55e222350fe978dbb49",
+          "evidence": [
+            "sha256:2a698fb157cc9a9985f9ab5c41fe2d75ff840d4d55c7205d2ff2ea1469dec7bc"
+          ],
+          "event_id": "bc72ba3d6fafe83e9470bbdfa9843662af87ddf2fe7f5c16f1d814381bfcade4",
+          "assessment": "ce01d2fcaf17fec3a8e499582f9011fadc5216dcb3bcf58136451a5ec608ba81",
+          "attempt": "a7c0404eeca5459e8cd934ef2055bcbf"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_2",
+          "candidate": "3127642a64a74379cf1e474870959588e224deed4861a55e222350fe978dbb49",
+          "evidence": [
+            "sha256:2a698fb157cc9a9985f9ab5c41fe2d75ff840d4d55c7205d2ff2ea1469dec7bc"
+          ],
+          "event_id": "47311a132a86ef8369abb8b0fa03fa037f5ef4b3d5a750d09929d83e55966cc8",
+          "assessment": "ce01d2fcaf17fec3a8e499582f9011fadc5216dcb3bcf58136451a5ec608ba81",
+          "attempt": "a7c0404eeca5459e8cd934ef2055bcbf"
+        },
+        {
+          "namespace": "implementation",
+          "label": "regression_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_2",
+          "candidate": "3127642a64a74379cf1e474870959588e224deed4861a55e222350fe978dbb49",
+          "evidence": [
+            "sha256:2a698fb157cc9a9985f9ab5c41fe2d75ff840d4d55c7205d2ff2ea1469dec7bc"
+          ],
+          "event_id": "e42bbec2c957874a1b3f7909fba647f9f161af9c2ac87097e0f1794a6ce83650",
+          "assessment": "ce01d2fcaf17fec3a8e499582f9011fadc5216dcb3bcf58136451a5ec608ba81",
+          "attempt": "a7c0404eeca5459e8cd934ef2055bcbf"
+        },
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "adee0f491b58118f43a212e2c6c21026cc5bd0a038b49d4906fcffe57e0e1531",
+          "evidence": [
+            "sha256:a1d5892a1e427004e2cfd01ccc1a1dc977f5a5f9ff97d6b680910257738573a8"
+          ],
+          "event_id": "d58ad766256bd1b593d79a7cc1e639c6d73f2e88f0013e687a839979dfe7359b",
+          "assessment": "ce01d2fcaf17fec3a8e499582f9011fadc5216dcb3bcf58136451a5ec608ba81",
+          "attempt": "a7c0404eeca5459e8cd934ef2055bcbf"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "adee0f491b58118f43a212e2c6c21026cc5bd0a038b49d4906fcffe57e0e1531",
+          "evidence": [
+            "sha256:a1d5892a1e427004e2cfd01ccc1a1dc977f5a5f9ff97d6b680910257738573a8"
+          ],
+          "event_id": "96b2b69ea442d712b79668cce06a91fff7181b2352d02be78b03f95e81c06a96",
+          "assessment": "ce01d2fcaf17fec3a8e499582f9011fadc5216dcb3bcf58136451a5ec608ba81",
+          "attempt": "a7c0404eeca5459e8cd934ef2055bcbf"
+        },
+        {
+          "namespace": "implementation",
+          "label": "regression_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "adee0f491b58118f43a212e2c6c21026cc5bd0a038b49d4906fcffe57e0e1531",
+          "evidence": [
+            "sha256:a1d5892a1e427004e2cfd01ccc1a1dc977f5a5f9ff97d6b680910257738573a8"
+          ],
+          "event_id": "0611542635b8568f6d7fbf58b61022d18f572faa77d5167d64ced056e548ed84",
+          "assessment": "ce01d2fcaf17fec3a8e499582f9011fadc5216dcb3bcf58136451a5ec608ba81",
+          "attempt": "a7c0404eeca5459e8cd934ef2055bcbf"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 3,
+      "planned_targets": [
+        "checkpoint_1",
+        "checkpoint_2",
+        "checkpoint_3"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.0,
+      "selected_attempt": "a7c0404eeca5459e8cd934ef2055bcbf",
+      "selected_evaluation": null,
+      "evaluation_generation": "f7ac7bbed1120fd423adbd04bfb1b6936f29f7963c6810000cd1ef9799d601cc",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_1",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "6d25ca182bf325df8419b5620457390df54e8adb935609a821ff723ac3a9a19d",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "0429e4bff08bb62b410eb5ba13fa7039ac183004e99bcad8b76a308fea663f54",
+          "evaluation_sha256": "af9105fffd211042d1bc72461dabdf7b4c9e16bf435cfced82a67628dc990404",
+          "started_at": "2026-11-05T20:16:07.549220Z",
+          "completed_at": "2026-11-05T20:35:28.532368Z",
+          "inference_seconds": 1160.983148,
+          "evaluation_seconds": 157.74369382858276,
+          "native_steps": 72,
+          "tokens": {
+            "cache_read": 10414336,
+            "cache_write": 0,
+            "input": 81223,
+            "output": 39974,
+            "reasoning": 91731
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_artifact_hygiene",
+              "group": "Error",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_clock_mux_rejects_single_input",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_clock_mux_switch_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_id_queue_exists_mask_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_static_divider_rejects_zero",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_static_divider_reset_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[addr_decode]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[addr_decode_napot]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[clk_int_div]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[clk_int_div_static]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[mem_to_banks]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[popcount]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[read]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[shift_reg_gated]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[stream_delay]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[stream_fifo_optimal_wrap]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[stream_register]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[stream_throttle]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_lossy_valid_to_stream_behavior",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_mem_to_banks_staggered_completion",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_optimal_fifo_rejects_unsupported_depths",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_stream_throttle_exhausted_credit",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[clk_mux_glitch_free]",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_core_structure",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_counter_behavior_regression",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 17,
+              "total": 22
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 1,
+              "total": 1
+            },
+            "error": {
+              "passed": 1,
+              "total": 1
+            },
+            "total": {
+              "passed": 20,
+              "total": 25
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 72,
+            "observed_tool_calls": 89,
+            "native_events": 234,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "80391f3a37d9039c476948a797df7fb3275bef4fe109cf72eafa21a2955c122c"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 25,
+            "groups": {
+              "core": 22,
+              "error": 1,
+              "functionality": 0,
+              "regression": 1,
+              "structure": 1
+            },
+            "inventory": "7c431cca39a70a50469aaefe443362d524327747c28055618473ed9dec6efa65"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/4fad038f5be66eefb59b09bd1ef5b4dfe0b9e8f10909ebb9667c60f12ea48ec4.tar.gz",
+            "sha256": "4fad038f5be66eefb59b09bd1ef5b4dfe0b9e8f10909ebb9667c60f12ea48ec4",
+            "file_count": 161,
+            "size_bytes": 129943,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_2",
+          "target_checkpoint": "checkpoint_2",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "3127642a64a74379cf1e474870959588e224deed4861a55e222350fe978dbb49",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "fcb31caf16732d82f6f77c172e94dde66d8d83a854f9aea237621a5991afecdc",
+          "evaluation_sha256": "2a698fb157cc9a9985f9ab5c41fe2d75ff840d4d55c7205d2ff2ea1469dec7bc",
+          "started_at": "2026-11-05T20:38:11.500829Z",
+          "completed_at": "2026-11-05T20:51:10.116199Z",
+          "inference_seconds": 778.61537,
+          "evaluation_seconds": 216.52631330490112,
+          "native_steps": 49,
+          "tokens": {
+            "cache_read": 4129920,
+            "cache_write": 0,
+            "input": 56393,
+            "output": 21045,
+            "reasoning": 55073
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_clock_mux_rejects_single_input",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_clock_mux_switch_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_counter_behavior_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_id_queue_exists_mask_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_static_divider_rejects_zero",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_static_divider_reset_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[addr_decode]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[addr_decode_napot]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[clk_int_div]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[clk_int_div_static]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[mem_to_banks]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[popcount]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[read]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[shift_reg_gated]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[stream_delay]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[stream_fifo_optimal_wrap]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[stream_register]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[stream_throttle]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_lossy_valid_to_stream_behavior",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_mem_to_banks_staggered_completion",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_optimal_fifo_rejects_unsupported_depths",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_stream_throttle_exhausted_credit",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[clk_mux_glitch_free]",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_addr_decode_dync_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_ffarnc_surface_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_passthrough_stream_fifo_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_passthrough_stream_fifo_stall_stability_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_stream_join_dynamic_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_mem_to_banks_detailed_behavior",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_mem_to_banks_detailed_staggered_response_behavior",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_multiaddr_decode_behavior",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_artifact_hygiene",
+              "group": "Error",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_core_structure",
+              "group": "Structure",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 5,
+              "total": 8
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 18,
+              "total": 23
+            },
+            "error": {
+              "passed": 1,
+              "total": 1
+            },
+            "total": {
+              "passed": 25,
+              "total": 33
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 49,
+            "observed_tool_calls": 52,
+            "native_events": 151,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "e0ee48aa20c588734bce9556aed2579d237a0869ae90c2ec0921fefd13107816"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 33,
+            "groups": {
+              "core": 8,
+              "error": 1,
+              "functionality": 0,
+              "regression": 23,
+              "structure": 1
+            },
+            "inventory": "e1b4b408ed10185ce42c7338374a1525407bb00042e8f540c45a035a59ec196b"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/8635616372b2e55846706fe59a959a9656aa275c3bff56d419d5dec818911986.tar.gz",
+            "sha256": "8635616372b2e55846706fe59a959a9656aa275c3bff56d419d5dec818911986",
+            "file_count": 167,
+            "size_bytes": 134442,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_3",
+          "target_checkpoint": "checkpoint_3",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "adee0f491b58118f43a212e2c6c21026cc5bd0a038b49d4906fcffe57e0e1531",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "6394b8d4058facee7680424f43ceacd9c31a0ca38c095573a1d3452a8ed7d882",
+          "evaluation_sha256": "a1d5892a1e427004e2cfd01ccc1a1dc977f5a5f9ff97d6b680910257738573a8",
+          "started_at": "2026-11-05T20:54:55.460088Z",
+          "completed_at": "2026-11-05T21:15:07.106181Z",
+          "inference_seconds": 1211.646093,
+          "evaluation_seconds": 288.8860173225403,
+          "native_steps": 77,
+          "tokens": {
+            "cache_read": 8238848,
+            "cache_write": 0,
+            "input": 69886,
+            "output": 37119,
+            "reasoning": 62589
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_clock_mux_rejects_single_input",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_clock_mux_switch_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_counter_behavior_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_id_queue_exists_mask_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_static_divider_rejects_zero",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_static_divider_reset_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[addr_decode]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[addr_decode_napot]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[clk_int_div]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[clk_int_div_static]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[mem_to_banks]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[popcount]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[read]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[shift_reg_gated]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[stream_delay]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[stream_fifo_optimal_wrap]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[stream_register]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[stream_throttle]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_lossy_valid_to_stream_behavior",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_mem_to_banks_staggered_completion",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_optimal_fifo_rejects_unsupported_depths",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_stream_throttle_exhausted_credit",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_v1_30_additions_behavior[clk_mux_glitch_free]",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_addr_decode_dync_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_ffarnc_surface_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_passthrough_stream_fifo_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_passthrough_stream_fifo_stall_stability_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_stream_join_dynamic_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_mem_to_banks_detailed_behavior",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_mem_to_banks_detailed_staggered_response_behavior",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_multiaddr_decode_behavior",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_artifact_hygiene",
+              "group": "Error",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_core_structure",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_dead_write_response_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_ffarnc_clear_priority",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_id_queue_extensions",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_stream_and_credit_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_stream_xbar_mask_surface[input]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_stream_xbar_mask_surface[output]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_stream_xbar_unmasked_assertions[input]",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_stream_xbar_unmasked_assertions[output]",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_delta_counter_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_stream_to_mem_behavior",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 6,
+              "total": 8
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 25,
+              "total": 33
+            },
+            "error": {
+              "passed": 1,
+              "total": 1
+            },
+            "total": {
+              "passed": 33,
+              "total": 43
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 77,
+            "observed_tool_calls": 76,
+            "native_events": 231,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "a60b77eb8ebaf5cb1da8b31ef7985f7c9363c39198b9a64237b6bc5d506b9ca6"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 43,
+            "groups": {
+              "core": 8,
+              "error": 1,
+              "functionality": 0,
+              "regression": 33,
+              "structure": 1
+            },
+            "inventory": "78719620487571befc997d8de5a33cf53e918014eecbeb68d1cda90c70e3a50d"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/726c1fadddedd92e0fa16d32b3ceb13de82eea4288a582ce1ec20429112b0a32.tar.gz",
+            "sha256": "726c1fadddedd92e0fa16d32b3ceb13de82eea4288a582ce1ec20429112b0a32",
+            "file_count": 168,
+            "size_bytes": 135971,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 3,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-05T20:16:05.080844+00:00",
+      "completed_at": "2026-11-05T21:20:13.979062+00:00",
+      "wall_seconds_all_attempts": 3848.8852193001658,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_3": {
+          "total": 43,
+          "groups": {
+            "core": 8,
+            "error": 1,
+            "functionality": 0,
+            "regression": 33,
+            "structure": 1
+          },
+          "inventory": "78719620487571befc997d8de5a33cf53e918014eecbeb68d1cda90c70e3a50d"
+        },
+        "checkpoint_1": {
+          "total": 25,
+          "groups": {
+            "core": 22,
+            "error": 1,
+            "functionality": 0,
+            "regression": 1,
+            "structure": 1
+          },
+          "inventory": "7c431cca39a70a50469aaefe443362d524327747c28055618473ed9dec6efa65"
+        },
+        "checkpoint_2": {
+          "total": 33,
+          "groups": {
+            "core": 8,
+            "error": 1,
+            "functionality": 0,
+            "regression": 23,
+            "structure": 1
+          },
+          "inventory": "e1b4b408ed10185ce42c7338374a1525407bb00042e8f540c45a035a59ec196b"
+        }
+      }
+    }
+  ]
+}

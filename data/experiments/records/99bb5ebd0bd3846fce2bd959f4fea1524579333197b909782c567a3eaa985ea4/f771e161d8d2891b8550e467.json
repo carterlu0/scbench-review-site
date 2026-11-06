@@ -1,0 +1,2194 @@
+{
+  "schema_version": 4,
+  "analysis": "99bb5ebd0bd3846fce2bd959f4fea1524579333197b909782c567a3eaa985ea4",
+  "problem": "ef_uart_t1",
+  "cells": [
+    {
+      "id": "02de0d2fa3e3152898f9c2a2953a920865bf2bb259a32fbc76e1b66b134b0377",
+      "problem": "ef_uart_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "deepseek-flash",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "c748d9ca619420fbcf865a090e6ebf4c27aaa77a46222626c1ec5de5287b6fa4",
+      "generation": "430c67b252eea0a1b38378538884c088a3897b15bb4fe7f6279100778bfc37f9",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_3"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "0270916b2f5d47c2a9ccd19eaa65ac68",
+      "selected_evaluation": null,
+      "evaluation_generation": "430c67b252eea0a1b38378538884c088a3897b15bb4fe7f6279100778bfc37f9",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_3",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "61fbc6021515c92bb0e881d195b40b95f36c390bac01c26de88b1f9b53324bc8",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "759a01da387093778fe39c19c60228f8acf45501f4f0d0e10f4983ce2ce3314f",
+          "evaluation_sha256": "674a2526eddc9c03b65c632d7607cc53a78a5d5e98431e8b2deb87164ed66098",
+          "started_at": "2026-11-05T14:39:12.797041Z",
+          "completed_at": "2026-11-05T14:43:24.701572Z",
+          "inference_seconds": 251.904531,
+          "evaluation_seconds": 1.3937256336212158,
+          "native_steps": 34,
+          "tokens": {
+            "cache_read": 1754368,
+            "cache_write": 0,
+            "input": 46341,
+            "output": 10892,
+            "reasoning": 25871
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_structure",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_9bit_framing_core",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_apb_error_unmapped",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_glitch_filter_core",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_ahbl_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_c1_apb_regression",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 3,
+              "total": 3
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 2,
+              "total": 2
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 6,
+              "total": 6
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 34,
+            "observed_tool_calls": 50,
+            "native_events": 119,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "e7beb2f08a7c512815963027f4dcb9a0acba2d8d0d788aadc688243f2e847055"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 6,
+            "groups": {
+              "core": 3,
+              "error": 0,
+              "functionality": 0,
+              "regression": 2,
+              "structure": 1
+            },
+            "inventory": "9429c98117cc091fcb8661f36bbb6c3d7de0f027a12270038f80aeaf12153637"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/edb953f33d16b169551e5f9691c2e49367808029544e6efa8a56ffbaf01f706f.tar.gz",
+            "sha256": "edb953f33d16b169551e5f9691c2e49367808029544e6efa8a56ffbaf01f706f",
+            "file_count": 47,
+            "size_bytes": 75074,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-05T14:39:09.317773+00:00",
+      "completed_at": "2026-11-05T14:43:36.079159+00:00",
+      "wall_seconds_all_attempts": 266.7480826508254,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_3": {
+          "total": 6,
+          "groups": {
+            "core": 3,
+            "error": 0,
+            "functionality": 0,
+            "regression": 2,
+            "structure": 1
+          },
+          "inventory": "9429c98117cc091fcb8661f36bbb6c3d7de0f027a12270038f80aeaf12153637"
+        }
+      }
+    },
+    {
+      "id": "6685b3a14f2709b70680347a8b4e352b3c1cd26db6e9716c7cae661422ad9132",
+      "problem": "ef_uart_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "deepseek-flash",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "c748d9ca619420fbcf865a090e6ebf4c27aaa77a46222626c1ec5de5287b6fa4",
+      "generation": "4877c97706e824f1d2319226012efa0e955804c1b7e865efda4ef78059e816a3",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "e26df9fcecce7a2312587b5318e45d9798c714831c03b3d5fe676407fd7ac927",
+          "evidence": [
+            "sha256:154e513580f8ec9e85436bc2e3fe2d23b4c65351e3a9a12b0260bbbfa6ca6d8b"
+          ],
+          "event_id": "10b42af0d632e5e219f60f097417ab535095fa21fdf01cfe4208d43822449ffe",
+          "assessment": "5e215fc19999f4430ff4e6e74b16224f7a34913a1a73b54c109053d09bc95615",
+          "attempt": "e49dd5fb0d9e4bcb829b040b7b203764"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "e26df9fcecce7a2312587b5318e45d9798c714831c03b3d5fe676407fd7ac927",
+          "evidence": [
+            "sha256:154e513580f8ec9e85436bc2e3fe2d23b4c65351e3a9a12b0260bbbfa6ca6d8b"
+          ],
+          "event_id": "a187fe25cb634efd876b7cca52d04660629302e4bc365a5ef2159c9fd4f0254d",
+          "assessment": "5e215fc19999f4430ff4e6e74b16224f7a34913a1a73b54c109053d09bc95615",
+          "attempt": "e49dd5fb0d9e4bcb829b040b7b203764"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_1"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.0,
+      "selected_attempt": "e49dd5fb0d9e4bcb829b040b7b203764",
+      "selected_evaluation": null,
+      "evaluation_generation": "4877c97706e824f1d2319226012efa0e955804c1b7e865efda4ef78059e816a3",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_1",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "e26df9fcecce7a2312587b5318e45d9798c714831c03b3d5fe676407fd7ac927",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "d3459ea656ef3fb916903d50a12969f8564e7486c35abdf011ae81fbaac45339",
+          "evaluation_sha256": "154e513580f8ec9e85436bc2e3fe2d23b4c65351e3a9a12b0260bbbfa6ca6d8b",
+          "started_at": "2026-11-05T16:44:13.384497Z",
+          "completed_at": "2026-11-05T16:51:49.188783Z",
+          "inference_seconds": 455.804286,
+          "evaluation_seconds": 0.8628251552581787,
+          "native_steps": 45,
+          "tokens": {
+            "cache_read": 3314560,
+            "cache_write": 0,
+            "input": 46498,
+            "output": 17804,
+            "reasoning": 53268
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_apb_error_unmapped",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_apb_core",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_structure",
+              "group": "Structure",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 1,
+              "total": 2
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 0,
+              "total": 0
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 2,
+              "total": 3
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 45,
+            "observed_tool_calls": 53,
+            "native_events": 144,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "dc5594df347b54410591ff7e5ed8202f7986be0a117d32d15be8b72faae79340"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 3,
+            "groups": {
+              "core": 2,
+              "error": 0,
+              "functionality": 0,
+              "regression": 0,
+              "structure": 1
+            },
+            "inventory": "667f83cc176a219ac12ae057c188e78156fb4adc4b3cf25ce193f15390cbc0d8"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/85c3fe092d93329ecd283c1932bc58d4b9aeb67c2f6560f810c95f29bdc12ab0.tar.gz",
+            "sha256": "85c3fe092d93329ecd283c1932bc58d4b9aeb67c2f6560f810c95f29bdc12ab0",
+            "file_count": 45,
+            "size_bytes": 65334,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-05T16:44:10.955091+00:00",
+      "completed_at": "2026-11-05T16:51:59.314386+00:00",
+      "wall_seconds_all_attempts": 468.3530668336898,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_1": {
+          "total": 3,
+          "groups": {
+            "core": 2,
+            "error": 0,
+            "functionality": 0,
+            "regression": 0,
+            "structure": 1
+          },
+          "inventory": "667f83cc176a219ac12ae057c188e78156fb4adc4b3cf25ce193f15390cbc0d8"
+        }
+      }
+    },
+    {
+      "id": "6e7edf598a16ca4371229eac9ceec06640fa3ca5fa06480df4f47b284220da0e",
+      "problem": "ef_uart_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "deepseek-flash",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "c748d9ca619420fbcf865a090e6ebf4c27aaa77a46222626c1ec5de5287b6fa4",
+      "generation": "78aee1b385345602d1b9ecd208bf33eafca485cdc29ba7acbf99d8e20905d303",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_5"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "e76a34b7adaa4e9aa2676e534d886efe",
+      "selected_evaluation": null,
+      "evaluation_generation": "78aee1b385345602d1b9ecd208bf33eafca485cdc29ba7acbf99d8e20905d303",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_5",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "ba4070d73443dd866f90666533982c878d785295abc234c790ed76ce26727558",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "c03877a05bbd166d92fb7f35a42f48398c62b459df1fd6970943874f4956b9da",
+          "evaluation_sha256": "12c43f9b4c8f4455fbd0a5d717de59e3669a24ba5dbe16f3633b348684ea0891",
+          "started_at": "2026-11-05T17:01:19.926870Z",
+          "completed_at": "2026-11-05T17:06:00.902936Z",
+          "inference_seconds": 280.976066,
+          "evaluation_seconds": 1.8743820190429688,
+          "native_steps": 60,
+          "tokens": {
+            "cache_read": 3529472,
+            "cache_write": 0,
+            "input": 54016,
+            "output": 22052,
+            "reasoning": 23269
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_structure",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_ahbl_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_c3_uart_behavior_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_wb_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_error_unmapped",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_fifo_core",
+              "group": "Core",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 2,
+              "total": 2
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 3,
+              "total": 3
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 6,
+              "total": 6
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 60,
+            "observed_tool_calls": 59,
+            "native_events": 180,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "d374044249eb686b2863e730880815fd54a62c012270ef3050264035d3943f96"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 6,
+            "groups": {
+              "core": 2,
+              "error": 0,
+              "functionality": 0,
+              "regression": 3,
+              "structure": 1
+            },
+            "inventory": "81a588c0ea3b1b35323b63418a86eecd7f4e54d44c956580527c5337b3d7648c"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/d79ec1fc4050d7cc0c67d19865ab2f1bc51e7c0f90299cd4dde03e4c052fa938.tar.gz",
+            "sha256": "d79ec1fc4050d7cc0c67d19865ab2f1bc51e7c0f90299cd4dde03e4c052fa938",
+            "file_count": 212,
+            "size_bytes": 363479,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-05T17:01:17.298010+00:00",
+      "completed_at": "2026-11-05T17:06:26.495123+00:00",
+      "wall_seconds_all_attempts": 309.1908341348171,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_5": {
+          "total": 6,
+          "groups": {
+            "core": 2,
+            "error": 0,
+            "functionality": 0,
+            "regression": 3,
+            "structure": 1
+          },
+          "inventory": "81a588c0ea3b1b35323b63418a86eecd7f4e54d44c956580527c5337b3d7648c"
+        }
+      }
+    },
+    {
+      "id": "744d892dc0a9007ebf63fc7df88f12a23165ed6f091c3a9a3f5da8386c7b904f",
+      "problem": "ef_uart_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "deepseek-flash",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "c748d9ca619420fbcf865a090e6ebf4c27aaa77a46222626c1ec5de5287b6fa4",
+      "generation": "a018fccf39d9179f09dfc2580543e3a43874e773369adc7f50c8d0b3ca76e720",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_4"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "dcac183feae846aabf636d1f190a3b83",
+      "selected_evaluation": null,
+      "evaluation_generation": "a018fccf39d9179f09dfc2580543e3a43874e773369adc7f50c8d0b3ca76e720",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_4",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "21fe374b6d893e112f29474aa0e625016fd8fa2199f9a1f08b061932d4cafc5b",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "60a0742829ffaf3b1b21533e69a91734e5aa52809b5514c9037c9f29cc1a3a4b",
+          "evaluation_sha256": "cd1f0af70db32e5bc37cf4f87d5df5d96721fe55b87e7e0db04ef51c3fa3647e",
+          "started_at": "2026-11-05T17:10:13.259145Z",
+          "completed_at": "2026-11-05T17:15:03.857645Z",
+          "inference_seconds": 290.5985,
+          "evaluation_seconds": 1.8200185298919678,
+          "native_steps": 41,
+          "tokens": {
+            "cache_read": 2856064,
+            "cache_write": 0,
+            "input": 69955,
+            "output": 12659,
+            "reasoning": 32824
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_structure",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_ahbl_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_apb_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_c3_uart_behavior_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_wb_core",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_wb_error_unmapped",
+              "group": "Core",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 2,
+              "total": 2
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 3,
+              "total": 3
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 6,
+              "total": 6
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 41,
+            "observed_tool_calls": 40,
+            "native_events": 123,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "cf297086aa56e1889104e8f47d6ec9d6150e711b76a83934a0e6964215c4c3a0"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 6,
+            "groups": {
+              "core": 2,
+              "error": 0,
+              "functionality": 0,
+              "regression": 3,
+              "structure": 1
+            },
+            "inventory": "092821323c09248371a6541b13cf1d4a8f658ed574c3c21591fca1587d901b91"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/076044e8bf525335a04cb94396c852a7f81a795c52ce8db7cc128bddd5db0cca.tar.gz",
+            "sha256": "076044e8bf525335a04cb94396c852a7f81a795c52ce8db7cc128bddd5db0cca",
+            "file_count": 181,
+            "size_bytes": 339843,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-05T17:10:10.695331+00:00",
+      "completed_at": "2026-11-05T17:15:26.852476+00:00",
+      "wall_seconds_all_attempts": 316.1514951772988,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_4": {
+          "total": 6,
+          "groups": {
+            "core": 2,
+            "error": 0,
+            "functionality": 0,
+            "regression": 3,
+            "structure": 1
+          },
+          "inventory": "092821323c09248371a6541b13cf1d4a8f658ed574c3c21591fca1587d901b91"
+        }
+      }
+    },
+    {
+      "id": "a146415c63aa7753ada102a08109eaf77a32bc793e66e150e261e7182155e424",
+      "problem": "ef_uart_t1",
+      "mode": "pipeline",
+      "prompt_arm": "original",
+      "model": "deepseek-flash",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "c748d9ca619420fbcf865a090e6ebf4c27aaa77a46222626c1ec5de5287b6fa4",
+      "generation": "e5c66102c15057d3aebae0225df7110b08b4e3edbd75f541172d7dafb6877bd2",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "4cffb451c1b0298819905e1776981e2e8db44789f9bd509212ab38cec120f59d",
+          "evidence": [
+            "sha256:33a8e325b93239faa2e92b9edf7679c9da05f2906c17020f6309bd09e0cb7488"
+          ],
+          "event_id": "41fd4d7c7541b08cfa09d52dae0e4b9370340fbbd773f8ca52b6de651109825c",
+          "assessment": "4b050cd0ebe8a70c0af8af32c40760733a37cbc98b0b45e5b9bd45db25b05f1f",
+          "attempt": "77e29b7fced44e3fa5f1caed222831f0"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "4cffb451c1b0298819905e1776981e2e8db44789f9bd509212ab38cec120f59d",
+          "evidence": [
+            "sha256:33a8e325b93239faa2e92b9edf7679c9da05f2906c17020f6309bd09e0cb7488"
+          ],
+          "event_id": "8917cde96fa6f5af73038ac81bfee5edd6a972e9e6c3d953bd18900b6652d150",
+          "assessment": "4b050cd0ebe8a70c0af8af32c40760733a37cbc98b0b45e5b9bd45db25b05f1f",
+          "attempt": "77e29b7fced44e3fa5f1caed222831f0"
+        },
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_2",
+          "candidate": "e0f8fc0ce89502e06e3c067ca5dc9c87075acb3f759984677bcf525cdadefdb1",
+          "evidence": [
+            "sha256:891a1389c6969964bd7302b20dfd5be64d2cec758caa4583e3709613080c126c"
+          ],
+          "event_id": "1d76b1783c211b4946ec86f4c95d2dda39f55c2745e6914993d181bea7f85564",
+          "assessment": "4b050cd0ebe8a70c0af8af32c40760733a37cbc98b0b45e5b9bd45db25b05f1f",
+          "attempt": "77e29b7fced44e3fa5f1caed222831f0"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_2",
+          "candidate": "e0f8fc0ce89502e06e3c067ca5dc9c87075acb3f759984677bcf525cdadefdb1",
+          "evidence": [
+            "sha256:891a1389c6969964bd7302b20dfd5be64d2cec758caa4583e3709613080c126c"
+          ],
+          "event_id": "89e16c3b88dfc1c6abe72d96cb1dea1685e988a409429028644e1075cf1e9361",
+          "assessment": "4b050cd0ebe8a70c0af8af32c40760733a37cbc98b0b45e5b9bd45db25b05f1f",
+          "attempt": "77e29b7fced44e3fa5f1caed222831f0"
+        },
+        {
+          "namespace": "implementation",
+          "label": "regression_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_2",
+          "candidate": "e0f8fc0ce89502e06e3c067ca5dc9c87075acb3f759984677bcf525cdadefdb1",
+          "evidence": [
+            "sha256:891a1389c6969964bd7302b20dfd5be64d2cec758caa4583e3709613080c126c"
+          ],
+          "event_id": "d75f371c5d4e0349a78cdffaecbf60e5b704ebee1242fcbe2dc49254b4a92c3b",
+          "assessment": "4b050cd0ebe8a70c0af8af32c40760733a37cbc98b0b45e5b9bd45db25b05f1f",
+          "attempt": "77e29b7fced44e3fa5f1caed222831f0"
+        },
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "567e2508c0909211a9c2222d7db71beee6b8ea4a7b275d89753d51d5f98a416d",
+          "evidence": [
+            "sha256:aaccbf596339f68c2b6f2e5e20b41de60a66743ebfa40c163f1d05ad06354134"
+          ],
+          "event_id": "8797b10a489595451e071e0d9d5a0177e33c7a72034e5ca8903da21e1596e6c3",
+          "assessment": "4b050cd0ebe8a70c0af8af32c40760733a37cbc98b0b45e5b9bd45db25b05f1f",
+          "attempt": "77e29b7fced44e3fa5f1caed222831f0"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "567e2508c0909211a9c2222d7db71beee6b8ea4a7b275d89753d51d5f98a416d",
+          "evidence": [
+            "sha256:aaccbf596339f68c2b6f2e5e20b41de60a66743ebfa40c163f1d05ad06354134"
+          ],
+          "event_id": "a2a8e9761b853523f238e0938f61f799a171fec6e13260440ae6127c01899982",
+          "assessment": "4b050cd0ebe8a70c0af8af32c40760733a37cbc98b0b45e5b9bd45db25b05f1f",
+          "attempt": "77e29b7fced44e3fa5f1caed222831f0"
+        },
+        {
+          "namespace": "implementation",
+          "label": "regression_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "567e2508c0909211a9c2222d7db71beee6b8ea4a7b275d89753d51d5f98a416d",
+          "evidence": [
+            "sha256:aaccbf596339f68c2b6f2e5e20b41de60a66743ebfa40c163f1d05ad06354134"
+          ],
+          "event_id": "aa9528607c76e44efaf9a8c51863bf3659f8046b6bafa5ff902f19ce74b5d890",
+          "assessment": "4b050cd0ebe8a70c0af8af32c40760733a37cbc98b0b45e5b9bd45db25b05f1f",
+          "attempt": "77e29b7fced44e3fa5f1caed222831f0"
+        },
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_4",
+          "candidate": "e21d8492e802c96ac605e2428caa917f81616beb420ce82c64c77692c80900da",
+          "evidence": [
+            "sha256:a626b06d188ed7a42f0e5e649f875240e463d4dce0d2b0a507ca9a7ec1afe6ed"
+          ],
+          "event_id": "025036c75087e6a70894cd2db14ab1e27c69664622c18fc2d39b72caf4ba40fb",
+          "assessment": "4b050cd0ebe8a70c0af8af32c40760733a37cbc98b0b45e5b9bd45db25b05f1f",
+          "attempt": "77e29b7fced44e3fa5f1caed222831f0"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_4",
+          "candidate": "e21d8492e802c96ac605e2428caa917f81616beb420ce82c64c77692c80900da",
+          "evidence": [
+            "sha256:a626b06d188ed7a42f0e5e649f875240e463d4dce0d2b0a507ca9a7ec1afe6ed"
+          ],
+          "event_id": "6eca8cac2480f7ded343d554b1ead7ff9d99f2da0b46442106945f08fd0b6e6d",
+          "assessment": "4b050cd0ebe8a70c0af8af32c40760733a37cbc98b0b45e5b9bd45db25b05f1f",
+          "attempt": "77e29b7fced44e3fa5f1caed222831f0"
+        },
+        {
+          "namespace": "implementation",
+          "label": "regression_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_4",
+          "candidate": "e21d8492e802c96ac605e2428caa917f81616beb420ce82c64c77692c80900da",
+          "evidence": [
+            "sha256:a626b06d188ed7a42f0e5e649f875240e463d4dce0d2b0a507ca9a7ec1afe6ed"
+          ],
+          "event_id": "11bcf07669dde00de749690ac626d8b9ed6771528bb405e80b7f9e68fef2a8bf",
+          "assessment": "4b050cd0ebe8a70c0af8af32c40760733a37cbc98b0b45e5b9bd45db25b05f1f",
+          "attempt": "77e29b7fced44e3fa5f1caed222831f0"
+        },
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_5",
+          "candidate": "9d09ebe29c07fbee9ae9ac97a50999f9a16ebf7d76237ee1ac6b901bb805dc28",
+          "evidence": [
+            "sha256:9a561d0feae371ae17ff5570bcab460811d4f2211daf744b9b52db34e78908d4"
+          ],
+          "event_id": "4e61432ccd0457baa01fd1f9ce86dc6b961dc21f6793769fa17eb35b369c64e6",
+          "assessment": "4b050cd0ebe8a70c0af8af32c40760733a37cbc98b0b45e5b9bd45db25b05f1f",
+          "attempt": "77e29b7fced44e3fa5f1caed222831f0"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_5",
+          "candidate": "9d09ebe29c07fbee9ae9ac97a50999f9a16ebf7d76237ee1ac6b901bb805dc28",
+          "evidence": [
+            "sha256:9a561d0feae371ae17ff5570bcab460811d4f2211daf744b9b52db34e78908d4"
+          ],
+          "event_id": "c405804b634f5c478ed26f175d56aa4f6f6a49668d1d4c41bf29254f40b39522",
+          "assessment": "4b050cd0ebe8a70c0af8af32c40760733a37cbc98b0b45e5b9bd45db25b05f1f",
+          "attempt": "77e29b7fced44e3fa5f1caed222831f0"
+        },
+        {
+          "namespace": "implementation",
+          "label": "regression_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_5",
+          "candidate": "9d09ebe29c07fbee9ae9ac97a50999f9a16ebf7d76237ee1ac6b901bb805dc28",
+          "evidence": [
+            "sha256:9a561d0feae371ae17ff5570bcab460811d4f2211daf744b9b52db34e78908d4"
+          ],
+          "event_id": "749cd1d4ba9055b2215e7b860f029ad7571a462e2e25f3ec9cf4866946da2993",
+          "assessment": "4b050cd0ebe8a70c0af8af32c40760733a37cbc98b0b45e5b9bd45db25b05f1f",
+          "attempt": "77e29b7fced44e3fa5f1caed222831f0"
+        },
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_6",
+          "candidate": "26027de6ec036e162785c3253342e3c04d346d076246782460d2c509a0b36956",
+          "evidence": [
+            "sha256:23f0f42280891973c79ed03e811f3b19ce225b9817a3db3f0f96117aa6f20ea5"
+          ],
+          "event_id": "6fcb982f7c6967c1d0dfa13333f9278c1aca6f64f96863cf17a6086a7d2116dc",
+          "assessment": "4b050cd0ebe8a70c0af8af32c40760733a37cbc98b0b45e5b9bd45db25b05f1f",
+          "attempt": "77e29b7fced44e3fa5f1caed222831f0"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_6",
+          "candidate": "26027de6ec036e162785c3253342e3c04d346d076246782460d2c509a0b36956",
+          "evidence": [
+            "sha256:23f0f42280891973c79ed03e811f3b19ce225b9817a3db3f0f96117aa6f20ea5"
+          ],
+          "event_id": "f7a9ff370c72d3d1cc0bc4e797d2d7fe95100e0ebfe4bfd5c26a28d8ea12fbf0",
+          "assessment": "4b050cd0ebe8a70c0af8af32c40760733a37cbc98b0b45e5b9bd45db25b05f1f",
+          "attempt": "77e29b7fced44e3fa5f1caed222831f0"
+        },
+        {
+          "namespace": "implementation",
+          "label": "regression_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_6",
+          "candidate": "26027de6ec036e162785c3253342e3c04d346d076246782460d2c509a0b36956",
+          "evidence": [
+            "sha256:23f0f42280891973c79ed03e811f3b19ce225b9817a3db3f0f96117aa6f20ea5"
+          ],
+          "event_id": "ca4d34c3de4fc2871de5aa6dc7a863c003da9ea9994344d206d7559e2c2fded8",
+          "assessment": "4b050cd0ebe8a70c0af8af32c40760733a37cbc98b0b45e5b9bd45db25b05f1f",
+          "attempt": "77e29b7fced44e3fa5f1caed222831f0"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 6,
+      "planned_targets": [
+        "checkpoint_1",
+        "checkpoint_2",
+        "checkpoint_3",
+        "checkpoint_4",
+        "checkpoint_5",
+        "checkpoint_6"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.0,
+      "selected_attempt": "77e29b7fced44e3fa5f1caed222831f0",
+      "selected_evaluation": null,
+      "evaluation_generation": "e5c66102c15057d3aebae0225df7110b08b4e3edbd75f541172d7dafb6877bd2",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_1",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "4cffb451c1b0298819905e1776981e2e8db44789f9bd509212ab38cec120f59d",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "2095c5189dedce8d5b80a70f6782e994d525cc65db46b0607f0dfb26678f4c68",
+          "evaluation_sha256": "33a8e325b93239faa2e92b9edf7679c9da05f2906c17020f6309bd09e0cb7488",
+          "started_at": "2026-11-05T18:02:11.379457Z",
+          "completed_at": "2026-11-05T18:06:58.389987Z",
+          "inference_seconds": 287.01053,
+          "evaluation_seconds": 0.8632669448852539,
+          "native_steps": 25,
+          "tokens": {
+            "cache_read": 1493376,
+            "cache_write": 0,
+            "input": 41437,
+            "output": 11939,
+            "reasoning": 34203
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_apb_error_unmapped",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_apb_core",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_structure",
+              "group": "Structure",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 1,
+              "total": 2
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 0,
+              "total": 0
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 2,
+              "total": 3
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 25,
+            "observed_tool_calls": 33,
+            "native_events": 84,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "42c5a6bdcd86c784645d0bf8ec48a8ddb1e66fab1e6661115c446132ae646a8b"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 3,
+            "groups": {
+              "core": 2,
+              "error": 0,
+              "functionality": 0,
+              "regression": 0,
+              "structure": 1
+            },
+            "inventory": "837449e9233b588522167c61fa8fc63aca70773a5b94f00bc967518029cca719"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/ab5b0b4aa0b8dc82f1226b65c189ca912f70943abf616a970f044e05ebd5699b.tar.gz",
+            "sha256": "ab5b0b4aa0b8dc82f1226b65c189ca912f70943abf616a970f044e05ebd5699b",
+            "file_count": 41,
+            "size_bytes": 62920,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_2",
+          "target_checkpoint": "checkpoint_2",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "e0f8fc0ce89502e06e3c067ca5dc9c87075acb3f759984677bcf525cdadefdb1",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "c0fc128f71a3ffe174dd7e9ce871c95d95aec849c98c87b0676a9b6a3104cb75",
+          "evaluation_sha256": "891a1389c6969964bd7302b20dfd5be64d2cec758caa4583e3709613080c126c",
+          "started_at": "2026-11-05T18:07:05.289685Z",
+          "completed_at": "2026-11-05T18:14:16.617301Z",
+          "inference_seconds": 431.327616,
+          "evaluation_seconds": 1.0519356727600098,
+          "native_steps": 57,
+          "tokens": {
+            "cache_read": 4356992,
+            "cache_write": 0,
+            "input": 59614,
+            "output": 20702,
+            "reasoning": 45554
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_2_ahbl_error_unmapped",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_ahbl_core",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_apb_regression",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_structure",
+              "group": "Structure",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 1,
+              "total": 2
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 0,
+              "total": 1
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 2,
+              "total": 4
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 57,
+            "observed_tool_calls": 56,
+            "native_events": 171,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "b4df119963c1f6f9666c73b32be8296ea8339a93bc5aec08b47d75e5697d4fa9"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 4,
+            "groups": {
+              "core": 2,
+              "error": 0,
+              "functionality": 0,
+              "regression": 1,
+              "structure": 1
+            },
+            "inventory": "bd9cc79d0b7cfd828bc5dcfd300c5cca310c5b09181900e7a47bbf4f6b5626ed"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/376dc1f6fccfe5d5e2d078d2a0aa27a3801df88bdd4846ff006e49924aab818b.tar.gz",
+            "sha256": "376dc1f6fccfe5d5e2d078d2a0aa27a3801df88bdd4846ff006e49924aab818b",
+            "file_count": 42,
+            "size_bytes": 63514,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_3",
+          "target_checkpoint": "checkpoint_3",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "567e2508c0909211a9c2222d7db71beee6b8ea4a7b275d89753d51d5f98a416d",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "1bff30e9888b2aad645feff60ac9e74fb3a928e8d8dc335871e60afbd53e2c09",
+          "evaluation_sha256": "aaccbf596339f68c2b6f2e5e20b41de60a66743ebfa40c163f1d05ad06354134",
+          "started_at": "2026-11-05T18:14:23.356421Z",
+          "completed_at": "2026-11-05T18:22:26.998534Z",
+          "inference_seconds": 483.642113,
+          "evaluation_seconds": 1.1104543209075928,
+          "native_steps": 56,
+          "tokens": {
+            "cache_read": 4941696,
+            "cache_write": 0,
+            "input": 61331,
+            "output": 26784,
+            "reasoning": 53200
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_3_9bit_framing_core",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_apb_error_unmapped",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_glitch_filter_core",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_ahbl_regression",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_c1_apb_regression",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_structure",
+              "group": "Structure",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 2,
+              "total": 3
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 0,
+              "total": 2
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 3,
+              "total": 6
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 56,
+            "observed_tool_calls": 70,
+            "native_events": 183,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "eb01a6b41c3faeeff16f4172bb3e05f5fbbc622fef62428c3bf0aedd44c3ce75"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 6,
+            "groups": {
+              "core": 3,
+              "error": 0,
+              "functionality": 0,
+              "regression": 2,
+              "structure": 1
+            },
+            "inventory": "57de0cf81dfe39e1ec7a2c1247a9a6a99ea18a3d777bfac0f7f894168d9358b9"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/0fdb0e4174764beb787df244b1562c73aba761ab32920d6ca592936d358fa863.tar.gz",
+            "sha256": "0fdb0e4174764beb787df244b1562c73aba761ab32920d6ca592936d358fa863",
+            "file_count": 42,
+            "size_bytes": 63782,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_4",
+          "target_checkpoint": "checkpoint_4",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "e21d8492e802c96ac605e2428caa917f81616beb420ce82c64c77692c80900da",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "017bf9f3fecddc6fa23c93b486bc9a1d66df572bbcdf29501ee012afb1b6ca50",
+          "evaluation_sha256": "a626b06d188ed7a42f0e5e649f875240e463d4dce0d2b0a507ca9a7ec1afe6ed",
+          "started_at": "2026-11-05T18:22:33.293750Z",
+          "completed_at": "2026-11-05T18:26:33.473007Z",
+          "inference_seconds": 240.179257,
+          "evaluation_seconds": 1.2639739513397217,
+          "native_steps": 32,
+          "tokens": {
+            "cache_read": 2116864,
+            "cache_write": 0,
+            "input": 66528,
+            "output": 11713,
+            "reasoning": 29995
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_4_ahbl_regression",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_apb_regression",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_c3_uart_behavior_regression",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_structure",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_wb_error_unmapped",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_wb_core",
+              "group": "Core",
+              "status": "failed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 1,
+              "total": 2
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 0,
+              "total": 3
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 2,
+              "total": 6
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 32,
+            "observed_tool_calls": 39,
+            "native_events": 104,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "1c2a4e0b83bfe7516681909452805e8617b61bf5ba8169706f0053dcac1c4c85"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 6,
+            "groups": {
+              "core": 2,
+              "error": 0,
+              "functionality": 0,
+              "regression": 3,
+              "structure": 1
+            },
+            "inventory": "e5dfe81839d6a4ed698af7c4581241af29c428b9a5a5b1fadd38665fce90c809"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/1c493e5aa3cdc3ab908a93574877a195b2f47f240e2ea64eeda9c7e23f842228.tar.gz",
+            "sha256": "1c493e5aa3cdc3ab908a93574877a195b2f47f240e2ea64eeda9c7e23f842228",
+            "file_count": 43,
+            "size_bytes": 64959,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_5",
+          "target_checkpoint": "checkpoint_5",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "9d09ebe29c07fbee9ae9ac97a50999f9a16ebf7d76237ee1ac6b901bb805dc28",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "c3b6a50fae959394996968adb25028069df960121ee9f30be38ee08ecd2a4f2a",
+          "evaluation_sha256": "9a561d0feae371ae17ff5570bcab460811d4f2211daf744b9b52db34e78908d4",
+          "started_at": "2026-11-05T18:26:40.470888Z",
+          "completed_at": "2026-11-05T18:30:47.520537Z",
+          "inference_seconds": 247.049649,
+          "evaluation_seconds": 1.2961223125457764,
+          "native_steps": 42,
+          "tokens": {
+            "cache_read": 2561920,
+            "cache_write": 0,
+            "input": 44339,
+            "output": 19369,
+            "reasoning": 25409
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_5_ahbl_regression",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_c3_uart_behavior_regression",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_wb_regression",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_error_unmapped",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_fifo_core",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_structure",
+              "group": "Structure",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 1,
+              "total": 2
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 0,
+              "total": 3
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 2,
+              "total": 6
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 42,
+            "observed_tool_calls": 49,
+            "native_events": 134,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "03d1086f2b9c2cb1403fa11b87eb417253efbea60c886f15665d617e8c6e50ec"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 6,
+            "groups": {
+              "core": 2,
+              "error": 0,
+              "functionality": 0,
+              "regression": 3,
+              "structure": 1
+            },
+            "inventory": "f94492ba51be8cc6b546d2600eb7444f10a3bc8c19a5ef6a95b42790f4179c4a"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/0634ad5dc0ca6e3f241bc267a0b1db78df509ca142740eac461947053b296991.tar.gz",
+            "sha256": "0634ad5dc0ca6e3f241bc267a0b1db78df509ca142740eac461947053b296991",
+            "file_count": 39,
+            "size_bytes": 63040,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_6",
+          "target_checkpoint": "checkpoint_6",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "26027de6ec036e162785c3253342e3c04d346d076246782460d2c509a0b36956",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "915c6388ae55efe1a15880d82fd1600d15db6d798ff8323597e00df90c6f752e",
+          "evaluation_sha256": "23f0f42280891973c79ed03e811f3b19ce225b9817a3db3f0f96117aa6f20ea5",
+          "started_at": "2026-11-05T18:30:54.335614Z",
+          "completed_at": "2026-11-05T18:35:23.273845Z",
+          "inference_seconds": 268.938231,
+          "evaluation_seconds": 1.4843943119049072,
+          "native_steps": 55,
+          "tokens": {
+            "cache_read": 3848448,
+            "cache_write": 0,
+            "input": 60130,
+            "output": 22504,
+            "reasoning": 24537
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_6_ahbl_regression",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_6_apb_regression",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_6_c3_uart_behavior_regression",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_6_wb_regression",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_6_error_unmapped",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_6_dft_core[ahbl]",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_6_dft_core[apb]",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_6_dft_core[wb]",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_6_structure",
+              "group": "Structure",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 1,
+              "total": 4
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 0,
+              "total": 4
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 2,
+              "total": 9
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 55,
+            "observed_tool_calls": 54,
+            "native_events": 165,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "939dad66fff5ea6a44ddafebbb328ac74fdce5e2a143f991fb9ec0b57bef5deb"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 9,
+            "groups": {
+              "core": 4,
+              "error": 0,
+              "functionality": 0,
+              "regression": 4,
+              "structure": 1
+            },
+            "inventory": "5621274ea607e2b1c77757f2090119bea6ebc4f8f8b80a646b7e8561277204c2"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/ce8cbb7519f92bd7e268cd838c67dfedc426f6ba7ae57577b9142dc7b8032f50.tar.gz",
+            "sha256": "ce8cbb7519f92bd7e268cd838c67dfedc426f6ba7ae57577b9142dc7b8032f50",
+            "file_count": 42,
+            "size_bytes": 63319,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 6,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-05T18:02:08.470530+00:00",
+      "completed_at": "2026-11-05T18:35:34.782558+00:00",
+      "wall_seconds_all_attempts": 2006.3016762025654,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_6": {
+          "total": 9,
+          "groups": {
+            "core": 4,
+            "error": 0,
+            "functionality": 0,
+            "regression": 4,
+            "structure": 1
+          },
+          "inventory": "5621274ea607e2b1c77757f2090119bea6ebc4f8f8b80a646b7e8561277204c2"
+        },
+        "checkpoint_3": {
+          "total": 6,
+          "groups": {
+            "core": 3,
+            "error": 0,
+            "functionality": 0,
+            "regression": 2,
+            "structure": 1
+          },
+          "inventory": "57de0cf81dfe39e1ec7a2c1247a9a6a99ea18a3d777bfac0f7f894168d9358b9"
+        },
+        "checkpoint_1": {
+          "total": 3,
+          "groups": {
+            "core": 2,
+            "error": 0,
+            "functionality": 0,
+            "regression": 0,
+            "structure": 1
+          },
+          "inventory": "837449e9233b588522167c61fa8fc63aca70773a5b94f00bc967518029cca719"
+        },
+        "checkpoint_2": {
+          "total": 4,
+          "groups": {
+            "core": 2,
+            "error": 0,
+            "functionality": 0,
+            "regression": 1,
+            "structure": 1
+          },
+          "inventory": "bd9cc79d0b7cfd828bc5dcfd300c5cca310c5b09181900e7a47bbf4f6b5626ed"
+        },
+        "checkpoint_4": {
+          "total": 6,
+          "groups": {
+            "core": 2,
+            "error": 0,
+            "functionality": 0,
+            "regression": 3,
+            "structure": 1
+          },
+          "inventory": "e5dfe81839d6a4ed698af7c4581241af29c428b9a5a5b1fadd38665fce90c809"
+        },
+        "checkpoint_5": {
+          "total": 6,
+          "groups": {
+            "core": 2,
+            "error": 0,
+            "functionality": 0,
+            "regression": 3,
+            "structure": 1
+          },
+          "inventory": "f94492ba51be8cc6b546d2600eb7444f10a3bc8c19a5ef6a95b42790f4179c4a"
+        }
+      }
+    },
+    {
+      "id": "cd9c9894a260e462a9d2d84e5ad7683ac882ea6913856526de66b5d273776e5d",
+      "problem": "ef_uart_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "deepseek-flash",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "c748d9ca619420fbcf865a090e6ebf4c27aaa77a46222626c1ec5de5287b6fa4",
+      "generation": "41ba2f6138accdba752d02dde93caf217accd702d0ca1adc36280070666dc6b4",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_2"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "4cf27cc598674f96b46f48fa2954cec8",
+      "selected_evaluation": null,
+      "evaluation_generation": "41ba2f6138accdba752d02dde93caf217accd702d0ca1adc36280070666dc6b4",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_2",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "194d495d9d3649bc42e0a3a185d873e5cf020b01afe66816fc65401a2e0cc493",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "063f4638ee15aba7e056425819b49bdb2090e33d015ca95928a54bf4ff825356",
+          "evaluation_sha256": "ec5b0fa1c4ae63c46b045df76c0763e1df3c6de2a2e5e8697b778068a23b584b",
+          "started_at": "2026-11-05T19:12:22.255694Z",
+          "completed_at": "2026-11-05T19:16:55.450059Z",
+          "inference_seconds": 273.194365,
+          "evaluation_seconds": 1.1773483753204346,
+          "native_steps": 30,
+          "tokens": {
+            "cache_read": 1691136,
+            "cache_write": 0,
+            "input": 35314,
+            "output": 14157,
+            "reasoning": 33043
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_structure",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_ahbl_core",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_ahbl_error_unmapped",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_apb_regression",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 2,
+              "total": 2
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 1,
+              "total": 1
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 4,
+              "total": 4
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 30,
+            "observed_tool_calls": 29,
+            "native_events": 90,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "912d05b89e40b89c5d0e23ed6a62ef76721f1962125a98982c5b6c7fbe9412f1"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 4,
+            "groups": {
+              "core": 2,
+              "error": 0,
+              "functionality": 0,
+              "regression": 1,
+              "structure": 1
+            },
+            "inventory": "c945be055011da7a2fa205b295d8f8aa033f84c58639f3c1d1861a765fc536cf"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/2d6094342ea356f3ef50a0f954bfd83be91473659c76e776a0fda7ac85b785f0.tar.gz",
+            "sha256": "2d6094342ea356f3ef50a0f954bfd83be91473659c76e776a0fda7ac85b785f0",
+            "file_count": 42,
+            "size_bytes": 69803,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-05T19:12:19.821241+00:00",
+      "completed_at": "2026-11-05T19:17:06.823596+00:00",
+      "wall_seconds_all_attempts": 286.9926143232733,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_2": {
+          "total": 4,
+          "groups": {
+            "core": 2,
+            "error": 0,
+            "functionality": 0,
+            "regression": 1,
+            "structure": 1
+          },
+          "inventory": "c945be055011da7a2fa205b295d8f8aa033f84c58639f3c1d1861a765fc536cf"
+        }
+      }
+    },
+    {
+      "id": "e18c756f4230035c2e319e41cfdab4cfd438367dbd4c963ab2b14303184be92c",
+      "problem": "ef_uart_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "deepseek-flash",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "c748d9ca619420fbcf865a090e6ebf4c27aaa77a46222626c1ec5de5287b6fa4",
+      "generation": "e264c51bbde62c501f99faff65bb73c915aea780bd52bb047d6b5a6503ab0e02",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_6",
+          "candidate": "dad983a0c911c857a9ba9694dd498dacd716513db05ff8d6c7904e814d0d5b8c",
+          "evidence": [
+            "sha256:1f95214e0c6717188e6dabb3f36dd3ab185c198579162f96962f928e2ed75780"
+          ],
+          "event_id": "9c172a138ce9ae3e0a4e71d22a0737c7d5cf5637d774a4601b31b7dc1cb52e2c",
+          "assessment": "da46ad2078d1aa98dbc29bb09f565d962e91e50346cebec87ebce69bcd8b0cd5",
+          "attempt": "1bd34238d0864e22981dad288ef0afb5"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_6",
+          "candidate": "dad983a0c911c857a9ba9694dd498dacd716513db05ff8d6c7904e814d0d5b8c",
+          "evidence": [
+            "sha256:1f95214e0c6717188e6dabb3f36dd3ab185c198579162f96962f928e2ed75780"
+          ],
+          "event_id": "93a16c89730b089c4c567156770bed8b39efa6b9d70d4f9384fb8f05e016a2aa",
+          "assessment": "da46ad2078d1aa98dbc29bb09f565d962e91e50346cebec87ebce69bcd8b0cd5",
+          "attempt": "1bd34238d0864e22981dad288ef0afb5"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_6"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.0,
+      "selected_attempt": "1bd34238d0864e22981dad288ef0afb5",
+      "selected_evaluation": null,
+      "evaluation_generation": "e264c51bbde62c501f99faff65bb73c915aea780bd52bb047d6b5a6503ab0e02",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_6",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "dad983a0c911c857a9ba9694dd498dacd716513db05ff8d6c7904e814d0d5b8c",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "11dcbc80a57f9e90c380b247a673ffcb16a38e16e864a0d358744ccb42db037d",
+          "evaluation_sha256": "1f95214e0c6717188e6dabb3f36dd3ab185c198579162f96962f928e2ed75780",
+          "started_at": "2026-11-05T19:36:04.330337Z",
+          "completed_at": "2026-11-05T19:40:48.113213Z",
+          "inference_seconds": 283.782876,
+          "evaluation_seconds": 2.2041943073272705,
+          "native_steps": 56,
+          "tokens": {
+            "cache_read": 4483712,
+            "cache_write": 0,
+            "input": 78696,
+            "output": 17141,
+            "reasoning": 27690
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_structure",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_6_ahbl_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_6_apb_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_6_c3_uart_behavior_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_6_wb_regression",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_6_error_unmapped",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_6_dft_core[ahbl]",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_6_dft_core[apb]",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_6_dft_core[wb]",
+              "group": "Core",
+              "status": "failed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 1,
+              "total": 4
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 4,
+              "total": 4
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 6,
+              "total": 9
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 56,
+            "observed_tool_calls": 63,
+            "native_events": 176,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "a90ccf6b4be037b0e18712b91a8359b21d94eb6e36ba2bbd4aa51e7a60c6d1e9"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 9,
+            "groups": {
+              "core": 4,
+              "error": 0,
+              "functionality": 0,
+              "regression": 4,
+              "structure": 1
+            },
+            "inventory": "e2a1f930e1f9cae2bc3c4e0b649ed719a7670bb01526863dd4d5cb367da284c1"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/be0e7f76acb6a7d7c366d979999d2dbe4c387101331b0052bc09c077615f1e0f.tar.gz",
+            "sha256": "be0e7f76acb6a7d7c366d979999d2dbe4c387101331b0052bc09c077615f1e0f",
+            "file_count": 213,
+            "size_bytes": 363756,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-05T19:36:01.831569+00:00",
+      "completed_at": "2026-11-05T19:41:11.823283+00:00",
+      "wall_seconds_all_attempts": 309.9856860395521,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_6": {
+          "total": 9,
+          "groups": {
+            "core": 4,
+            "error": 0,
+            "functionality": 0,
+            "regression": 4,
+            "structure": 1
+          },
+          "inventory": "e2a1f930e1f9cae2bc3c4e0b649ed719a7670bb01526863dd4d5cb367da284c1"
+        }
+      }
+    }
+  ]
+}
