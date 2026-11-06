@@ -1,0 +1,3379 @@
+{
+  "schema_version": 4,
+  "analysis": "216cd33560004d07b65a9640333c576fed5ff0267f053c5d79c07d75bf970076",
+  "problem": "register_interface_t1",
+  "cells": [
+    {
+      "id": "10ac17c30d1dbb9bf6ab6a156dcab6eeffe87eccaa0c18c95343758e3d9175bf",
+      "problem": "register_interface_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "deepseek-flash",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "c748d9ca619420fbcf865a090e6ebf4c27aaa77a46222626c1ec5de5287b6fa4",
+      "generation": "1856a978d1cbfa677aed9950580ee22b437983f2bd57947b192e6aacf802852b",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_2"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "4cc67b43bced4626a648f32c0de21e8d",
+      "selected_evaluation": null,
+      "evaluation_generation": "1856a978d1cbfa677aed9950580ee22b437983f2bd57947b192e6aacf802852b",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_2",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "a10933147291bbd684056def78fcc1f0d04e33b1af149943e0a845fd13a7ca44",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "6720d7ae68a9fac0123a65fba1686a1f3fbd73a1e4834e07d859bec506f850da",
+          "evaluation_sha256": "e836eb3d4de37d7e585b88c98c2f3a63bb6949e51bada8399e9360457f914698",
+          "started_at": "2026-11-05T14:39:13.824299Z",
+          "completed_at": "2026-11-05T14:48:15.976966Z",
+          "inference_seconds": 542.152667,
+          "evaluation_seconds": 46.84854602813721,
+          "native_steps": 51,
+          "tokens": {
+            "cache_read": 3665920,
+            "cache_write": 0,
+            "input": 36988,
+            "output": 24156,
+            "reasoning": 59477
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_mux_demux_typed_array_abi",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_offline_manifest",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[REG_BUS]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[apb_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_demux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_mux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_to_mem]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_uniform]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[cdc_2phase]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[cdc_continuous_valid]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[demux]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[demux_continuous_valid]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[memory]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[memory_continuous_valid]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[mux]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[mux_continuous_valid]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_error_behavior[uniform_error]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[uniform_wide]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[uniform]",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 10,
+              "total": 10
+            },
+            "core": {
+              "passed": 9,
+              "total": 9
+            },
+            "functionality": {
+              "passed": 1,
+              "total": 1
+            },
+            "regression": {
+              "passed": 2,
+              "total": 2
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 22,
+              "total": 22
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 51,
+            "observed_tool_calls": 50,
+            "native_events": 153,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "d049ce1520e61f9ff55299ab036e0541bfeab2e4c12242929bb34ae11bb4c3a6"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 22,
+            "groups": {
+              "core": 9,
+              "error": 0,
+              "functionality": 1,
+              "regression": 2,
+              "structure": 10
+            },
+            "inventory": "6c717c9bf777a4f8a6f683338795ca1f1783f659e027774bf2f7db42bf56e23e"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/83ba88e1f636c310faf4e9d178aebb30c135f051d23162b46813e96f61830979.tar.gz",
+            "sha256": "83ba88e1f636c310faf4e9d178aebb30c135f051d23162b46813e96f61830979",
+            "file_count": 22,
+            "size_bytes": 47790,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-05T14:39:09.390146+00:00",
+      "completed_at": "2026-11-05T14:49:12.620852+00:00",
+      "wall_seconds_all_attempts": 603.2199401836842,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_2": {
+          "total": 22,
+          "groups": {
+            "core": 9,
+            "error": 0,
+            "functionality": 1,
+            "regression": 2,
+            "structure": 10
+          },
+          "inventory": "6c717c9bf777a4f8a6f683338795ca1f1783f659e027774bf2f7db42bf56e23e"
+        }
+      }
+    },
+    {
+      "id": "2354d7ccc99a9efd558a764ba555564bb5bdf8da3cbd492d2fd5a1aa9d933687",
+      "problem": "register_interface_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "deepseek-flash",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "c748d9ca619420fbcf865a090e6ebf4c27aaa77a46222626c1ec5de5287b6fa4",
+      "generation": "5dbfd098cabeba9110ab4e889cb24ca94e5cad961fe10f8ef1d7cbf5a1f709ec",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_6"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "c996a9b3a737480595143df6687e99a1",
+      "selected_evaluation": null,
+      "evaluation_generation": "5dbfd098cabeba9110ab4e889cb24ca94e5cad961fe10f8ef1d7cbf5a1f709ec",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_6",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "21a9637074127d0cadc84e86c4948502aba95191d53a46952b0e01352e59f4ca",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "7e19e16e5e4d15eac19cdd49de0a50877a932679c0869e0e9a2542623a20afd6",
+          "evaluation_sha256": "8f20f1fa4f56c22c4f015bd2f35e51aa22a89b1cad5145843c3dbf0452abb875",
+          "started_at": "2026-11-05T14:49:29.279113Z",
+          "completed_at": "2026-11-05T15:06:09.268206Z",
+          "inference_seconds": 999.989093,
+          "evaluation_seconds": 105.02948689460754,
+          "native_steps": 65,
+          "tokens": {
+            "cache_read": 6618752,
+            "cache_write": 0,
+            "input": 56045,
+            "output": 29688,
+            "reasoning": 73620
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_offline_manifest",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[REG_BUS]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[apb_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[axi_to_reg_v2]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[periph_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc_dst]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc_src]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cut]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_demux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_filter_empty_writes]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_mux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_to_mem]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_uniform]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[axi_w32]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[cut_w32_0]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[cut_w32_1]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[cut_w32_2]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[cut_w32_3]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_error_behavior[uniform_error]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[axi_w64]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[cut_w64_0]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[cut_w64_1]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[cut_w64_2]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[cut_w64_3]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[uniform_wide]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb_feedthrough_0]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb_feedthrough_1]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_2phase]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_4phase]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_split]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[demux]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[memory]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[mux]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[peripheral]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[reg_cut]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[reg_filter]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[uniform]",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 15,
+              "total": 15
+            },
+            "core": {
+              "passed": 6,
+              "total": 6
+            },
+            "functionality": {
+              "passed": 6,
+              "total": 6
+            },
+            "regression": {
+              "passed": 13,
+              "total": 13
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 40,
+              "total": 40
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 65,
+            "observed_tool_calls": 64,
+            "native_events": 195,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "54ca80f06421cbf82e9210e0af56d5a72661951ecfc36e2a4141c616681fb99c"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 40,
+            "groups": {
+              "core": 6,
+              "error": 0,
+              "functionality": 6,
+              "regression": 13,
+              "structure": 15
+            },
+            "inventory": "35adf80d77182f55c6766b6dd119a99a87fbace4a6171172ac14b44749b35c20"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/c248b1d26498800c556ece0d28ba426f22d5fec2c8f8d0b713db1fec36c9b327.tar.gz",
+            "sha256": "c248b1d26498800c556ece0d28ba426f22d5fec2c8f8d0b713db1fec36c9b327",
+            "file_count": 108,
+            "size_bytes": 194341,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-05T14:49:26.695896+00:00",
+      "completed_at": "2026-11-05T15:08:25.611235+00:00",
+      "wall_seconds_all_attempts": 1138.9081251136959,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_6": {
+          "total": 40,
+          "groups": {
+            "core": 6,
+            "error": 0,
+            "functionality": 6,
+            "regression": 13,
+            "structure": 15
+          },
+          "inventory": "35adf80d77182f55c6766b6dd119a99a87fbace4a6171172ac14b44749b35c20"
+        }
+      }
+    },
+    {
+      "id": "41ce027c955281909ff85ad9a48020aede7cf27c6d40b750a775b0f99b75a38e",
+      "problem": "register_interface_t1",
+      "mode": "pipeline",
+      "prompt_arm": "original",
+      "model": "deepseek-flash",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "c748d9ca619420fbcf865a090e6ebf4c27aaa77a46222626c1ec5de5287b6fa4",
+      "generation": "b2402fa6ddaf41131229d10fb5e44c727cf16dacf0ed4db2a14a5b0a34f9548a",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "027a7f1ff9a9570bf8a12597d33d297bc63e6dd4c4064d3adcc2613a615d3a90",
+          "evidence": [
+            "sha256:08fee1e0d73c4fee36c4dadd8319be1e8ae1eb4b3dcce4f6d1e2a0c26d1a0cb7"
+          ],
+          "event_id": "6ace9a1dac5059cc13b85345f590f6f2217222515f0bb8d14ce68231ae2a165c",
+          "assessment": "4c514a0bdca8831e7868ba16daa3a7f3e2b4ba29e797bcfdd7b02a727df9e37a",
+          "attempt": "1ba102ae2d294b2fb2deb8712f8a8954"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "027a7f1ff9a9570bf8a12597d33d297bc63e6dd4c4064d3adcc2613a615d3a90",
+          "evidence": [
+            "sha256:08fee1e0d73c4fee36c4dadd8319be1e8ae1eb4b3dcce4f6d1e2a0c26d1a0cb7"
+          ],
+          "event_id": "4c10c1a7b1861fe8a0506d8dbcb472982cd59dafbaf1f0ab406efc6c53ffd871",
+          "assessment": "4c514a0bdca8831e7868ba16daa3a7f3e2b4ba29e797bcfdd7b02a727df9e37a",
+          "attempt": "1ba102ae2d294b2fb2deb8712f8a8954"
+        },
+        {
+          "namespace": "implementation",
+          "label": "functionality_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "027a7f1ff9a9570bf8a12597d33d297bc63e6dd4c4064d3adcc2613a615d3a90",
+          "evidence": [
+            "sha256:08fee1e0d73c4fee36c4dadd8319be1e8ae1eb4b3dcce4f6d1e2a0c26d1a0cb7"
+          ],
+          "event_id": "033fd8b4cc27eb3247f45387034865c2b737ec4fca4751ec3d3046b6280db063",
+          "assessment": "4c514a0bdca8831e7868ba16daa3a7f3e2b4ba29e797bcfdd7b02a727df9e37a",
+          "attempt": "1ba102ae2d294b2fb2deb8712f8a8954"
+        },
+        {
+          "namespace": "implementation",
+          "label": "regression_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "027a7f1ff9a9570bf8a12597d33d297bc63e6dd4c4064d3adcc2613a615d3a90",
+          "evidence": [
+            "sha256:08fee1e0d73c4fee36c4dadd8319be1e8ae1eb4b3dcce4f6d1e2a0c26d1a0cb7"
+          ],
+          "event_id": "a65d07df37e125c167992cc92dea54df2596a818dae6557fd98cce257a02bc1d",
+          "assessment": "4c514a0bdca8831e7868ba16daa3a7f3e2b4ba29e797bcfdd7b02a727df9e37a",
+          "attempt": "1ba102ae2d294b2fb2deb8712f8a8954"
+        },
+        {
+          "namespace": "implementation",
+          "label": "structure_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "027a7f1ff9a9570bf8a12597d33d297bc63e6dd4c4064d3adcc2613a615d3a90",
+          "evidence": [
+            "sha256:08fee1e0d73c4fee36c4dadd8319be1e8ae1eb4b3dcce4f6d1e2a0c26d1a0cb7"
+          ],
+          "event_id": "2af11165e8f25ac023abb099784a5a4c5d8c0a66013b714eb68f055daa95caf1",
+          "assessment": "4c514a0bdca8831e7868ba16daa3a7f3e2b4ba29e797bcfdd7b02a727df9e37a",
+          "attempt": "1ba102ae2d294b2fb2deb8712f8a8954"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 8,
+      "planned_targets": [
+        "checkpoint_1",
+        "checkpoint_2",
+        "checkpoint_3",
+        "checkpoint_4",
+        "checkpoint_5",
+        "checkpoint_6",
+        "checkpoint_7",
+        "checkpoint_8"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.25,
+      "selected_attempt": "1ba102ae2d294b2fb2deb8712f8a8954",
+      "selected_evaluation": null,
+      "evaluation_generation": "b2402fa6ddaf41131229d10fb5e44c727cf16dacf0ed4db2a14a5b0a34f9548a",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_1",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "bd92cb9aa307ee3abb4420d25f6e3ff9aea998ea88f67c2d06d3af7ab666c271",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "0d4b11e9b6d706e710d943807e675171b569e55f475532e70a020a4468e3b6d8",
+          "evaluation_sha256": "726eb6b3aa9a87fb431f7ed71fa99f7f929c3f1d2fa1bd5748b7f39a89990878",
+          "started_at": "2026-11-05T15:50:21.703566Z",
+          "completed_at": "2026-11-05T16:01:52.105466Z",
+          "inference_seconds": 690.4019,
+          "evaluation_seconds": 14.781219244003296,
+          "native_steps": 32,
+          "tokens": {
+            "cache_read": 1372928,
+            "cache_write": 0,
+            "input": 19449,
+            "output": 12091,
+            "reasoning": 33166
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_offline_manifest",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[REG_BUS]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[apb_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_uniform]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[apb]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_error_behavior[uniform_error]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[uniform]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[uniform_wide]",
+              "group": "Functionality",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 5,
+              "total": 5
+            },
+            "core": {
+              "passed": 2,
+              "total": 2
+            },
+            "functionality": {
+              "passed": 2,
+              "total": 2
+            },
+            "regression": {
+              "passed": 0,
+              "total": 0
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 9,
+              "total": 9
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 32,
+            "observed_tool_calls": 31,
+            "native_events": 96,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "9366d174f7681d5f84c466d78353acaaa22f6ec91236f9b699552281d4a71a3e"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 9,
+            "groups": {
+              "core": 2,
+              "error": 0,
+              "functionality": 2,
+              "regression": 0,
+              "structure": 5
+            },
+            "inventory": "c9bea47c7fdec8d0f0b9d1b4ac3fbf7c34a944b6f924d9706a02d38d9cf3f1c5"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/5f615cb975a9765aa8bc7582ae2f1096eb0702e42679274cf0ace2e88e7f6d85.tar.gz",
+            "sha256": "5f615cb975a9765aa8bc7582ae2f1096eb0702e42679274cf0ace2e88e7f6d85",
+            "file_count": 13,
+            "size_bytes": 45055,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_2",
+          "target_checkpoint": "checkpoint_2",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "aa9a124687b98308dc43ec966c826f802d8e6816f9eb151940513388ddae2d3e",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "f9f05fa405f65354b28fcce8b42b08ac61c8a4a71aea5753abd2ee50f1aab3c8",
+          "evaluation_sha256": "01f9ba8826cbb27480f19567fd58b7bae7135514a976d10c884f62858cb75651",
+          "started_at": "2026-11-05T16:02:12.917973Z",
+          "completed_at": "2026-11-05T16:14:24.387018Z",
+          "inference_seconds": 731.469045,
+          "evaluation_seconds": 42.86444926261902,
+          "native_steps": 61,
+          "tokens": {
+            "cache_read": 4368512,
+            "cache_write": 0,
+            "input": 33392,
+            "output": 28254,
+            "reasoning": 63398
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_mux_demux_typed_array_abi",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_offline_manifest",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[REG_BUS]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[apb_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_demux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_mux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_to_mem]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_uniform]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[cdc_2phase]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[cdc_continuous_valid]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[demux]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[demux_continuous_valid]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[memory]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[memory_continuous_valid]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[mux]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[mux_continuous_valid]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_error_behavior[uniform_error]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[uniform_wide]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[uniform]",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 10,
+              "total": 10
+            },
+            "core": {
+              "passed": 9,
+              "total": 9
+            },
+            "functionality": {
+              "passed": 1,
+              "total": 1
+            },
+            "regression": {
+              "passed": 2,
+              "total": 2
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 22,
+              "total": 22
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 61,
+            "observed_tool_calls": 60,
+            "native_events": 183,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "bac8baa765f1020cfc96116f2f5818c6a4a3c71f7375f78f6d3873c4c5bce64c"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 22,
+            "groups": {
+              "core": 9,
+              "error": 0,
+              "functionality": 1,
+              "regression": 2,
+              "structure": 10
+            },
+            "inventory": "7ca6b0d70199b314066f267010af40e85e49beea58f3acee139ae7416d4c0431"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/d24bdfc2aed10454b23eb37213ff0e8e5035c16d2d11b47add180ebb4a0472f3.tar.gz",
+            "sha256": "d24bdfc2aed10454b23eb37213ff0e8e5035c16d2d11b47add180ebb4a0472f3",
+            "file_count": 20,
+            "size_bytes": 48334,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_3",
+          "target_checkpoint": "checkpoint_3",
+          "state": "failed",
+          "gate_passed": false,
+          "candidate": "027a7f1ff9a9570bf8a12597d33d297bc63e6dd4c4064d3adcc2613a615d3a90",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "a38942408f61f645c7baf57eab651f33119ccb04845292957f7537dec33ab710",
+          "evaluation_sha256": "08fee1e0d73c4fee36c4dadd8319be1e8ae1eb4b3dcce4f6d1e2a0c26d1a0cb7",
+          "started_at": "2026-11-05T16:15:13.201154Z",
+          "completed_at": "2026-11-05T16:23:31.547450Z",
+          "inference_seconds": 498.346296,
+          "evaluation_seconds": 2.1865930557250977,
+          "native_steps": 34,
+          "tokens": {
+            "cache_read": 1690880,
+            "cache_write": 0,
+            "input": 25999,
+            "output": 12693,
+            "reasoning": 40038
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[REG_BUS]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[apb_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[periph_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_demux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_mux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_to_mem]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_uniform]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_offline_manifest",
+              "group": "Structure",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_direct_behavior[peripheral]",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_error_behavior[uniform_error]",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_extended_behavior[uniform_wide]",
+              "group": "Functionality",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb]",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_2phase]",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[demux]",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[memory]",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[mux]",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[uniform]",
+              "group": "Regression",
+              "status": "failed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 9,
+              "total": 10
+            },
+            "core": {
+              "passed": 0,
+              "total": 2
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 1
+            },
+            "regression": {
+              "passed": 0,
+              "total": 6
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 9,
+              "total": 19
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 34,
+            "observed_tool_calls": 33,
+            "native_events": 102,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "c463869fc4305de741e67d6d6cdde825e7aaf8b6b2ba0e45f488cb4510c2bc85"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 19,
+            "groups": {
+              "core": 2,
+              "error": 0,
+              "functionality": 1,
+              "regression": 6,
+              "structure": 10
+            },
+            "inventory": "eb63fef2cbabf9a29e9e403d11354afc32694cfb9bfc8b3359ad51310dfa7838"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/9c38d938ed571e3370e84d06853a53b12c5837198290adee6865b73b909740db.tar.gz",
+            "sha256": "9c38d938ed571e3370e84d06853a53b12c5837198290adee6865b73b909740db",
+            "file_count": 21,
+            "size_bytes": 49172,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_4",
+          "target_checkpoint": "checkpoint_4",
+          "state": "stopped_by_policy",
+          "gate_passed": null,
+          "candidate": null,
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": null,
+          "evaluation_sha256": null,
+          "started_at": null,
+          "completed_at": null,
+          "inference_seconds": null,
+          "evaluation_seconds": null,
+          "native_steps": null,
+          "tokens": null,
+          "official_cost": {
+            "usd": 0,
+            "coverage": "complete",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105"
+          },
+          "tests": [],
+          "test_counts": null,
+          "score": 0,
+          "calls": {
+            "http_requests": 0,
+            "http_retries": 0,
+            "observed_responses": 0,
+            "observed_tool_calls": 0,
+            "coverage": "not_invoked"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 28,
+            "groups": {
+              "core": 5,
+              "error": 0,
+              "functionality": 4,
+              "regression": 6,
+              "structure": 13
+            },
+            "inventory": "b89d0da13cfe03a90a4d2fa2dc2c3254085a6b2bf425094a0af4bea7fbbe0c05"
+          }
+        },
+        {
+          "checkpoint": "checkpoint_5",
+          "target_checkpoint": "checkpoint_5",
+          "state": "stopped_by_policy",
+          "gate_passed": null,
+          "candidate": null,
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": null,
+          "evaluation_sha256": null,
+          "started_at": null,
+          "completed_at": null,
+          "inference_seconds": null,
+          "evaluation_seconds": null,
+          "native_steps": null,
+          "tokens": null,
+          "official_cost": {
+            "usd": 0,
+            "coverage": "complete",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105"
+          },
+          "tests": [],
+          "test_counts": null,
+          "score": 0,
+          "calls": {
+            "http_requests": 0,
+            "http_retries": 0,
+            "observed_responses": 0,
+            "observed_tool_calls": 0,
+            "coverage": "not_invoked"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 30,
+            "groups": {
+              "core": 2,
+              "error": 0,
+              "functionality": 1,
+              "regression": 13,
+              "structure": 14
+            },
+            "inventory": "c14d3dfc24d007be1fa9860732ffbf7d6e03ed3b9aa5af1d3f5df5f0cb7ee76c"
+          }
+        },
+        {
+          "checkpoint": "checkpoint_6",
+          "target_checkpoint": "checkpoint_6",
+          "state": "stopped_by_policy",
+          "gate_passed": null,
+          "candidate": null,
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": null,
+          "evaluation_sha256": null,
+          "started_at": null,
+          "completed_at": null,
+          "inference_seconds": null,
+          "evaluation_seconds": null,
+          "native_steps": null,
+          "tokens": null,
+          "official_cost": {
+            "usd": 0,
+            "coverage": "complete",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105"
+          },
+          "tests": [],
+          "test_counts": null,
+          "score": 0,
+          "calls": {
+            "http_requests": 0,
+            "http_retries": 0,
+            "observed_responses": 0,
+            "observed_tool_calls": 0,
+            "coverage": "not_invoked"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 40,
+            "groups": {
+              "core": 6,
+              "error": 0,
+              "functionality": 6,
+              "regression": 13,
+              "structure": 15
+            },
+            "inventory": "2d3efc32385399842bd82db2a89cefa7761b42e076204ae923fc1011188bcd25"
+          }
+        },
+        {
+          "checkpoint": "checkpoint_7",
+          "target_checkpoint": "checkpoint_7",
+          "state": "stopped_by_policy",
+          "gate_passed": null,
+          "candidate": null,
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": null,
+          "evaluation_sha256": null,
+          "started_at": null,
+          "completed_at": null,
+          "inference_seconds": null,
+          "evaluation_seconds": null,
+          "native_steps": null,
+          "tokens": null,
+          "official_cost": {
+            "usd": 0,
+            "coverage": "complete",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105"
+          },
+          "tests": [],
+          "test_counts": null,
+          "score": 0,
+          "calls": {
+            "http_requests": 0,
+            "http_retries": 0,
+            "observed_responses": 0,
+            "observed_tool_calls": 0,
+            "coverage": "not_invoked"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 43,
+            "groups": {
+              "core": 3,
+              "error": 0,
+              "functionality": 6,
+              "regression": 18,
+              "structure": 16
+            },
+            "inventory": "8d5381466cf98d758344806e14655d724248a07bd2f423f54971291bbf7c3350"
+          }
+        },
+        {
+          "checkpoint": "checkpoint_8",
+          "target_checkpoint": "checkpoint_8",
+          "state": "stopped_by_policy",
+          "gate_passed": null,
+          "candidate": null,
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": null,
+          "evaluation_sha256": null,
+          "started_at": null,
+          "completed_at": null,
+          "inference_seconds": null,
+          "evaluation_seconds": null,
+          "native_steps": null,
+          "tokens": null,
+          "official_cost": {
+            "usd": 0,
+            "coverage": "complete",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105"
+          },
+          "tests": [],
+          "test_counts": null,
+          "score": 0,
+          "calls": {
+            "http_requests": 0,
+            "http_retries": 0,
+            "observed_responses": 0,
+            "observed_tool_calls": 0,
+            "coverage": "not_invoked"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 46,
+            "groups": {
+              "core": 4,
+              "error": 0,
+              "functionality": 6,
+              "regression": 19,
+              "structure": 17
+            },
+            "inventory": "111bceaff8d60b7b91729b8d8af1087cb64fc2e2a90d9e809fde857e99a75356"
+          }
+        }
+      ],
+      "agent_invocations": 3,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-05T15:50:19.003610+00:00",
+      "completed_at": "2026-11-05T16:23:44.063059+00:00",
+      "wall_seconds_all_attempts": 2005.0509178917855,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_8": {
+          "total": 46,
+          "groups": {
+            "core": 4,
+            "error": 0,
+            "functionality": 6,
+            "regression": 19,
+            "structure": 17
+          },
+          "inventory": "111bceaff8d60b7b91729b8d8af1087cb64fc2e2a90d9e809fde857e99a75356"
+        },
+        "checkpoint_6": {
+          "total": 40,
+          "groups": {
+            "core": 6,
+            "error": 0,
+            "functionality": 6,
+            "regression": 13,
+            "structure": 15
+          },
+          "inventory": "2d3efc32385399842bd82db2a89cefa7761b42e076204ae923fc1011188bcd25"
+        },
+        "checkpoint_2": {
+          "total": 22,
+          "groups": {
+            "core": 9,
+            "error": 0,
+            "functionality": 1,
+            "regression": 2,
+            "structure": 10
+          },
+          "inventory": "7ca6b0d70199b314066f267010af40e85e49beea58f3acee139ae7416d4c0431"
+        },
+        "checkpoint_7": {
+          "total": 43,
+          "groups": {
+            "core": 3,
+            "error": 0,
+            "functionality": 6,
+            "regression": 18,
+            "structure": 16
+          },
+          "inventory": "8d5381466cf98d758344806e14655d724248a07bd2f423f54971291bbf7c3350"
+        },
+        "checkpoint_4": {
+          "total": 28,
+          "groups": {
+            "core": 5,
+            "error": 0,
+            "functionality": 4,
+            "regression": 6,
+            "structure": 13
+          },
+          "inventory": "b89d0da13cfe03a90a4d2fa2dc2c3254085a6b2bf425094a0af4bea7fbbe0c05"
+        },
+        "checkpoint_5": {
+          "total": 30,
+          "groups": {
+            "core": 2,
+            "error": 0,
+            "functionality": 1,
+            "regression": 13,
+            "structure": 14
+          },
+          "inventory": "c14d3dfc24d007be1fa9860732ffbf7d6e03ed3b9aa5af1d3f5df5f0cb7ee76c"
+        },
+        "checkpoint_1": {
+          "total": 9,
+          "groups": {
+            "core": 2,
+            "error": 0,
+            "functionality": 2,
+            "regression": 0,
+            "structure": 5
+          },
+          "inventory": "c9bea47c7fdec8d0f0b9d1b4ac3fbf7c34a944b6f924d9706a02d38d9cf3f1c5"
+        },
+        "checkpoint_3": {
+          "total": 19,
+          "groups": {
+            "core": 2,
+            "error": 0,
+            "functionality": 1,
+            "regression": 6,
+            "structure": 10
+          },
+          "inventory": "eb63fef2cbabf9a29e9e403d11354afc32694cfb9bfc8b3359ad51310dfa7838"
+        }
+      }
+    },
+    {
+      "id": "70d5708b1637cc121d2e46a10365f9d3d292bbb6979e654c916db68eb8052a6e",
+      "problem": "register_interface_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "deepseek-flash",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "c748d9ca619420fbcf865a090e6ebf4c27aaa77a46222626c1ec5de5287b6fa4",
+      "generation": "b4f7c617a22a586d81daeee659c5025ce193d0aaedd4aa982583d07a0d1908bd",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_4"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "04a76963612b42d8becbe24e91c531fb",
+      "selected_evaluation": null,
+      "evaluation_generation": "b4f7c617a22a586d81daeee659c5025ce193d0aaedd4aa982583d07a0d1908bd",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_4",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "39cd760c0791fc505c534f05cbbad09d1c8fe0ff1955612c1f11537e2abe3f45",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "7e241f4ac7dacb610fbf5935d7ec402dea200f21464cf09cd1420596cad6ae22",
+          "evaluation_sha256": "01a96f41248ea1fd827283b21d04ce56f2c3c3fd8349b9cbea9233712207b0e0",
+          "started_at": "2026-11-05T17:06:29.867955Z",
+          "completed_at": "2026-11-05T17:15:33.790540Z",
+          "inference_seconds": 543.922585,
+          "evaluation_seconds": 58.95537281036377,
+          "native_steps": 32,
+          "tokens": {
+            "cache_read": 1903744,
+            "cache_write": 0,
+            "input": 45355,
+            "output": 16670,
+            "reasoning": 48687
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_offline_manifest",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[REG_BUS]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[apb_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[periph_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc_dst]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc_src]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_demux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_filter_empty_writes]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_mux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_to_mem]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_uniform]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[cdc_2phase]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[cdc_4phase]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[cdc_split]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[cdc_split_4phase]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_error_behavior[uniform_error]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[apb_feedthrough_0]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[apb_feedthrough_1]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[reg_filter]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[uniform_wide]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[demux]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[memory]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[mux]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[peripheral]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[uniform]",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 13,
+              "total": 13
+            },
+            "core": {
+              "passed": 5,
+              "total": 5
+            },
+            "functionality": {
+              "passed": 4,
+              "total": 4
+            },
+            "regression": {
+              "passed": 6,
+              "total": 6
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 28,
+              "total": 28
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 32,
+            "observed_tool_calls": 31,
+            "native_events": 96,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "67e6d8bf4f43d7a5ca2577bdf9e4ad83cfeb7038e5a0b6bb4e7176d762544297"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 28,
+            "groups": {
+              "core": 5,
+              "error": 0,
+              "functionality": 4,
+              "regression": 6,
+              "structure": 13
+            },
+            "inventory": "e89fb29b3db2c4810477434d519b478104a5eaf861c7dca5abac52137b76d82c"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/3c09a696ba68a33a245a7ba4f8f264a50148924de96b9e77557b14d41253d401.tar.gz",
+            "sha256": "3c09a696ba68a33a245a7ba4f8f264a50148924de96b9e77557b14d41253d401",
+            "file_count": 67,
+            "size_bytes": 138378,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-05T17:06:27.080722+00:00",
+      "completed_at": "2026-11-05T17:16:56.138247+00:00",
+      "wall_seconds_all_attempts": 629.0501217395067,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_4": {
+          "total": 28,
+          "groups": {
+            "core": 5,
+            "error": 0,
+            "functionality": 4,
+            "regression": 6,
+            "structure": 13
+          },
+          "inventory": "e89fb29b3db2c4810477434d519b478104a5eaf861c7dca5abac52137b76d82c"
+        }
+      }
+    },
+    {
+      "id": "863f75615c414b1d8be7c4a126ada064a98daf1f89a184e4a85c5e4617b893e3",
+      "problem": "register_interface_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "deepseek-flash",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "c748d9ca619420fbcf865a090e6ebf4c27aaa77a46222626c1ec5de5287b6fa4",
+      "generation": "216ec79ec83ec32b6142b3738faa1abf404d3cb724b08b2f4d074f23d4c2774a",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_3"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "7d1b20cb81ce4e5182499aefa5d2af67",
+      "selected_evaluation": null,
+      "evaluation_generation": "216ec79ec83ec32b6142b3738faa1abf404d3cb724b08b2f4d074f23d4c2774a",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_3",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "f47aa9296cdc2e48685d73949458fe518b19b2dfe7cec6df0015e682dc3b93a9",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "f98f33f5346730de1b13cd02a42ace605f0938054c64776cfacc8e22ebf30c81",
+          "evaluation_sha256": "e8d07b673a0e6e6ef0dca148c72cdd880ecdd613055e33d67d5f2c6bf719447d",
+          "started_at": "2026-11-05T17:33:40.524587Z",
+          "completed_at": "2026-11-05T17:42:32.138020Z",
+          "inference_seconds": 531.613433,
+          "evaluation_seconds": 41.01324129104614,
+          "native_steps": 25,
+          "tokens": {
+            "cache_read": 1362432,
+            "cache_write": 0,
+            "input": 29641,
+            "output": 7876,
+            "reasoning": 40029
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_offline_manifest",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[REG_BUS]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[apb_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[periph_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_demux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_mux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_to_mem]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_uniform]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[peripheral]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_error_behavior[uniform_error]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[uniform_wide]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_2phase]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[demux]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[memory]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[mux]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[uniform]",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 10,
+              "total": 10
+            },
+            "core": {
+              "passed": 2,
+              "total": 2
+            },
+            "functionality": {
+              "passed": 1,
+              "total": 1
+            },
+            "regression": {
+              "passed": 6,
+              "total": 6
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 19,
+              "total": 19
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 25,
+            "observed_tool_calls": 28,
+            "native_events": 79,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "be3d511f595f8711ccd64998f25623f7074cf70584184a4f135789f5a0aba749"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 19,
+            "groups": {
+              "core": 2,
+              "error": 0,
+              "functionality": 1,
+              "regression": 6,
+              "structure": 10
+            },
+            "inventory": "8006ade3a5f9f1907ca4d39927076e2df7fb1dd23650132c78e0273ef4fcd0ab"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/8ac2c00fe5bf52c2d1828a545cfca6fc9306974b778a0ff81b4ca4c47c69fb03.tar.gz",
+            "sha256": "8ac2c00fe5bf52c2d1828a545cfca6fc9306974b778a0ff81b4ca4c47c69fb03",
+            "file_count": 23,
+            "size_bytes": 50400,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-05T17:33:37.964748+00:00",
+      "completed_at": "2026-11-05T17:43:23.861837+00:00",
+      "wall_seconds_all_attempts": 585.8888712786138,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_3": {
+          "total": 19,
+          "groups": {
+            "core": 2,
+            "error": 0,
+            "functionality": 1,
+            "regression": 6,
+            "structure": 10
+          },
+          "inventory": "8006ade3a5f9f1907ca4d39927076e2df7fb1dd23650132c78e0273ef4fcd0ab"
+        }
+      }
+    },
+    {
+      "id": "d2433b53c3ca4a1e24c0626b883c1a8bcb5eb97a5c57a0e9350dc803686894e7",
+      "problem": "register_interface_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "deepseek-flash",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "c748d9ca619420fbcf865a090e6ebf4c27aaa77a46222626c1ec5de5287b6fa4",
+      "generation": "d0ae92673d1c87b1516bbfd440387b87373490de5af11eb108bb8f3f3f5bb0d7",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_7"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "7aab7715cfc34d07a65e35db0babd9be",
+      "selected_evaluation": null,
+      "evaluation_generation": "d0ae92673d1c87b1516bbfd440387b87373490de5af11eb108bb8f3f3f5bb0d7",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_7",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "dd1ca1f6892743ac1fe3a32493826e791847aa79d52c6fa229f613b1c9ab4fad",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "d314f7ba2eabacecc1f26c50e7b945fd11b5db0b48a25c9aa51bcc2ac4e9db79",
+          "evaluation_sha256": "490ebd371554c1b8f70579f338ef0bfeccf14fa24c30ed76280802ea8f8b2672",
+          "started_at": "2026-11-05T19:17:10.201430Z",
+          "completed_at": "2026-11-05T19:23:23.745138Z",
+          "inference_seconds": 373.543708,
+          "evaluation_seconds": 125.69646143913269,
+          "native_steps": 33,
+          "tokens": {
+            "cache_read": 2051968,
+            "cache_write": 0,
+            "input": 42858,
+            "output": 11614,
+            "reasoning": 48896
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_offline_manifest",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[REG_BUS]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[apb_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[axi_to_reg_v2]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[periph_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc_dst]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc_src]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cut]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_demux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_filter_empty_writes]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_mux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_to_axi]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_to_mem]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_uniform]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[reg_to_axi]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_error_behavior[axi_error]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_error_behavior[uniform_error]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[axi_w64]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[cut_w64_0]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[cut_w64_1]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[cut_w64_2]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[cut_w64_3]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[uniform_wide]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb_feedthrough_0]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb_feedthrough_1]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[axi_w32]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_2phase]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_4phase]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_split]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cut_w32_0]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cut_w32_1]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cut_w32_2]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cut_w32_3]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[demux]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[memory]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[mux]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[peripheral]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[reg_cut]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[reg_filter]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[uniform]",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 16,
+              "total": 16
+            },
+            "core": {
+              "passed": 3,
+              "total": 3
+            },
+            "functionality": {
+              "passed": 6,
+              "total": 6
+            },
+            "regression": {
+              "passed": 18,
+              "total": 18
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 43,
+              "total": 43
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 33,
+            "observed_tool_calls": 39,
+            "native_events": 106,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "bb90c73954d3134f17e0c3069ae28568cc4a395fee4d97cc64dc30a59ee62e3c"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 43,
+            "groups": {
+              "core": 3,
+              "error": 0,
+              "functionality": 6,
+              "regression": 18,
+              "structure": 16
+            },
+            "inventory": "6267d302e7c061e6940c7609cb90426edc390545d21b4cac79e95f1dfac536d8"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/419b12b1430d61c9d2e3edab9a4ec162146d415f65125b8d75c17f115b2ce614.tar.gz",
+            "sha256": "419b12b1430d61c9d2e3edab9a4ec162146d415f65125b8d75c17f115b2ce614",
+            "file_count": 114,
+            "size_bytes": 206959,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-05T19:17:07.509405+00:00",
+      "completed_at": "2026-11-05T19:26:02.164771+00:00",
+      "wall_seconds_all_attempts": 534.647950777784,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_7": {
+          "total": 43,
+          "groups": {
+            "core": 3,
+            "error": 0,
+            "functionality": 6,
+            "regression": 18,
+            "structure": 16
+          },
+          "inventory": "6267d302e7c061e6940c7609cb90426edc390545d21b4cac79e95f1dfac536d8"
+        }
+      }
+    },
+    {
+      "id": "d87d6599321ab705cef1114304e9787ae5cec7a947953f89504d02c701b82f5c",
+      "problem": "register_interface_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "deepseek-flash",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "c748d9ca619420fbcf865a090e6ebf4c27aaa77a46222626c1ec5de5287b6fa4",
+      "generation": "2123d186ed09de651c28142d4a2d983f96d7b8b8ca4ef576faac61b113ede6f7",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_5"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "1cef2ffd21bf433e89f667c658a8a0e5",
+      "selected_evaluation": null,
+      "evaluation_generation": "2123d186ed09de651c28142d4a2d983f96d7b8b8ca4ef576faac61b113ede6f7",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_5",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "69d098cf518bfde2e30589687684c7ea72e7c4421124c578512daff93b127863",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "b7f05f679566091747c7d7c655291a9c7d22bd319cfbf4b2de9680a1e31481fe",
+          "evaluation_sha256": "8c116d7a7f0c9289f110f4fe7c81444e3c735df1d251ecfce41c3b092297d1e6",
+          "started_at": "2026-11-05T19:25:18.044623Z",
+          "completed_at": "2026-11-05T19:29:38.988289Z",
+          "inference_seconds": 260.943666,
+          "evaluation_seconds": 63.08881998062134,
+          "native_steps": 27,
+          "tokens": {
+            "cache_read": 1040768,
+            "cache_write": 0,
+            "input": 29443,
+            "output": 5851,
+            "reasoning": 31812
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_offline_manifest",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[REG_BUS]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[apb_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[periph_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc_dst]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc_src]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cut]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_demux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_filter_empty_writes]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_mux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_to_mem]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_uniform]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[reg_cut]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_error_behavior[uniform_error]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[uniform_wide]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb_feedthrough_0]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb_feedthrough_1]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_2phase]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_4phase]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_split]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_split_4phase]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[demux]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[memory]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[mux]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[peripheral]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[reg_filter]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[uniform]",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 14,
+              "total": 14
+            },
+            "core": {
+              "passed": 2,
+              "total": 2
+            },
+            "functionality": {
+              "passed": 1,
+              "total": 1
+            },
+            "regression": {
+              "passed": 13,
+              "total": 13
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 30,
+              "total": 30
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 27,
+            "observed_tool_calls": 26,
+            "native_events": 81,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "6b21316f841baad5fbf513a98475afd69de3fa5f3852f5b976e98092b61da255"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 30,
+            "groups": {
+              "core": 2,
+              "error": 0,
+              "functionality": 1,
+              "regression": 13,
+              "structure": 14
+            },
+            "inventory": "ab0fef9415f3b66fe6838de8a659e9f6a73507c65a92f63bda594d3caf51dbd3"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/91bcaa6b7ade40151c1c1ca621b62ac9a55267c4560377da84ebf23e21441b9e.tar.gz",
+            "sha256": "91bcaa6b7ade40151c1c1ca621b62ac9a55267c4560377da84ebf23e21441b9e",
+            "file_count": 107,
+            "size_bytes": 191135,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-05T19:25:15.431723+00:00",
+      "completed_at": "2026-11-05T19:31:11.690250+00:00",
+      "wall_seconds_all_attempts": 356.25240226089954,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_5": {
+          "total": 30,
+          "groups": {
+            "core": 2,
+            "error": 0,
+            "functionality": 1,
+            "regression": 13,
+            "structure": 14
+          },
+          "inventory": "ab0fef9415f3b66fe6838de8a659e9f6a73507c65a92f63bda594d3caf51dbd3"
+        }
+      }
+    },
+    {
+      "id": "e30e72a5e5dfd0c7ec889b6de48e5cef5d84b78ae72da5f80e7e877756470075",
+      "problem": "register_interface_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "deepseek-flash",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "c748d9ca619420fbcf865a090e6ebf4c27aaa77a46222626c1ec5de5287b6fa4",
+      "generation": "2a607082ef99cb1c98997bbffa03f884c54b9b70f4aacd75db3072667d3c4f90",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_1"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "e3443fd13ca9470285eabcdd74a1fada",
+      "selected_evaluation": null,
+      "evaluation_generation": "2a607082ef99cb1c98997bbffa03f884c54b9b70f4aacd75db3072667d3c4f90",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_1",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "4dbb09fa8d605406c3d240fd2aa75d794993645c1be0256a06d47d134fad7830",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "72b13312b3402690c42b88c2e4b3aa84ad1f81ef955ce80381f1c38d3264572a",
+          "evaluation_sha256": "85d15de50ce260db74fa919ab37ccab55d3ff43282b732114898e3c1197a5906",
+          "started_at": "2026-11-05T19:41:14.844669Z",
+          "completed_at": "2026-11-05T19:44:52.900906Z",
+          "inference_seconds": 218.056237,
+          "evaluation_seconds": 15.347060203552246,
+          "native_steps": 15,
+          "tokens": {
+            "cache_read": 343168,
+            "cache_write": 0,
+            "input": 14764,
+            "output": 5599,
+            "reasoning": 7911
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_offline_manifest",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[REG_BUS]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[apb_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_uniform]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[apb]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_error_behavior[uniform_error]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[uniform]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[uniform_wide]",
+              "group": "Functionality",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 5,
+              "total": 5
+            },
+            "core": {
+              "passed": 2,
+              "total": 2
+            },
+            "functionality": {
+              "passed": 2,
+              "total": 2
+            },
+            "regression": {
+              "passed": 0,
+              "total": 0
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 9,
+              "total": 9
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 15,
+            "observed_tool_calls": 18,
+            "native_events": 49,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "664cb85d8560e156bd948c1e4e3fec49be6f2eb1b967175f1d14901160b1377c"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 9,
+            "groups": {
+              "core": 2,
+              "error": 0,
+              "functionality": 2,
+              "regression": 0,
+              "structure": 5
+            },
+            "inventory": "410bb77089f1227b10a5e1fbc09d10c4bfea2851b0025a390ce05d0085a6c727"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/f56608a5f049d09cc32ac9bfd310580cbaf65bf711e8ba0703dc616280dbc1a1.tar.gz",
+            "sha256": "f56608a5f049d09cc32ac9bfd310580cbaf65bf711e8ba0703dc616280dbc1a1",
+            "file_count": 13,
+            "size_bytes": 44529,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-05T19:41:12.411521+00:00",
+      "completed_at": "2026-11-05T19:45:18.344412+00:00",
+      "wall_seconds_all_attempts": 245.925569973886,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_1": {
+          "total": 9,
+          "groups": {
+            "core": 2,
+            "error": 0,
+            "functionality": 2,
+            "regression": 0,
+            "structure": 5
+          },
+          "inventory": "410bb77089f1227b10a5e1fbc09d10c4bfea2851b0025a390ce05d0085a6c727"
+        }
+      }
+    },
+    {
+      "id": "ed89f36dfec51a2ab16cc7a5f1618b70deeaf3da2854d2d2de984189ae24bc65",
+      "problem": "register_interface_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "deepseek-flash",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "c748d9ca619420fbcf865a090e6ebf4c27aaa77a46222626c1ec5de5287b6fa4",
+      "generation": "7923867ca62865d3ae5a63d3f0c95c613240120dc1522ac3d22e7fb2c4510b4e",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_8"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "57743b1256ec411a890e0609f8120de2",
+      "selected_evaluation": null,
+      "evaluation_generation": "7923867ca62865d3ae5a63d3f0c95c613240120dc1522ac3d22e7fb2c4510b4e",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_8",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "3ccd1e8d4df910e3426d8423baa2a97fdfd9fd00b047a22be8a04a57d1c0c20a",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "97af0d870255a79885fff535b22f1da11a64191d81ebc29d4895e89c252b1bdf",
+          "evaluation_sha256": "3a11507ab7ee7853b8ecaef9818d3e409785e77e7c85f9500f0729a785264f23",
+          "started_at": "2026-11-05T20:07:16.388142Z",
+          "completed_at": "2026-11-05T20:13:18.909983Z",
+          "inference_seconds": 362.521841,
+          "evaluation_seconds": 134.20241570472717,
+          "native_steps": 40,
+          "tokens": {
+            "cache_read": 2568064,
+            "cache_write": 0,
+            "input": 48000,
+            "output": 16347,
+            "reasoning": 34225
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_offline_manifest",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[REG_BUS]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[apb_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[apb_to_reg_v2]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[axi_to_reg_v2]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[periph_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc_dst]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc_src]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cut]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_demux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_filter_empty_writes]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_mux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_to_axi]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_to_mem]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_uniform]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[apb_v2_0]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[apb_v2_1]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_error_behavior[axi_error]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_error_behavior[uniform_error]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[axi_w64]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[cut_w64_0]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[cut_w64_1]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[cut_w64_2]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[cut_w64_3]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[uniform_wide]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb_feedthrough_0]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb_feedthrough_1]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[axi_w32]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_2phase]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_4phase]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_split]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cut_w32_0]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cut_w32_1]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cut_w32_2]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cut_w32_3]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[demux]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[memory]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[mux]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[peripheral]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[reg_cut]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[reg_filter]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[reg_to_axi]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[uniform]",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 17,
+              "total": 17
+            },
+            "core": {
+              "passed": 4,
+              "total": 4
+            },
+            "functionality": {
+              "passed": 6,
+              "total": 6
+            },
+            "regression": {
+              "passed": 19,
+              "total": 19
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 46,
+              "total": 46
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 40,
+            "observed_tool_calls": 45,
+            "native_events": 126,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "2e197073fad99584b43ee06d232f9dc94d71fb62f9c4b6d9db071b780b3b68d3"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 46,
+            "groups": {
+              "core": 4,
+              "error": 0,
+              "functionality": 6,
+              "regression": 19,
+              "structure": 17
+            },
+            "inventory": "1e4146a1a4a234a6ad897e4d7d57317771060544e8df5d7299c677c851a9fe04"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/f3e71778f48f8d9506875f748b5105a1ac1ce11a9673d48dffeda4c35ff3c3e7.tar.gz",
+            "sha256": "f3e71778f48f8d9506875f748b5105a1ac1ce11a9673d48dffeda4c35ff3c3e7",
+            "file_count": 116,
+            "size_bytes": 207701,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-05T20:07:13.760696+00:00",
+      "completed_at": "2026-11-05T20:16:04.483030+00:00",
+      "wall_seconds_all_attempts": 530.7140019200742,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_8": {
+          "total": 46,
+          "groups": {
+            "core": 4,
+            "error": 0,
+            "functionality": 6,
+            "regression": 19,
+            "structure": 17
+          },
+          "inventory": "1e4146a1a4a234a6ad897e4d7d57317771060544e8df5d7299c677c851a9fe04"
+        }
+      }
+    }
+  ]
+}

@@ -141,7 +141,8 @@ test('Standard costs agree across summaries, trial details and both cache export
       // differ in the last floating-point bit when projecting the same costs.
       assert.ok(Math.abs(projected.official_cost_selected_attempt-cell.official_cost_selected_attempt)<1e-12);
       assert.ok(cell.official_cost_selected_attempt>=0);
-      assert.ok(csv([cell]).includes(data.report.price_version));
+      // A model-specific reprice preserves other models' published versions.
+      assert.ok(csv([cell]).includes(cell.price_version));
       for(const cp of cell.checkpoints){
         assert.equal(cp.official_cost.usd,cp.costs.actual.usd);
         assert.ok(cp.official_cost.usd>=0);

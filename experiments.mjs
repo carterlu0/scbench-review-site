@@ -87,6 +87,7 @@ function supplementary(release) {
 export function renderPublicationNotes(publication, pricing) {
   let notes=Array.isArray(publication?.display_notes)?publication.display_notes.filter(note=>typeof note==='string'&&note.trim()):[];
   if(pricing?.rates?.some(rate=>rate.model==='gpt-6.1-terra'))notes=notes.map(note=>note.replace('Terra pricing is unregistered, so cost remains unknown.', 'Terra costs use the user-provided Standard prices shown in the price table.'));
+  if(pricing?.rates?.some(rate=>rate.model==='deepseek-flash'))notes=notes.map(note=>note.replace('DeepSeek time-dependent pricing remains pending; unknown costs do not mean free usage.', 'DeepSeek costs use the user-provided peak prices: $0.006 cached input, $0.30 uncached input and $1.20 output per 1M tokens. Separately recorded reasoning tokens are billed as output. These are peak-rate estimates for selected attempts, before any off-peak discount.'));
   return notes.length?`<div class="matrix-publication-notes matrix-method">${notes.map(note=>`<p>${esc(note)}</p>`).join('')}</div>`:'';
 }
 export function renderFinalSuiteSummary(summary) {
@@ -169,7 +170,7 @@ async function renderLatestResults(route,params,app) {
     ${problem?`<a class="matrix-back" href="${hash(params,{problem:null,trial:null,checkpoint:null})}">← Latest results</a>`:''}
     <div class="matrix-heading"><div><p class="eyebrow">SCBENCH / RESULTS</p><h1>${esc(problem||'Latest results')}<span class="matrix-dot">.</span></h1><p class="matrix-subtitle">${problem?'Pipeline and SR checkpoint results':'The latest result for each model and reasoning effort · 15 task chains · 74 SR checkpoints per setting'}</p></div><div class="matrix-actions"><button id="matrix-csv">Export CSV ↗</button><button id="matrix-json">JSON ↗</button></div></div>
     <form id="latest-filters" class="matrix-filters"><label>Model<select name="model">${options(data.report.groups.map(g=>g.config.model),filters.model,'All models')}</select></label><label>Reasoning effort<select name="thinking">${options(data.report.groups.map(g=>g.config.thinking),filters.thinking,'All efforts')}</select></label>${problem?'':`<label class="matrix-search">Find problem<input name="q" value="${esc(filters.q)}" placeholder="Search by name" /></label>`}<button type="submit">Apply</button></form>
-    ${shown.map(g=>renderPublicationNotes(g.publication)).join('')}
+    ${shown.map(g=>renderPublicationNotes(g.publication,data.report.price_metadata)).join('')}
     ${problem?problemMatrix(cells,problem,params,true):renderPaperMetrics(data.report,filters,params,data.records)}
     ${problem?'<section id="matrix-detail" class="matrix-detail" aria-live="polite"><p class="matrix-muted">Select a checkpoint to inspect its evidence.</p></section>':`${renderLatestStatus(data,filters)}${renderLatestFailures(data,filters,params)}<details class="paper-legacy-matrix"><summary>Results by problem and checkpoint</summary>${mainMatrix(cells,allCells,params,true)}</details><details class="paper-legacy-matrix"><summary>Historical results</summary><p class="matrix-method">Previous published snapshots remain available for reference.</p><a href="#experiments?analysis=${encodeURIComponent(data.sources[0].analysis_id)}">Browse historical snapshots →</a></details>`}
   </section>`;

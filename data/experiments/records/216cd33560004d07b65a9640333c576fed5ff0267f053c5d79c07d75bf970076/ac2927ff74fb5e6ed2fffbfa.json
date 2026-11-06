@@ -1,0 +1,4208 @@
+{
+  "schema_version": 4,
+  "analysis": "216cd33560004d07b65a9640333c576fed5ff0267f053c5d79c07d75bf970076",
+  "problem": "mipi_dphy_t2",
+  "cells": [
+    {
+      "id": "247a1646ad40a776c54fea4cb1acd712876c753b28336b2d797e26f9faccc665",
+      "problem": "mipi_dphy_t2",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "deepseek-flash",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "c748d9ca619420fbcf865a090e6ebf4c27aaa77a46222626c1ec5de5287b6fa4",
+      "generation": "b34a2e18fb7c95007e8493d34f1eb9e86d3050792fd9c8eace553c00050f3c18",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_5"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "88317e84e3cd48c8b0c940e303dd697d",
+      "selected_evaluation": null,
+      "evaluation_generation": "b34a2e18fb7c95007e8493d34f1eb9e86d3050792fd9c8eace553c00050f3c18",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_5",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "08d95dcc18a084dcecb420a3a7c8ba913e6273cc83df9ca31c29334ceea05590",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "029849d6821c81721d3ff7a4f2b468b7156f6df4c45dae99bd6161dcf9cba217",
+          "evaluation_sha256": "e783613963e242a73d86215c0084c6541694560cd98e0113fe2931890539e2ff",
+          "started_at": "2026-11-05T14:54:21.814286Z",
+          "completed_at": "2026-11-05T14:57:55.521394Z",
+          "inference_seconds": 213.707108,
+          "evaluation_seconds": 983.0662314891815,
+          "native_steps": 27,
+          "tokens": {
+            "cache_read": 944896,
+            "cache_write": 0,
+            "input": 21050,
+            "output": 6067,
+            "reasoning": 17534
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_candidate_overlay_ignores_non_allowlisted_changes",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_candidate_test_suite_is_cumulative_and_preserves_rtl",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_selected_historical_snapshot_is_the_declared_version",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_single_round_starts_from_the_immediate_predecessor_suite",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_public_modes_payload_and_disable",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_runner_rejects_invalid_focused_selection[checkpoint_2]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_runner_rejects_invalid_focused_selection[checkpoint_5_reset]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_runner_rejects_invalid_focused_selection[unknown]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[bit_order]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[disable_done]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[disable_outputs]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[done_early]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[done_missing]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_100]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_101]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_110]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_111]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_done]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_runs_against_the_fixed_dut",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_public_distinct_back_to_back_payloads",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_suite_detects_payload_reload_fault",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_suite_preserves_the_queued_payload_sequence",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_third_payload_fault_sensitivity[third_done_early]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_third_payload_fault_sensitivity[third_done_missing]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_third_payload_fault_sensitivity[third_symbol]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_complete_monitor_fault_sensitivity[monitor_completion_extra]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_complete_monitor_fault_sensitivity[monitor_completion_missing]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_complete_monitor_fault_sensitivity[monitor_mark_missing]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_complete_monitor_fault_sensitivity[monitor_space_missing]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_public_complete_counts_and_abort",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_suite_detects_complete_and_aborted_transfers",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_suite_detects_public_abort_faults[abort_completion]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_suite_detects_public_abort_faults[abort_outputs]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_each_public_bin_fault_sensitivity[data_asymmetric]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_each_public_bin_fault_sensitivity[data_zero]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_each_public_bin_fault_sensitivity[fixed_mode_100]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_each_public_bin_fault_sensitivity[fixed_mode_101]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_each_public_bin_fault_sensitivity[fixed_mode_110]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_each_public_bin_fault_sensitivity[fixed_mode_111]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_public_mode_and_data_bins",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_suite_checks_ordered_symbols_and_coverage_bins",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_suite_detects_boundary_payload_fault",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_has_no_host_paths_or_simulator_products",
+              "group": "Error",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_control_selector_fault_sensitivity[control_disable]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_control_selector_fault_sensitivity[control_trail_done]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_control_selector_fault_sensitivity[control_trail_symbol]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_control_selector_fault_sensitivity[reenable_done_early]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_control_selector_fault_sensitivity[reenable_done_missing]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_control_selector_fault_sensitivity[reenable_symbol]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_integrated_reenable_fault_sensitivity[reenable_done_early]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_integrated_reenable_fault_sensitivity[reenable_done_missing]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_integrated_reenable_fault_sensitivity[reenable_symbol]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_public_focused_and_integrated_sequences[checkpoint_5]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_public_focused_and_integrated_sequences[checkpoint_5_control]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_public_focused_and_integrated_sequences[checkpoint_5_reset]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_reset_selector_fault_sensitivity[async_reset]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_reset_selector_fault_sensitivity[recovery_done_early]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_reset_selector_fault_sensitivity[recovery_done_missing]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_reset_selector_fault_sensitivity[recovery_symbol]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_suite_checks_reset_recovery",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_suite_checks_trail_disable_reenable",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_suite_detects_public_reset_and_control_faults[async_reset]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_suite_detects_public_reset_and_control_faults[disable_after_recovery]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_suite_detects_public_reset_and_control_faults[recovery_done_early]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_suite_detects_public_reset_and_control_faults[recovery_done_missing]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_suite_detects_public_reset_and_control_faults[recovery_symbol]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_suite_detects_public_reset_and_control_faults[trail_done]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_suite_detects_public_reset_and_control_faults[trail_symbol]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_suite_preserves_reset_to_control_integration",
+              "group": "Core",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 4,
+              "total": 4
+            },
+            "core": {
+              "passed": 26,
+              "total": 26
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 38,
+              "total": 38
+            },
+            "error": {
+              "passed": 1,
+              "total": 1
+            },
+            "total": {
+              "passed": 69,
+              "total": 69
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 27,
+            "observed_tool_calls": 38,
+            "native_events": 93,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "dc9b412ea7cb2b7dbc0a66510f6399b7c9d6594756ad84d4d380715e46ca6a7d"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 69,
+            "groups": {
+              "core": 26,
+              "error": 1,
+              "functionality": 0,
+              "regression": 38,
+              "structure": 4
+            },
+            "inventory": "dcb5bfcae6c7d05602bcab327f99cf14038b50e559eae876d0aea600b01dd9ab"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/57806dd33203907741ccbcaa55ebf8eec85258ebddae1ff5c9b6bb6f751fa2df.tar.gz",
+            "sha256": "57806dd33203907741ccbcaa55ebf8eec85258ebddae1ff5c9b6bb6f751fa2df",
+            "file_count": 60,
+            "size_bytes": 30010,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-05T14:54:19.429620+00:00",
+      "completed_at": "2026-11-05T15:14:28.292175+00:00",
+      "wall_seconds_all_attempts": 1208.8572261761874,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_5": {
+          "total": 69,
+          "groups": {
+            "core": 26,
+            "error": 1,
+            "functionality": 0,
+            "regression": 38,
+            "structure": 4
+          },
+          "inventory": "dcb5bfcae6c7d05602bcab327f99cf14038b50e559eae876d0aea600b01dd9ab"
+        }
+      }
+    },
+    {
+      "id": "8022dc444d53c67884f967712acac0472af668b6ea15ebd23a8bf69c26b1236a",
+      "problem": "mipi_dphy_t2",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "deepseek-flash",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "c748d9ca619420fbcf865a090e6ebf4c27aaa77a46222626c1ec5de5287b6fa4",
+      "generation": "e877090a08e3a94aba2faf88206a63aee13ff6551940af7cd96f6dd4da82d1e6",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_6"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "6f4ae78233fd4804a5664ea9d096da65",
+      "selected_evaluation": null,
+      "evaluation_generation": "e877090a08e3a94aba2faf88206a63aee13ff6551940af7cd96f6dd4da82d1e6",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_6",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "9d9b6b8e173b2ba559ef64abd972d2237d914dc5c7454c9829ff4efbba592684",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "30f73f86f91b46882c02e2211c20b1db06789049421b7b6e04d5cca4f0b7f124",
+          "evaluation_sha256": "85fbf20947ca69095c89201823a3c2753c05cc6b5d58c0403bf110c3aed11cb8",
+          "started_at": "2026-11-05T17:15:29.930324Z",
+          "completed_at": "2026-11-05T17:19:44.845552Z",
+          "inference_seconds": 254.915228,
+          "evaluation_seconds": 1078.5938382148743,
+          "native_steps": 32,
+          "tokens": {
+            "cache_read": 955648,
+            "cache_write": 0,
+            "input": 24229,
+            "output": 5591,
+            "reasoning": 12855
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_candidate_overlay_ignores_non_allowlisted_changes",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_candidate_test_suite_is_cumulative_and_preserves_rtl",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_selected_historical_snapshot_is_the_declared_version",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_single_round_starts_from_the_immediate_predecessor_suite",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_public_modes_payload_and_disable",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_runner_rejects_invalid_focused_selection[checkpoint_2]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_runner_rejects_invalid_focused_selection[checkpoint_5_reset]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_runner_rejects_invalid_focused_selection[unknown]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[bit_order]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[disable_done]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[disable_outputs]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[done_early]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[done_missing]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_100]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_101]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_110]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_111]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_done]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_runs_against_the_fixed_dut",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_public_distinct_back_to_back_payloads",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_suite_detects_payload_reload_fault",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_suite_preserves_the_queued_payload_sequence",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_third_payload_fault_sensitivity[third_done_early]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_third_payload_fault_sensitivity[third_done_missing]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_third_payload_fault_sensitivity[third_symbol]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_complete_monitor_fault_sensitivity[monitor_completion_extra]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_complete_monitor_fault_sensitivity[monitor_completion_missing]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_complete_monitor_fault_sensitivity[monitor_mark_missing]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_complete_monitor_fault_sensitivity[monitor_space_missing]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_public_complete_counts_and_abort",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_suite_detects_complete_and_aborted_transfers",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_suite_detects_public_abort_faults[abort_completion]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_suite_detects_public_abort_faults[abort_outputs]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_each_public_bin_fault_sensitivity[data_asymmetric]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_each_public_bin_fault_sensitivity[data_zero]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_each_public_bin_fault_sensitivity[fixed_mode_100]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_each_public_bin_fault_sensitivity[fixed_mode_101]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_each_public_bin_fault_sensitivity[fixed_mode_110]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_each_public_bin_fault_sensitivity[fixed_mode_111]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_public_mode_and_data_bins",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_suite_checks_ordered_symbols_and_coverage_bins",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_suite_detects_boundary_payload_fault",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_control_selector_fault_sensitivity[control_disable]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_control_selector_fault_sensitivity[control_trail_done]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_control_selector_fault_sensitivity[control_trail_symbol]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_control_selector_fault_sensitivity[reenable_done_early]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_control_selector_fault_sensitivity[reenable_done_missing]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_control_selector_fault_sensitivity[reenable_symbol]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_integrated_reenable_fault_sensitivity[reenable_done_early]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_integrated_reenable_fault_sensitivity[reenable_done_missing]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_integrated_reenable_fault_sensitivity[reenable_symbol]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_public_focused_and_integrated_sequences[checkpoint_5]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_public_focused_and_integrated_sequences[checkpoint_5_control]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_public_focused_and_integrated_sequences[checkpoint_5_reset]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_reset_selector_fault_sensitivity[async_reset]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_reset_selector_fault_sensitivity[recovery_done_early]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_reset_selector_fault_sensitivity[recovery_done_missing]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_reset_selector_fault_sensitivity[recovery_symbol]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_suite_checks_reset_recovery",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_suite_checks_trail_disable_reenable",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_suite_detects_public_reset_and_control_faults[async_reset]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_suite_detects_public_reset_and_control_faults[disable_after_recovery]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_suite_detects_public_reset_and_control_faults[recovery_done_early]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_suite_detects_public_reset_and_control_faults[recovery_done_missing]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_suite_detects_public_reset_and_control_faults[recovery_symbol]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_suite_detects_public_reset_and_control_faults[trail_done]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_suite_detects_public_reset_and_control_faults[trail_symbol]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_suite_preserves_reset_to_control_integration",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_has_no_host_paths_or_simulator_products",
+              "group": "Error",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_6_suite_detects_fourth_transaction_completion_faults[fourth_done_early]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_6_suite_detects_fourth_transaction_completion_faults[fourth_done_missing]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_6_suite_detects_fourth_transaction_completion_faults[fourth_symbol]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_6_suite_drives_four_complete_payloads_and_public_bins",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_6_suite_reports_a_complete_deterministic_run",
+              "group": "Core",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 4,
+              "total": 4
+            },
+            "core": {
+              "passed": 5,
+              "total": 5
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 64,
+              "total": 64
+            },
+            "error": {
+              "passed": 1,
+              "total": 1
+            },
+            "total": {
+              "passed": 74,
+              "total": 74
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 32,
+            "observed_tool_calls": 31,
+            "native_events": 96,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "d9f279d6e3865bf78b9916b2d17faf6f7e1618930dcc29ab3b7515f09b064913"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 74,
+            "groups": {
+              "core": 5,
+              "error": 1,
+              "functionality": 0,
+              "regression": 64,
+              "structure": 4
+            },
+            "inventory": "f9210574ce2bf17dc34dd9aafabb1b783f6731b7eb1721b93417b2143337e9e3"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/84b87edf55d49ea98f091377daccafc626ce347d88f0a93ba18a7bdbbb014707.tar.gz",
+            "sha256": "84b87edf55d49ea98f091377daccafc626ce347d88f0a93ba18a7bdbbb014707",
+            "file_count": 64,
+            "size_bytes": 31296,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-05T17:15:27.442628+00:00",
+      "completed_at": "2026-11-05T17:37:52.949596+00:00",
+      "wall_seconds_all_attempts": 1345.5008019693196,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_6": {
+          "total": 74,
+          "groups": {
+            "core": 5,
+            "error": 1,
+            "functionality": 0,
+            "regression": 64,
+            "structure": 4
+          },
+          "inventory": "f9210574ce2bf17dc34dd9aafabb1b783f6731b7eb1721b93417b2143337e9e3"
+        }
+      }
+    },
+    {
+      "id": "81c3b58109e9458163cda243dcdf6ebf7108773c6206574e9ec3acc7865cf6e7",
+      "problem": "mipi_dphy_t2",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "deepseek-flash",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "c748d9ca619420fbcf865a090e6ebf4c27aaa77a46222626c1ec5de5287b6fa4",
+      "generation": "764c9339e4ae0a3ae0d3cb6652b0dbe495c495909c237e5fec00c068ae14756e",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_1"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "4f29414b6e784a1d97adf32115cba434",
+      "selected_evaluation": null,
+      "evaluation_generation": "764c9339e4ae0a3ae0d3cb6652b0dbe495c495909c237e5fec00c068ae14756e",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_1",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "fc4247fcc9f0eec2fcd30a256fddca32f5249ca28e3baa6b2b66f66d02ddd17d",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "80a2bdc387d073184484a78a4f426db822591135e08dfb20a75e2577f2b2941f",
+          "evaluation_sha256": "87635ff0d4b9c833cb92c340f622aae3c99b89ee68f683c660e7cc134e8ee2e8",
+          "started_at": "2026-11-05T17:16:59.171747Z",
+          "completed_at": "2026-11-05T17:20:43.784612Z",
+          "inference_seconds": 224.612865,
+          "evaluation_seconds": 195.29840874671936,
+          "native_steps": 20,
+          "tokens": {
+            "cache_read": 594304,
+            "cache_write": 0,
+            "input": 13524,
+            "output": 6283,
+            "reasoning": 21395
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_candidate_overlay_ignores_non_allowlisted_changes",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_candidate_test_suite_is_cumulative_and_preserves_rtl",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_selected_historical_snapshot_is_the_declared_version",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_single_round_starts_from_the_immediate_predecessor_suite",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_public_modes_payload_and_disable",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_runner_rejects_invalid_focused_selection[checkpoint_2]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_runner_rejects_invalid_focused_selection[checkpoint_5_reset]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_runner_rejects_invalid_focused_selection[unknown]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[bit_order]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[disable_done]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[disable_outputs]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[done_early]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[done_missing]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_100]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_101]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_110]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_111]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_done]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_runs_against_the_fixed_dut",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_has_no_host_paths_or_simulator_products",
+              "group": "Error",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 4,
+              "total": 4
+            },
+            "core": {
+              "passed": 15,
+              "total": 15
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 0,
+              "total": 0
+            },
+            "error": {
+              "passed": 1,
+              "total": 1
+            },
+            "total": {
+              "passed": 20,
+              "total": 20
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 20,
+            "observed_tool_calls": 25,
+            "native_events": 66,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "58d9f470e22192f4f1026e6af7bbea6febd399710e0d6ccfe02ff40bfeecf583"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 20,
+            "groups": {
+              "core": 15,
+              "error": 1,
+              "functionality": 0,
+              "regression": 0,
+              "structure": 4
+            },
+            "inventory": "4ed394ca7b98f2c8a9f1d447a249894c372668968b5aec32719ad8bafc6232cb"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/65566c60069e47f63a010fda9b22e30c9b92128c6b3875530251b41bdb910f40.tar.gz",
+            "sha256": "65566c60069e47f63a010fda9b22e30c9b92128c6b3875530251b41bdb910f40",
+            "file_count": 43,
+            "size_bytes": 20114,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-05T17:16:56.725255+00:00",
+      "completed_at": "2026-11-05T17:24:08.096684+00:00",
+      "wall_seconds_all_attempts": 431.3651091698557,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_1": {
+          "total": 20,
+          "groups": {
+            "core": 15,
+            "error": 1,
+            "functionality": 0,
+            "regression": 0,
+            "structure": 4
+          },
+          "inventory": "4ed394ca7b98f2c8a9f1d447a249894c372668968b5aec32719ad8bafc6232cb"
+        }
+      }
+    },
+    {
+      "id": "990c707d59dcaa89fe8f5328ca5cef08569adf0ea4432cda86a1ce05e1797003",
+      "problem": "mipi_dphy_t2",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "deepseek-flash",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "c748d9ca619420fbcf865a090e6ebf4c27aaa77a46222626c1ec5de5287b6fa4",
+      "generation": "7b644e35eac20759a097713a985a037bc004c4d823327df6fc5266937603dde5",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_4"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "8326004ac2984760a5e7f76a8b3a96ab",
+      "selected_evaluation": null,
+      "evaluation_generation": "7b644e35eac20759a097713a985a037bc004c4d823327df6fc5266937603dde5",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_4",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "854c3db1d750acdc2dbee40fc4156c857427ffb97af88188fad39a9a7e655a91",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "59787a2b3acbef3d3fecb8ad3b411c821ccd9b5aaa02f5ad35b476b04c47dfa0",
+          "evaluation_sha256": "1cd47e9bfeba75f88aef4d584c342f037f8a0abac844c216bd3167cca7a85deb",
+          "started_at": "2026-11-05T17:51:01.602950Z",
+          "completed_at": "2026-11-05T17:53:50.459756Z",
+          "inference_seconds": 168.856806,
+          "evaluation_seconds": 488.4349117279053,
+          "native_steps": 15,
+          "tokens": {
+            "cache_read": 362112,
+            "cache_write": 0,
+            "input": 12371,
+            "output": 3718,
+            "reasoning": 12967
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_candidate_overlay_ignores_non_allowlisted_changes",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_candidate_test_suite_is_cumulative_and_preserves_rtl",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_selected_historical_snapshot_is_the_declared_version",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_single_round_starts_from_the_immediate_predecessor_suite",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_public_modes_payload_and_disable",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_runner_rejects_invalid_focused_selection[checkpoint_2]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_runner_rejects_invalid_focused_selection[checkpoint_5_reset]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_runner_rejects_invalid_focused_selection[unknown]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[bit_order]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[disable_done]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[disable_outputs]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[done_early]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[done_missing]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_100]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_101]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_110]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_111]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_done]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_runs_against_the_fixed_dut",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_public_distinct_back_to_back_payloads",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_suite_detects_payload_reload_fault",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_suite_preserves_the_queued_payload_sequence",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_third_payload_fault_sensitivity[third_done_early]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_third_payload_fault_sensitivity[third_done_missing]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_third_payload_fault_sensitivity[third_symbol]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_complete_monitor_fault_sensitivity[monitor_completion_extra]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_complete_monitor_fault_sensitivity[monitor_completion_missing]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_complete_monitor_fault_sensitivity[monitor_mark_missing]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_complete_monitor_fault_sensitivity[monitor_space_missing]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_public_complete_counts_and_abort",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_suite_detects_complete_and_aborted_transfers",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_suite_detects_public_abort_faults[abort_completion]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_suite_detects_public_abort_faults[abort_outputs]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_has_no_host_paths_or_simulator_products",
+              "group": "Error",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_each_public_bin_fault_sensitivity[data_asymmetric]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_each_public_bin_fault_sensitivity[data_zero]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_each_public_bin_fault_sensitivity[fixed_mode_100]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_each_public_bin_fault_sensitivity[fixed_mode_101]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_each_public_bin_fault_sensitivity[fixed_mode_110]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_each_public_bin_fault_sensitivity[fixed_mode_111]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_public_mode_and_data_bins",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_suite_checks_ordered_symbols_and_coverage_bins",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_suite_detects_boundary_payload_fault",
+              "group": "Core",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 4,
+              "total": 4
+            },
+            "core": {
+              "passed": 9,
+              "total": 9
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 29,
+              "total": 29
+            },
+            "error": {
+              "passed": 1,
+              "total": 1
+            },
+            "total": {
+              "passed": 43,
+              "total": 43
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 15,
+            "observed_tool_calls": 14,
+            "native_events": 45,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "4790841854f9a2042dd22630b876e0386f91f9bc31e76a96946b73bfd678c343"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 43,
+            "groups": {
+              "core": 9,
+              "error": 1,
+              "functionality": 0,
+              "regression": 29,
+              "structure": 4
+            },
+            "inventory": "eb10fbdc7546642549cc3dfcbda858bc0a5c40af0a9b443ce5983e6435b81ca0"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/6f2da644787c40e7fdc29e1c7649d8de83ded7c554ffca07c14591c6e326c219.tar.gz",
+            "sha256": "6f2da644787c40e7fdc29e1c7649d8de83ded7c554ffca07c14591c6e326c219",
+            "file_count": 57,
+            "size_bytes": 26325,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-05T17:50:58.868264+00:00",
+      "completed_at": "2026-11-05T18:02:07.885091+00:00",
+      "wall_seconds_all_attempts": 669.0117313750088,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_4": {
+          "total": 43,
+          "groups": {
+            "core": 9,
+            "error": 1,
+            "functionality": 0,
+            "regression": 29,
+            "structure": 4
+          },
+          "inventory": "eb10fbdc7546642549cc3dfcbda858bc0a5c40af0a9b443ce5983e6435b81ca0"
+        }
+      }
+    },
+    {
+      "id": "becff02837c77eb528281a11169524df9d9e3752010e2c7f5647da518015e6aa",
+      "problem": "mipi_dphy_t2",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "deepseek-flash",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "c748d9ca619420fbcf865a090e6ebf4c27aaa77a46222626c1ec5de5287b6fa4",
+      "generation": "fac09c63ae56dff59bcd89eb2daed071e6f89e78963ef2ecd7927fdf79595ae7",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_3"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "25207876751749d4b43db9be8bbff775",
+      "selected_evaluation": null,
+      "evaluation_generation": "fac09c63ae56dff59bcd89eb2daed071e6f89e78963ef2ecd7927fdf79595ae7",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_3",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "c45d80d96432cb4c693dab410f97e47a026ae76e18599530020d237896a708a1",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "094ee9efc1dd077146941bd1139da646f08e530b573dfd35119d2910bde72f91",
+          "evaluation_sha256": "9b0f20d0fcf1bc94833ceba3f4f2d6960f8c74c92f0b4e497ea85930e875348b",
+          "started_at": "2026-11-05T18:43:56.047502Z",
+          "completed_at": "2026-11-05T18:48:13.261572Z",
+          "inference_seconds": 257.21407,
+          "evaluation_seconds": 358.16760873794556,
+          "native_steps": 31,
+          "tokens": {
+            "cache_read": 984064,
+            "cache_write": 0,
+            "input": 22493,
+            "output": 6607,
+            "reasoning": 17649
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_candidate_overlay_ignores_non_allowlisted_changes",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_candidate_test_suite_is_cumulative_and_preserves_rtl",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_selected_historical_snapshot_is_the_declared_version",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_single_round_starts_from_the_immediate_predecessor_suite",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_public_modes_payload_and_disable",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_runner_rejects_invalid_focused_selection[checkpoint_2]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_runner_rejects_invalid_focused_selection[checkpoint_5_reset]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_runner_rejects_invalid_focused_selection[unknown]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[bit_order]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[disable_done]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[disable_outputs]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[done_early]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[done_missing]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_100]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_101]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_110]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_111]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_done]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_runs_against_the_fixed_dut",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_public_distinct_back_to_back_payloads",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_suite_detects_payload_reload_fault",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_suite_preserves_the_queued_payload_sequence",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_third_payload_fault_sensitivity[third_done_early]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_third_payload_fault_sensitivity[third_done_missing]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_third_payload_fault_sensitivity[third_symbol]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_has_no_host_paths_or_simulator_products",
+              "group": "Error",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_complete_monitor_fault_sensitivity[monitor_completion_extra]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_complete_monitor_fault_sensitivity[monitor_completion_missing]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_complete_monitor_fault_sensitivity[monitor_mark_missing]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_complete_monitor_fault_sensitivity[monitor_space_missing]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_public_complete_counts_and_abort",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_suite_detects_complete_and_aborted_transfers",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_suite_detects_public_abort_faults[abort_completion]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_suite_detects_public_abort_faults[abort_outputs]",
+              "group": "Core",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 4,
+              "total": 4
+            },
+            "core": {
+              "passed": 8,
+              "total": 8
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 21,
+              "total": 21
+            },
+            "error": {
+              "passed": 1,
+              "total": 1
+            },
+            "total": {
+              "passed": 34,
+              "total": 34
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 31,
+            "observed_tool_calls": 30,
+            "native_events": 97,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "e99033ac31caa08644ed4aa82bf063418768cd9af5abaaf849fa7edb5830ac45"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 34,
+            "groups": {
+              "core": 8,
+              "error": 1,
+              "functionality": 0,
+              "regression": 21,
+              "structure": 4
+            },
+            "inventory": "dd540b70e491ef385e96ad83175ed056aea96770fe6270a1b13213f527ae1404"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/353a96108cd7089f55800b857733cdcee71fd138c404c5c0ac6e1204a8307dcf.tar.gz",
+            "sha256": "353a96108cd7089f55800b857733cdcee71fd138c404c5c0ac6e1204a8307dcf",
+            "file_count": 55,
+            "size_bytes": 25465,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-05T18:43:53.605780+00:00",
+      "completed_at": "2026-11-05T18:54:20.395790+00:00",
+      "wall_seconds_all_attempts": 626.7846159804612,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_3": {
+          "total": 34,
+          "groups": {
+            "core": 8,
+            "error": 1,
+            "functionality": 0,
+            "regression": 21,
+            "structure": 4
+          },
+          "inventory": "dd540b70e491ef385e96ad83175ed056aea96770fe6270a1b13213f527ae1404"
+        }
+      }
+    },
+    {
+      "id": "bfb45a0e570678045510eb8c48ddf296914250d400159a816d98954addcdb92e",
+      "problem": "mipi_dphy_t2",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "deepseek-flash",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "c748d9ca619420fbcf865a090e6ebf4c27aaa77a46222626c1ec5de5287b6fa4",
+      "generation": "0d6b6c04b24a473f5b4de28eb0692718c0931dbf43a355c95a47aef18916e3e3",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_2"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "0a4c7cb02f1246a0941da7517379c2f6",
+      "selected_evaluation": null,
+      "evaluation_generation": "0d6b6c04b24a473f5b4de28eb0692718c0931dbf43a355c95a47aef18916e3e3",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_2",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "274e48f8989c5fc95236da785d2b1053e4f8a877963069bd71694a00c5f261a3",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "54e11a983f0228242d4027b54c5f9852662980dcb881e8ff1cb0426e3e66fa0b",
+          "evaluation_sha256": "564e99af610cf727eeff35af6eb1a3f868a2d904125051b82f1dd29ab691d5f9",
+          "started_at": "2026-11-05T18:46:40.447987Z",
+          "completed_at": "2026-11-05T18:49:05.731872Z",
+          "inference_seconds": 145.283885,
+          "evaluation_seconds": 248.24278497695923,
+          "native_steps": 22,
+          "tokens": {
+            "cache_read": 512640,
+            "cache_write": 0,
+            "input": 14075,
+            "output": 4101,
+            "reasoning": 10539
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_candidate_overlay_ignores_non_allowlisted_changes",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_candidate_test_suite_is_cumulative_and_preserves_rtl",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_selected_historical_snapshot_is_the_declared_version",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_single_round_starts_from_the_immediate_predecessor_suite",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_public_modes_payload_and_disable",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_runner_rejects_invalid_focused_selection[checkpoint_2]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_runner_rejects_invalid_focused_selection[checkpoint_5_reset]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_runner_rejects_invalid_focused_selection[unknown]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[bit_order]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[disable_done]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[disable_outputs]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[done_early]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[done_missing]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_100]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_101]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_110]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_111]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_done]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_runs_against_the_fixed_dut",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_has_no_host_paths_or_simulator_products",
+              "group": "Error",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_public_distinct_back_to_back_payloads",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_suite_detects_payload_reload_fault",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_suite_preserves_the_queued_payload_sequence",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_third_payload_fault_sensitivity[third_done_early]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_third_payload_fault_sensitivity[third_done_missing]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_third_payload_fault_sensitivity[third_symbol]",
+              "group": "Core",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 4,
+              "total": 4
+            },
+            "core": {
+              "passed": 6,
+              "total": 6
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 15,
+              "total": 15
+            },
+            "error": {
+              "passed": 1,
+              "total": 1
+            },
+            "total": {
+              "passed": 26,
+              "total": 26
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 22,
+            "observed_tool_calls": 21,
+            "native_events": 66,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "9a8481112eb9108a2478824c09beaf969ee9f7ba9e6cf9b75951f171066001d2"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 26,
+            "groups": {
+              "core": 6,
+              "error": 1,
+              "functionality": 0,
+              "regression": 15,
+              "structure": 4
+            },
+            "inventory": "b2ffc1b406cfc8f88e513a12e5f3594bc6faa906b47a5c48c04ae3c710bef21c"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/268896513ba7136a4a79d728b9060f3f4fcfa425e2077e3d51708e2acbbd353c.tar.gz",
+            "sha256": "268896513ba7136a4a79d728b9060f3f4fcfa425e2077e3d51708e2acbbd353c",
+            "file_count": 49,
+            "size_bytes": 23085,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-05T18:46:38.025712+00:00",
+      "completed_at": "2026-11-05T18:53:23.240158+00:00",
+      "wall_seconds_all_attempts": 405.2095374893397,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_2": {
+          "total": 26,
+          "groups": {
+            "core": 6,
+            "error": 1,
+            "functionality": 0,
+            "regression": 15,
+            "structure": 4
+          },
+          "inventory": "b2ffc1b406cfc8f88e513a12e5f3594bc6faa906b47a5c48c04ae3c710bef21c"
+        }
+      }
+    },
+    {
+      "id": "eb000699acca0ac03b8498db05be6a2deaaadb24dd6d5f7729048ff353bedda2",
+      "problem": "mipi_dphy_t2",
+      "mode": "pipeline",
+      "prompt_arm": "original",
+      "model": "deepseek-flash",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "c748d9ca619420fbcf865a090e6ebf4c27aaa77a46222626c1ec5de5287b6fa4",
+      "generation": "702cafab4114661f6516ac15bf70a266770fdbb92d7f9cf680f922c7eaaf26f3",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [],
+      "repeat": 0,
+      "planned_checkpoints": 6,
+      "planned_targets": [
+        "checkpoint_1",
+        "checkpoint_2",
+        "checkpoint_3",
+        "checkpoint_4",
+        "checkpoint_5",
+        "checkpoint_6"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "4c35c8b6e18549e786a04661be65e122",
+      "selected_evaluation": null,
+      "evaluation_generation": "702cafab4114661f6516ac15bf70a266770fdbb92d7f9cf680f922c7eaaf26f3",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_1",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "f6c4f725c59aa4020212d44fe130bffbf64a870a14e82be028f58bcac9005dde",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "6ca2b53547281b7ce3c3f01ed2406f6be0af3eadcd288635fb48f41ac314697b",
+          "evaluation_sha256": "1a79057fcf014c6eacc0464bd490c8ef95344cb522204749c8afca012b9aabb1",
+          "started_at": "2026-11-05T19:57:03.334670Z",
+          "completed_at": "2026-11-05T20:01:00.057823Z",
+          "inference_seconds": 236.723153,
+          "evaluation_seconds": 243.71628046035767,
+          "native_steps": 20,
+          "tokens": {
+            "cache_read": 624000,
+            "cache_write": 0,
+            "input": 9739,
+            "output": 6240,
+            "reasoning": 23453
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_candidate_overlay_ignores_non_allowlisted_changes",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_candidate_test_suite_is_cumulative_and_preserves_rtl",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_selected_historical_snapshot_is_the_declared_version",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_public_modes_payload_and_disable",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_runner_rejects_invalid_focused_selection[checkpoint_2]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_runner_rejects_invalid_focused_selection[checkpoint_5_reset]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_runner_rejects_invalid_focused_selection[unknown]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[bit_order]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[disable_done]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[disable_outputs]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[done_early]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[done_missing]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_100]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_101]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_110]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_111]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_done]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_runs_against_the_fixed_dut",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_has_no_host_paths_or_simulator_products",
+              "group": "Error",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 3,
+              "total": 3
+            },
+            "core": {
+              "passed": 15,
+              "total": 15
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 0,
+              "total": 0
+            },
+            "error": {
+              "passed": 1,
+              "total": 1
+            },
+            "total": {
+              "passed": 19,
+              "total": 19
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 20,
+            "observed_tool_calls": 26,
+            "native_events": 67,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "198da0055d210a4e8bb3b10b098dc651e3220521a8b9a0d53d19789515eddef9"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 19,
+            "groups": {
+              "core": 15,
+              "error": 1,
+              "functionality": 0,
+              "regression": 0,
+              "structure": 3
+            },
+            "inventory": "869c546f2f0f4af1d31659fe99e2d4d41a37786c30ce340b3cc5e39d6485573e"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/42836c462382ad0a8d0340c92b5423a56d3ec8aa8401f0fbefa20a870bc5922f.tar.gz",
+            "sha256": "42836c462382ad0a8d0340c92b5423a56d3ec8aa8401f0fbefa20a870bc5922f",
+            "file_count": 43,
+            "size_bytes": 20178,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_2",
+          "target_checkpoint": "checkpoint_2",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "ced006d29dccc110c1c33d9ad8d771b300cbfcdfc55325a25e801f5634e1a8f0",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "6f5cd23366dd3acfcddd65f1dbd9c42391969a0a13997cb92d827f77db2b8d2a",
+          "evaluation_sha256": "a0a300d196e6c8b41f67aab22f8890e34e5d0b52af3e3a6100afd9c3b4323606",
+          "started_at": "2026-11-05T20:05:09.151923Z",
+          "completed_at": "2026-11-05T20:07:40.465846Z",
+          "inference_seconds": 151.313923,
+          "evaluation_seconds": 344.54921293258667,
+          "native_steps": 14,
+          "tokens": {
+            "cache_read": 290688,
+            "cache_write": 0,
+            "input": 10292,
+            "output": 3036,
+            "reasoning": 11746
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_candidate_overlay_ignores_non_allowlisted_changes",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_candidate_test_suite_is_cumulative_and_preserves_rtl",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_selected_historical_snapshot_is_the_declared_version",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_public_modes_payload_and_disable",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_runner_rejects_invalid_focused_selection[checkpoint_2]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_runner_rejects_invalid_focused_selection[checkpoint_5_reset]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_runner_rejects_invalid_focused_selection[unknown]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[bit_order]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[disable_done]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[disable_outputs]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[done_early]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[done_missing]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_100]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_101]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_110]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_111]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_done]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_runs_against_the_fixed_dut",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_has_no_host_paths_or_simulator_products",
+              "group": "Error",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_public_distinct_back_to_back_payloads",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_suite_detects_payload_reload_fault",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_suite_preserves_the_queued_payload_sequence",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_third_payload_fault_sensitivity[third_done_early]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_third_payload_fault_sensitivity[third_done_missing]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_third_payload_fault_sensitivity[third_symbol]",
+              "group": "Core",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 3,
+              "total": 3
+            },
+            "core": {
+              "passed": 6,
+              "total": 6
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 15,
+              "total": 15
+            },
+            "error": {
+              "passed": 1,
+              "total": 1
+            },
+            "total": {
+              "passed": 25,
+              "total": 25
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 14,
+            "observed_tool_calls": 13,
+            "native_events": 42,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "ee8b42f58666791c3c91ee067482ba9e12eb85ccb495959f11abd8cdbe6a9a11"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 25,
+            "groups": {
+              "core": 6,
+              "error": 1,
+              "functionality": 0,
+              "regression": 15,
+              "structure": 3
+            },
+            "inventory": "18ccab3f0612cbcac9ea89aca644a71a13841948caf380c39702967741306e0c"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/963d431a9b4e2b4d7569aac595dae991654d021bedd84da07e18b8e54cbfb9f7.tar.gz",
+            "sha256": "963d431a9b4e2b4d7569aac595dae991654d021bedd84da07e18b8e54cbfb9f7",
+            "file_count": 44,
+            "size_bytes": 20535,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_3",
+          "target_checkpoint": "checkpoint_3",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "44e2726232e9691522a40fedf9a8550ed2aa97929000ef2ce01bbfaeb3655fe0",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "7733c548e307cb2b0992f1ca3993f990fb93efaa95522b75905d830a552585c5",
+          "evaluation_sha256": "1b0831cb3c78e1aa2fadebd1a32ecb69776c4342c980ea1d82822071fce1b9e5",
+          "started_at": "2026-11-05T20:13:34.200590Z",
+          "completed_at": "2026-11-05T20:20:46.140689Z",
+          "inference_seconds": 431.940099,
+          "evaluation_seconds": 599.3792140483856,
+          "native_steps": 27,
+          "tokens": {
+            "cache_read": 963200,
+            "cache_write": 0,
+            "input": 17912,
+            "output": 10310,
+            "reasoning": 24279
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_candidate_overlay_ignores_non_allowlisted_changes",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_candidate_test_suite_is_cumulative_and_preserves_rtl",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_selected_historical_snapshot_is_the_declared_version",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_public_modes_payload_and_disable",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_runner_rejects_invalid_focused_selection[checkpoint_2]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_runner_rejects_invalid_focused_selection[checkpoint_5_reset]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_runner_rejects_invalid_focused_selection[unknown]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[bit_order]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[disable_done]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[disable_outputs]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[done_early]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[done_missing]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_100]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_101]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_110]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_111]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_done]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_runs_against_the_fixed_dut",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_has_no_host_paths_or_simulator_products",
+              "group": "Error",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_public_distinct_back_to_back_payloads",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_suite_detects_payload_reload_fault",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_suite_preserves_the_queued_payload_sequence",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_third_payload_fault_sensitivity[third_done_early]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_third_payload_fault_sensitivity[third_done_missing]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_third_payload_fault_sensitivity[third_symbol]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_complete_monitor_fault_sensitivity[monitor_completion_extra]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_complete_monitor_fault_sensitivity[monitor_completion_missing]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_complete_monitor_fault_sensitivity[monitor_mark_missing]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_complete_monitor_fault_sensitivity[monitor_space_missing]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_public_complete_counts_and_abort",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_suite_detects_complete_and_aborted_transfers",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_suite_detects_public_abort_faults[abort_completion]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_suite_detects_public_abort_faults[abort_outputs]",
+              "group": "Core",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 3,
+              "total": 3
+            },
+            "core": {
+              "passed": 8,
+              "total": 8
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 21,
+              "total": 21
+            },
+            "error": {
+              "passed": 1,
+              "total": 1
+            },
+            "total": {
+              "passed": 33,
+              "total": 33
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 27,
+            "observed_tool_calls": 26,
+            "native_events": 81,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "5fe1e08a9fd75a5982aaec187765acd2aea619a226e3ebf8127029b63afebfce"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 33,
+            "groups": {
+              "core": 8,
+              "error": 1,
+              "functionality": 0,
+              "regression": 21,
+              "structure": 3
+            },
+            "inventory": "49f0f14a5cd6379aa2190da45f511414e01818b871255c5310020daa583022ea"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/39bd0f9d4a94d8cc3da0a6c4fd60b52d3087dfd18fecedb80522c38fd0866470.tar.gz",
+            "sha256": "39bd0f9d4a94d8cc3da0a6c4fd60b52d3087dfd18fecedb80522c38fd0866470",
+            "file_count": 45,
+            "size_bytes": 21700,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_4",
+          "target_checkpoint": "checkpoint_4",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "b366adae86fe89d75422afe981bc53780613b77755eac2171ea20eb218c44d44",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "b92c8efc0f34a39ba986bf07862d73ec3435f27150f50db84d241df6836560cf",
+          "evaluation_sha256": "0c5d1ded20e25bfe127d58cf1a5b17c3d95f981697e275c98275892cea1af52d",
+          "started_at": "2026-11-05T20:30:57.721596Z",
+          "completed_at": "2026-11-05T20:35:05.055445Z",
+          "inference_seconds": 247.333849,
+          "evaluation_seconds": 780.2851536273956,
+          "native_steps": 23,
+          "tokens": {
+            "cache_read": 591872,
+            "cache_write": 0,
+            "input": 18172,
+            "output": 5567,
+            "reasoning": 11789
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_candidate_overlay_ignores_non_allowlisted_changes",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_candidate_test_suite_is_cumulative_and_preserves_rtl",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_selected_historical_snapshot_is_the_declared_version",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_public_modes_payload_and_disable",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_runner_rejects_invalid_focused_selection[checkpoint_2]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_runner_rejects_invalid_focused_selection[checkpoint_5_reset]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_runner_rejects_invalid_focused_selection[unknown]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[bit_order]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[disable_done]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[disable_outputs]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[done_early]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[done_missing]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_100]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_101]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_110]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_111]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_done]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_runs_against_the_fixed_dut",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_has_no_host_paths_or_simulator_products",
+              "group": "Error",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_public_distinct_back_to_back_payloads",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_suite_detects_payload_reload_fault",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_suite_preserves_the_queued_payload_sequence",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_third_payload_fault_sensitivity[third_done_early]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_third_payload_fault_sensitivity[third_done_missing]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_third_payload_fault_sensitivity[third_symbol]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_complete_monitor_fault_sensitivity[monitor_completion_extra]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_complete_monitor_fault_sensitivity[monitor_completion_missing]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_complete_monitor_fault_sensitivity[monitor_mark_missing]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_complete_monitor_fault_sensitivity[monitor_space_missing]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_public_complete_counts_and_abort",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_suite_detects_complete_and_aborted_transfers",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_suite_detects_public_abort_faults[abort_completion]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_suite_detects_public_abort_faults[abort_outputs]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_each_public_bin_fault_sensitivity[data_asymmetric]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_each_public_bin_fault_sensitivity[data_zero]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_each_public_bin_fault_sensitivity[fixed_mode_100]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_each_public_bin_fault_sensitivity[fixed_mode_101]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_each_public_bin_fault_sensitivity[fixed_mode_110]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_each_public_bin_fault_sensitivity[fixed_mode_111]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_public_mode_and_data_bins",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_suite_checks_ordered_symbols_and_coverage_bins",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_suite_detects_boundary_payload_fault",
+              "group": "Core",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 3,
+              "total": 3
+            },
+            "core": {
+              "passed": 9,
+              "total": 9
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 29,
+              "total": 29
+            },
+            "error": {
+              "passed": 1,
+              "total": 1
+            },
+            "total": {
+              "passed": 42,
+              "total": 42
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 23,
+            "observed_tool_calls": 22,
+            "native_events": 69,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "343411bd58ac099f4346d7a53a509236e1e8a96dffc07190dbff6a90031a3962"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 42,
+            "groups": {
+              "core": 9,
+              "error": 1,
+              "functionality": 0,
+              "regression": 29,
+              "structure": 3
+            },
+            "inventory": "20a01365bb0f3425a69d8a4c3865eee41b27a16e34c52cd8a8df6b1b9abad9f2"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/191bd6ae2fdb417ca537fcf5f922fe0cdbf1c2c5068bf929911e79e376fdebe4.tar.gz",
+            "sha256": "191bd6ae2fdb417ca537fcf5f922fe0cdbf1c2c5068bf929911e79e376fdebe4",
+            "file_count": 46,
+            "size_bytes": 22757,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_5",
+          "target_checkpoint": "checkpoint_5",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "27d1bab40902192701f071ec6818e726caad43e3368f1efcd859dec15ae058c6",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "4b13a4409180f8398bb749e327179257ad8769392e256d60f8fe93f102cc9c5f",
+          "evaluation_sha256": "a8ee11f322a51ad6b0eaa6f0b20894e4c95c07d507b50112f16db20202daceda",
+          "started_at": "2026-11-05T20:48:21.411457Z",
+          "completed_at": "2026-11-05T20:56:53.710914Z",
+          "inference_seconds": 512.299457,
+          "evaluation_seconds": 1741.6460945606232,
+          "native_steps": 29,
+          "tokens": {
+            "cache_read": 1191680,
+            "cache_write": 0,
+            "input": 20732,
+            "output": 10389,
+            "reasoning": 25516
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_candidate_overlay_ignores_non_allowlisted_changes",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_candidate_test_suite_is_cumulative_and_preserves_rtl",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_selected_historical_snapshot_is_the_declared_version",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_public_modes_payload_and_disable",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_runner_rejects_invalid_focused_selection[checkpoint_2]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_runner_rejects_invalid_focused_selection[checkpoint_5_reset]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_runner_rejects_invalid_focused_selection[unknown]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[bit_order]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[disable_done]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[disable_outputs]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[done_early]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[done_missing]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_100]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_101]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_110]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_111]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_done]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_runs_against_the_fixed_dut",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_has_no_host_paths_or_simulator_products",
+              "group": "Error",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_public_distinct_back_to_back_payloads",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_suite_detects_payload_reload_fault",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_suite_preserves_the_queued_payload_sequence",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_third_payload_fault_sensitivity[third_done_early]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_third_payload_fault_sensitivity[third_done_missing]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_third_payload_fault_sensitivity[third_symbol]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_complete_monitor_fault_sensitivity[monitor_completion_extra]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_complete_monitor_fault_sensitivity[monitor_completion_missing]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_complete_monitor_fault_sensitivity[monitor_mark_missing]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_complete_monitor_fault_sensitivity[monitor_space_missing]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_public_complete_counts_and_abort",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_suite_detects_complete_and_aborted_transfers",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_suite_detects_public_abort_faults[abort_completion]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_suite_detects_public_abort_faults[abort_outputs]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_each_public_bin_fault_sensitivity[data_asymmetric]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_each_public_bin_fault_sensitivity[data_zero]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_each_public_bin_fault_sensitivity[fixed_mode_100]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_each_public_bin_fault_sensitivity[fixed_mode_101]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_each_public_bin_fault_sensitivity[fixed_mode_110]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_each_public_bin_fault_sensitivity[fixed_mode_111]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_public_mode_and_data_bins",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_suite_checks_ordered_symbols_and_coverage_bins",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_suite_detects_boundary_payload_fault",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_control_selector_fault_sensitivity[control_disable]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_control_selector_fault_sensitivity[control_trail_done]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_control_selector_fault_sensitivity[control_trail_symbol]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_control_selector_fault_sensitivity[reenable_done_early]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_control_selector_fault_sensitivity[reenable_done_missing]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_control_selector_fault_sensitivity[reenable_symbol]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_integrated_reenable_fault_sensitivity[reenable_done_early]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_integrated_reenable_fault_sensitivity[reenable_done_missing]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_integrated_reenable_fault_sensitivity[reenable_symbol]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_public_focused_and_integrated_sequences[checkpoint_5]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_public_focused_and_integrated_sequences[checkpoint_5_control]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_public_focused_and_integrated_sequences[checkpoint_5_reset]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_reset_selector_fault_sensitivity[async_reset]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_reset_selector_fault_sensitivity[recovery_done_early]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_reset_selector_fault_sensitivity[recovery_done_missing]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_reset_selector_fault_sensitivity[recovery_symbol]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_suite_checks_reset_recovery",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_suite_checks_trail_disable_reenable",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_suite_detects_public_reset_and_control_faults[async_reset]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_suite_detects_public_reset_and_control_faults[disable_after_recovery]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_suite_detects_public_reset_and_control_faults[recovery_done_early]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_suite_detects_public_reset_and_control_faults[recovery_done_missing]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_suite_detects_public_reset_and_control_faults[recovery_symbol]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_suite_detects_public_reset_and_control_faults[trail_done]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_suite_detects_public_reset_and_control_faults[trail_symbol]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_suite_preserves_reset_to_control_integration",
+              "group": "Core",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 3,
+              "total": 3
+            },
+            "core": {
+              "passed": 26,
+              "total": 26
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 38,
+              "total": 38
+            },
+            "error": {
+              "passed": 1,
+              "total": 1
+            },
+            "total": {
+              "passed": 68,
+              "total": 68
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 29,
+            "observed_tool_calls": 28,
+            "native_events": 87,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "625560a8aa672e121ec430c74b152a9797020a378a2c802a5335b85b1fa1a33f"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 68,
+            "groups": {
+              "core": 26,
+              "error": 1,
+              "functionality": 0,
+              "regression": 38,
+              "structure": 3
+            },
+            "inventory": "747a9df1aa045be7c30cf093e863a3513b2a9410e08d46a8b659a5843f5ac76f"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/11252e23235780e18ebe18e1148e459a82136d37dbf586cf884d0a5011f3b414.tar.gz",
+            "sha256": "11252e23235780e18ebe18e1148e459a82136d37dbf586cf884d0a5011f3b414",
+            "file_count": 47,
+            "size_bytes": 24679,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_6",
+          "target_checkpoint": "checkpoint_6",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "44dbb116ca70823c635662ef677e0ed29bbf143d9d57e6b618156d31f1c3a331",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "32edf6d8fff4ea779c38223fecac67d9f2a22c5e301ad0b2d04c75a2bc339aa1",
+          "evaluation_sha256": "ff57407fe0ab3057de3087cf191888ef446794401b1b51a7214664fa07d10a10",
+          "started_at": "2026-11-05T21:26:14.687708Z",
+          "completed_at": "2026-11-05T21:35:46.775676Z",
+          "inference_seconds": 572.087968,
+          "evaluation_seconds": 1910.9271664619446,
+          "native_steps": 38,
+          "tokens": {
+            "cache_read": 1472384,
+            "cache_write": 0,
+            "input": 31655,
+            "output": 9247,
+            "reasoning": 14274
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_candidate_overlay_ignores_non_allowlisted_changes",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_candidate_test_suite_is_cumulative_and_preserves_rtl",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_selected_historical_snapshot_is_the_declared_version",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_public_modes_payload_and_disable",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_runner_rejects_invalid_focused_selection[checkpoint_2]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_runner_rejects_invalid_focused_selection[checkpoint_5_reset]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_runner_rejects_invalid_focused_selection[unknown]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[bit_order]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[disable_done]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[disable_outputs]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[done_early]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[done_missing]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_100]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_101]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_110]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_111]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_detects_public_behavior_faults[fixed_mode_done]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_runs_against_the_fixed_dut",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_suite_has_no_host_paths_or_simulator_products",
+              "group": "Error",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_public_distinct_back_to_back_payloads",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_suite_detects_payload_reload_fault",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_suite_preserves_the_queued_payload_sequence",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_third_payload_fault_sensitivity[third_done_early]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_third_payload_fault_sensitivity[third_done_missing]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_third_payload_fault_sensitivity[third_symbol]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_complete_monitor_fault_sensitivity[monitor_completion_extra]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_complete_monitor_fault_sensitivity[monitor_completion_missing]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_complete_monitor_fault_sensitivity[monitor_mark_missing]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_complete_monitor_fault_sensitivity[monitor_space_missing]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_public_complete_counts_and_abort",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_suite_detects_complete_and_aborted_transfers",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_suite_detects_public_abort_faults[abort_completion]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_suite_detects_public_abort_faults[abort_outputs]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_each_public_bin_fault_sensitivity[data_asymmetric]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_each_public_bin_fault_sensitivity[data_zero]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_each_public_bin_fault_sensitivity[fixed_mode_100]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_each_public_bin_fault_sensitivity[fixed_mode_101]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_each_public_bin_fault_sensitivity[fixed_mode_110]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_each_public_bin_fault_sensitivity[fixed_mode_111]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_public_mode_and_data_bins",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_suite_checks_ordered_symbols_and_coverage_bins",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_suite_detects_boundary_payload_fault",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_control_selector_fault_sensitivity[control_disable]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_control_selector_fault_sensitivity[control_trail_done]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_control_selector_fault_sensitivity[control_trail_symbol]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_control_selector_fault_sensitivity[reenable_done_early]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_control_selector_fault_sensitivity[reenable_done_missing]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_control_selector_fault_sensitivity[reenable_symbol]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_integrated_reenable_fault_sensitivity[reenable_done_early]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_integrated_reenable_fault_sensitivity[reenable_done_missing]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_integrated_reenable_fault_sensitivity[reenable_symbol]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_public_focused_and_integrated_sequences[checkpoint_5]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_public_focused_and_integrated_sequences[checkpoint_5_control]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_public_focused_and_integrated_sequences[checkpoint_5_reset]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_reset_selector_fault_sensitivity[async_reset]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_reset_selector_fault_sensitivity[recovery_done_early]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_reset_selector_fault_sensitivity[recovery_done_missing]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_reset_selector_fault_sensitivity[recovery_symbol]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_suite_checks_reset_recovery",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_suite_checks_trail_disable_reenable",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_suite_detects_public_reset_and_control_faults[async_reset]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_suite_detects_public_reset_and_control_faults[disable_after_recovery]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_suite_detects_public_reset_and_control_faults[recovery_done_early]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_suite_detects_public_reset_and_control_faults[recovery_done_missing]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_suite_detects_public_reset_and_control_faults[recovery_symbol]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_suite_detects_public_reset_and_control_faults[trail_done]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_suite_detects_public_reset_and_control_faults[trail_symbol]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_suite_preserves_reset_to_control_integration",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_6_suite_detects_fourth_transaction_completion_faults[fourth_done_early]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_6_suite_detects_fourth_transaction_completion_faults[fourth_done_missing]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_6_suite_detects_fourth_transaction_completion_faults[fourth_symbol]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_6_suite_drives_four_complete_payloads_and_public_bins",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_6_suite_reports_a_complete_deterministic_run",
+              "group": "Core",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 3,
+              "total": 3
+            },
+            "core": {
+              "passed": 5,
+              "total": 5
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 64,
+              "total": 64
+            },
+            "error": {
+              "passed": 1,
+              "total": 1
+            },
+            "total": {
+              "passed": 73,
+              "total": 73
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 38,
+            "observed_tool_calls": 45,
+            "native_events": 122,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "3bc815ff9b69665983aeba711ee99d9bf3d900aa6fb2c7cdff41b8d2b96c20c1"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 73,
+            "groups": {
+              "core": 5,
+              "error": 1,
+              "functionality": 0,
+              "regression": 64,
+              "structure": 3
+            },
+            "inventory": "d79d9de57efd0d60cc70536378552971445a6bd7f2711bd0b1000f698bd7f84f"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/8fd0e21d329996a5e1ffd7d550646ff6fe1cc72e67ccaa79d34a2bbfd924ca73.tar.gz",
+            "sha256": "8fd0e21d329996a5e1ffd7d550646ff6fe1cc72e67ccaa79d34a2bbfd924ca73",
+            "file_count": 48,
+            "size_bytes": 26086,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 6,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-05T19:57:00.726126+00:00",
+      "completed_at": "2026-11-05T22:08:05.178830+00:00",
+      "wall_seconds_all_attempts": 7864.443277334794,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_6": {
+          "total": 73,
+          "groups": {
+            "core": 5,
+            "error": 1,
+            "functionality": 0,
+            "regression": 64,
+            "structure": 3
+          },
+          "inventory": "d79d9de57efd0d60cc70536378552971445a6bd7f2711bd0b1000f698bd7f84f"
+        },
+        "checkpoint_2": {
+          "total": 25,
+          "groups": {
+            "core": 6,
+            "error": 1,
+            "functionality": 0,
+            "regression": 15,
+            "structure": 3
+          },
+          "inventory": "18ccab3f0612cbcac9ea89aca644a71a13841948caf380c39702967741306e0c"
+        },
+        "checkpoint_4": {
+          "total": 42,
+          "groups": {
+            "core": 9,
+            "error": 1,
+            "functionality": 0,
+            "regression": 29,
+            "structure": 3
+          },
+          "inventory": "20a01365bb0f3425a69d8a4c3865eee41b27a16e34c52cd8a8df6b1b9abad9f2"
+        },
+        "checkpoint_3": {
+          "total": 33,
+          "groups": {
+            "core": 8,
+            "error": 1,
+            "functionality": 0,
+            "regression": 21,
+            "structure": 3
+          },
+          "inventory": "49f0f14a5cd6379aa2190da45f511414e01818b871255c5310020daa583022ea"
+        },
+        "checkpoint_5": {
+          "total": 68,
+          "groups": {
+            "core": 26,
+            "error": 1,
+            "functionality": 0,
+            "regression": 38,
+            "structure": 3
+          },
+          "inventory": "747a9df1aa045be7c30cf093e863a3513b2a9410e08d46a8b659a5843f5ac76f"
+        },
+        "checkpoint_1": {
+          "total": 19,
+          "groups": {
+            "core": 15,
+            "error": 1,
+            "functionality": 0,
+            "regression": 0,
+            "structure": 3
+          },
+          "inventory": "869c546f2f0f4af1d31659fe99e2d4d41a37786c30ce340b3cc5e39d6485573e"
+        }
+      }
+    }
+  ]
+}

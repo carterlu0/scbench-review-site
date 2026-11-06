@@ -1,0 +1,1469 @@
+{
+  "schema_version": 4,
+  "analysis": "216cd33560004d07b65a9640333c576fed5ff0267f053c5d79c07d75bf970076",
+  "problem": "verilog_ethernet_t1",
+  "cells": [
+    {
+      "id": "5a582bbe0a52fc504fed3999e39d5d6fe00d44a9bf57e7578b040d5c4a0c5d0f",
+      "problem": "verilog_ethernet_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "deepseek-flash",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "c748d9ca619420fbcf865a090e6ebf4c27aaa77a46222626c1ec5de5287b6fa4",
+      "generation": "041c31e1c4873fa7cac20f72ad1cd23125319eec57829367a5234def88e939d4",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_2"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "778993fcd19a4107a5a601de9bda303a",
+      "selected_evaluation": null,
+      "evaluation_generation": "041c31e1c4873fa7cac20f72ad1cd23125319eec57829367a5234def88e939d4",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_2",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "edb5a2143668cd7c374d9ec77a35f539c1102afccb00259e177dbc02694e601e",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "71056cc0275a22a18666f589ed37d53744020a4f5ebbb62ef8822a5c1772c3b5",
+          "evaluation_sha256": "0357c186be822a361c37c5beb52fd961140661fb3582051ee7a0ff7adcda2502",
+          "started_at": "2026-11-05T16:31:18.328239Z",
+          "completed_at": "2026-11-05T16:35:04.349467Z",
+          "inference_seconds": 226.021228,
+          "evaluation_seconds": 181.35531497001648,
+          "native_steps": 26,
+          "tokens": {
+            "cache_read": 1198848,
+            "cache_write": 0,
+            "input": 48744,
+            "output": 3984,
+            "reasoning": 6305
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_c1_lfc_eth_mac_1g",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c1_pause_eth_mac_1g",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c1_pfc_eth_mac_1g",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c1_ptp_axis_gmii_tx",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c1_ptp_eth_mac_1g",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c2_preserves_packet_axis_gmii_rx",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c2_preserves_packet_axis_gmii_tx",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c2_preserves_packet_eth_mac_1g",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c2_preserves_packet_rx_eth_mac_1g",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c2_enable_rx_axis_gmii_rx",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c2_enable_rx_eth_mac_1g",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c2_enable_tx_axis_gmii_tx",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c2_enable_tx_eth_mac_1g",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c2_ifg_axis_gmii_tx",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c2_ifg_eth_mac_1g",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_reset_recovery",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_candidate_workspace_exists",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_module_files",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_source_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 3,
+              "total": 3
+            },
+            "core": {
+              "passed": 7,
+              "total": 7
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 9,
+              "total": 9
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 19,
+              "total": 19
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 26,
+            "observed_tool_calls": 32,
+            "native_events": 86,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "fdcb69e4b39846a5a317027838a5a103ace77714100ac8c90f80e872ebd8b837"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 19,
+            "groups": {
+              "core": 7,
+              "error": 0,
+              "functionality": 0,
+              "regression": 9,
+              "structure": 3
+            },
+            "inventory": "c4588f58f1e4ce5b50ff07631b5d51fcf601afddb7c62f34032de1f4e01f88be"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/441c1ec60d7a07fb5b25c09431f073bd07575ce9b8423b57569c7a03bb5916e1.tar.gz",
+            "sha256": "441c1ec60d7a07fb5b25c09431f073bd07575ce9b8423b57569c7a03bb5916e1",
+            "file_count": 18,
+            "size_bytes": 22859,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-05T16:31:15.832813+00:00",
+      "completed_at": "2026-11-05T16:38:18.101114+00:00",
+      "wall_seconds_all_attempts": 422.2628997005522,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_2": {
+          "total": 19,
+          "groups": {
+            "core": 7,
+            "error": 0,
+            "functionality": 0,
+            "regression": 9,
+            "structure": 3
+          },
+          "inventory": "c4588f58f1e4ce5b50ff07631b5d51fcf601afddb7c62f34032de1f4e01f88be"
+        }
+      }
+    },
+    {
+      "id": "c839b599ef7e35223103b342482232551b3abc696e41d681097bebf7819ff2af",
+      "problem": "verilog_ethernet_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "deepseek-flash",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "c748d9ca619420fbcf865a090e6ebf4c27aaa77a46222626c1ec5de5287b6fa4",
+      "generation": "386befe56852f3e9f2caa2a56eb4d8ed0aac5a7ebce56d689a56095afb28c15e",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "4128e5c689b5c83f66ba0c448b12f53a5e419dc8ce79848a5d53291ec11db3c5",
+          "evidence": [
+            "sha256:53f05e9d3682fa0f88d8a6ebde76fdeddf2e2b479611d84db51f1810cbdf7220"
+          ],
+          "event_id": "8b771838e6150e5c332a0477795a09091a1cbbf903204a3748583ed70aa62977",
+          "assessment": "75463e7381d97e0f5b2306d359bb9a81bddcfd02b2c5bdb70b7cef00fc5899c1",
+          "attempt": "555f3c6a06424eddacf018d49f284ff3"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "4128e5c689b5c83f66ba0c448b12f53a5e419dc8ce79848a5d53291ec11db3c5",
+          "evidence": [
+            "sha256:53f05e9d3682fa0f88d8a6ebde76fdeddf2e2b479611d84db51f1810cbdf7220"
+          ],
+          "event_id": "6a5eb0700d20cd47a3d074c3dda9b83f0510201482d5ed96ee766a7f80c658a1",
+          "assessment": "75463e7381d97e0f5b2306d359bb9a81bddcfd02b2c5bdb70b7cef00fc5899c1",
+          "attempt": "555f3c6a06424eddacf018d49f284ff3"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_1"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.0,
+      "selected_attempt": "555f3c6a06424eddacf018d49f284ff3",
+      "selected_evaluation": null,
+      "evaluation_generation": "386befe56852f3e9f2caa2a56eb4d8ed0aac5a7ebce56d689a56095afb28c15e",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_1",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "4128e5c689b5c83f66ba0c448b12f53a5e419dc8ce79848a5d53291ec11db3c5",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "b9710b44b40245c49bae3b0e45bcf12dc19a291ec00500e9cc9cf5bb3e1c8100",
+          "evaluation_sha256": "53f05e9d3682fa0f88d8a6ebde76fdeddf2e2b479611d84db51f1810cbdf7220",
+          "started_at": "2026-11-05T18:56:51.647974Z",
+          "completed_at": "2026-11-05T19:10:34.189239Z",
+          "inference_seconds": 822.541265,
+          "evaluation_seconds": 103.62954640388489,
+          "native_steps": 50,
+          "tokens": {
+            "cache_read": 4832768,
+            "cache_write": 0,
+            "input": 70884,
+            "output": 27679,
+            "reasoning": 56666
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_c1_pause_eth_mac_1g",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c1_ptp_axis_gmii_tx",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c1_ptp_eth_mac_1g",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_reset_recovery",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c1_lfc_eth_mac_1g",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_c1_pfc_eth_mac_1g",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_c1_preserves_packet_axis_gmii_rx",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c1_preserves_packet_axis_gmii_tx",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c1_preserves_packet_eth_mac_1g",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c1_preserves_packet_rx_eth_mac_1g",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_candidate_workspace_exists",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_module_files",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_source_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 3,
+              "total": 3
+            },
+            "core": {
+              "passed": 4,
+              "total": 6
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 4,
+              "total": 4
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 11,
+              "total": 13
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 50,
+            "observed_tool_calls": 59,
+            "native_events": 160,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "c1ff45201b510cf063239f9506935a0ccbbc0eb429a9899146337b584f952e30"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 13,
+            "groups": {
+              "core": 6,
+              "error": 0,
+              "functionality": 0,
+              "regression": 4,
+              "structure": 3
+            },
+            "inventory": "9923b5bee2e4bdd8ca7afc7a36d2a2d88d4395194a6febdde99707b8bfe5fbf8"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/c27996e1afffcd33a8fb2f8047dfcf65c964884484f63a615895d811a77785ec.tar.gz",
+            "sha256": "c27996e1afffcd33a8fb2f8047dfcf65c964884484f63a615895d811a77785ec",
+            "file_count": 18,
+            "size_bytes": 19967,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-05T18:56:49.118897+00:00",
+      "completed_at": "2026-11-05T19:12:37.630654+00:00",
+      "wall_seconds_all_attempts": 948.5047251805663,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_1": {
+          "total": 13,
+          "groups": {
+            "core": 6,
+            "error": 0,
+            "functionality": 0,
+            "regression": 4,
+            "structure": 3
+          },
+          "inventory": "9923b5bee2e4bdd8ca7afc7a36d2a2d88d4395194a6febdde99707b8bfe5fbf8"
+        }
+      }
+    },
+    {
+      "id": "d51d1ced00498130753b5cd24835c8ef941ac6357906aceecc1bd127123b4e81",
+      "problem": "verilog_ethernet_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "deepseek-flash",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "c748d9ca619420fbcf865a090e6ebf4c27aaa77a46222626c1ec5de5287b6fa4",
+      "generation": "63565b645e075e7171d20dae35c3ed9a563551951c36e608364a29398b7deb81",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_3"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "b168b7259b13442abb9d9f90d13cd5f0",
+      "selected_evaluation": null,
+      "evaluation_generation": "63565b645e075e7171d20dae35c3ed9a563551951c36e608364a29398b7deb81",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_3",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "2afe4dff8c89a6bacd63d71b52bab491800360646b93615f7f44c26422f5c1ea",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "99f76c4de4202fda13385286f32b7faadce60632ac953a76436486254e345556",
+          "evaluation_sha256": "4c03f0dc6e7f6d82062cfc10a96e9b6522c36533ba3c22844d018294c7cee13a",
+          "started_at": "2026-11-05T19:24:06.931575Z",
+          "completed_at": "2026-11-05T19:28:57.192648Z",
+          "inference_seconds": 290.261073,
+          "evaluation_seconds": 182.74722146987915,
+          "native_steps": 27,
+          "tokens": {
+            "cache_read": 1675776,
+            "cache_write": 0,
+            "input": 62017,
+            "output": 5960,
+            "reasoning": 15416
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_c1_lfc_eth_mac_1g",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c1_pause_eth_mac_1g",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c1_pfc_eth_mac_1g",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c1_ptp_axis_gmii_tx",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c1_ptp_eth_mac_1g",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c2_enable_rx_axis_gmii_rx",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c2_enable_rx_eth_mac_1g",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c2_enable_tx_axis_gmii_tx",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c2_enable_tx_eth_mac_1g",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c2_ifg_axis_gmii_tx",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c2_ifg_eth_mac_1g",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c3_preserves_packet_axis_gmii_rx",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c3_preserves_packet_axis_gmii_tx",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c3_preserves_packet_eth_mac_1g",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c3_preserves_packet_rx_eth_mac_1g",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserves_explicit_error_axis_gmii_tx",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserves_explicit_error_eth_mac_1g",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c3_underrun_axis_gmii_tx",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c3_underrun_eth_mac_1g",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_reset_recovery",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_candidate_workspace_exists",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_module_files",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_source_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 3,
+              "total": 3
+            },
+            "core": {
+              "passed": 3,
+              "total": 3
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 17,
+              "total": 17
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 23,
+              "total": 23
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 27,
+            "observed_tool_calls": 32,
+            "native_events": 87,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "662074d0ddcf0efd343aabff676aa0c88dd7729bf7be4ac74e356790128c3390"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 23,
+            "groups": {
+              "core": 3,
+              "error": 0,
+              "functionality": 0,
+              "regression": 17,
+              "structure": 3
+            },
+            "inventory": "e346451d5f6d46e7cc1030678140774447abf8b05406f9daea1d81e2a12f84b1"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/a21ca5c3d04a61e47a8749851113509c6fc57d3d746abc719aa83988884efb10.tar.gz",
+            "sha256": "a21ca5c3d04a61e47a8749851113509c6fc57d3d746abc719aa83988884efb10",
+            "file_count": 18,
+            "size_bytes": 22949,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-05T19:24:04.390000+00:00",
+      "completed_at": "2026-11-05T19:32:11.677551+00:00",
+      "wall_seconds_all_attempts": 487.28214260563254,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_3": {
+          "total": 23,
+          "groups": {
+            "core": 3,
+            "error": 0,
+            "functionality": 0,
+            "regression": 17,
+            "structure": 3
+          },
+          "inventory": "e346451d5f6d46e7cc1030678140774447abf8b05406f9daea1d81e2a12f84b1"
+        }
+      }
+    },
+    {
+      "id": "df20f686d6c42b9178b1aedad05a3bb75bc080d06c151ec0a0cff76e25364b76",
+      "problem": "verilog_ethernet_t1",
+      "mode": "pipeline",
+      "prompt_arm": "original",
+      "model": "deepseek-flash",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "c748d9ca619420fbcf865a090e6ebf4c27aaa77a46222626c1ec5de5287b6fa4",
+      "generation": "29b50293e973c4c831399f1fe8a757b676768ac16f24efe5bf04fdcff6221b61",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "e0ddc856c0ad52a5d43cb551706261407bd88cac7b47137ecc7761a00e2b56d6",
+          "evidence": [
+            "sha256:7867423f63129fb25a808ae17247ee0194602d5f1f9cacb21eb9ee0af0bb2053"
+          ],
+          "event_id": "8fae79354202d3fe404bdee1c0588528a1f9af9953515e5712ccc218f5a02214",
+          "assessment": "2508aa3b542d1e3666dc742e28ed577bfa3c9861b343f39bec5232d944a1c874",
+          "attempt": "780c0f71530c49bfb408a37f7b8e48e4"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "e0ddc856c0ad52a5d43cb551706261407bd88cac7b47137ecc7761a00e2b56d6",
+          "evidence": [
+            "sha256:7867423f63129fb25a808ae17247ee0194602d5f1f9cacb21eb9ee0af0bb2053"
+          ],
+          "event_id": "996413d27f64ca5232c2cb2522d60fc3737b6137dc4e67202af32838082b34b6",
+          "assessment": "2508aa3b542d1e3666dc742e28ed577bfa3c9861b343f39bec5232d944a1c874",
+          "attempt": "780c0f71530c49bfb408a37f7b8e48e4"
+        },
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_2",
+          "candidate": "cd27f3c1426988ec55765cb6c9e41abd9add42c899a02c2634ccebe2e0ceb648",
+          "evidence": [
+            "sha256:b8a943808cdada00651b1f832b4baae9a928198a6970196092c7900a9b8bfe4f"
+          ],
+          "event_id": "fd265a72b00eb1537a52d48ed4f61b1a1e2c467c525bc9cec49a896a6c700163",
+          "assessment": "2508aa3b542d1e3666dc742e28ed577bfa3c9861b343f39bec5232d944a1c874",
+          "attempt": "780c0f71530c49bfb408a37f7b8e48e4"
+        },
+        {
+          "namespace": "implementation",
+          "label": "regression_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_2",
+          "candidate": "cd27f3c1426988ec55765cb6c9e41abd9add42c899a02c2634ccebe2e0ceb648",
+          "evidence": [
+            "sha256:b8a943808cdada00651b1f832b4baae9a928198a6970196092c7900a9b8bfe4f"
+          ],
+          "event_id": "7d6f11c7750482a7b992e0bb66a8a0bb917ca5d47bba3aed88dff4aac45287b5",
+          "assessment": "2508aa3b542d1e3666dc742e28ed577bfa3c9861b343f39bec5232d944a1c874",
+          "attempt": "780c0f71530c49bfb408a37f7b8e48e4"
+        },
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "1524862ab067e121f51d33461c5df95ad7c8643a10a2247d7cb0d5343b4a9dc5",
+          "evidence": [
+            "sha256:314808891e74298fd56c79060bad970fecacfb320dd0042d86aa457699b2dcb2"
+          ],
+          "event_id": "1d3b2ee954a5dc6f86c4f3d83b8a7493294f4552cbfdf15254ee151050371986",
+          "assessment": "2508aa3b542d1e3666dc742e28ed577bfa3c9861b343f39bec5232d944a1c874",
+          "attempt": "780c0f71530c49bfb408a37f7b8e48e4"
+        },
+        {
+          "namespace": "implementation",
+          "label": "regression_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "1524862ab067e121f51d33461c5df95ad7c8643a10a2247d7cb0d5343b4a9dc5",
+          "evidence": [
+            "sha256:314808891e74298fd56c79060bad970fecacfb320dd0042d86aa457699b2dcb2"
+          ],
+          "event_id": "5435f612562d84d58f622a4b22174bdc496a993e4aa662bd8661be16e9d0eb6a",
+          "assessment": "2508aa3b542d1e3666dc742e28ed577bfa3c9861b343f39bec5232d944a1c874",
+          "attempt": "780c0f71530c49bfb408a37f7b8e48e4"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 3,
+      "planned_targets": [
+        "checkpoint_1",
+        "checkpoint_2",
+        "checkpoint_3"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.0,
+      "selected_attempt": "780c0f71530c49bfb408a37f7b8e48e4",
+      "selected_evaluation": null,
+      "evaluation_generation": "29b50293e973c4c831399f1fe8a757b676768ac16f24efe5bf04fdcff6221b61",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_1",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "e0ddc856c0ad52a5d43cb551706261407bd88cac7b47137ecc7761a00e2b56d6",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "5101ffca9374199e217fba938e99b7c2d78156139b6d5ad3ec736026b7751adb",
+          "evaluation_sha256": "7867423f63129fb25a808ae17247ee0194602d5f1f9cacb21eb9ee0af0bb2053",
+          "started_at": "2026-11-05T19:32:14.815395Z",
+          "completed_at": "2026-11-05T19:41:42.221042Z",
+          "inference_seconds": 567.405647,
+          "evaluation_seconds": 108.24247670173645,
+          "native_steps": 28,
+          "tokens": {
+            "cache_read": 2223360,
+            "cache_write": 0,
+            "input": 45126,
+            "output": 20457,
+            "reasoning": 45317
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_c1_lfc_eth_mac_1g",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c1_pause_eth_mac_1g",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c1_ptp_axis_gmii_tx",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c1_ptp_eth_mac_1g",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_reset_recovery",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c1_pfc_eth_mac_1g",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_c1_preserves_packet_axis_gmii_rx",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c1_preserves_packet_axis_gmii_tx",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c1_preserves_packet_eth_mac_1g",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c1_preserves_packet_rx_eth_mac_1g",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_candidate_workspace_exists",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_module_files",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_source_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 3,
+              "total": 3
+            },
+            "core": {
+              "passed": 5,
+              "total": 6
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 4,
+              "total": 4
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 12,
+              "total": 13
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 28,
+            "observed_tool_calls": 30,
+            "native_events": 87,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "63dd813b5afb8a895ceadbd75a36cca0495e3489b7f879b791c1def1f0accd8f"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 13,
+            "groups": {
+              "core": 6,
+              "error": 0,
+              "functionality": 0,
+              "regression": 4,
+              "structure": 3
+            },
+            "inventory": "1926d2c8e7bb70ed87a131593539b68e226971da14134116c7205ebd35a72068"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/c07feab53c2392331318f21c8e69c6e68c5f11d96282b0ab494bc658cf54ebb6.tar.gz",
+            "sha256": "c07feab53c2392331318f21c8e69c6e68c5f11d96282b0ab494bc658cf54ebb6",
+            "file_count": 18,
+            "size_bytes": 19070,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_2",
+          "target_checkpoint": "checkpoint_2",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "cd27f3c1426988ec55765cb6c9e41abd9add42c899a02c2634ccebe2e0ceb648",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "174964768ad687860fde884820d0ace930beda053d335e7f8b9ffce307913b3a",
+          "evaluation_sha256": "b8a943808cdada00651b1f832b4baae9a928198a6970196092c7900a9b8bfe4f",
+          "started_at": "2026-11-05T19:43:37.409738Z",
+          "completed_at": "2026-11-05T19:46:50.960574Z",
+          "inference_seconds": 193.550836,
+          "evaluation_seconds": 129.02967524528503,
+          "native_steps": 15,
+          "tokens": {
+            "cache_read": 604544,
+            "cache_write": 0,
+            "input": 39514,
+            "output": 3913,
+            "reasoning": 7563
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_c1_lfc_eth_mac_1g",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c1_pause_eth_mac_1g",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c1_preserves_packet_axis_gmii_rx",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c1_preserves_packet_axis_gmii_tx",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c1_preserves_packet_eth_mac_1g",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c1_preserves_packet_rx_eth_mac_1g",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c1_ptp_axis_gmii_tx",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c1_ptp_eth_mac_1g",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_reset_recovery",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c1_pfc_eth_mac_1g",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_candidate_workspace_exists",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_module_files",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_source_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c2_enable_rx_axis_gmii_rx",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c2_enable_rx_eth_mac_1g",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c2_enable_tx_axis_gmii_tx",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c2_enable_tx_eth_mac_1g",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c2_ifg_axis_gmii_tx",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c2_ifg_eth_mac_1g",
+              "group": "Core",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 3,
+              "total": 3
+            },
+            "core": {
+              "passed": 6,
+              "total": 6
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 9,
+              "total": 10
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 18,
+              "total": 19
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 15,
+            "observed_tool_calls": 30,
+            "native_events": 61,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "4c6c8f892a5c4a24c1b88479cb736d48c591b9a18c09c73fc8067568f7b9741a"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 19,
+            "groups": {
+              "core": 6,
+              "error": 0,
+              "functionality": 0,
+              "regression": 10,
+              "structure": 3
+            },
+            "inventory": "38a57905aa1874f15035e4b27e09b6f431230082b507a19e35e1b0c1281c76e4"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/7d49e3bc0f0e9931470fa3e5d22bc1b60630699c2983b403fecd33760018d493.tar.gz",
+            "sha256": "7d49e3bc0f0e9931470fa3e5d22bc1b60630699c2983b403fecd33760018d493",
+            "file_count": 18,
+            "size_bytes": 19134,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_3",
+          "target_checkpoint": "checkpoint_3",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "1524862ab067e121f51d33461c5df95ad7c8643a10a2247d7cb0d5343b4a9dc5",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "27a34aef690d0d26f2ef1cf692db4fcdc56c2212b90cf03e6faf9ca2e97ba132",
+          "evaluation_sha256": "314808891e74298fd56c79060bad970fecacfb320dd0042d86aa457699b2dcb2",
+          "started_at": "2026-11-05T19:49:09.720054Z",
+          "completed_at": "2026-11-05T19:54:31.232354Z",
+          "inference_seconds": 321.5123,
+          "evaluation_seconds": 131.07802271842957,
+          "native_steps": 20,
+          "tokens": {
+            "cache_read": 691712,
+            "cache_write": 0,
+            "input": 27532,
+            "output": 3139,
+            "reasoning": 12369
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "deepseek-flash-pending-time-aware-20261105",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_c1_lfc_eth_mac_1g",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c1_pause_eth_mac_1g",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c1_preserves_packet_axis_gmii_rx",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c1_preserves_packet_axis_gmii_tx",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c1_preserves_packet_eth_mac_1g",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c1_preserves_packet_rx_eth_mac_1g",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c1_ptp_axis_gmii_tx",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c1_ptp_eth_mac_1g",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_reset_recovery",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c1_pfc_eth_mac_1g",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_candidate_workspace_exists",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_module_files",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_source_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c2_enable_rx_axis_gmii_rx",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c2_enable_rx_eth_mac_1g",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c2_enable_tx_axis_gmii_tx",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c2_enable_tx_eth_mac_1g",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c2_ifg_axis_gmii_tx",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c2_ifg_eth_mac_1g",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c3_underrun_axis_gmii_tx",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_c3_underrun_eth_mac_1g",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserves_explicit_error_axis_gmii_tx",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserves_explicit_error_eth_mac_1g",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 3,
+              "total": 3
+            },
+            "core": {
+              "passed": 2,
+              "total": 2
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 17,
+              "total": 18
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 22,
+              "total": 23
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 20,
+            "observed_tool_calls": 25,
+            "native_events": 66,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "797aca2379167df594b6b60a1e104b0ce6fc82e7396d0751d5cc005a73814bec"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 23,
+            "groups": {
+              "core": 2,
+              "error": 0,
+              "functionality": 0,
+              "regression": 18,
+              "structure": 3
+            },
+            "inventory": "05d87f5806376b9be5f55884b448a9c46f61d97cd8c4f0cfe04e831b657c69a6"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/5feccef68333e23bd881e82d63c867acc02db6b92b2e8af2f2d0e64ce77eef46.tar.gz",
+            "sha256": "5feccef68333e23bd881e82d63c867acc02db6b92b2e8af2f2d0e64ce77eef46",
+            "file_count": 18,
+            "size_bytes": 19131,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 3,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-05T19:32:12.262588+00:00",
+      "completed_at": "2026-11-05T19:57:00.139233+00:00",
+      "wall_seconds_all_attempts": 1487.8706048727036,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_3": {
+          "total": 23,
+          "groups": {
+            "core": 2,
+            "error": 0,
+            "functionality": 0,
+            "regression": 18,
+            "structure": 3
+          },
+          "inventory": "05d87f5806376b9be5f55884b448a9c46f61d97cd8c4f0cfe04e831b657c69a6"
+        },
+        "checkpoint_1": {
+          "total": 13,
+          "groups": {
+            "core": 6,
+            "error": 0,
+            "functionality": 0,
+            "regression": 4,
+            "structure": 3
+          },
+          "inventory": "1926d2c8e7bb70ed87a131593539b68e226971da14134116c7205ebd35a72068"
+        },
+        "checkpoint_2": {
+          "total": 19,
+          "groups": {
+            "core": 6,
+            "error": 0,
+            "functionality": 0,
+            "regression": 10,
+            "structure": 3
+          },
+          "inventory": "38a57905aa1874f15035e4b27e09b6f431230082b507a19e35e1b0c1281c76e4"
+        }
+      }
+    }
+  ]
+}

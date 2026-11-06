@@ -290,13 +290,21 @@ def estimate_cost(
     if not rates:
         return missing("context_out_of_range")
     rate = rates[0]
+    output = usage["output"]
+    output_semantics = rate.get("output_token_semantics", "inclusive_reasoning")
+    if output_semantics == "exclusive_reasoning":
+        # OpenCode 1.18.32 records DeepSeek reasoning separately from output.
+        # The provider bills completion_tokens = output + reasoning.
+        if not integer(usage.get("reasoning")):
+            return missing("missing_reasoning_usage")
+        output += usage["reasoning"]
     if policy == "fixed_85":
         uncached, read, write = prompt * 0.15, prompt * 0.85, 0
     counts = {
         "input": uncached,
         "cache_read": read,
         "cache_write": write,
-        "output": usage["output"],
+        "output": output,
     }
     for key, count in counts.items():
         if count and not number(rate.get(key)):
@@ -311,6 +319,8 @@ def estimate_cost(
         "components_usd": amounts,
         "rate": rate,
         "cache_hit_rate": ratio(read, prompt),
+        **({"output_token_semantics": output_semantics}
+           if "output_token_semantics" in rate else {}),
         **({"request_input_upper_bound": request_input_upper_bound,
             "context_tier_basis": "user_declared_request_bound"} if assumed_bound else {}),
         "estimate_kind": "fixed_cache_scenario"
