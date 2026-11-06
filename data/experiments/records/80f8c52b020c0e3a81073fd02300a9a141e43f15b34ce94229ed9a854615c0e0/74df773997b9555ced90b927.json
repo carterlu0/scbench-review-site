@@ -1,0 +1,4075 @@
+{
+  "schema_version": 4,
+  "analysis": "80f8c52b020c0e3a81073fd02300a9a141e43f15b34ce94229ed9a854615c0e0",
+  "problem": "register_interface_t1",
+  "cells": [
+    {
+      "id": "12d8cdc5bcf5cb9d4be04b07e2305fe0f442554f4f2195519af48fde83b4d775",
+      "problem": "register_interface_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "gpt-6-luna",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "a5762dc54a9f45c92e389c84f8aba210ae1665cf3e61e8c6ea38cd2b08b3f860",
+      "generation": "d0ae92673d1c87b1516bbfd440387b87373490de5af11eb108bb8f3f3f5bb0d7",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_7",
+          "candidate": "d9059b1c7d13c3c8a2859143db924aac11158ca0fecc1deb90b93abb390f3665",
+          "evidence": [
+            "sha256:baefda3148589f4edf5df43f59097d74ba1caa806be6213a8aafee57e9db1dc0"
+          ],
+          "event_id": "90836655199fd35158e0a4144a9e3d1f7a3dc1405a3df4785c432c59373b9cec",
+          "assessment": "afe28185247b438718247da09a9b8a47dacf29bcdc5c31db7c3ad89e51c06832",
+          "attempt": "0877fbfb4d03441ea90721f47c62d469"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_7",
+          "candidate": "d9059b1c7d13c3c8a2859143db924aac11158ca0fecc1deb90b93abb390f3665",
+          "evidence": [
+            "sha256:baefda3148589f4edf5df43f59097d74ba1caa806be6213a8aafee57e9db1dc0"
+          ],
+          "event_id": "8dd6a74d0a956f801bb74e714db258bbc4d15b9de299fca42a447fceb3079757",
+          "assessment": "afe28185247b438718247da09a9b8a47dacf29bcdc5c31db7c3ad89e51c06832",
+          "attempt": "0877fbfb4d03441ea90721f47c62d469"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_7"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.0,
+      "selected_attempt": "0877fbfb4d03441ea90721f47c62d469",
+      "selected_evaluation": null,
+      "evaluation_generation": "d0ae92673d1c87b1516bbfd440387b87373490de5af11eb108bb8f3f3f5bb0d7",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_7",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "d9059b1c7d13c3c8a2859143db924aac11158ca0fecc1deb90b93abb390f3665",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "8e312b00810618cf242efd406f768395ab7d95cd6c81edf0a493d577c40f4c1b",
+          "evaluation_sha256": "baefda3148589f4edf5df43f59097d74ba1caa806be6213a8aafee57e9db1dc0",
+          "started_at": "2026-11-05T04:33:54.500582Z",
+          "completed_at": "2026-11-05T04:41:48.142477Z",
+          "inference_seconds": 473.641895,
+          "evaluation_seconds": 132.9542956352234,
+          "native_steps": 18,
+          "tokens": {
+            "cache_read": 413568,
+            "cache_write": 0,
+            "input": 49662,
+            "output": 4690,
+            "reasoning": 3324
+          },
+          "official_cost": {
+            "usd": 0.011446880000000001,
+            "coverage": "complete",
+            "pricebook": "gpt6-luna-gpt61-sol-terra-standard-user-provided-2026-11-04",
+            "source": "reconciled_native_requests"
+          },
+          "tests": [
+            {
+              "nodeid": "test_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_offline_manifest",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[REG_BUS]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[apb_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[axi_to_reg_v2]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[periph_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc_dst]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc_src]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cut]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_demux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_filter_empty_writes]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_mux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_to_axi]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_to_mem]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_uniform]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_error_behavior[uniform_error]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[reg_to_axi]",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_error_behavior[axi_error]",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_extended_behavior[axi_w64]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[cut_w64_0]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[cut_w64_1]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[cut_w64_2]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[cut_w64_3]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[uniform_wide]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb_feedthrough_0]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb_feedthrough_1]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[axi_w32]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_2phase]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_4phase]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_split]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cut_w32_0]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cut_w32_1]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cut_w32_2]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cut_w32_3]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[demux]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[memory]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[mux]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[peripheral]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[reg_cut]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[reg_filter]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[uniform]",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 16,
+              "total": 16
+            },
+            "core": {
+              "passed": 1,
+              "total": 3
+            },
+            "functionality": {
+              "passed": 6,
+              "total": 6
+            },
+            "regression": {
+              "passed": 18,
+              "total": 18
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 41,
+              "total": 43
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 18,
+            "observed_tool_calls": 28,
+            "native_events": 66,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "1c5acce8d3c36d4a7ca26a3fe30dca2bd4568b738fd9a2ffc4e0ca4c08c85ed8"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 43,
+            "groups": {
+              "core": 3,
+              "error": 0,
+              "functionality": 6,
+              "regression": 18,
+              "structure": 16
+            },
+            "inventory": "86aed8debe8d33fa9d1f277426fb1f76de67c4e6ac14b2b8f4fc15e863336935"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/8ac6a422277cb8bf3b30fe7655f70a3b5982fd9a518a3a0bfb7e49c4a5a10e85.tar.gz",
+            "sha256": "8ac6a422277cb8bf3b30fe7655f70a3b5982fd9a518a3a0bfb7e49c4a5a10e85",
+            "file_count": 114,
+            "size_bytes": 206999,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-05T04:33:50.514882+00:00",
+      "completed_at": "2026-11-05T04:44:31.563521+00:00",
+      "wall_seconds_all_attempts": 641.0379295405,
+      "official_cost_all_attempts": 0.011446880000000001,
+      "known_official_cost": 0.011446880000000001,
+      "cost_coverage": "complete",
+      "expected_test_counts": {
+        "checkpoint_7": {
+          "total": 43,
+          "groups": {
+            "core": 3,
+            "error": 0,
+            "functionality": 6,
+            "regression": 18,
+            "structure": 16
+          },
+          "inventory": "86aed8debe8d33fa9d1f277426fb1f76de67c4e6ac14b2b8f4fc15e863336935"
+        }
+      }
+    },
+    {
+      "id": "41f319c021b5bc6790198dbcb18168b30bc9dc4660999a35de0fedb933b0b233",
+      "problem": "register_interface_t1",
+      "mode": "pipeline",
+      "prompt_arm": "original",
+      "model": "gpt-6-luna",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "a5762dc54a9f45c92e389c84f8aba210ae1665cf3e61e8c6ea38cd2b08b3f860",
+      "generation": "b2402fa6ddaf41131229d10fb5e44c727cf16dacf0ed4db2a14a5b0a34f9548a",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_2",
+          "candidate": "e111a9262ec6574b1044bd1f64bb5e09dcb7a8442dac693f82f0a5b1f3e366a5",
+          "evidence": [
+            "sha256:e6016849bfa4ea1fcccdcf347a3f39881c54013ffcc97adb01c80386cd742b7c"
+          ],
+          "event_id": "6bc7dee9def1eaad777f174db8bdef403f441213bd849728d2f92b135c66f139",
+          "assessment": "b1a2071c20761832c4d01687585e9eea9d14db36e8d58c57cf0ab7c477c3a464",
+          "attempt": "83c7e01aa24443bbbaa14f7405d2ee3a"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_2",
+          "candidate": "e111a9262ec6574b1044bd1f64bb5e09dcb7a8442dac693f82f0a5b1f3e366a5",
+          "evidence": [
+            "sha256:e6016849bfa4ea1fcccdcf347a3f39881c54013ffcc97adb01c80386cd742b7c"
+          ],
+          "event_id": "5a03ef351c245d71906caa50780f60f1d9a5b2d436882a2a299ccc263bf2b5c6",
+          "assessment": "b1a2071c20761832c4d01687585e9eea9d14db36e8d58c57cf0ab7c477c3a464",
+          "attempt": "83c7e01aa24443bbbaa14f7405d2ee3a"
+        },
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_6",
+          "candidate": "1ea037f825388b54249145fe12b9f69406ca46e8069def51d070e6b71c0bf8b5",
+          "evidence": [
+            "sha256:733c096c5a44f22a174ced4cb8efa22721987433dd070cced61bab86f275de91"
+          ],
+          "event_id": "15d0b0e9f74b70f4b46d8d9e2817dcfe3e9a9cc6186709901a21138a0f677657",
+          "assessment": "b1a2071c20761832c4d01687585e9eea9d14db36e8d58c57cf0ab7c477c3a464",
+          "attempt": "83c7e01aa24443bbbaa14f7405d2ee3a"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_6",
+          "candidate": "1ea037f825388b54249145fe12b9f69406ca46e8069def51d070e6b71c0bf8b5",
+          "evidence": [
+            "sha256:733c096c5a44f22a174ced4cb8efa22721987433dd070cced61bab86f275de91"
+          ],
+          "event_id": "866c54e74c7aa2b2c4ecc0a87e3594c78974ff6aeee85d9549a1a247db839188",
+          "assessment": "b1a2071c20761832c4d01687585e9eea9d14db36e8d58c57cf0ab7c477c3a464",
+          "attempt": "83c7e01aa24443bbbaa14f7405d2ee3a"
+        },
+        {
+          "namespace": "implementation",
+          "label": "functionality_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_6",
+          "candidate": "1ea037f825388b54249145fe12b9f69406ca46e8069def51d070e6b71c0bf8b5",
+          "evidence": [
+            "sha256:733c096c5a44f22a174ced4cb8efa22721987433dd070cced61bab86f275de91"
+          ],
+          "event_id": "c02e772fc62bcee46c74a431f338e37b1958d421a91944371b7fc5d8d677686d",
+          "assessment": "b1a2071c20761832c4d01687585e9eea9d14db36e8d58c57cf0ab7c477c3a464",
+          "attempt": "83c7e01aa24443bbbaa14f7405d2ee3a"
+        },
+        {
+          "namespace": "implementation",
+          "label": "structure_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_6",
+          "candidate": "1ea037f825388b54249145fe12b9f69406ca46e8069def51d070e6b71c0bf8b5",
+          "evidence": [
+            "sha256:733c096c5a44f22a174ced4cb8efa22721987433dd070cced61bab86f275de91"
+          ],
+          "event_id": "5141ba5364bbe2d14e591fd7ad1f891fe7749b0f072e14b46bee6f55206d7003",
+          "assessment": "b1a2071c20761832c4d01687585e9eea9d14db36e8d58c57cf0ab7c477c3a464",
+          "attempt": "83c7e01aa24443bbbaa14f7405d2ee3a"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 8,
+      "planned_targets": [
+        "checkpoint_1",
+        "checkpoint_2",
+        "checkpoint_3",
+        "checkpoint_4",
+        "checkpoint_5",
+        "checkpoint_6",
+        "checkpoint_7",
+        "checkpoint_8"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.5,
+      "selected_attempt": "83c7e01aa24443bbbaa14f7405d2ee3a",
+      "selected_evaluation": null,
+      "evaluation_generation": "b2402fa6ddaf41131229d10fb5e44c727cf16dacf0ed4db2a14a5b0a34f9548a",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_1",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "02a0d69c2b84d5dcbf46f800cf07bc5c0ea2ed904a613a7f174fe99277043af8",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "4b2c540856e75c000a0c8788cd9a3688cab455e5f1c4d163cdaaf668b422eb8c",
+          "evaluation_sha256": "ec8174d4e8a6b7dca4fc2d6330b18a10c0888d4e6cc29e9e51354d32edc68cbd",
+          "started_at": "2026-11-05T06:56:11.533301Z",
+          "completed_at": "2026-11-05T07:05:32.882583Z",
+          "inference_seconds": 561.349282,
+          "evaluation_seconds": 16.081043004989624,
+          "native_steps": 12,
+          "tokens": {
+            "cache_read": 133248,
+            "cache_write": 0,
+            "input": 38208,
+            "output": 2140,
+            "reasoning": 1818
+          },
+          "official_cost": {
+            "usd": 0.0062232799999999994,
+            "coverage": "complete",
+            "pricebook": "gpt6-luna-gpt61-sol-terra-standard-user-provided-2026-11-04",
+            "source": "reconciled_native_requests"
+          },
+          "tests": [
+            {
+              "nodeid": "test_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_offline_manifest",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[REG_BUS]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[apb_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_uniform]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[apb]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_error_behavior[uniform_error]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[uniform]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[uniform_wide]",
+              "group": "Functionality",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 5,
+              "total": 5
+            },
+            "core": {
+              "passed": 2,
+              "total": 2
+            },
+            "functionality": {
+              "passed": 2,
+              "total": 2
+            },
+            "regression": {
+              "passed": 0,
+              "total": 0
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 9,
+              "total": 9
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 12,
+            "observed_tool_calls": 21,
+            "native_events": 47,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "dbb1782849c71abc95551a4a8db701485e9be49c74d7b77a03a6b358ab16d345"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 9,
+            "groups": {
+              "core": 2,
+              "error": 0,
+              "functionality": 2,
+              "regression": 0,
+              "structure": 5
+            },
+            "inventory": "b7d22965ce83787ee60b900e68b0c88f7947ad5f73bda989be79d1ede3667a97"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/ee9493cdb359932ba088811ed677cb5a855d2fbb2e1af069866aace020f265ba.tar.gz",
+            "sha256": "ee9493cdb359932ba088811ed677cb5a855d2fbb2e1af069866aace020f265ba",
+            "file_count": 13,
+            "size_bytes": 44822,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_2",
+          "target_checkpoint": "checkpoint_2",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "e111a9262ec6574b1044bd1f64bb5e09dcb7a8442dac693f82f0a5b1f3e366a5",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "639f629ce49e98cfcf040fc9ae0d195e0977782989951fb7c3e5454fe9ddd773",
+          "evaluation_sha256": "e6016849bfa4ea1fcccdcf347a3f39881c54013ffcc97adb01c80386cd742b7c",
+          "started_at": "2026-11-05T07:05:55.466643Z",
+          "completed_at": "2026-11-05T07:38:34.702169Z",
+          "inference_seconds": 1959.235526,
+          "evaluation_seconds": 47.051809787750244,
+          "native_steps": 34,
+          "tokens": {
+            "cache_read": 985856,
+            "cache_write": 0,
+            "input": 87343,
+            "output": 10653,
+            "reasoning": 14629
+          },
+          "official_cost": {
+            "usd": 0.02391936,
+            "coverage": "complete",
+            "pricebook": "gpt6-luna-gpt61-sol-terra-standard-user-provided-2026-11-04",
+            "source": "reconciled_native_requests"
+          },
+          "tests": [
+            {
+              "nodeid": "test_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_mux_demux_typed_array_abi",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_offline_manifest",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[REG_BUS]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[apb_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_demux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_mux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_to_mem]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_uniform]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[cdc_2phase]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[cdc_continuous_valid]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[demux_continuous_valid]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[memory]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[memory_continuous_valid]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[mux]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[mux_continuous_valid]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_error_behavior[uniform_error]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[demux]",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_extended_behavior[uniform_wide]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[uniform]",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 10,
+              "total": 10
+            },
+            "core": {
+              "passed": 8,
+              "total": 9
+            },
+            "functionality": {
+              "passed": 1,
+              "total": 1
+            },
+            "regression": {
+              "passed": 2,
+              "total": 2
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 21,
+              "total": 22
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 34,
+            "observed_tool_calls": 54,
+            "native_events": 127,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "6cc89f4c56183dc2c1e04405a141208beef8814b7b39b881e6d82e02b6e6feb3"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 22,
+            "groups": {
+              "core": 9,
+              "error": 0,
+              "functionality": 1,
+              "regression": 2,
+              "structure": 10
+            },
+            "inventory": "04df6e08175c9d0e9e84a7be84a090058de77ce6175e106df4cdc55f4b0c29ef"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/9818c8eb15845c6986cdfdcb23552e3ccc9ed4ffe4b0e14757dfe7579ba46e01.tar.gz",
+            "sha256": "9818c8eb15845c6986cdfdcb23552e3ccc9ed4ffe4b0e14757dfe7579ba46e01",
+            "file_count": 17,
+            "size_bytes": 46584,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_3",
+          "target_checkpoint": "checkpoint_3",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "373373c8d10e01739688027d539102cfe5371b3b44dd38b9f44102397805e2a9",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "8a0cd0fa9a3723196824ffb765bdc823f881372796f83fe6bdbb6b6d764b90eb",
+          "evaluation_sha256": "75ce5d634e2aa8318e6afdc408683e1383e5e4c886a6d33f8e43624c8fd2a33b",
+          "started_at": "2026-11-05T07:39:27.722461Z",
+          "completed_at": "2026-11-05T07:46:48.247937Z",
+          "inference_seconds": 440.525476,
+          "evaluation_seconds": 39.383559226989746,
+          "native_steps": 12,
+          "tokens": {
+            "cache_read": 156928,
+            "cache_write": 0,
+            "input": 52496,
+            "output": 2411,
+            "reasoning": 971
+          },
+          "official_cost": {
+            "usd": 0.008024380000000001,
+            "coverage": "complete",
+            "pricebook": "gpt6-luna-gpt61-sol-terra-standard-user-provided-2026-11-04",
+            "source": "reconciled_native_requests"
+          },
+          "tests": [
+            {
+              "nodeid": "test_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_offline_manifest",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[REG_BUS]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[apb_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[periph_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_demux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_mux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_to_mem]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_uniform]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[peripheral]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_error_behavior[uniform_error]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[uniform_wide]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_2phase]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[demux]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[memory]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[mux]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[uniform]",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 10,
+              "total": 10
+            },
+            "core": {
+              "passed": 2,
+              "total": 2
+            },
+            "functionality": {
+              "passed": 1,
+              "total": 1
+            },
+            "regression": {
+              "passed": 6,
+              "total": 6
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 19,
+              "total": 19
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 12,
+            "observed_tool_calls": 33,
+            "native_events": 60,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "408d2a8be684aa95685c342728eb9c436537d379741cc5c9c77a4d49b5782acd"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 19,
+            "groups": {
+              "core": 2,
+              "error": 0,
+              "functionality": 1,
+              "regression": 6,
+              "structure": 10
+            },
+            "inventory": "fbb54ee3459525d19d399cc3a977f57a8bf378100d00e90f7d8810fc8d10aed7"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/d9147fb14ccfd509562873f2b05e19615b72e359e71cca1ec3f27dad19127686.tar.gz",
+            "sha256": "d9147fb14ccfd509562873f2b05e19615b72e359e71cca1ec3f27dad19127686",
+            "file_count": 18,
+            "size_bytes": 46951,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_4",
+          "target_checkpoint": "checkpoint_4",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "95b0ccf765e827adc8fbcabe48aaa73753d4faa9edfe14cd651d802bc97caec7",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "e96b84b27ebe4b2d7c6fba2db50c9b609650a7a85cce9b896b1548e4950acf05",
+          "evaluation_sha256": "f1da6222feba30812d901bc2044a03e94201d6968c81ff1bfb7d45c8b3e63384",
+          "started_at": "2026-11-05T07:47:34.283716Z",
+          "completed_at": "2026-11-05T08:45:05.656547Z",
+          "inference_seconds": 3451.372831,
+          "evaluation_seconds": 60.69688844680786,
+          "native_steps": 44,
+          "tokens": {
+            "cache_read": 1540992,
+            "cache_write": 0,
+            "input": 107138,
+            "output": 15787,
+            "reasoning": 17473
+          },
+          "official_cost": {
+            "usd": 0.03401722,
+            "coverage": "complete",
+            "pricebook": "gpt6-luna-gpt61-sol-terra-standard-user-provided-2026-11-04",
+            "source": "reconciled_native_requests"
+          },
+          "tests": [
+            {
+              "nodeid": "test_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_offline_manifest",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[REG_BUS]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[apb_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[periph_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc_dst]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc_src]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_demux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_filter_empty_writes]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_mux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_to_mem]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_uniform]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[cdc_2phase]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[cdc_4phase]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[cdc_split]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[cdc_split_4phase]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_error_behavior[uniform_error]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[apb_feedthrough_0]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[apb_feedthrough_1]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[reg_filter]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[uniform_wide]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[demux]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[memory]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[mux]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[peripheral]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[uniform]",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 13,
+              "total": 13
+            },
+            "core": {
+              "passed": 5,
+              "total": 5
+            },
+            "functionality": {
+              "passed": 4,
+              "total": 4
+            },
+            "regression": {
+              "passed": 6,
+              "total": 6
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 28,
+              "total": 28
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 44,
+            "observed_tool_calls": 77,
+            "native_events": 179,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "ea89a6c053a0fe6acda70661cd0de8b5f492539cfb3421f03901e6f3c0240dae"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 28,
+            "groups": {
+              "core": 5,
+              "error": 0,
+              "functionality": 4,
+              "regression": 6,
+              "structure": 13
+            },
+            "inventory": "356488be4aa2c999f037ffe388f8df9d58cc62d31a3020cfa2699022a78b366a"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/408d652e4b72990dbac32b477ef45343dfe30fa0c4729d1425daf66106f6874e.tar.gz",
+            "sha256": "408d652e4b72990dbac32b477ef45343dfe30fa0c4729d1425daf66106f6874e",
+            "file_count": 19,
+            "size_bytes": 47848,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_5",
+          "target_checkpoint": "checkpoint_5",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "1ea037f825388b54249145fe12b9f69406ca46e8069def51d070e6b71c0bf8b5",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "a637fb1d07fcd5a7dee72ead9a00a8a45e3ea14241277c2bbe635ea65b93a1df",
+          "evaluation_sha256": "3b19b8bd1c1ff16d33cf0a108ce8a8d485a58ab82577adf48e8f24e02bf26932",
+          "started_at": "2026-11-05T08:46:12.911544Z",
+          "completed_at": "2026-11-05T09:03:22.602192Z",
+          "inference_seconds": 1029.690648,
+          "evaluation_seconds": 68.69527077674866,
+          "native_steps": 21,
+          "tokens": {
+            "cache_read": 441984,
+            "cache_write": 0,
+            "input": 39340,
+            "output": 3975,
+            "reasoning": 3194
+          },
+          "official_cost": {
+            "usd": 0.01034134,
+            "coverage": "complete",
+            "pricebook": "gpt6-luna-gpt61-sol-terra-standard-user-provided-2026-11-04",
+            "source": "reconciled_native_requests"
+          },
+          "tests": [
+            {
+              "nodeid": "test_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_offline_manifest",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[REG_BUS]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[apb_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[periph_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc_dst]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc_src]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cut]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_demux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_filter_empty_writes]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_mux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_to_mem]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_uniform]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[reg_cut]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_error_behavior[uniform_error]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[uniform_wide]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb_feedthrough_0]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb_feedthrough_1]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_2phase]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_4phase]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_split]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_split_4phase]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[demux]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[memory]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[mux]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[peripheral]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[reg_filter]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[uniform]",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 14,
+              "total": 14
+            },
+            "core": {
+              "passed": 2,
+              "total": 2
+            },
+            "functionality": {
+              "passed": 1,
+              "total": 1
+            },
+            "regression": {
+              "passed": 13,
+              "total": 13
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 30,
+              "total": 30
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 21,
+            "observed_tool_calls": 43,
+            "native_events": 88,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "c445967217b1df5c9070e04011b4ea22b75d332dade2b7d45ed7117b6e4fb716"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 30,
+            "groups": {
+              "core": 2,
+              "error": 0,
+              "functionality": 1,
+              "regression": 13,
+              "structure": 14
+            },
+            "inventory": "7bebc3bf5f5c74bfafd77212d767b59996f0b0eb52c4ec82a6f436ab1074b2f9"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/0d0f1bb3452250a860b4ade1b6491a9b06b0105dffd0b73173f39ba06d5fd89d.tar.gz",
+            "sha256": "0d0f1bb3452250a860b4ade1b6491a9b06b0105dffd0b73173f39ba06d5fd89d",
+            "file_count": 20,
+            "size_bytes": 48218,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_6",
+          "target_checkpoint": "checkpoint_6",
+          "state": "failed",
+          "gate_passed": false,
+          "candidate": "1ea037f825388b54249145fe12b9f69406ca46e8069def51d070e6b71c0bf8b5",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "c8c75a94291da334185a775dda0d48eb7c886c30bd90d1e21ae4f3810cfabd3b",
+          "evaluation_sha256": "733c096c5a44f22a174ced4cb8efa22721987433dd070cced61bab86f275de91",
+          "started_at": "2026-11-05T09:04:38.967028Z",
+          "completed_at": "2026-11-05T09:15:53.243548Z",
+          "inference_seconds": 674.27652,
+          "evaluation_seconds": 79.49893856048584,
+          "native_steps": 11,
+          "tokens": {
+            "cache_read": 142848,
+            "cache_write": 0,
+            "input": 42468,
+            "output": 1725,
+            "reasoning": 1792
+          },
+          "official_cost": {
+            "usd": 0.006537780000000001,
+            "coverage": "complete",
+            "pricebook": "gpt6-luna-gpt61-sol-terra-standard-user-provided-2026-11-04",
+            "source": "reconciled_native_requests"
+          },
+          "tests": [
+            {
+              "nodeid": "test_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[REG_BUS]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[apb_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[periph_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc_dst]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc_src]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cut]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_demux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_filter_empty_writes]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_mux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_to_mem]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_uniform]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_offline_manifest",
+              "group": "Structure",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_public_abi[axi_to_reg_v2]",
+              "group": "Structure",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_error_behavior[uniform_error]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[axi_w32]",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_direct_behavior[cut_w32_0]",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_direct_behavior[cut_w32_1]",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_direct_behavior[cut_w32_2]",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_direct_behavior[cut_w32_3]",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_extended_behavior[uniform_wide]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[axi_w64]",
+              "group": "Functionality",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_extended_behavior[cut_w64_0]",
+              "group": "Functionality",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_extended_behavior[cut_w64_1]",
+              "group": "Functionality",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_extended_behavior[cut_w64_2]",
+              "group": "Functionality",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_extended_behavior[cut_w64_3]",
+              "group": "Functionality",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb_feedthrough_0]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb_feedthrough_1]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_2phase]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_4phase]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_split]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[demux]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[memory]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[mux]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[peripheral]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[reg_cut]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[reg_filter]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[uniform]",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 13,
+              "total": 15
+            },
+            "core": {
+              "passed": 1,
+              "total": 6
+            },
+            "functionality": {
+              "passed": 1,
+              "total": 6
+            },
+            "regression": {
+              "passed": 13,
+              "total": 13
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 28,
+              "total": 40
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 11,
+            "observed_tool_calls": 32,
+            "native_events": 57,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "c3d2a335650e7d1fb9ec8f869fa3662917620169e337e688c1b060e56258e5f9"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 40,
+            "groups": {
+              "core": 6,
+              "error": 0,
+              "functionality": 6,
+              "regression": 13,
+              "structure": 15
+            },
+            "inventory": "31a02c4e48c9ac84e8ed0e46879b715cc2cd95395831831b15de7d69d8db2300"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/0d0f1bb3452250a860b4ade1b6491a9b06b0105dffd0b73173f39ba06d5fd89d.tar.gz",
+            "sha256": "0d0f1bb3452250a860b4ade1b6491a9b06b0105dffd0b73173f39ba06d5fd89d",
+            "file_count": 20,
+            "size_bytes": 48218,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_7",
+          "target_checkpoint": "checkpoint_7",
+          "state": "stopped_by_policy",
+          "gate_passed": null,
+          "candidate": null,
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": null,
+          "evaluation_sha256": null,
+          "started_at": null,
+          "completed_at": null,
+          "inference_seconds": null,
+          "evaluation_seconds": null,
+          "native_steps": null,
+          "tokens": null,
+          "official_cost": {
+            "usd": 0,
+            "coverage": "complete",
+            "pricebook": "gpt6-luna-gpt61-sol-terra-standard-user-provided-2026-11-04"
+          },
+          "tests": [],
+          "test_counts": null,
+          "score": 0,
+          "calls": {
+            "http_requests": 0,
+            "http_retries": 0,
+            "observed_responses": 0,
+            "observed_tool_calls": 0,
+            "coverage": "not_invoked"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 43,
+            "groups": {
+              "core": 3,
+              "error": 0,
+              "functionality": 6,
+              "regression": 18,
+              "structure": 16
+            },
+            "inventory": "f53f0e2b6ef541a3ce671e9b6c707457af5531e7147500430147a062aa5ae040"
+          }
+        },
+        {
+          "checkpoint": "checkpoint_8",
+          "target_checkpoint": "checkpoint_8",
+          "state": "stopped_by_policy",
+          "gate_passed": null,
+          "candidate": null,
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": null,
+          "evaluation_sha256": null,
+          "started_at": null,
+          "completed_at": null,
+          "inference_seconds": null,
+          "evaluation_seconds": null,
+          "native_steps": null,
+          "tokens": null,
+          "official_cost": {
+            "usd": 0,
+            "coverage": "complete",
+            "pricebook": "gpt6-luna-gpt61-sol-terra-standard-user-provided-2026-11-04"
+          },
+          "tests": [],
+          "test_counts": null,
+          "score": 0,
+          "calls": {
+            "http_requests": 0,
+            "http_retries": 0,
+            "observed_responses": 0,
+            "observed_tool_calls": 0,
+            "coverage": "not_invoked"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 46,
+            "groups": {
+              "core": 4,
+              "error": 0,
+              "functionality": 6,
+              "regression": 19,
+              "structure": 17
+            },
+            "inventory": "5424c070aaf84e209a6ea7f40b647a3e2c0c55d33475cd8372bdd02bf7c3680b"
+          }
+        }
+      ],
+      "agent_invocations": 6,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-05T06:56:08.697456+00:00",
+      "completed_at": "2026-11-05T09:17:38.129849+00:00",
+      "wall_seconds_all_attempts": 8489.420741697773,
+      "official_cost_all_attempts": 0.08906336000000001,
+      "known_official_cost": 0.08906336000000001,
+      "cost_coverage": "complete",
+      "expected_test_counts": {
+        "checkpoint_8": {
+          "total": 46,
+          "groups": {
+            "core": 4,
+            "error": 0,
+            "functionality": 6,
+            "regression": 19,
+            "structure": 17
+          },
+          "inventory": "5424c070aaf84e209a6ea7f40b647a3e2c0c55d33475cd8372bdd02bf7c3680b"
+        },
+        "checkpoint_2": {
+          "total": 22,
+          "groups": {
+            "core": 9,
+            "error": 0,
+            "functionality": 1,
+            "regression": 2,
+            "structure": 10
+          },
+          "inventory": "04df6e08175c9d0e9e84a7be84a090058de77ce6175e106df4cdc55f4b0c29ef"
+        },
+        "checkpoint_6": {
+          "total": 40,
+          "groups": {
+            "core": 6,
+            "error": 0,
+            "functionality": 6,
+            "regression": 13,
+            "structure": 15
+          },
+          "inventory": "31a02c4e48c9ac84e8ed0e46879b715cc2cd95395831831b15de7d69d8db2300"
+        },
+        "checkpoint_4": {
+          "total": 28,
+          "groups": {
+            "core": 5,
+            "error": 0,
+            "functionality": 4,
+            "regression": 6,
+            "structure": 13
+          },
+          "inventory": "356488be4aa2c999f037ffe388f8df9d58cc62d31a3020cfa2699022a78b366a"
+        },
+        "checkpoint_5": {
+          "total": 30,
+          "groups": {
+            "core": 2,
+            "error": 0,
+            "functionality": 1,
+            "regression": 13,
+            "structure": 14
+          },
+          "inventory": "7bebc3bf5f5c74bfafd77212d767b59996f0b0eb52c4ec82a6f436ab1074b2f9"
+        },
+        "checkpoint_1": {
+          "total": 9,
+          "groups": {
+            "core": 2,
+            "error": 0,
+            "functionality": 2,
+            "regression": 0,
+            "structure": 5
+          },
+          "inventory": "b7d22965ce83787ee60b900e68b0c88f7947ad5f73bda989be79d1ede3667a97"
+        },
+        "checkpoint_7": {
+          "total": 43,
+          "groups": {
+            "core": 3,
+            "error": 0,
+            "functionality": 6,
+            "regression": 18,
+            "structure": 16
+          },
+          "inventory": "f53f0e2b6ef541a3ce671e9b6c707457af5531e7147500430147a062aa5ae040"
+        },
+        "checkpoint_3": {
+          "total": 19,
+          "groups": {
+            "core": 2,
+            "error": 0,
+            "functionality": 1,
+            "regression": 6,
+            "structure": 10
+          },
+          "inventory": "fbb54ee3459525d19d399cc3a977f57a8bf378100d00e90f7d8810fc8d10aed7"
+        }
+      }
+    },
+    {
+      "id": "6075f7a25587af7917108cf996f5329585679ca91c5ba8902c761cbbc9531417",
+      "problem": "register_interface_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "gpt-6-luna",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "a5762dc54a9f45c92e389c84f8aba210ae1665cf3e61e8c6ea38cd2b08b3f860",
+      "generation": "2123d186ed09de651c28142d4a2d983f96d7b8b8ca4ef576faac61b113ede6f7",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_5"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "4d911515f9254168a394cfcd6b250db2",
+      "selected_evaluation": null,
+      "evaluation_generation": "2123d186ed09de651c28142d4a2d983f96d7b8b8ca4ef576faac61b113ede6f7",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_5",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "1bb181f6d9ae9f012202871a74292ab8412800ebc107c9e8e72252db831c059f",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "80f5eeae9adb1d3391aad4ceab4132da07d0e2c77e2ca4a0e873821fb666f348",
+          "evaluation_sha256": "632478b26308025059953d56a897526fce4c134b20e591d7c8d5f7008f87391b",
+          "started_at": "2026-11-05T09:02:42.779575Z",
+          "completed_at": "2026-11-05T09:21:15.657534Z",
+          "inference_seconds": 1112.877959,
+          "evaluation_seconds": 102.14843273162842,
+          "native_steps": 21,
+          "tokens": {
+            "cache_read": 381952,
+            "cache_write": 0,
+            "input": 74763,
+            "output": 3175,
+            "reasoning": 2970
+          },
+          "official_cost": {
+            "usd": 0.01288332,
+            "coverage": "complete",
+            "pricebook": "gpt6-luna-gpt61-sol-terra-standard-user-provided-2026-11-04",
+            "source": "reconciled_native_requests"
+          },
+          "tests": [
+            {
+              "nodeid": "test_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_offline_manifest",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[REG_BUS]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[apb_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[periph_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc_dst]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc_src]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cut]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_demux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_filter_empty_writes]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_mux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_to_mem]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_uniform]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[reg_cut]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_error_behavior[uniform_error]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[uniform_wide]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb_feedthrough_0]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb_feedthrough_1]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_2phase]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_4phase]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_split]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_split_4phase]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[demux]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[memory]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[mux]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[peripheral]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[reg_filter]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[uniform]",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 14,
+              "total": 14
+            },
+            "core": {
+              "passed": 2,
+              "total": 2
+            },
+            "functionality": {
+              "passed": 1,
+              "total": 1
+            },
+            "regression": {
+              "passed": 13,
+              "total": 13
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 30,
+              "total": 30
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 21,
+            "observed_tool_calls": 33,
+            "native_events": 77,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "f6c8015a88470d019f822a3146b0ec5409b6bf111c9256c6bba0b306e3a2277a"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 30,
+            "groups": {
+              "core": 2,
+              "error": 0,
+              "functionality": 1,
+              "regression": 13,
+              "structure": 14
+            },
+            "inventory": "467f64916bbc81b7a84ae21c4bf82542b28c0bd0afdc1008445ffe0c53e6baf6"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/9200d1284436f265182975a6be88ba0eb86e7dc5ff0f2fa2f8e213b03a55ad0a.tar.gz",
+            "sha256": "9200d1284436f265182975a6be88ba0eb86e7dc5ff0f2fa2f8e213b03a55ad0a",
+            "file_count": 107,
+            "size_bytes": 191051,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-05T09:02:38.698316+00:00",
+      "completed_at": "2026-11-05T09:23:37.926041+00:00",
+      "wall_seconds_all_attempts": 1259.2175164148211,
+      "official_cost_all_attempts": 0.01288332,
+      "known_official_cost": 0.01288332,
+      "cost_coverage": "complete",
+      "expected_test_counts": {
+        "checkpoint_5": {
+          "total": 30,
+          "groups": {
+            "core": 2,
+            "error": 0,
+            "functionality": 1,
+            "regression": 13,
+            "structure": 14
+          },
+          "inventory": "467f64916bbc81b7a84ae21c4bf82542b28c0bd0afdc1008445ffe0c53e6baf6"
+        }
+      }
+    },
+    {
+      "id": "79f02150579db9e23ead2bdf60ac04815bb3964dc8c2efe68c057bfdb68d417c",
+      "problem": "register_interface_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "gpt-6-luna",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "a5762dc54a9f45c92e389c84f8aba210ae1665cf3e61e8c6ea38cd2b08b3f860",
+      "generation": "1856a978d1cbfa677aed9950580ee22b437983f2bd57947b192e6aacf802852b",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_2"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "f84c0655b5cd485ca4d8c1b0cf24dde4",
+      "selected_evaluation": null,
+      "evaluation_generation": "1856a978d1cbfa677aed9950580ee22b437983f2bd57947b192e6aacf802852b",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_2",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "c5933fadaca365caa27bad6a8747bc116a5317bba83b1f5fae4d40450e880ce8",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "0e8125bddc8876db1bd42cca4554e224552b29ed720d33310f9a6a8b46c623de",
+          "evaluation_sha256": "f280d4fab2275963f6f6727c7e83b1b9d2395c923d50bd5d227b3050f1bf3fb4",
+          "started_at": "2026-11-05T09:45:24.397782Z",
+          "completed_at": "2026-11-05T10:22:45.511573Z",
+          "inference_seconds": 2241.113791,
+          "evaluation_seconds": 54.077062368392944,
+          "native_steps": 43,
+          "tokens": {
+            "cache_read": 1458304,
+            "cache_write": 0,
+            "input": 124538,
+            "output": 13131,
+            "reasoning": 17818
+          },
+          "official_cost": {
+            "usd": 0.03360234,
+            "coverage": "complete",
+            "pricebook": "gpt6-luna-gpt61-sol-terra-standard-user-provided-2026-11-04",
+            "source": "reconciled_native_requests"
+          },
+          "tests": [
+            {
+              "nodeid": "test_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_mux_demux_typed_array_abi",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_offline_manifest",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[REG_BUS]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[apb_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_demux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_mux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_to_mem]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_uniform]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[cdc_2phase]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[cdc_continuous_valid]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[demux]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[demux_continuous_valid]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[memory]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[memory_continuous_valid]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[mux]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[mux_continuous_valid]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_error_behavior[uniform_error]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[uniform_wide]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[uniform]",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 10,
+              "total": 10
+            },
+            "core": {
+              "passed": 9,
+              "total": 9
+            },
+            "functionality": {
+              "passed": 1,
+              "total": 1
+            },
+            "regression": {
+              "passed": 2,
+              "total": 2
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 22,
+              "total": 22
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 43,
+            "observed_tool_calls": 74,
+            "native_events": 165,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "65239ae7c1bd4f86f3e3172e9a33af0a501375e32afd5f386e289309a02cb2e0"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 22,
+            "groups": {
+              "core": 9,
+              "error": 0,
+              "functionality": 1,
+              "regression": 2,
+              "structure": 10
+            },
+            "inventory": "69a5082130b90ed59c4f686a9a0d5d73e3ebf19207e79cbc4075bdf73db99deb"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/a646625b7c5a2850210c63ca3606e60076ffebba4a3ec8f0aa14e62229a28457.tar.gz",
+            "sha256": "a646625b7c5a2850210c63ca3606e60076ffebba4a3ec8f0aa14e62229a28457",
+            "file_count": 20,
+            "size_bytes": 47463,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-05T09:45:20.744588+00:00",
+      "completed_at": "2026-11-05T10:23:51.624165+00:00",
+      "wall_seconds_all_attempts": 2310.869753597304,
+      "official_cost_all_attempts": 0.03360234,
+      "known_official_cost": 0.03360234,
+      "cost_coverage": "complete",
+      "expected_test_counts": {
+        "checkpoint_2": {
+          "total": 22,
+          "groups": {
+            "core": 9,
+            "error": 0,
+            "functionality": 1,
+            "regression": 2,
+            "structure": 10
+          },
+          "inventory": "69a5082130b90ed59c4f686a9a0d5d73e3ebf19207e79cbc4075bdf73db99deb"
+        }
+      }
+    },
+    {
+      "id": "a2ac9946491d219e432825838f75d665085cf15468d6d8dc18b5827c26acd79c",
+      "problem": "register_interface_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "gpt-6-luna",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "a5762dc54a9f45c92e389c84f8aba210ae1665cf3e61e8c6ea38cd2b08b3f860",
+      "generation": "5dbfd098cabeba9110ab4e889cb24ca94e5cad961fe10f8ef1d7cbf5a1f709ec",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_6",
+          "candidate": "a93d060ce06bd6bb96a743ed8057ba7920ad593b5d55e271e55eed0138c4251d",
+          "evidence": [
+            "sha256:8a86c4083afbdad06c0ccd13fb05b7cb821526103daadf6c97e1aed992898f54"
+          ],
+          "event_id": "b9f53c6f242f7ffefe964972dacd9feeb04f762f887c1ba62ad21725476af818",
+          "assessment": "8065fc6137c62f63b5b73d1d69f14b8809172c2f74d2b31f890fb3c80d547541",
+          "attempt": "0455dda572cb48dfabf185f66590ba14"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_6",
+          "candidate": "a93d060ce06bd6bb96a743ed8057ba7920ad593b5d55e271e55eed0138c4251d",
+          "evidence": [
+            "sha256:8a86c4083afbdad06c0ccd13fb05b7cb821526103daadf6c97e1aed992898f54"
+          ],
+          "event_id": "5c241f265f7d3a988ade3a7b2633014ea8dec3066e6c2269f2b6059286681de9",
+          "assessment": "8065fc6137c62f63b5b73d1d69f14b8809172c2f74d2b31f890fb3c80d547541",
+          "attempt": "0455dda572cb48dfabf185f66590ba14"
+        },
+        {
+          "namespace": "implementation",
+          "label": "functionality_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_6",
+          "candidate": "a93d060ce06bd6bb96a743ed8057ba7920ad593b5d55e271e55eed0138c4251d",
+          "evidence": [
+            "sha256:8a86c4083afbdad06c0ccd13fb05b7cb821526103daadf6c97e1aed992898f54"
+          ],
+          "event_id": "3d81b41dbc4cdbe61ea45c3983e7681faea1bdcf75a5caa6f559a771f8dfe867",
+          "assessment": "8065fc6137c62f63b5b73d1d69f14b8809172c2f74d2b31f890fb3c80d547541",
+          "attempt": "0455dda572cb48dfabf185f66590ba14"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_6"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.0,
+      "selected_attempt": "0455dda572cb48dfabf185f66590ba14",
+      "selected_evaluation": null,
+      "evaluation_generation": "5dbfd098cabeba9110ab4e889cb24ca94e5cad961fe10f8ef1d7cbf5a1f709ec",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_6",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "a93d060ce06bd6bb96a743ed8057ba7920ad593b5d55e271e55eed0138c4251d",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "58b643ee4265b50e6a1dc82eea6c67a50d0fe49cdd7f4657e77ee88fa93909bc",
+          "evaluation_sha256": "8a86c4083afbdad06c0ccd13fb05b7cb821526103daadf6c97e1aed992898f54",
+          "started_at": "2026-11-05T11:33:32.425590Z",
+          "completed_at": "2026-11-05T11:39:56.744423Z",
+          "inference_seconds": 384.318833,
+          "evaluation_seconds": 143.11494159698486,
+          "native_steps": 22,
+          "tokens": {
+            "cache_read": 699136,
+            "cache_write": 0,
+            "input": 65363,
+            "output": 5637,
+            "reasoning": 3442
+          },
+          "official_cost": {
+            "usd": 0.016346160000000002,
+            "coverage": "complete",
+            "pricebook": "gpt6-luna-gpt61-sol-terra-standard-user-provided-2026-11-04",
+            "source": "reconciled_native_requests"
+          },
+          "tests": [
+            {
+              "nodeid": "test_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_offline_manifest",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[REG_BUS]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[apb_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[axi_to_reg_v2]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[periph_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc_dst]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc_src]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cut]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_demux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_filter_empty_writes]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_mux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_to_mem]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_uniform]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[axi_w32]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[cut_w32_0]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_error_behavior[uniform_error]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[cut_w32_1]",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_direct_behavior[cut_w32_2]",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_direct_behavior[cut_w32_3]",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_extended_behavior[axi_w64]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[cut_w64_0]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[uniform_wide]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[cut_w64_1]",
+              "group": "Functionality",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_extended_behavior[cut_w64_2]",
+              "group": "Functionality",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_extended_behavior[cut_w64_3]",
+              "group": "Functionality",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb_feedthrough_0]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb_feedthrough_1]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_2phase]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_4phase]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_split]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[demux]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[memory]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[mux]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[peripheral]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[reg_cut]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[reg_filter]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[uniform]",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 15,
+              "total": 15
+            },
+            "core": {
+              "passed": 3,
+              "total": 6
+            },
+            "functionality": {
+              "passed": 3,
+              "total": 6
+            },
+            "regression": {
+              "passed": 13,
+              "total": 13
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 34,
+              "total": 40
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 22,
+            "observed_tool_calls": 43,
+            "native_events": 90,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "95ad7dca3a1d43d3af53adb8897e3a73fe251dd904eb45b87640dbdb39c1ba7f"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 40,
+            "groups": {
+              "core": 6,
+              "error": 0,
+              "functionality": 6,
+              "regression": 13,
+              "structure": 15
+            },
+            "inventory": "290cdd5dedf1ce727407ff97c789adec7e10815586cc369e86ff3ec0cefb15e1"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/098ec4cefa44d1807ea15aa071e0b910a2cf764a2ad279b5703518db117ea21c.tar.gz",
+            "sha256": "098ec4cefa44d1807ea15aa071e0b910a2cf764a2ad279b5703518db117ea21c",
+            "file_count": 108,
+            "size_bytes": 192831,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-05T11:33:28.142509+00:00",
+      "completed_at": "2026-11-05T11:42:55.931939+00:00",
+      "wall_seconds_all_attempts": 567.7811941262335,
+      "official_cost_all_attempts": 0.016346160000000002,
+      "known_official_cost": 0.016346160000000002,
+      "cost_coverage": "complete",
+      "expected_test_counts": {
+        "checkpoint_6": {
+          "total": 40,
+          "groups": {
+            "core": 6,
+            "error": 0,
+            "functionality": 6,
+            "regression": 13,
+            "structure": 15
+          },
+          "inventory": "290cdd5dedf1ce727407ff97c789adec7e10815586cc369e86ff3ec0cefb15e1"
+        }
+      }
+    },
+    {
+      "id": "ad03b3821018ff998d84ead710594485ccdbabcc1a4e87beb9aee8807dec2cc9",
+      "problem": "register_interface_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "gpt-6-luna",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "a5762dc54a9f45c92e389c84f8aba210ae1665cf3e61e8c6ea38cd2b08b3f860",
+      "generation": "216ec79ec83ec32b6142b3738faa1abf404d3cb724b08b2f4d074f23d4c2774a",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_3"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "c1bd14f941d041cda738120a77bc7ad1",
+      "selected_evaluation": null,
+      "evaluation_generation": "216ec79ec83ec32b6142b3738faa1abf404d3cb724b08b2f4d074f23d4c2774a",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_3",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "02a6a4b73b7e18e961aeca7daa146e3497ddf06de1b1cf3fb9dd56b5896fe717",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "0f5eed07ccdc0301c073678e78bc6ea51cf0c610352e051285ba5b9450e44357",
+          "evaluation_sha256": "23f22e1f3b8d8a8211f91c26340dabc94de982285d4c9c88317a35daf7ecf601",
+          "started_at": "2026-11-05T11:53:41.857303Z",
+          "completed_at": "2026-11-05T11:59:48.592692Z",
+          "inference_seconds": 366.735389,
+          "evaluation_seconds": 45.67069864273071,
+          "native_steps": 20,
+          "tokens": {
+            "cache_read": 288896,
+            "cache_write": 0,
+            "input": 23877,
+            "output": 3604,
+            "reasoning": 1066
+          },
+          "official_cost": {
+            "usd": 0.0070786600000000005,
+            "coverage": "complete",
+            "pricebook": "gpt6-luna-gpt61-sol-terra-standard-user-provided-2026-11-04",
+            "source": "reconciled_native_requests"
+          },
+          "tests": [
+            {
+              "nodeid": "test_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_offline_manifest",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[REG_BUS]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[apb_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[periph_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_demux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_mux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_to_mem]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_uniform]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[peripheral]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_error_behavior[uniform_error]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[uniform_wide]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_2phase]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[demux]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[memory]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[mux]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[uniform]",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 10,
+              "total": 10
+            },
+            "core": {
+              "passed": 2,
+              "total": 2
+            },
+            "functionality": {
+              "passed": 1,
+              "total": 1
+            },
+            "regression": {
+              "passed": 6,
+              "total": 6
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 19,
+              "total": 19
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 20,
+            "observed_tool_calls": 32,
+            "native_events": 74,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "8d53d391a7c4bb38726ffd4b704fdc010f537982130bc2c1859fa12c18f2d801"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 19,
+            "groups": {
+              "core": 2,
+              "error": 0,
+              "functionality": 1,
+              "regression": 6,
+              "structure": 10
+            },
+            "inventory": "859cf5015ed3a27df3e706dcfedb94e0ca15d6c961f190639d6c57831998e4f7"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/46ef25f0093fe9a3d9f689aa9d94139985863471d4ac54c10deaf66a61bf15a8.tar.gz",
+            "sha256": "46ef25f0093fe9a3d9f689aa9d94139985863471d4ac54c10deaf66a61bf15a8",
+            "file_count": 23,
+            "size_bytes": 50085,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-05T11:53:38.022137+00:00",
+      "completed_at": "2026-11-05T12:00:47.640440+00:00",
+      "wall_seconds_all_attempts": 429.60833379626274,
+      "official_cost_all_attempts": 0.0070786600000000005,
+      "known_official_cost": 0.0070786600000000005,
+      "cost_coverage": "complete",
+      "expected_test_counts": {
+        "checkpoint_3": {
+          "total": 19,
+          "groups": {
+            "core": 2,
+            "error": 0,
+            "functionality": 1,
+            "regression": 6,
+            "structure": 10
+          },
+          "inventory": "859cf5015ed3a27df3e706dcfedb94e0ca15d6c961f190639d6c57831998e4f7"
+        }
+      }
+    },
+    {
+      "id": "af9df14395d723fa3096445901d211de9be0d8a47169b618cb1557e33c27c059",
+      "problem": "register_interface_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "gpt-6-luna",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "a5762dc54a9f45c92e389c84f8aba210ae1665cf3e61e8c6ea38cd2b08b3f860",
+      "generation": "b4f7c617a22a586d81daeee659c5025ce193d0aaedd4aa982583d07a0d1908bd",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_4"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "8ebcfb641d6a49a4a34e73ccb9721575",
+      "selected_evaluation": null,
+      "evaluation_generation": "b4f7c617a22a586d81daeee659c5025ce193d0aaedd4aa982583d07a0d1908bd",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_4",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "3178a0a68100f474f3a1bf8c6e73764a73574bbe9c18914fc6442b31b81aa221",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "ee5803c808466ef098ae206711ebe5a9c72bdc9e2b35ae27c868e8ec899c8ee8",
+          "evaluation_sha256": "2e9771f55d08be66558b1d5031b06b00e1ba0ff73003633df7bf8357c8f28871",
+          "started_at": "2026-11-05T11:54:21.144675Z",
+          "completed_at": "2026-11-05T12:23:58.775804Z",
+          "inference_seconds": 1777.631129,
+          "evaluation_seconds": 74.09746289253235,
+          "native_steps": 55,
+          "tokens": {
+            "cache_read": 2356608,
+            "cache_write": 0,
+            "input": 109976,
+            "output": 10812,
+            "reasoning": 13836
+          },
+          "official_cost": {
+            "usd": 0.03996968,
+            "coverage": "complete",
+            "pricebook": "gpt6-luna-gpt61-sol-terra-standard-user-provided-2026-11-04",
+            "source": "reconciled_native_requests"
+          },
+          "tests": [
+            {
+              "nodeid": "test_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_offline_manifest",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[REG_BUS]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[apb_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[periph_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc_dst]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc_src]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_demux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_filter_empty_writes]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_mux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_to_mem]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_uniform]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[cdc_2phase]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[cdc_4phase]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[cdc_split]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[cdc_split_4phase]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_error_behavior[uniform_error]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[apb_feedthrough_0]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[apb_feedthrough_1]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[reg_filter]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[uniform_wide]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[demux]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[memory]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[mux]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[peripheral]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[uniform]",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 13,
+              "total": 13
+            },
+            "core": {
+              "passed": 5,
+              "total": 5
+            },
+            "functionality": {
+              "passed": 4,
+              "total": 4
+            },
+            "regression": {
+              "passed": 6,
+              "total": 6
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 28,
+              "total": 28
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 55,
+            "observed_tool_calls": 94,
+            "native_events": 209,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "4be70162d4bcd119e58292d47c3455ebda0fb1912eb2cfb270065433fde297a3"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 28,
+            "groups": {
+              "core": 5,
+              "error": 0,
+              "functionality": 4,
+              "regression": 6,
+              "structure": 13
+            },
+            "inventory": "5da36a89d023d704a69a313db1c165519dadfd9c23a9118d10626203e3395791"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/379c19d26d8fcb478eb5450c26e7404cde02578854f4277f7f826c22ef25f487.tar.gz",
+            "sha256": "379c19d26d8fcb478eb5450c26e7404cde02578854f4277f7f826c22ef25f487",
+            "file_count": 67,
+            "size_bytes": 137782,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-05T11:54:17.803176+00:00",
+      "completed_at": "2026-11-05T12:25:40.124531+00:00",
+      "wall_seconds_all_attempts": 1882.3126930855215,
+      "official_cost_all_attempts": 0.03996968,
+      "known_official_cost": 0.03996968,
+      "cost_coverage": "complete",
+      "expected_test_counts": {
+        "checkpoint_4": {
+          "total": 28,
+          "groups": {
+            "core": 5,
+            "error": 0,
+            "functionality": 4,
+            "regression": 6,
+            "structure": 13
+          },
+          "inventory": "5da36a89d023d704a69a313db1c165519dadfd9c23a9118d10626203e3395791"
+        }
+      }
+    },
+    {
+      "id": "e0566dc84a59e65c17608965683a6d1dbc1166077dee45d1ad25052d9682d027",
+      "problem": "register_interface_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "gpt-6-luna",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "a5762dc54a9f45c92e389c84f8aba210ae1665cf3e61e8c6ea38cd2b08b3f860",
+      "generation": "7923867ca62865d3ae5a63d3f0c95c613240120dc1522ac3d22e7fb2c4510b4e",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_8"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "2f722c271e3242bc8ec86c9f1180c86f",
+      "selected_evaluation": null,
+      "evaluation_generation": "7923867ca62865d3ae5a63d3f0c95c613240120dc1522ac3d22e7fb2c4510b4e",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_8",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "54d3cccd671c9b0e57bf5b03d4e6c6893fb6f7e3e5e6730e8863c83de717ba85",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "62d35916bb3f38a482ce271976248a044617a68cfe47abf104dfca225a14eafc",
+          "evaluation_sha256": "f400bcccfd905d21ccef0c8c36eda84fa8e696132a4541ea894109e64e84b4a6",
+          "started_at": "2026-11-05T13:01:28.965436Z",
+          "completed_at": "2026-11-05T13:28:53.730524Z",
+          "inference_seconds": 1644.765088,
+          "evaluation_seconds": 133.32078957557678,
+          "native_steps": 29,
+          "tokens": {
+            "cache_read": 769280,
+            "cache_write": 0,
+            "input": 104529,
+            "output": 9237,
+            "reasoning": 7215
+          },
+          "official_cost": {
+            "usd": 0.022764200000000002,
+            "coverage": "complete",
+            "pricebook": "gpt6-luna-gpt61-sol-terra-standard-user-provided-2026-11-04",
+            "source": "reconciled_native_requests"
+          },
+          "tests": [
+            {
+              "nodeid": "test_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_offline_manifest",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[REG_BUS]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[apb_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[apb_to_reg_v2]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[axi_to_reg_v2]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[periph_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc_dst]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc_src]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cut]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_demux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_filter_empty_writes]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_mux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_to_axi]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_to_mem]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_uniform]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[apb_v2_0]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[apb_v2_1]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_error_behavior[axi_error]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_error_behavior[uniform_error]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[axi_w64]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[cut_w64_0]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[cut_w64_1]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[cut_w64_2]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[cut_w64_3]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[uniform_wide]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb_feedthrough_0]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb_feedthrough_1]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[axi_w32]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_2phase]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_4phase]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_split]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cut_w32_0]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cut_w32_1]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cut_w32_2]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cut_w32_3]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[demux]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[memory]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[mux]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[peripheral]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[reg_cut]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[reg_filter]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[reg_to_axi]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[uniform]",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 17,
+              "total": 17
+            },
+            "core": {
+              "passed": 4,
+              "total": 4
+            },
+            "functionality": {
+              "passed": 6,
+              "total": 6
+            },
+            "regression": {
+              "passed": 19,
+              "total": 19
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 46,
+              "total": 46
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 29,
+            "observed_tool_calls": 49,
+            "native_events": 111,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "0465312382ba400b8046f4c28adfbfcc14260d27e2583fcbfe2f541d635642f0"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 46,
+            "groups": {
+              "core": 4,
+              "error": 0,
+              "functionality": 6,
+              "regression": 19,
+              "structure": 17
+            },
+            "inventory": "8a73aa3abe4fd25d81b4e8f326f7110baf4adc2d66808365ba58526a0f280202"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/aa13ca71e7ede596d106c38ed8a2e6e22a8c24a94e942c14d2bd15884b230fbd.tar.gz",
+            "sha256": "aa13ca71e7ede596d106c38ed8a2e6e22a8c24a94e942c14d2bd15884b230fbd",
+            "file_count": 116,
+            "size_bytes": 207795,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-05T13:01:26.094908+00:00",
+      "completed_at": "2026-11-05T13:31:39.642294+00:00",
+      "wall_seconds_all_attempts": 1813.5404735431075,
+      "official_cost_all_attempts": 0.022764200000000002,
+      "known_official_cost": 0.022764200000000002,
+      "cost_coverage": "complete",
+      "expected_test_counts": {
+        "checkpoint_8": {
+          "total": 46,
+          "groups": {
+            "core": 4,
+            "error": 0,
+            "functionality": 6,
+            "regression": 19,
+            "structure": 17
+          },
+          "inventory": "8a73aa3abe4fd25d81b4e8f326f7110baf4adc2d66808365ba58526a0f280202"
+        }
+      }
+    },
+    {
+      "id": "ef96089b4ad8a0c78eb4a81085004ceb1f902123a64b7208fcb7f0458764889e",
+      "problem": "register_interface_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "gpt-6-luna",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "a5762dc54a9f45c92e389c84f8aba210ae1665cf3e61e8c6ea38cd2b08b3f860",
+      "generation": "2a607082ef99cb1c98997bbffa03f884c54b9b70f4aacd75db3072667d3c4f90",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_1"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "1bf6d68f860b4525a4b6b9df5ae985e3",
+      "selected_evaluation": null,
+      "evaluation_generation": "2a607082ef99cb1c98997bbffa03f884c54b9b70f4aacd75db3072667d3c4f90",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_1",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "6586c5896a6e8d79aa6f3ff62b725b0a511004b90049794a2b07f12f68909ebf",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "15b9830f6b5711b986587d17e10740e3c54d56ddd548956c04bd89d3f7ae7691",
+          "evaluation_sha256": "5c5729450a422975348b27f487891b45f98727b524429f8818f421c4592f25f9",
+          "started_at": "2026-11-05T13:46:21.116202Z",
+          "completed_at": "2026-11-05T13:54:36.375856Z",
+          "inference_seconds": 495.259654,
+          "evaluation_seconds": 14.564013957977295,
+          "native_steps": 20,
+          "tokens": {
+            "cache_read": 254720,
+            "cache_write": 0,
+            "input": 62642,
+            "output": 3823,
+            "reasoning": 1952
+          },
+          "official_cost": {
+            "usd": 0.0107229,
+            "coverage": "complete",
+            "pricebook": "gpt6-luna-gpt61-sol-terra-standard-user-provided-2026-11-04",
+            "source": "reconciled_native_requests"
+          },
+          "tests": [
+            {
+              "nodeid": "test_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_offline_manifest",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[REG_BUS]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[apb_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_uniform]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[apb]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_error_behavior[uniform_error]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[uniform]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[uniform_wide]",
+              "group": "Functionality",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 5,
+              "total": 5
+            },
+            "core": {
+              "passed": 2,
+              "total": 2
+            },
+            "functionality": {
+              "passed": 2,
+              "total": 2
+            },
+            "regression": {
+              "passed": 0,
+              "total": 0
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 9,
+              "total": 9
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 20,
+            "observed_tool_calls": 34,
+            "native_events": 78,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "971a3deb4b0cec2d41649c2d1641d667ffa395833c97c9869227072edd773de7"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 9,
+            "groups": {
+              "core": 2,
+              "error": 0,
+              "functionality": 2,
+              "regression": 0,
+              "structure": 5
+            },
+            "inventory": "1b9c1cb1e34f8444eab9890365091924120ede1e8f962d2b7abb19cd56323459"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/8a5375139a4690f4da2410ed278a3bca4348193056841855a26811bf8b5a977a.tar.gz",
+            "sha256": "8a5375139a4690f4da2410ed278a3bca4348193056841855a26811bf8b5a977a",
+            "file_count": 14,
+            "size_bytes": 44530,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-05T13:46:18.381754+00:00",
+      "completed_at": "2026-11-05T13:55:01.456778+00:00",
+      "wall_seconds_all_attempts": 523.067180480808,
+      "official_cost_all_attempts": 0.0107229,
+      "known_official_cost": 0.0107229,
+      "cost_coverage": "complete",
+      "expected_test_counts": {
+        "checkpoint_1": {
+          "total": 9,
+          "groups": {
+            "core": 2,
+            "error": 0,
+            "functionality": 2,
+            "regression": 0,
+            "structure": 5
+          },
+          "inventory": "1b9c1cb1e34f8444eab9890365091924120ede1e8f962d2b7abb19cd56323459"
+        }
+      }
+    }
+  ]
+}

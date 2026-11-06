@@ -14,7 +14,7 @@ test('current final counts agree with scored applicability while raw skips remai
     const raw=await readFile(new URL('data/results/'+detail.path,root));
     assert.equal(createHash('sha256').update(raw).digest('hex'),detail.sha256);
     const cells=JSON.parse(raw).cells.filter(c=>c.mode==='pipeline');
-    assert.equal(cells.length,8);
+    assert.equal(cells.length,9);
     for(const cell of cells){
       const cp=cell.checkpoints.at(-1);
       const result=finalResult(cell,cells);
