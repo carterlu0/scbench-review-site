@@ -2,8 +2,24 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {finalResult,testCounts,csv} from '../experiments-core.mjs';
+import {renderPublicationNotes} from '../experiments.mjs';
+import {renderPaperMetrics} from '../paper-metrics.mjs';
 
 const load=async path=>JSON.parse(await readFile(new URL(`../data/${path}`,import.meta.url),'utf8'));
+
+test('Kimi price notes explain CNY conversion and pending cost',async()=>{
+  const latest=await load('results/latest.json');
+  const group=latest.report.groups.find(g=>g.config.model==='kimi-k3.1-pro');
+  const notes=renderPublicationNotes(group.publication,latest.report.price_metadata);
+  assert.match(notes,/USD\/CNY reference rate/);
+  assert.match(notes,/cache writes \(5 min\)/);
+  assert.match(notes,/unfinished PCIe cost remains unknown/);
+  assert.doesNotMatch(notes,/pricing is pending/);
+  const html=renderPaperMetrics(latest.report,{model:'kimi-k3.1-pro'},new URLSearchParams('overhead=1'));
+  assert.match(html,/\$1\.944345/);
+  assert.match(html,/\$10\.17042/);
+  assert.match(html,/\$0\.194435/);
+});
 
 test('Kimi publishes 88 completed trials and a running PCIe temporary zero',async()=>{
   const latest=await load('results/latest.json');

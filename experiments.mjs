@@ -89,6 +89,8 @@ export function renderPublicationNotes(publication, pricing) {
   let notes=Array.isArray(publication?.display_notes)?publication.display_notes.filter(note=>typeof note==='string'&&note.trim()):[];
   if(pricing?.rates?.some(rate=>rate.model==='gpt-6.1-terra'))notes=notes.map(note=>note.replace('Terra pricing is unregistered, so cost remains unknown.', 'Terra costs use the user-provided Standard prices shown in the price table.'));
   if(pricing?.rates?.some(rate=>rate.model==='deepseek-flash'))notes=notes.map(note=>note.replace('DeepSeek time-dependent pricing remains pending; unknown costs do not mean free usage.', 'DeepSeek costs use the user-provided peak prices: $0.006 cached input, $0.30 uncached input and $1.20 output per 1M tokens. Separately recorded reasoning tokens are billed as output. These are peak-rate estimates for selected attempts, before any off-peak discount.'));
+  const kimi=pricing?.rates?.find(rate=>rate.model==='kimi-k3.1-pro');
+  if(kimi)notes=notes.map(note=>note.replace('Moonshot pricing is pending; unknown costs do not mean free usage.', `Kimi costs use user-provided CNY prices converted at the ${kimi.fx.date} USD/CNY reference rate of $${kimi.fx.usd_per_cny}: $${kimi.input} input, $${kimi.output} output, $${kimi.cache_read} cache hits and $${kimi.cache_write} cache writes (5 min) per 1M tokens. Output includes separately recorded reasoning. The estimate excludes unselected retries; unfinished PCIe cost remains unknown. FX source: ${kimi.fx.source}.`));
   return notes.length?`<div class="matrix-publication-notes matrix-method">${notes.map(note=>`<p>${esc(note)}</p>`).join('')}</div>`:'';
 }
 export function renderFinalSuiteSummary(summary) {

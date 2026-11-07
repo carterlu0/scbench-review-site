@@ -1,5 +1,5 @@
 {
-  "version": "sol-terra-mimo-deepseek-peak-user-provided-20261106",
+  "version": "sol-terra-mimo-deepseek-kimi-user-provided-20261107",
   "currency": "USD",
   "unit": "per_million_tokens",
   "rates": [
@@ -53,6 +53,33 @@
         "output": 8.0
       },
       "estimate_basis": "uniform_peak_rates_before_off_peak_discounts"
+    },
+    {
+      "model": "kimi-k3.1-pro",
+      "input": 1.944345,
+      "output": 10.17042,
+      "cache_read": 0.1944345,
+      "cache_write": 1.944345,
+      "output_token_semantics": "exclusive_reasoning",
+      "source": "User-provided Kimi prices, 2026-11-07: CNY 13 input, CNY 68 output, CNY 1.30 cache hits and CNY 13 cache writes (5 min) per 1M tokens. Converted at USD 0.149565 per CNY using ExchangeRate-API reference rates published and retrieved on 2026-11-07. OpenCode output excludes reasoning; billed output includes both. Cache writes included in uncached input are charged once at the same rate.",
+      "verified_at": "2026-11-07 (user supplied)",
+      "region": "official",
+      "service": "moonshoot / official",
+      "source_prices_cny_per_million": {
+        "input": 13,
+        "output": 68,
+        "cache_read": 1.3,
+        "cache_write": 13
+      },
+      "cache_write_ttl_seconds": 300,
+      "fx": {
+        "usd_per_cny": 0.149565,
+        "kind": "published_daily_reference_rate",
+        "date": "2026-11-07",
+        "source": "https://open.er-api.com/v6/latest/CNY",
+        "published_at": "2026-11-07T00:02:31Z",
+        "note": "Reference rate; actual provider/card settlement may differ."
+      }
     }
   ],
   "aggregate_request_bounds": [],
@@ -67,5 +94,5 @@
     "temporary": true,
     "source": "User instruction, 2026-10-31: temporarily count the two explicitly listed provisional Sol failed runs as USD 0. Original usage and pre-override cost estimates are retained separately; missing timings remain unknown."
   },
-  "notes": "Standard rates supplied by the user on 2026-11-04 for GPT-6.1-Sol and GPT-6.1-Terra, and Agicto MiMo prices supplied on 2026-11-05. MiMo cache writes are provisionally priced at the uncached input rate because no separate write rate was supplied. Applied to actual usage and the uniform 85% cache scenario. The existing two explicitly listed provisional Sol failed runs retain their temporary USD 0 policy; missing usage remains unknown. DeepSeek official peak prices supplied on 2026-11-06 are applied uniformly for comparison, with separately recorded OpenCode reasoning included in billed output; this is a peak-rate estimate before off-peak discounts."
+  "notes": "Standard rates supplied by the user on 2026-11-04 for GPT-6.1-Sol and GPT-6.1-Terra, and Agicto MiMo prices supplied on 2026-11-05. MiMo cache writes are provisionally priced at the uncached input rate because no separate write rate was supplied. Applied to actual usage and the uniform 85% cache scenario. The existing two explicitly listed provisional Sol failed runs retain their temporary USD 0 policy; missing usage remains unknown. DeepSeek official peak prices supplied on 2026-11-06 are applied uniformly for comparison, with separately recorded OpenCode reasoning included in billed output; this is a peak-rate estimate before off-peak discounts. Kimi user-supplied CNY prices use the 2026-11-07 ExchangeRate-API reference rate of USD 0.149565 per CNY, including separately recorded OpenCode reasoning as billed output and 5-minute cache writes."
 }

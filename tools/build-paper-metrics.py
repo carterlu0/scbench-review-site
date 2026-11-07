@@ -53,6 +53,9 @@ def apply_price_overrides(book, analysis, overrides):
 def reprice_report(report, details, analysis, manifest, book):
     """Refresh prices from saved usage while preserving scores and timings."""
     def update_costs(target, refreshed):
+        chains = {chain['chain_id']: chain for chain in refreshed.get('chains', [])}
+        for chain in target.get('chains', []):
+            chain['cost_usd_by_policy'] = chains[chain['chain_id']]['cost_usd_by_policy']
         for key, resource in target["resources"].items():
             resource.update({name: value for name, value in refreshed["resources"][key].items()
                              if "cost" in name})
