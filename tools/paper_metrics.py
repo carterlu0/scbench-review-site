@@ -609,6 +609,20 @@ def normalize_checkpoint(
         return row
     checkpoint_override = cp.get("score_override", {})
     override = checkpoint_override or cell.get("score_override", {})
+    if (override.get("reason") == "temporary_user_zero"
+            and override.get("value") == 0
+            and override.get("provisional") is True and not reason):
+        inventory = cell.get("expected_test_counts", {}).get(
+            spec["id"], cp.get("expected_test_counts", {}))
+        totals = dict(inventory.get("groups", {}))
+        if "functionality" in totals:
+            totals["core"] = totals.get("core", 0) + totals["functionality"]
+        return {**row, "execution_status": "executed", "strict_pass": 0,
+                "compatible": True, "reason": "temporary_user_zero",
+                "raw_execution_status": cp.get("state"),
+                "score_override": override, "failure_group_totals": totals,
+                "costs": {p: {"usd": None, "reason": "pending_experiment",
+                              "policy": p} for p in ("actual", "fixed_85")}}
     if (
         override.get("value") == 0
         and override.get("reason") == "agent_failure"
@@ -812,7 +826,7 @@ def sr_regression_failure_rate(rows: list[dict[str, Any]], eligible: bool) -> di
             reason = "chain_initial_checkpoint"
         elif row.get("regression_result_exclusion"):
             reason = row["regression_result_exclusion"]
-        elif row.get("reason") in {"delivery_failure", "provisional_agent_failure"}:
+        elif row.get("reason") in {"delivery_failure", "provisional_agent_failure", "temporary_user_zero"}:
             reason = row["reason"]
         elif regression and not regression["applicable"]:
             reason = "no_applicable_regression"
@@ -983,12 +997,12 @@ def summarize(
         return (r.get("groups") or {}).get("core")
 
     def failure_total(r, group):
-        if r.get("reason") in {"provisional_agent_failure", "delivery_failure"}:
+        if r.get("reason") in {"provisional_agent_failure", "delivery_failure", "temporary_user_zero"}:
             return r.get("failure_group_totals", {}).get(group)
         return None
 
     def core_pass(r):
-        if r.get("reason") in {"provisional_agent_failure", "delivery_failure"}:
+        if r.get("reason") in {"provisional_agent_failure", "delivery_failure", "temporary_user_zero"}:
             return 0
         return (
             int(core(r)["all_passed"])

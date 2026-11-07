@@ -84,7 +84,7 @@ const validCount = value => Number.isInteger(value) && value >= 0;
 export function testCounts(checkpoint, group = 'total') {
   if (!checkpoint) return null;
   const key = group.toLowerCase() === 'functionality' ? 'core' : group.toLowerCase();
-  if (checkpoint.score_override?.value === 0 && checkpoint.score_override.reason === 'agent_failure') {
+  if (checkpoint.score_override?.value === 0 && ['agent_failure','temporary_user_zero'].includes(checkpoint.score_override.reason)) {
     const expected = checkpoint.expected_test_counts;
     const total = key === 'total' ? expected?.total : key === 'core' && expected?.groups
       ? (expected.groups.core || 0) + (expected.groups.functionality || 0) : expected?.groups?.[key];
@@ -185,9 +185,9 @@ export function finalResult(cell, peers = []) {
   const target = plannedTargets(cell).at(-1);
   const final = cell.checkpoints.find(cp => cp.target_checkpoint === target);
   const override=final?.score_override||cell.score_override;
-  if (override?.value === 0 && override.reason === 'agent_failure') {
+  if (override?.value === 0 && ['agent_failure','temporary_user_zero'].includes(override.reason)) {
     const total = cell.expected_test_counts?.[target]?.total ?? testCounts(final)?.total;
-    return {passed: 0, total: validCount(total) ? total : null, target, reason: 'agent_failure'};
+    return {passed: 0, total: validCount(total) ? total : null, target, reason: override.reason};
   }
   const counts = testCounts(final);
   if (counts?.total > 0 && ['passed', 'failed'].includes(final.state)) return {...counts, target, reason: isDeliveryFailure(final) ? 'delivery_failure' : 'evaluated'};

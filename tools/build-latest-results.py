@@ -236,7 +236,7 @@ def build(site, models=None):
                     failure_rows.append({"model": cell["model"], "agent": cell["agent"], "effort": cell["thinking"],
                         "problem": cell["problem"], "mode": cell["mode"], "cell_id": cell["id"],
                         "target_checkpoint": cp["target_checkpoint"],
-                        "category": "agent_failure" if zero else cp.get("nonpass_category") or ("interface_mismatch" if cp.get("candidate_failure") else "implementation_error"),
+                        "category": ("temporary_user_zero" if cp.get("score_override", {}).get("reason") == "temporary_user_zero" else "agent_failure") if zero else cp.get("nonpass_category") or ("interface_mismatch" if cp.get("candidate_failure") else "implementation_error"),
                         "subtype": (cp.get("score_override", {}).get("classification") if zero else None)
                         or cp.get("nonpass_subtype") or "observable_test_failure"})
         summary_rows.append({"model": config["model"], "agent": config["agent"], "agent_version": config["agent_version"], "thinking": config["thinking"],

@@ -11,10 +11,10 @@ const load=async path=>JSON.parse(await readFile(new URL(path,root),'utf8'));
 const data=await load('results/latest.json');
 const frozen='e5fd63bae542d4f07bc711abf1792ed6a356298138c17c8873ba377d3927472b';
 
-test('current view retains six complete Codex settings alongside four OpenCode models',()=>{
-  assert.equal(data.report.groups.length,10);
-  assert.equal(data.cells.length,890);
-  assert.equal(new Set(data.report.groups.map(g=>`${g.config.model}/${g.config.agent}/${g.config.thinking}`)).size,10);
+test('current view retains six complete Codex settings alongside five OpenCode models',()=>{
+  assert.equal(data.report.groups.length,11);
+  assert.equal(data.cells.length,979);
+  assert.equal(new Set(data.report.groups.map(g=>`${g.config.model}/${g.config.agent}/${g.config.thinking}`)).size,11);
   const expected={low:[1/15,0.21055555555555555,0.30002470355731226,19/74],medium:[2/15,0.23833333333333334,0.31410489916587475,31/74],high:[3/15,0.27166666666666667,0.6212004931569692,40/74],xhigh:[5/15,0.34,0.7558546703973533,47/74]};
   for(const group of data.report.groups.filter(g=>g.config.agent==='codex')){
     assert.deepEqual(group.issues,[]);
@@ -59,7 +59,7 @@ test('current problem details preserve the selected candidate and evaluation ide
       }
     }
   }
-  assert.equal(count,890);
+  assert.equal(count,979);
 });
 
 test('SR RFR counts binary failures only among valid noninitial checkpoints',()=>{

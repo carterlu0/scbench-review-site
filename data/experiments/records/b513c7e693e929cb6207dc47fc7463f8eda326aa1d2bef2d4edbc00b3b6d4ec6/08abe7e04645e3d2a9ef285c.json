@@ -1,0 +1,4636 @@
+{
+  "schema_version": 4,
+  "analysis": "b513c7e693e929cb6207dc47fc7463f8eda326aa1d2bef2d4edbc00b3b6d4ec6",
+  "problem": "serv_t1",
+  "cells": [
+    {
+      "id": "2925854164a246c7b0d6570ac0771b2fd72de4d766ebf1928317d6bc36b1da9f",
+      "problem": "serv_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "kimi-k3.1-pro",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "13e2a3651236af435cf6abb71f648899952b5feeabb8085862a5eed191ab4f58",
+      "generation": "e35561ca7af4c81618d7d95f6e6548ae1caea26d4608faf7bc58137f59c79141",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "execution",
+          "label": "interrupted",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:4e973e791474b3780333f0b616f91982eae86a121989961aaa130870392d15a5"
+          ],
+          "event_id": "b75455413b46a04f5653fc24522cfd5a4dc36a48ffc65497c53763e42a17b5de",
+          "assessment": "335624c07c656f14e07fb18cdf011571c4e651b9cd329ab43b26dc8937853930",
+          "attempt": "fd460e63586346c984bea22f347276c7"
+        },
+        {
+          "namespace": "execution",
+          "label": "infrastructure_failure",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:1cb75788a96695a375466507f532bc43f9097a0551d7b38715e70e556ecf603b"
+          ],
+          "event_id": "d9244843009b6811913b9a40944358ffcfbda5cc61d53b49dddc8e821932dc52",
+          "assessment": "c31d678bd4f29dd6c4a59dcc110301fa305d3beea72860681173473f8b98ea87",
+          "attempt": "84444c5a28b64a89a089dc120c531b03"
+        },
+        {
+          "namespace": "execution",
+          "label": "unknown",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_8",
+          "candidate": "5611e3c0414eb4769fe9e469d8ae171a223aaefd73466e6d8a655eebe9c2ffb4",
+          "evidence": [
+            "sha256:1cb75788a96695a375466507f532bc43f9097a0551d7b38715e70e556ecf603b"
+          ],
+          "event_id": "7b2b5eb23269487215ec2cc2358ac05e18bc0846f29812f31a204b10ce1e5859",
+          "assessment": "c31d678bd4f29dd6c4a59dcc110301fa305d3beea72860681173473f8b98ea87",
+          "attempt": "84444c5a28b64a89a089dc120c531b03"
+        },
+        {
+          "namespace": "execution",
+          "label": "inference_error",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_8",
+          "candidate": "5611e3c0414eb4769fe9e469d8ae171a223aaefd73466e6d8a655eebe9c2ffb4",
+          "evidence": [
+            "sha256:1cb75788a96695a375466507f532bc43f9097a0551d7b38715e70e556ecf603b"
+          ],
+          "event_id": "f37cab3c2cf54b7baa1652001d0fe5e8aa8fde5d9559442bf2886797c367b646",
+          "assessment": "c31d678bd4f29dd6c4a59dcc110301fa305d3beea72860681173473f8b98ea87",
+          "attempt": "84444c5a28b64a89a089dc120c531b03"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_8"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "7f28bfa296bd4544b7b437655159f475",
+      "selected_evaluation": null,
+      "evaluation_generation": "e35561ca7af4c81618d7d95f6e6548ae1caea26d4608faf7bc58137f59c79141",
+      "attempt_count": 3,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_8",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "c5fc9bc4fb55ad14ee62b115d7e0fea5da4bacfe91efc8b5d384999cbb288f45",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "4bd7d1f49110995475b5ce0355fd60c2a202fc520bece0f194632dfdb19b5c2a",
+          "evaluation_sha256": "e1595849b21bc288837cc9274a1d73ce3839c017a398010df342bf3fef3b9da8",
+          "started_at": "2026-11-06T04:55:19.721826Z",
+          "completed_at": "2026-11-06T05:18:40.686401Z",
+          "inference_seconds": 1400.964575,
+          "evaluation_seconds": 2.324291467666626,
+          "native_steps": 52,
+          "tokens": {
+            "cache_read": 3037952,
+            "cache_write": 0,
+            "input": 83509,
+            "output": 26663,
+            "reasoning": 20295
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "kimi-k3.1-pro-pending-official-rate-20261106",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_preserves_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_6_wishbone_instruction_and_data_buses",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_publishes_compressed_wrapper_parameters",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_negative_jal",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_scenario_0",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_scenario_19",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_1",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_17",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_18",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_20",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_3_scenario_2",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_4_scenario_3",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_5_scenario_14",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_5_scenario_15",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_5_scenario_16",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_6_scenario_5",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_6_scenario_6",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_7_scenario_7",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_7_scenario_8",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_target_behavior_10",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_target_behavior_9",
+              "group": "Core",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 3,
+              "total": 3
+            },
+            "core": {
+              "passed": 2,
+              "total": 2
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 16,
+              "total": 16
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 21,
+              "total": 21
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 52,
+            "observed_tool_calls": 85,
+            "native_events": 202,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "567078f54b5990e0c693d7a784222885d9bfa2df4e5f9fc113da05cb05c334cd"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 21,
+            "groups": {
+              "core": 2,
+              "error": 0,
+              "functionality": 0,
+              "regression": 16,
+              "structure": 3
+            },
+            "inventory": "6100481dabdd86d43b51a5166b76790e210fc5c501d1af081279d889e389f4c7"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/3a8167a9263cd23410e54411cd75774319c4c6c78865a71742f3ab3660f8f85c.tar.gz",
+            "sha256": "3a8167a9263cd23410e54411cd75774319c4c6c78865a71742f3ab3660f8f85c",
+            "file_count": 143,
+            "size_bytes": 123601,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 3,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-06T03:44:30.057855+00:00",
+      "completed_at": "2026-11-06T05:18:55.733146+00:00",
+      "wall_seconds_all_attempts": 2408.561745725572,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_8": {
+          "total": 21,
+          "groups": {
+            "core": 2,
+            "error": 0,
+            "functionality": 0,
+            "regression": 16,
+            "structure": 3
+          },
+          "inventory": "6100481dabdd86d43b51a5166b76790e210fc5c501d1af081279d889e389f4c7"
+        }
+      }
+    },
+    {
+      "id": "2b8d32595379d167a475fdb31e5a5705cf0632e22027578d5adbe9774a80c9a8",
+      "problem": "serv_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "kimi-k3.1-pro",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "13e2a3651236af435cf6abb71f648899952b5feeabb8085862a5eed191ab4f58",
+      "generation": "76b7764d30681b57e4f9b2eb0b8de501e7570868ff9fd77e636b878c535bf98c",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "execution",
+          "label": "interrupted",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:2295383cf43e252b7fecd98d7490c66c70644b80f3d8b7d1cd8d3dae3e373d4e"
+          ],
+          "event_id": "564402aace7390e1aae4d4b1c718e9e6eea304467a7f87c5c3918f5aa1ef54b4",
+          "assessment": "620a8a873eecacbe0267b0baf1aed8f2368bce8c373e92cfda2f4b93510b9789",
+          "attempt": "91fe5ef983dd48d0852805c9167c217e"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_1"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "aca886931087469bae8176e9336deaf6",
+      "selected_evaluation": null,
+      "evaluation_generation": "76b7764d30681b57e4f9b2eb0b8de501e7570868ff9fd77e636b878c535bf98c",
+      "attempt_count": 2,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_1",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "9317161f17b855ab5cc66f7885c252fa462708f0c694b73853ea9f859b627ff4",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "82bb2e99ef9d77deb1aa0385f774b9d8f4860782169936c0498fc1ef76612fb3",
+          "evaluation_sha256": "7da7de19fac594c951c972553bf0f75edac30c89ee7a46118997eaa2179260b2",
+          "started_at": "2026-11-06T04:23:33.067473Z",
+          "completed_at": "2026-11-06T04:31:38.312198Z",
+          "inference_seconds": 485.244725,
+          "evaluation_seconds": 0.8276877403259277,
+          "native_steps": 32,
+          "tokens": {
+            "cache_read": 750336,
+            "cache_write": 0,
+            "input": 33000,
+            "output": 7775,
+            "reasoning": 7563
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "kimi-k3.1-pro-pending-official-rate-20261106",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_negative_jal_redirects_next_fetch",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_target_behavior_0",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_target_behavior_19",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_public_legacy_bus_abi",
+              "group": "Structure",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 3,
+              "total": 3
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 0,
+              "total": 0
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 4,
+              "total": 4
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 32,
+            "observed_tool_calls": 31,
+            "native_events": 100,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "e1c67535bf4f2676b98426be0e14e41ed4db5381d83cc07771af65e3dfc6cf14"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 4,
+            "groups": {
+              "core": 3,
+              "error": 0,
+              "functionality": 0,
+              "regression": 0,
+              "structure": 1
+            },
+            "inventory": "6e3a87880eb4637747d971a9b01e0d4080af0c0d6c5229ceac6789d76e4cee1f"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/6e2f9b202cc179f9f8fa02e2b2c463a5a04f4d324de83246b5bc101d9519d43a.tar.gz",
+            "sha256": "6e2f9b202cc179f9f8fa02e2b2c463a5a04f4d324de83246b5bc101d9519d43a",
+            "file_count": 43,
+            "size_bytes": 94361,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 2,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-06T03:44:41.725843+00:00",
+      "completed_at": "2026-11-06T04:31:50.300838+00:00",
+      "wall_seconds_all_attempts": 508.206061726436,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_1": {
+          "total": 4,
+          "groups": {
+            "core": 3,
+            "error": 0,
+            "functionality": 0,
+            "regression": 0,
+            "structure": 1
+          },
+          "inventory": "6e3a87880eb4637747d971a9b01e0d4080af0c0d6c5229ceac6789d76e4cee1f"
+        }
+      }
+    },
+    {
+      "id": "3268eee8d561b8f3ef569f016c0e6a78fbdfd9d2d8f8f39e0ebeb94f43bec3d9",
+      "problem": "serv_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "kimi-k3.1-pro",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "13e2a3651236af435cf6abb71f648899952b5feeabb8085862a5eed191ab4f58",
+      "generation": "567ac70a800c78982686eeab0bdbae77779450a952fb594f87387127621b8389",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "execution",
+          "label": "infrastructure_failure",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:7e4797cb0cd816f3fa5ddcf80d4f1fd686e3f44cb725db50d15fe80263324444"
+          ],
+          "event_id": "ab03736758e69727c40e627a42d6c2ffe3e77550b7423457b9c47d7b1bd68823",
+          "assessment": "94917cb06599140f2b805b6948fd03696bf9f3c315256e38bf97522b826e4312",
+          "attempt": "091e9e137a3b4f29a334d1fb70e0a007"
+        },
+        {
+          "namespace": "execution",
+          "label": "unknown",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_7",
+          "candidate": "f7e0554f76ba1216caa967a6c7ff2153b884badd70b5a34b263e9279fcf937b1",
+          "evidence": [
+            "sha256:7e4797cb0cd816f3fa5ddcf80d4f1fd686e3f44cb725db50d15fe80263324444"
+          ],
+          "event_id": "9cd4c1e805fe95e4e25b0d055bdeef6d9a05c2dfd75870a9fc0c6aa1fe036097",
+          "assessment": "94917cb06599140f2b805b6948fd03696bf9f3c315256e38bf97522b826e4312",
+          "attempt": "091e9e137a3b4f29a334d1fb70e0a007"
+        },
+        {
+          "namespace": "execution",
+          "label": "inference_error",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_7",
+          "candidate": "f7e0554f76ba1216caa967a6c7ff2153b884badd70b5a34b263e9279fcf937b1",
+          "evidence": [
+            "sha256:7e4797cb0cd816f3fa5ddcf80d4f1fd686e3f44cb725db50d15fe80263324444"
+          ],
+          "event_id": "e1a41920d0e4213edc3b0c5b021c2a9e692ba347badced681d218010e5166c31",
+          "assessment": "94917cb06599140f2b805b6948fd03696bf9f3c315256e38bf97522b826e4312",
+          "attempt": "091e9e137a3b4f29a334d1fb70e0a007"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_7"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "4ef5aac3a3fc49089a57bf89f5bab727",
+      "selected_evaluation": null,
+      "evaluation_generation": "567ac70a800c78982686eeab0bdbae77779450a952fb594f87387127621b8389",
+      "attempt_count": 2,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_7",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "abe680696b1da04c4663baf03ae2d997feca68ed54a4dc740d4ffc0cdaa13323",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "a2c7a4011810fce8adf485d1e00bbb2d8e4a33fb68cb1ec30fb3aa2cf4b12764",
+          "evaluation_sha256": "10dd190f72bcdaeddf32a5918c65bbb4d4ec99205a04d5a0eaad67bba870d45e",
+          "started_at": "2026-11-06T04:55:20.018718Z",
+          "completed_at": "2026-11-06T05:16:33.013844Z",
+          "inference_seconds": 1272.995126,
+          "evaluation_seconds": 1.9435045719146729,
+          "native_steps": 100,
+          "tokens": {
+            "cache_read": 4971264,
+            "cache_write": 0,
+            "input": 99637,
+            "output": 18142,
+            "reasoning": 17563
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "kimi-k3.1-pro-pending-official-rate-20261106",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_preserves_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_6_wishbone_instruction_and_data_buses",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_negative_jal",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_scenario_0",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_scenario_19",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_1",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_17",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_18",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_20",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_3_scenario_2",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_4_scenario_3",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_5_scenario_14",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_5_scenario_15",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_5_scenario_16",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_6_scenario_5",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_6_scenario_6",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_target_behavior_7",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_target_behavior_8",
+              "group": "Core",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 2,
+              "total": 2
+            },
+            "core": {
+              "passed": 2,
+              "total": 2
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 14,
+              "total": 14
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 18,
+              "total": 18
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 100,
+            "observed_tool_calls": 99,
+            "native_events": 314,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "14786f3b01f64e3b450b51030819f4fb842174b03a4e2f6904cc430e0e734edc"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 18,
+            "groups": {
+              "core": 2,
+              "error": 0,
+              "functionality": 0,
+              "regression": 14,
+              "structure": 2
+            },
+            "inventory": "84a65cebc1705544c23fd7c2e6b6ef0b603ece0e0d3c572817acfe088a484f50"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/bf9d58f2c71f96ea076494e69207219f4ff3652e0940f724845de3c83dfbd567.tar.gz",
+            "sha256": "bf9d58f2c71f96ea076494e69207219f4ff3652e0940f724845de3c83dfbd567",
+            "file_count": 158,
+            "size_bytes": 127480,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 2,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-06T04:24:08.285303+00:00",
+      "completed_at": "2026-11-06T05:16:46.738092+00:00",
+      "wall_seconds_all_attempts": 1920.458202343434,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_7": {
+          "total": 18,
+          "groups": {
+            "core": 2,
+            "error": 0,
+            "functionality": 0,
+            "regression": 14,
+            "structure": 2
+          },
+          "inventory": "84a65cebc1705544c23fd7c2e6b6ef0b603ece0e0d3c572817acfe088a484f50"
+        }
+      }
+    },
+    {
+      "id": "34a9cb99e2a8a5b19d9990d1caa6c2fe6c013098ff8cdebc69860b11dd744568",
+      "problem": "serv_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "kimi-k3.1-pro",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "13e2a3651236af435cf6abb71f648899952b5feeabb8085862a5eed191ab4f58",
+      "generation": "e3e9ac5231efa1e73a3e8946d579a28970c3e7e8926bc43a4626bbfa067f412a",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "execution",
+          "label": "infrastructure_failure",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:32ce943bae47a1a822e6e880b3c6a5d293451df7af565ed8887d69ee16e01aaa"
+          ],
+          "event_id": "497f99d0b68e92209866aadc07d6a212bef21b4b6701d8c06deeb769bfe7a6ae",
+          "assessment": "70f30e0207e760b95b1fec65a71725840d376ffaceb70c36cebc44b6f4511bf5",
+          "attempt": "0da376638dfb4e1198b94803263160a7"
+        },
+        {
+          "namespace": "execution",
+          "label": "unknown",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_9",
+          "candidate": "2dfba2d479340857ed1ef9cb2287065f28ae58d98447b8fa2a8d227353e648cd",
+          "evidence": [
+            "sha256:32ce943bae47a1a822e6e880b3c6a5d293451df7af565ed8887d69ee16e01aaa"
+          ],
+          "event_id": "bbcc2d32b95e93b83ececa3b5dacbce15a2876fd436b39965298f683260a3aed",
+          "assessment": "70f30e0207e760b95b1fec65a71725840d376ffaceb70c36cebc44b6f4511bf5",
+          "attempt": "0da376638dfb4e1198b94803263160a7"
+        },
+        {
+          "namespace": "execution",
+          "label": "inference_error",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_9",
+          "candidate": "2dfba2d479340857ed1ef9cb2287065f28ae58d98447b8fa2a8d227353e648cd",
+          "evidence": [
+            "sha256:32ce943bae47a1a822e6e880b3c6a5d293451df7af565ed8887d69ee16e01aaa"
+          ],
+          "event_id": "801e678216049379efcc26b2ca056425cffa026195aa127caf4d39d3d3b4fd18",
+          "assessment": "70f30e0207e760b95b1fec65a71725840d376ffaceb70c36cebc44b6f4511bf5",
+          "attempt": "0da376638dfb4e1198b94803263160a7"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_9"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "2b40b1ccba0a4781b8a23fb59ee270b6",
+      "selected_evaluation": null,
+      "evaluation_generation": "e3e9ac5231efa1e73a3e8946d579a28970c3e7e8926bc43a4626bbfa067f412a",
+      "attempt_count": 2,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_9",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "a3a7e0aadd9421499b220cf6f377cb3a8707be6f779886a6a4714550afb022b6",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "9ffcd8ce098daaa8591ec5b47288525226af80990b7b8c6fdea635c6d1088b2e",
+          "evaluation_sha256": "0e51bb27958b8ba770b925acd43951453bdd7bba80f93d042e7bf4ad9ecba9b1",
+          "started_at": "2026-11-06T04:55:20.099226Z",
+          "completed_at": "2026-11-06T05:26:22.114607Z",
+          "inference_seconds": 1862.015381,
+          "evaluation_seconds": 2.6092529296875,
+          "native_steps": 162,
+          "tokens": {
+            "cache_read": 12153600,
+            "cache_write": 0,
+            "input": 134847,
+            "output": 36693,
+            "reasoning": 24044
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "kimi-k3.1-pro-pending-official-rate-20261106",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_preserves_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_6_wishbone_instruction_and_data_buses",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_8_compressed_wrapper_parameters",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_publishes_configurable_datapath_width",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_negative_jal",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_scenario_0",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_scenario_19",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_1",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_17",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_18",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_20",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_3_scenario_2",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_4_scenario_3",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_5_scenario_14",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_5_scenario_15",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_5_scenario_16",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_6_scenario_5",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_6_scenario_6",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_7_scenario_7",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_7_scenario_8",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_8_scenario_10",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_8_scenario_9",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_target_behavior_11",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_target_behavior_12",
+              "group": "Core",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 4,
+              "total": 4
+            },
+            "core": {
+              "passed": 2,
+              "total": 2
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 18,
+              "total": 18
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 24,
+              "total": 24
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 162,
+            "observed_tool_calls": 161,
+            "native_events": 537,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "447b8394791d0a4bfd00223f2405aca6948741f4982c55bb32cb0a7504f6bc38"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 24,
+            "groups": {
+              "core": 2,
+              "error": 0,
+              "functionality": 0,
+              "regression": 18,
+              "structure": 4
+            },
+            "inventory": "7759f379a4f681b2605f3f83946d5a470cd4d5cdeed5dfb544135617506ff62f"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/2dfec8a3cb3abf7f45990d394125ebff261eca39f14683845aa179b4cb1c9b8b.tar.gz",
+            "sha256": "2dfec8a3cb3abf7f45990d394125ebff261eca39f14683845aa179b4cb1c9b8b",
+            "file_count": 185,
+            "size_bytes": 658597,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 2,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-06T04:29:48.545217+00:00",
+      "completed_at": "2026-11-06T05:26:36.913749+00:00",
+      "wall_seconds_all_attempts": 2481.1549739055336,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_9": {
+          "total": 24,
+          "groups": {
+            "core": 2,
+            "error": 0,
+            "functionality": 0,
+            "regression": 18,
+            "structure": 4
+          },
+          "inventory": "7759f379a4f681b2605f3f83946d5a470cd4d5cdeed5dfb544135617506ff62f"
+        }
+      }
+    },
+    {
+      "id": "50f3e31fd886ce47426b849c8003e4ce324f63b2cd429c5773e428a7e3b83106",
+      "problem": "serv_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "kimi-k3.1-pro",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "13e2a3651236af435cf6abb71f648899952b5feeabb8085862a5eed191ab4f58",
+      "generation": "fa22d89a408c4ce80d982b89b10ec10c93b9297f37ce5c027aa7389914079717",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "execution",
+          "label": "infrastructure_failure",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:ac4bf9b79f1620f6d268dc0e49b1d2baac7de44e77dbe403701fca8b48eabc2c"
+          ],
+          "event_id": "3985a3d0723e653bff3faf6b9174fd325b36ddf25ac471fe1762f98a3f88c9d2",
+          "assessment": "700e3dc55701a77adb4baf4df5e8828dbe0ff6369486f8b6775754bfba952559",
+          "attempt": "47058cca5b904a1fbec1c0ee946f13ae"
+        },
+        {
+          "namespace": "execution",
+          "label": "unknown",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_4",
+          "candidate": "bac8fcba60693364f747dd63c27791d08c5243155ab4989c63b5f6850092e271",
+          "evidence": [
+            "sha256:ac4bf9b79f1620f6d268dc0e49b1d2baac7de44e77dbe403701fca8b48eabc2c"
+          ],
+          "event_id": "b9f63db8182a03ece82e56fb5fb4315daa620043ff9f867f08cb5b3960c8081e",
+          "assessment": "700e3dc55701a77adb4baf4df5e8828dbe0ff6369486f8b6775754bfba952559",
+          "attempt": "47058cca5b904a1fbec1c0ee946f13ae"
+        },
+        {
+          "namespace": "execution",
+          "label": "inference_error",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_4",
+          "candidate": "bac8fcba60693364f747dd63c27791d08c5243155ab4989c63b5f6850092e271",
+          "evidence": [
+            "sha256:ac4bf9b79f1620f6d268dc0e49b1d2baac7de44e77dbe403701fca8b48eabc2c"
+          ],
+          "event_id": "9f79c68fdfd0cb4734ee4bb08de276f5324bc0ce15fbed4f06317d4c58e00657",
+          "assessment": "700e3dc55701a77adb4baf4df5e8828dbe0ff6369486f8b6775754bfba952559",
+          "attempt": "47058cca5b904a1fbec1c0ee946f13ae"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_4"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "c152d985498f4485981d1cddd91125c3",
+      "selected_evaluation": null,
+      "evaluation_generation": "fa22d89a408c4ce80d982b89b10ec10c93b9297f37ce5c027aa7389914079717",
+      "attempt_count": 2,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_4",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "9c42b1bca78b0ec3b064dfae3ef7587121082050166c87723c8c271e28a0f278",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "58dadade3e7c6722547a976846757eed7512c70404e0cc9e33228e8f49ce80a9",
+          "evaluation_sha256": "54e49f44bcbe0381fa0fbede9fb29a21dd7381598735e6866d608b228adec201",
+          "started_at": "2026-11-06T06:15:05.681593Z",
+          "completed_at": "2026-11-06T06:30:36.820071Z",
+          "inference_seconds": 931.138478,
+          "evaluation_seconds": 1.2028286457061768,
+          "native_steps": 44,
+          "tokens": {
+            "cache_read": 1992192,
+            "cache_write": 0,
+            "input": 80054,
+            "output": 14618,
+            "reasoning": 13970
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "kimi-k3.1-pro-pending-official-rate-20261106",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_negative_jal",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_scenario_0",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_scenario_19",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_1",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_17",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_18",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_20",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_3_scenario_2",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_public_legacy_bus_abi",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_target_behavior_3",
+              "group": "Core",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 1,
+              "total": 1
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 8,
+              "total": 8
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 10,
+              "total": 10
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 44,
+            "observed_tool_calls": 94,
+            "native_events": 190,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "ba5d7e84da671ec437a3f830cc565ba8404929c951b24f6cde1c03c6d44f1e6a"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 10,
+            "groups": {
+              "core": 1,
+              "error": 0,
+              "functionality": 0,
+              "regression": 8,
+              "structure": 1
+            },
+            "inventory": "b5f621ae3fc8923f78c6d6de1094e3577e4976b8678377328ea5bfb8dd70414a"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/a3d2b498856acc9348e932f2b3737c24b7ec3a859aca8eaff958d3a284a2dd73.tar.gz",
+            "sha256": "a3d2b498856acc9348e932f2b3737c24b7ec3a859aca8eaff958d3a284a2dd73",
+            "file_count": 51,
+            "size_bytes": 97997,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 2,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-06T04:36:09.532876+00:00",
+      "completed_at": "2026-11-06T06:30:49.643451+00:00",
+      "wall_seconds_all_attempts": 1032.0235294550657,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_4": {
+          "total": 10,
+          "groups": {
+            "core": 1,
+            "error": 0,
+            "functionality": 0,
+            "regression": 8,
+            "structure": 1
+          },
+          "inventory": "b5f621ae3fc8923f78c6d6de1094e3577e4976b8678377328ea5bfb8dd70414a"
+        }
+      }
+    },
+    {
+      "id": "73b2d5ccb86cbed64c89c40714af065bac1233180ef03001503e32b52c2dc918",
+      "problem": "serv_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "kimi-k3.1-pro",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "13e2a3651236af435cf6abb71f648899952b5feeabb8085862a5eed191ab4f58",
+      "generation": "01cc74391346932a6b6dfb8fb08ce2ce24926d42fdcd87c4e16ac4b1d8f50d42",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "execution",
+          "label": "infrastructure_failure",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:6be8c3d17523e938e90af54e1ce40f5f33efa1659646af4c7caa12c206c4cf30"
+          ],
+          "event_id": "55510cc3181003c89fac9361a5b410aafba73f3822e22338f655c1addddb066b",
+          "assessment": "9256949b04e23c56e5bcca02cdfabf1e7fe682342880eedb2e839e085caa0d59",
+          "attempt": "18a1b52c4df84df4b566d8ac86daa794"
+        },
+        {
+          "namespace": "execution",
+          "label": "unknown",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_2",
+          "candidate": "0c26da23b3df34f6971c1dfd997fb2271a5ffc4eebab981b380d48f6fe91fb20",
+          "evidence": [
+            "sha256:6be8c3d17523e938e90af54e1ce40f5f33efa1659646af4c7caa12c206c4cf30"
+          ],
+          "event_id": "cfeffac9269569a1fef073092f890bb702a56fdca5777079eafa82237c64593b",
+          "assessment": "9256949b04e23c56e5bcca02cdfabf1e7fe682342880eedb2e839e085caa0d59",
+          "attempt": "18a1b52c4df84df4b566d8ac86daa794"
+        },
+        {
+          "namespace": "execution",
+          "label": "inference_error",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_2",
+          "candidate": "0c26da23b3df34f6971c1dfd997fb2271a5ffc4eebab981b380d48f6fe91fb20",
+          "evidence": [
+            "sha256:6be8c3d17523e938e90af54e1ce40f5f33efa1659646af4c7caa12c206c4cf30"
+          ],
+          "event_id": "5289de38b4a7865b6c161ec0f2a03d9d3e45c66ac9fa5be7d3947ec6daef4c83",
+          "assessment": "9256949b04e23c56e5bcca02cdfabf1e7fe682342880eedb2e839e085caa0d59",
+          "attempt": "18a1b52c4df84df4b566d8ac86daa794"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_2"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "729fd75b972c4480a9ec245ee60835e4",
+      "selected_evaluation": null,
+      "evaluation_generation": "01cc74391346932a6b6dfb8fb08ce2ce24926d42fdcd87c4e16ac4b1d8f50d42",
+      "attempt_count": 2,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_2",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "cbd026a876ac7a719a44f61e0314534b783b787b504f43a51b1291012b2d42fc",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "51fd087f0f7f822da90c6d5234a3f2ae0d9e0080ac889856f5d9caad889eab9c",
+          "evaluation_sha256": "a7c8bd281ae56b28f35223075d443618b728b2a69326cf276f7c94e0b1917a88",
+          "started_at": "2026-11-06T07:21:11.632532Z",
+          "completed_at": "2026-11-06T07:44:58.929801Z",
+          "inference_seconds": 1427.297269,
+          "evaluation_seconds": 1.0715961456298828,
+          "native_steps": 97,
+          "tokens": {
+            "cache_read": 4520192,
+            "cache_write": 0,
+            "input": 86366,
+            "output": 19975,
+            "reasoning": 14241
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "kimi-k3.1-pro-pending-official-rate-20261106",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_negative_jal",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_scenario_0",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_scenario_19",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_public_legacy_bus_abi",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_target_behavior_1",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_target_behavior_17",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_target_behavior_18",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_target_behavior_20",
+              "group": "Core",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 4,
+              "total": 4
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 3,
+              "total": 3
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 8,
+              "total": 8
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 97,
+            "observed_tool_calls": 96,
+            "native_events": 303,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "82bc787494b3559c607c836fb311255d4e77e0b6e9226efc6130c130680765b6"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 8,
+            "groups": {
+              "core": 4,
+              "error": 0,
+              "functionality": 0,
+              "regression": 3,
+              "structure": 1
+            },
+            "inventory": "1aa26e510f68e125cbdd001acfb41c08203574904d75b552d6e2a6c5728eae88"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/c357a41c23dfe022444739cf79592be67039658cc07d486fb1ad0a63a5e6922e.tar.gz",
+            "sha256": "c357a41c23dfe022444739cf79592be67039658cc07d486fb1ad0a63a5e6922e",
+            "file_count": 49,
+            "size_bytes": 96515,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 2,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-06T04:38:58.399648+00:00",
+      "completed_at": "2026-11-06T07:45:11.063020+00:00",
+      "wall_seconds_all_attempts": 1525.100612418726,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_2": {
+          "total": 8,
+          "groups": {
+            "core": 4,
+            "error": 0,
+            "functionality": 0,
+            "regression": 3,
+            "structure": 1
+          },
+          "inventory": "1aa26e510f68e125cbdd001acfb41c08203574904d75b552d6e2a6c5728eae88"
+        }
+      }
+    },
+    {
+      "id": "8a6d9a0c78d5f27ec2e27209c77bac413b1684874a64c2cecaa9d4f775021b9f",
+      "problem": "serv_t1",
+      "mode": "pipeline",
+      "prompt_arm": "original",
+      "model": "kimi-k3.1-pro",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "13e2a3651236af435cf6abb71f648899952b5feeabb8085862a5eed191ab4f58",
+      "generation": "913f46bf34097f974aa9aa7918d1e86727ba7e06586af16aba62c81cd8ab4360",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "execution",
+          "label": "infrastructure_failure",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:fcc521384e1ba951b9bd14114f55a9292147272dbab031a9d3aed437487864cd"
+          ],
+          "event_id": "a946d2d94c1812a79ff54e65f64a5878ef6d24baf3d440dc1bc72d89b4cbcad6",
+          "assessment": "51a36d9d27924df7f3f7c60315faf65dec4ce5820842683197a93a8b6a47dca7",
+          "attempt": "d2c948b025f34a13abb97d2438f17ed5"
+        },
+        {
+          "namespace": "execution",
+          "label": "unknown",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "64680c33eb88323c3bc58e66abc54c4c3f7ac6172f40f5d855c056d82a588d91",
+          "evidence": [
+            "sha256:fcc521384e1ba951b9bd14114f55a9292147272dbab031a9d3aed437487864cd"
+          ],
+          "event_id": "d106b6a14eb3c39f211720918ac9c2c0ddfa6ac78db666ecd32d89f6f6bd4a26",
+          "assessment": "51a36d9d27924df7f3f7c60315faf65dec4ce5820842683197a93a8b6a47dca7",
+          "attempt": "d2c948b025f34a13abb97d2438f17ed5"
+        },
+        {
+          "namespace": "execution",
+          "label": "inference_error",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "64680c33eb88323c3bc58e66abc54c4c3f7ac6172f40f5d855c056d82a588d91",
+          "evidence": [
+            "sha256:fcc521384e1ba951b9bd14114f55a9292147272dbab031a9d3aed437487864cd"
+          ],
+          "event_id": "b4d7c697e6e4496f34faa1fc378e9ac62454701b3366daf9b174d908936f3342",
+          "assessment": "51a36d9d27924df7f3f7c60315faf65dec4ce5820842683197a93a8b6a47dca7",
+          "attempt": "d2c948b025f34a13abb97d2438f17ed5"
+        },
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_8",
+          "candidate": "478b4db7a81c7b6c34b81c0d1dd3761f5e88280354b6941d477c9d67926ad509",
+          "evidence": [
+            "sha256:e94910b72f7f7c94a121a2906c6a78505ebae8e535bc3881a7230d80d62c32a8"
+          ],
+          "event_id": "f3bce4d12696cd536d25b323e4b8b89505d8bbcfad79fd95660664949115fea5",
+          "assessment": "df108e531d1db3e27a69ca1476163e5e43418b318c010ca5ce4ed5bf3e91bf14",
+          "attempt": "9670c84b4f324408a5c8301e9482b005"
+        },
+        {
+          "namespace": "implementation",
+          "label": "regression_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_8",
+          "candidate": "478b4db7a81c7b6c34b81c0d1dd3761f5e88280354b6941d477c9d67926ad509",
+          "evidence": [
+            "sha256:e94910b72f7f7c94a121a2906c6a78505ebae8e535bc3881a7230d80d62c32a8"
+          ],
+          "event_id": "9301025178dacc52f98ed5bcd5819fb73d8641b5caf07e06d5df3ed2307f7e7a",
+          "assessment": "df108e531d1db3e27a69ca1476163e5e43418b318c010ca5ce4ed5bf3e91bf14",
+          "attempt": "9670c84b4f324408a5c8301e9482b005"
+        },
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_9",
+          "candidate": "ffc653ad79aacebe9ff6f90e1dc993be792438dff572fea6c22c31673ae9e004",
+          "evidence": [
+            "sha256:0f2f1eca97ea0040ba8a4ecbec798d9f40defb0fb4411cad13fe4731a1eebb77"
+          ],
+          "event_id": "0fe3e3c2595e1deaa2343ed0391502e4f6cfacf512147d1fc75cfc8e55c998a9",
+          "assessment": "df108e531d1db3e27a69ca1476163e5e43418b318c010ca5ce4ed5bf3e91bf14",
+          "attempt": "9670c84b4f324408a5c8301e9482b005"
+        },
+        {
+          "namespace": "implementation",
+          "label": "regression_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_9",
+          "candidate": "ffc653ad79aacebe9ff6f90e1dc993be792438dff572fea6c22c31673ae9e004",
+          "evidence": [
+            "sha256:0f2f1eca97ea0040ba8a4ecbec798d9f40defb0fb4411cad13fe4731a1eebb77"
+          ],
+          "event_id": "ed2987171e9b372bed5a3907cb904ec8de4a24999a083117134ad572001eec4e",
+          "assessment": "df108e531d1db3e27a69ca1476163e5e43418b318c010ca5ce4ed5bf3e91bf14",
+          "attempt": "9670c84b4f324408a5c8301e9482b005"
+        },
+        {
+          "namespace": "implementation",
+          "label": "structure_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_9",
+          "candidate": "ffc653ad79aacebe9ff6f90e1dc993be792438dff572fea6c22c31673ae9e004",
+          "evidence": [
+            "sha256:0f2f1eca97ea0040ba8a4ecbec798d9f40defb0fb4411cad13fe4731a1eebb77"
+          ],
+          "event_id": "bd9bff4c1aed13b3bf9d4cba849b51f463a3456cf542a629a3ac0f6e60bda34b",
+          "assessment": "df108e531d1db3e27a69ca1476163e5e43418b318c010ca5ce4ed5bf3e91bf14",
+          "attempt": "9670c84b4f324408a5c8301e9482b005"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 10,
+      "planned_targets": [
+        "checkpoint_1",
+        "checkpoint_2",
+        "checkpoint_3",
+        "checkpoint_4",
+        "checkpoint_5",
+        "checkpoint_6",
+        "checkpoint_7",
+        "checkpoint_8",
+        "checkpoint_9",
+        "checkpoint_10"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.7,
+      "selected_attempt": "9670c84b4f324408a5c8301e9482b005",
+      "selected_evaluation": null,
+      "evaluation_generation": "913f46bf34097f974aa9aa7918d1e86727ba7e06586af16aba62c81cd8ab4360",
+      "attempt_count": 2,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_1",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "ac37575dc8bafb2f13e54e2931a48a1b6edec5eb7bb59376e72f2403ebe207a9",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "bc895d435c70791333956df2d26376230606179cafbd3598995b195040ad5e31",
+          "evaluation_sha256": "ea847f49e8158f39378e919baafc5a1333c8101eb67e0d7f49876bc94730cee4",
+          "started_at": "2026-11-06T08:14:39.830064Z",
+          "completed_at": "2026-11-06T08:23:49.209516Z",
+          "inference_seconds": 549.379452,
+          "evaluation_seconds": 0.753450870513916,
+          "native_steps": 23,
+          "tokens": {
+            "cache_read": 631552,
+            "cache_write": 0,
+            "input": 35698,
+            "output": 8685,
+            "reasoning": 8177
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "kimi-k3.1-pro-pending-official-rate-20261106",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_negative_jal_redirects_next_fetch",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_pending_requests_remain_stable_under_backpressure",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_public_instruction_and_load_request_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_public_legacy_bus_abi",
+              "group": "Structure",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 3,
+              "total": 3
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 0,
+              "total": 0
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 4,
+              "total": 4
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 23,
+            "observed_tool_calls": 50,
+            "native_events": 100,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "a486c6a38296c91e89cb5e6d4ba694acf8c6679c22bccd68577acf9e696e9129"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 4,
+            "groups": {
+              "core": 3,
+              "error": 0,
+              "functionality": 0,
+              "regression": 0,
+              "structure": 1
+            },
+            "inventory": "80696b9b8a269bf6df44aca7f63008ddf7ff42274ce22a4886de80e3f7851ff2"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/ddb53ce179b8ec5f745f81d202a366bccdbaa1b762ba5b798f92f662ed997db9.tar.gz",
+            "sha256": "ddb53ce179b8ec5f745f81d202a366bccdbaa1b762ba5b798f92f662ed997db9",
+            "file_count": 43,
+            "size_bytes": 94139,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_2",
+          "target_checkpoint": "checkpoint_2",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "2e6200fc8e6bd81aa396fd8e298a9a0954da90b571b5851c802bf3af69fe826b",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "001a689c61f09c98e18ce20154c6c14c3900b750209e405b7bff52dc0b80aed4",
+          "evaluation_sha256": "e1dce6f20533d32f08c4a4a44911b219faacd9be42ae3e8894a1cfa8bd0c2c69",
+          "started_at": "2026-11-06T08:23:56.114085Z",
+          "completed_at": "2026-11-06T08:33:03.982271Z",
+          "inference_seconds": 547.868186,
+          "evaluation_seconds": 0.9425697326660156,
+          "native_steps": 27,
+          "tokens": {
+            "cache_read": 821760,
+            "cache_write": 0,
+            "input": 37207,
+            "output": 11319,
+            "reasoning": 7062
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "kimi-k3.1-pro-pending-official-rate-20261106",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_negative_jal_redirects_next_fetch",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_pending_requests_remain_stable_under_backpressure",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_public_instruction_and_load_request_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_public_legacy_bus_abi",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_store_request_and_data_remain_stable_under_backpressure",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_sw_sign_extends_negative_immediate",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_taken_beq_and_store_data",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_unequal_beq_executes_sequential_instruction",
+              "group": "Core",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 4,
+              "total": 4
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 3,
+              "total": 3
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 8,
+              "total": 8
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 27,
+            "observed_tool_calls": 52,
+            "native_events": 112,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "c318d75179dbea67149d6c9ce6af979a457ba88769f3762f9c8ad92f293a0cec"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 8,
+            "groups": {
+              "core": 4,
+              "error": 0,
+              "functionality": 0,
+              "regression": 3,
+              "structure": 1
+            },
+            "inventory": "a3723e79246702e9eb4e793c7d33294bb5f7d5cd4d24ae8ccb4bc29394c78afe"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/0e65ff5252ef39ca2de9e09604d926fb12549a3df4a9c49e098ae0096660467a.tar.gz",
+            "sha256": "0e65ff5252ef39ca2de9e09604d926fb12549a3df4a9c49e098ae0096660467a",
+            "file_count": 43,
+            "size_bytes": 94291,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_3",
+          "target_checkpoint": "checkpoint_3",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "6ff12587d5b3d6597813e1413555cefde1aae293d02482c613f852edec3b7e7c",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "2859d80fa2a1eceebe5ed528b1d9f6a92ca592af3909f7d169efc59aff6cc96c",
+          "evaluation_sha256": "cc92a0cd03e1fbaf2ac4cd0c3176237d041977fb7239f79c683a3b8484bca27d",
+          "started_at": "2026-11-06T08:33:14.051708Z",
+          "completed_at": "2026-11-06T08:41:59.212688Z",
+          "inference_seconds": 525.16098,
+          "evaluation_seconds": 1.0669047832489014,
+          "native_steps": 27,
+          "tokens": {
+            "cache_read": 691968,
+            "cache_write": 0,
+            "input": 32803,
+            "output": 9192,
+            "reasoning": 6604
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "kimi-k3.1-pro-pending-official-rate-20261106",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_negative_jal_redirects_next_fetch",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_pending_requests_remain_stable_under_backpressure",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_public_instruction_and_load_request_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_public_legacy_bus_abi",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_store_request_and_data_remain_stable_under_backpressure",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_sw_sign_extends_negative_immediate",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_taken_beq_and_store_data",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_unequal_beq_executes_sequential_instruction",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_bne_and_srai_result",
+              "group": "Core",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 1,
+              "total": 1
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 7,
+              "total": 7
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 9,
+              "total": 9
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 27,
+            "observed_tool_calls": 51,
+            "native_events": 112,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "8033b7bb394b1354434269fce580e1f65f79a18a615214b3ad97d65ef3606207"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 9,
+            "groups": {
+              "core": 1,
+              "error": 0,
+              "functionality": 0,
+              "regression": 7,
+              "structure": 1
+            },
+            "inventory": "1221ce9ebef71a6956e1b36f42d35811df8a1c510e0f8b17d00aaa7bcd887a32"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/357997e1c2182488203fd2d4bafcab84259d70af0958e1723261c9da49e895c5.tar.gz",
+            "sha256": "357997e1c2182488203fd2d4bafcab84259d70af0958e1723261c9da49e895c5",
+            "file_count": 43,
+            "size_bytes": 94373,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_4",
+          "target_checkpoint": "checkpoint_4",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "d2f7b64c83832959730bb3b5fae8732399704d8c94c75dd4472630a93a0290cb",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "9e3a04c536d98c32972a9d09b3c912ae77d47b6293dbce382e74ac0b9bdd40f7",
+          "evaluation_sha256": "0a850292b8101f8752a735d97330c6e9199c64ed1821a8fb83dc4adc4f7160e5",
+          "started_at": "2026-11-06T08:42:12.985355Z",
+          "completed_at": "2026-11-06T08:51:55.098950Z",
+          "inference_seconds": 582.113595,
+          "evaluation_seconds": 1.1229772567749023,
+          "native_steps": 30,
+          "tokens": {
+            "cache_read": 882432,
+            "cache_write": 0,
+            "input": 41329,
+            "output": 10161,
+            "reasoning": 6214
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "kimi-k3.1-pro-pending-official-rate-20261106",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_negative_jal_redirects_next_fetch",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_pending_requests_remain_stable_under_backpressure",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_public_instruction_and_load_request_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_public_legacy_bus_abi",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_store_request_and_data_remain_stable_under_backpressure",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_sw_sign_extends_negative_immediate",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_taken_beq_and_store_data",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_unequal_beq_executes_sequential_instruction",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_bne_and_srai_result",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_signed_load_slti_and_store_lanes",
+              "group": "Core",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 1,
+              "total": 1
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 8,
+              "total": 8
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 10,
+              "total": 10
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 30,
+            "observed_tool_calls": 50,
+            "native_events": 115,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "c4c3af742c4beadd4f8caeef9d639cd1cb7f464e5ce5258b78985068a7159a0a"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 10,
+            "groups": {
+              "core": 1,
+              "error": 0,
+              "functionality": 0,
+              "regression": 8,
+              "structure": 1
+            },
+            "inventory": "df665b428bcdaca11f27794c36ba9806ea67956d98a81a8d41b13dab4fa6e3cc"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/600f8ee051c71e4d4a747990942aa89174f33c5018e6971ea61d582af17cf5cf.tar.gz",
+            "sha256": "600f8ee051c71e4d4a747990942aa89174f33c5018e6971ea61d582af17cf5cf",
+            "file_count": 43,
+            "size_bytes": 94615,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_5",
+          "target_checkpoint": "checkpoint_5",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "3e4e28820a7a12e9e81a102f3c7ffe26a1ae3e0a4add4a90d9fe65bf42d08d41",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "990b6ceae00dd1d4dc822b190598c898257f83207b49e0ae6de0beccdc2a7715",
+          "evaluation_sha256": "b3268f87894d4f538444b0c4809872e7875460ebd4f53c227b4e6df15b8a61fa",
+          "started_at": "2026-11-06T08:52:11.901090Z",
+          "completed_at": "2026-11-06T09:00:36.574443Z",
+          "inference_seconds": 504.673353,
+          "evaluation_seconds": 1.335707664489746,
+          "native_steps": 24,
+          "tokens": {
+            "cache_read": 725760,
+            "cache_write": 0,
+            "input": 38509,
+            "output": 11078,
+            "reasoning": 6623
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "kimi-k3.1-pro-pending-official-rate-20261106",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_negative_jal_redirects_next_fetch",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_pending_requests_remain_stable_under_backpressure",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_public_instruction_and_load_request_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_public_legacy_bus_abi",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_store_request_and_data_remain_stable_under_backpressure",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_sw_sign_extends_negative_immediate",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_taken_beq_and_store_data",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_unequal_beq_executes_sequential_instruction",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_bne_and_srai_result",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_signed_load_slti_and_store_lanes",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_arithmetic_and_comparison_results_are_visible_on_the_data_bus",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_logical_results_are_visible_on_the_data_bus",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_shift_results_are_visible_on_the_data_bus",
+              "group": "Core",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 3,
+              "total": 3
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 9,
+              "total": 9
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 13,
+              "total": 13
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 24,
+            "observed_tool_calls": 44,
+            "native_events": 97,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "6fbcb8c6c67db966dced40670e6070e503034638b922c0e52f12ef7aae769503"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 13,
+            "groups": {
+              "core": 3,
+              "error": 0,
+              "functionality": 0,
+              "regression": 9,
+              "structure": 1
+            },
+            "inventory": "9768b0daab8020dfbf68d709e569fa5311429e4ef9834df58c8de7bd2b31418d"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/0cdd1b3693080080775e0c4a3591c18cc1ca31decf00e1edc31ce45524d1ba80.tar.gz",
+            "sha256": "0cdd1b3693080080775e0c4a3591c18cc1ca31decf00e1edc31ce45524d1ba80",
+            "file_count": 43,
+            "size_bytes": 94771,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_6",
+          "target_checkpoint": "checkpoint_6",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "5dd9aaf829d25fd6268924945fd09c379b056294b67dc4d4b0d7d455e0964141",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "37c7deb6585b344d02657e6cb9ab0cfd98fc11fbb336d37fe986c8b2f712854e",
+          "evaluation_sha256": "d28337af2aab9468cf0f609428acf9ceb7e0b48b530b5df600b1cb4594987a24",
+          "started_at": "2026-11-06T09:00:56.917419Z",
+          "completed_at": "2026-11-06T09:12:40.088030Z",
+          "inference_seconds": 703.170611,
+          "evaluation_seconds": 1.4721083641052246,
+          "native_steps": 43,
+          "tokens": {
+            "cache_read": 1208576,
+            "cache_write": 0,
+            "input": 42271,
+            "output": 15022,
+            "reasoning": 7218
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "kimi-k3.1-pro-pending-official-rate-20261106",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_negative_jal_redirects_next_fetch",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_pending_requests_remain_stable_under_backpressure",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_public_instruction_and_load_request_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_public_legacy_bus_abi",
+              "group": "Structure",
+              "status": "skipped"
+            },
+            {
+              "nodeid": "test_checkpoint_2_store_request_and_data_remain_stable_under_backpressure",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_sw_sign_extends_negative_immediate",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_taken_beq_and_store_data",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_unequal_beq_executes_sequential_instruction",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_bne_and_srai_result",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_signed_load_slti_and_store_lanes",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_arithmetic_and_comparison_results_are_visible_on_the_data_bus",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_logical_results_are_visible_on_the_data_bus",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_shift_results_are_visible_on_the_data_bus",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_6_csr_registers_are_readable_and_writable",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_6_store_misalignment_traps_through_mtvec",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_6_preserves_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_6_publishes_wishbone_instruction_and_data_buses",
+              "group": "Structure",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 2,
+              "total": 2
+            },
+            "core": {
+              "passed": 2,
+              "total": 2
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 12,
+              "total": 12
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 16,
+              "total": 16
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 43,
+            "observed_tool_calls": 42,
+            "native_events": 133,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "6eca95ddce48b4f4dfd31883ddf9ba33621433f6aa7732416704ef6ac2f54daa"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 17,
+            "groups": {
+              "core": 2,
+              "error": 0,
+              "functionality": 0,
+              "regression": 12,
+              "structure": 3
+            },
+            "inventory": "26f0dd46539db9ca9662617e8237a7043c3f38973ad6119e4cb30114ba8ae48e"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/37b874ad794140b9b0136914a52bc62c1aeb40b2e2e8fadc7ee49132d2fd6b90.tar.gz",
+            "sha256": "37b874ad794140b9b0136914a52bc62c1aeb40b2e2e8fadc7ee49132d2fd6b90",
+            "file_count": 43,
+            "size_bytes": 95131,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_7",
+          "target_checkpoint": "checkpoint_7",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "5e55e45b9362d4aa996376a664feb1af154385ba0dfc5e3ceca8bbd40ffd1930",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "fb544963f65dd36d58e8e8b6fae417e5e1b3e0cad584f54dec862e001a5465e4",
+          "evaluation_sha256": "601bef603b2365aecfe1a9f02cff71d44826bdd20207ec52d8ff8483ac6d4c23",
+          "started_at": "2026-11-06T09:13:04.254968Z",
+          "completed_at": "2026-11-06T09:20:13.986279Z",
+          "inference_seconds": 429.731311,
+          "evaluation_seconds": 1.5449366569519043,
+          "native_steps": 47,
+          "tokens": {
+            "cache_read": 1135360,
+            "cache_write": 0,
+            "input": 32892,
+            "output": 7709,
+            "reasoning": 4709
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "kimi-k3.1-pro-pending-official-rate-20261106",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_negative_jal_redirects_next_fetch",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_pending_requests_remain_stable_under_backpressure",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_public_instruction_and_load_request_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_public_legacy_bus_abi",
+              "group": "Structure",
+              "status": "skipped"
+            },
+            {
+              "nodeid": "test_checkpoint_2_store_request_and_data_remain_stable_under_backpressure",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_sw_sign_extends_negative_immediate",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_taken_beq_and_store_data",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_unequal_beq_executes_sequential_instruction",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_bne_and_srai_result",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_signed_load_slti_and_store_lanes",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_arithmetic_and_comparison_results_are_visible_on_the_data_bus",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_logical_results_are_visible_on_the_data_bus",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_shift_results_are_visible_on_the_data_bus",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_6_csr_registers_are_readable_and_writable",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_6_store_misalignment_traps_through_mtvec",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_6_publishes_wishbone_instruction_and_data_buses",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_7_misaligned_jal_traps_with_cause_and_target",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_7_mscratch_csr_is_readable_and_writable",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_7_preserves_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 2,
+              "total": 2
+            },
+            "core": {
+              "passed": 2,
+              "total": 2
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 14,
+              "total": 14
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 18,
+              "total": 18
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 47,
+            "observed_tool_calls": 46,
+            "native_events": 145,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "f020c7cc323245e8b9be2fad8430494cdad4a990a9b57cf587eebe4f11727e58"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 19,
+            "groups": {
+              "core": 2,
+              "error": 0,
+              "functionality": 0,
+              "regression": 14,
+              "structure": 3
+            },
+            "inventory": "087ddaf908f36b3891917741e63d7df995acad569549b490432d90760f93e920"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/8e45ca971b78d06705968ae641cf3c514710e53cc3fbc2af49807add9633e909.tar.gz",
+            "sha256": "8e45ca971b78d06705968ae641cf3c514710e53cc3fbc2af49807add9633e909",
+            "file_count": 43,
+            "size_bytes": 95221,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_8",
+          "target_checkpoint": "checkpoint_8",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "478b4db7a81c7b6c34b81c0d1dd3761f5e88280354b6941d477c9d67926ad509",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "04d21ed4bc1c4cf9912cd51ac80c82c3f2790bc447487541d5025191d83b6f11",
+          "evaluation_sha256": "e94910b72f7f7c94a121a2906c6a78505ebae8e535bc3881a7230d80d62c32a8",
+          "started_at": "2026-11-06T09:20:41.255610Z",
+          "completed_at": "2026-11-06T09:46:40.848669Z",
+          "inference_seconds": 1559.593059,
+          "evaluation_seconds": 1.894721508026123,
+          "native_steps": 86,
+          "tokens": {
+            "cache_read": 4173824,
+            "cache_write": 0,
+            "input": 75120,
+            "output": 28084,
+            "reasoning": 15025
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "kimi-k3.1-pro-pending-official-rate-20261106",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_pending_requests_remain_stable_under_backpressure",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_public_instruction_and_load_request_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_negative_jal_redirects_next_fetch",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_public_legacy_bus_abi",
+              "group": "Structure",
+              "status": "skipped"
+            },
+            {
+              "nodeid": "test_checkpoint_2_store_request_and_data_remain_stable_under_backpressure",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_sw_sign_extends_negative_immediate",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_taken_beq_and_store_data",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_unequal_beq_executes_sequential_instruction",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_bne_and_srai_result",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_signed_load_slti_and_store_lanes",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_arithmetic_and_comparison_results_are_visible_on_the_data_bus",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_logical_results_are_visible_on_the_data_bus",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_shift_results_are_visible_on_the_data_bus",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_6_csr_registers_are_readable_and_writable",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_6_store_misalignment_traps_through_mtvec",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_6_publishes_wishbone_instruction_and_data_buses",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_7_misaligned_jal_traps_with_cause_and_target",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_7_mscratch_csr_is_readable_and_writable",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_8_compressed_program_is_observable_on_the_data_bus",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_8_uncompressed_program_preserves_equivalent_behavior",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_8_preserves_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_8_publishes_compressed_wrapper_parameters",
+              "group": "Structure",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 3,
+              "total": 3
+            },
+            "core": {
+              "passed": 2,
+              "total": 2
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 15,
+              "total": 16
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 20,
+              "total": 21
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 86,
+            "observed_tool_calls": 85,
+            "native_events": 271,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "0e27ae9a859c4ada7fc5fd4951453c55598024bc0df52263ab9e653f892516ec"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 22,
+            "groups": {
+              "core": 2,
+              "error": 0,
+              "functionality": 0,
+              "regression": 16,
+              "structure": 4
+            },
+            "inventory": "d32eb68db4931f6209eab924c1cba5e8d180ddfbd94eaa9d2096aa542192fd8e"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/998ec7cd8be98d679371513fa273f9ba8c4fdb4a492ab758aa385ae90d5d9b84.tar.gz",
+            "sha256": "998ec7cd8be98d679371513fa273f9ba8c4fdb4a492ab758aa385ae90d5d9b84",
+            "file_count": 45,
+            "size_bytes": 99009,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_9",
+          "target_checkpoint": "checkpoint_9",
+          "state": "failed",
+          "gate_passed": false,
+          "candidate": "ffc653ad79aacebe9ff6f90e1dc993be792438dff572fea6c22c31673ae9e004",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "50f7813b68fb009074fe607cfd6b2ba8e922bc8cad2ddd5e8155f7c32bccd276",
+          "evaluation_sha256": "0f2f1eca97ea0040ba8a4ecbec798d9f40defb0fb4411cad13fe4731a1eebb77",
+          "started_at": "2026-11-06T09:47:12.426491Z",
+          "completed_at": "2026-11-06T10:15:28.727473Z",
+          "inference_seconds": 1696.300982,
+          "evaluation_seconds": 2.6529147624969482,
+          "native_steps": 69,
+          "tokens": {
+            "cache_read": 5412096,
+            "cache_write": 0,
+            "input": 117712,
+            "output": 38671,
+            "reasoning": 22925
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "kimi-k3.1-pro-pending-official-rate-20261106",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_pending_requests_remain_stable_under_backpressure",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_public_instruction_and_load_request_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_negative_jal_redirects_next_fetch",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_public_legacy_bus_abi",
+              "group": "Structure",
+              "status": "skipped"
+            },
+            {
+              "nodeid": "test_checkpoint_2_store_request_and_data_remain_stable_under_backpressure",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_sw_sign_extends_negative_immediate",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_taken_beq_and_store_data",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_unequal_beq_executes_sequential_instruction",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_bne_and_srai_result",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_signed_load_slti_and_store_lanes",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_arithmetic_and_comparison_results_are_visible_on_the_data_bus",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_logical_results_are_visible_on_the_data_bus",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_shift_results_are_visible_on_the_data_bus",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_6_csr_registers_are_readable_and_writable",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_6_store_misalignment_traps_through_mtvec",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_6_publishes_wishbone_instruction_and_data_buses",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_7_misaligned_jal_traps_with_cause_and_target",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_7_mscratch_csr_is_readable_and_writable",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_8_compressed_program_is_observable_on_the_data_bus",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_8_uncompressed_program_preserves_equivalent_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_8_publishes_compressed_wrapper_parameters",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_9_preserves_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_9_publishes_configurable_datapath_width",
+              "group": "Structure",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_9_width_four_reports_public_fetch_and_rvfi_retirement",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_9_width_one_preserves_word_store_behavior",
+              "group": "Core",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 3,
+              "total": 4
+            },
+            "core": {
+              "passed": 2,
+              "total": 2
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 17,
+              "total": 18
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 22,
+              "total": 24
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 69,
+            "observed_tool_calls": 171,
+            "native_events": 324,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "53c3ff06d3f8d0fe7a7e3678edcaf6b21c18ca588bf976cc6b4485129694099e"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 25,
+            "groups": {
+              "core": 2,
+              "error": 0,
+              "functionality": 0,
+              "regression": 18,
+              "structure": 5
+            },
+            "inventory": "e93fecee0552c27ce5b8759e099f951800b96e37018f9e73a256bfb5acb21349"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/fb4d7e5532695bbe68919d1ca27146dce2ff1aa20c03df960f85fb3cf9df4c69.tar.gz",
+            "sha256": "fb4d7e5532695bbe68919d1ca27146dce2ff1aa20c03df960f85fb3cf9df4c69",
+            "file_count": 54,
+            "size_bytes": 100905,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_10",
+          "target_checkpoint": "checkpoint_10",
+          "state": "stopped_by_policy",
+          "gate_passed": null,
+          "candidate": null,
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": null,
+          "evaluation_sha256": null,
+          "started_at": null,
+          "completed_at": null,
+          "inference_seconds": null,
+          "evaluation_seconds": null,
+          "native_steps": null,
+          "tokens": null,
+          "official_cost": {
+            "usd": 0,
+            "coverage": "complete",
+            "pricebook": "kimi-k3.1-pro-pending-official-rate-20261106"
+          },
+          "tests": [],
+          "test_counts": null,
+          "score": 0,
+          "calls": {
+            "http_requests": 0,
+            "http_retries": 0,
+            "observed_responses": 0,
+            "observed_tool_calls": 0,
+            "coverage": "not_invoked"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 27,
+            "groups": {
+              "core": 1,
+              "error": 0,
+              "functionality": 0,
+              "regression": 20,
+              "structure": 6
+            },
+            "inventory": "0e1b7bb4abc9f21c2acdbe1bb3aab244862e463a3d349d74f5d5ef24e9bc0a72"
+          }
+        }
+      ],
+      "agent_invocations": 10,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-06T04:40:33.369067+00:00",
+      "completed_at": "2026-11-06T10:16:08.950632+00:00",
+      "wall_seconds_all_attempts": 7376.8667347524315,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_7": {
+          "total": 19,
+          "groups": {
+            "core": 2,
+            "error": 0,
+            "functionality": 0,
+            "regression": 14,
+            "structure": 3
+          },
+          "inventory": "087ddaf908f36b3891917741e63d7df995acad569549b490432d90760f93e920"
+        },
+        "checkpoint_10": {
+          "total": 27,
+          "groups": {
+            "core": 1,
+            "error": 0,
+            "functionality": 0,
+            "regression": 20,
+            "structure": 6
+          },
+          "inventory": "0e1b7bb4abc9f21c2acdbe1bb3aab244862e463a3d349d74f5d5ef24e9bc0a72"
+        },
+        "checkpoint_3": {
+          "total": 9,
+          "groups": {
+            "core": 1,
+            "error": 0,
+            "functionality": 0,
+            "regression": 7,
+            "structure": 1
+          },
+          "inventory": "1221ce9ebef71a6956e1b36f42d35811df8a1c510e0f8b17d00aaa7bcd887a32"
+        },
+        "checkpoint_6": {
+          "total": 17,
+          "groups": {
+            "core": 2,
+            "error": 0,
+            "functionality": 0,
+            "regression": 12,
+            "structure": 3
+          },
+          "inventory": "26f0dd46539db9ca9662617e8237a7043c3f38973ad6119e4cb30114ba8ae48e"
+        },
+        "checkpoint_1": {
+          "total": 4,
+          "groups": {
+            "core": 3,
+            "error": 0,
+            "functionality": 0,
+            "regression": 0,
+            "structure": 1
+          },
+          "inventory": "80696b9b8a269bf6df44aca7f63008ddf7ff42274ce22a4886de80e3f7851ff2"
+        },
+        "checkpoint_5": {
+          "total": 13,
+          "groups": {
+            "core": 3,
+            "error": 0,
+            "functionality": 0,
+            "regression": 9,
+            "structure": 1
+          },
+          "inventory": "9768b0daab8020dfbf68d709e569fa5311429e4ef9834df58c8de7bd2b31418d"
+        },
+        "checkpoint_2": {
+          "total": 8,
+          "groups": {
+            "core": 4,
+            "error": 0,
+            "functionality": 0,
+            "regression": 3,
+            "structure": 1
+          },
+          "inventory": "a3723e79246702e9eb4e793c7d33294bb5f7d5cd4d24ae8ccb4bc29394c78afe"
+        },
+        "checkpoint_8": {
+          "total": 22,
+          "groups": {
+            "core": 2,
+            "error": 0,
+            "functionality": 0,
+            "regression": 16,
+            "structure": 4
+          },
+          "inventory": "d32eb68db4931f6209eab924c1cba5e8d180ddfbd94eaa9d2096aa542192fd8e"
+        },
+        "checkpoint_4": {
+          "total": 10,
+          "groups": {
+            "core": 1,
+            "error": 0,
+            "functionality": 0,
+            "regression": 8,
+            "structure": 1
+          },
+          "inventory": "df665b428bcdaca11f27794c36ba9806ea67956d98a81a8d41b13dab4fa6e3cc"
+        },
+        "checkpoint_9": {
+          "total": 25,
+          "groups": {
+            "core": 2,
+            "error": 0,
+            "functionality": 0,
+            "regression": 18,
+            "structure": 5
+          },
+          "inventory": "e93fecee0552c27ce5b8759e099f951800b96e37018f9e73a256bfb5acb21349"
+        }
+      }
+    },
+    {
+      "id": "ac135d9535c80313b8445b183d74e1c9754f6f4096f1ce30d577d15e30a36ee1",
+      "problem": "serv_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "kimi-k3.1-pro",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "13e2a3651236af435cf6abb71f648899952b5feeabb8085862a5eed191ab4f58",
+      "generation": "117faeeba6804658d4ca644843f667841a1627ee5e55a5e32ebcd0bc0c78b8e1",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_10",
+          "candidate": "5b8fbd3c0ca3d6739727b8d55b773833d6958d8e018d0de420d254c2e4665ba9",
+          "evidence": [
+            "sha256:4406a8730fc038a4c72530cad492455e81754ba68c3a2cb197cd5d5d4e3c9352"
+          ],
+          "event_id": "4cb0b65e8a48fe04689ccaebda1dd98ec052ee64917aea295b26cb5afac1a42e",
+          "assessment": "033ff1481020fdf9c81ef0f7a12fc64b48323bc8a4f38ff5ac22fefd36b8ae41",
+          "attempt": "a678d8567df24fcb90958b895fefc489"
+        },
+        {
+          "namespace": "implementation",
+          "label": "regression_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_10",
+          "candidate": "5b8fbd3c0ca3d6739727b8d55b773833d6958d8e018d0de420d254c2e4665ba9",
+          "evidence": [
+            "sha256:4406a8730fc038a4c72530cad492455e81754ba68c3a2cb197cd5d5d4e3c9352"
+          ],
+          "event_id": "4ae95a302d909c7f6d382d4a0e308f43e22c5b246782a96b8570bbb69948a18a",
+          "assessment": "033ff1481020fdf9c81ef0f7a12fc64b48323bc8a4f38ff5ac22fefd36b8ae41",
+          "attempt": "a678d8567df24fcb90958b895fefc489"
+        },
+        {
+          "namespace": "execution",
+          "label": "infrastructure_failure",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:0d479575fc7524536bb4b1c0c4f709bc80c8303366d61c8a2dbe59b9f2435389"
+          ],
+          "event_id": "a4ae21175539045e97e459608c733b5261f5c762346093601ab1a5771038b1f1",
+          "assessment": "c5bfebd57b27f374a53995b824d87f6286bcbb117823071101d7b1640280798c",
+          "attempt": "8c4d369acb2a4ab4844945e9af8a6325"
+        },
+        {
+          "namespace": "execution",
+          "label": "unknown",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_10",
+          "candidate": "33dc8a719918da8a3c6bde92aec77415935ec1d3fc69f182dbd6e30445a15f80",
+          "evidence": [
+            "sha256:0d479575fc7524536bb4b1c0c4f709bc80c8303366d61c8a2dbe59b9f2435389"
+          ],
+          "event_id": "91dcef55fb79b3103eada9464ab5e9fc0da1128475cd3eea2ce937845d5871d5",
+          "assessment": "c5bfebd57b27f374a53995b824d87f6286bcbb117823071101d7b1640280798c",
+          "attempt": "8c4d369acb2a4ab4844945e9af8a6325"
+        },
+        {
+          "namespace": "execution",
+          "label": "inference_error",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_10",
+          "candidate": "33dc8a719918da8a3c6bde92aec77415935ec1d3fc69f182dbd6e30445a15f80",
+          "evidence": [
+            "sha256:0d479575fc7524536bb4b1c0c4f709bc80c8303366d61c8a2dbe59b9f2435389"
+          ],
+          "event_id": "a274fd28227ed6f9481a5a9527abdcabe42623b9d9eb24a2aec5668ecece07ef",
+          "assessment": "c5bfebd57b27f374a53995b824d87f6286bcbb117823071101d7b1640280798c",
+          "attempt": "8c4d369acb2a4ab4844945e9af8a6325"
+        },
+        {
+          "namespace": "execution",
+          "label": "infrastructure_failure",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:b195447fe2047250f1646364dec41b5a7a0cb3c3ad501b410079fbf231fe98f8"
+          ],
+          "event_id": "f6f2c1149b9d0a55735cf1aac4eb6ce77debab94f934d1c472fcb40a68516c5d",
+          "assessment": "d511e6375c059695721c4754b7cd39ea363b2adb4b8a5bb651c214385dcf5d57",
+          "attempt": "c674f2f4563e4f69ba13ab6a083d2b52"
+        },
+        {
+          "namespace": "execution",
+          "label": "unknown",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_10",
+          "candidate": "d50ab611230607e5b462492c7de5dc3901664f8abc237f5da492099e269565ee",
+          "evidence": [
+            "sha256:b195447fe2047250f1646364dec41b5a7a0cb3c3ad501b410079fbf231fe98f8"
+          ],
+          "event_id": "81c35a06fc0765bbc6d1048c1efa1eb9a6339b1979c22cc87b628ff82b70ef83",
+          "assessment": "d511e6375c059695721c4754b7cd39ea363b2adb4b8a5bb651c214385dcf5d57",
+          "attempt": "c674f2f4563e4f69ba13ab6a083d2b52"
+        },
+        {
+          "namespace": "execution",
+          "label": "inference_error",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_10",
+          "candidate": "d50ab611230607e5b462492c7de5dc3901664f8abc237f5da492099e269565ee",
+          "evidence": [
+            "sha256:b195447fe2047250f1646364dec41b5a7a0cb3c3ad501b410079fbf231fe98f8"
+          ],
+          "event_id": "fb738b14c1cf3f672bf33a4da186d93afc60c9871a35348fe49dbc972b79c8fa",
+          "assessment": "d511e6375c059695721c4754b7cd39ea363b2adb4b8a5bb651c214385dcf5d57",
+          "attempt": "c674f2f4563e4f69ba13ab6a083d2b52"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_10"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.0,
+      "selected_attempt": "a678d8567df24fcb90958b895fefc489",
+      "selected_evaluation": null,
+      "evaluation_generation": "117faeeba6804658d4ca644843f667841a1627ee5e55a5e32ebcd0bc0c78b8e1",
+      "attempt_count": 3,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_10",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "5b8fbd3c0ca3d6739727b8d55b773833d6958d8e018d0de420d254c2e4665ba9",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "1a408cc8bd0b6d416582e4f7b561592cd3010ccf280b03bf9c6bd72d5d20f022",
+          "evaluation_sha256": "4406a8730fc038a4c72530cad492455e81754ba68c3a2cb197cd5d5d4e3c9352",
+          "started_at": "2026-11-06T11:04:34.484181Z",
+          "completed_at": "2026-11-06T11:15:32.057462Z",
+          "inference_seconds": 657.573281,
+          "evaluation_seconds": 4.20518946647644,
+          "native_steps": 49,
+          "tokens": {
+            "cache_read": 2783488,
+            "cache_write": 0,
+            "input": 87471,
+            "output": 17319,
+            "reasoning": 7923
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "kimi-k3.1-pro-pending-official-rate-20261106",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_preserves_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_6_wishbone_instruction_and_data_buses",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_8_compressed_wrapper_parameters",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_9_configurable_datapath_width",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_publishes_debug_parameter_and_rvfi_outputs",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_negative_jal",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_scenario_0",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_scenario_19",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_1",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_17",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_18",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_20",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_3_scenario_2",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_4_scenario_3",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_5_scenario_14",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_5_scenario_15",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_5_scenario_16",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_6_scenario_5",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_6_scenario_6",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_7_scenario_7",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_7_scenario_8",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_8_scenario_10",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_8_scenario_9",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_9_scenario_11",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_9_scenario_12",
+              "group": "Regression",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_target_behavior_13",
+              "group": "Core",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 5,
+              "total": 5
+            },
+            "core": {
+              "passed": 1,
+              "total": 1
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 19,
+              "total": 20
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 25,
+              "total": 26
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 49,
+            "observed_tool_calls": 88,
+            "native_events": 194,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "9dc0eaad845aa7538f6c29455ff0af5c8b13d39e1e92c66092afea35190e76cd"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 26,
+            "groups": {
+              "core": 1,
+              "error": 0,
+              "functionality": 0,
+              "regression": 20,
+              "structure": 5
+            },
+            "inventory": "65da2fb1ca7f72e14a3f15888ac6c7bbfddcbbdabd421c640489d19b136d88e2"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/c96d3128b1a615b45bdfaf1aeee4bf2d7716a47144dda97214fe4a0881226ab1.tar.gz",
+            "sha256": "c96d3128b1a615b45bdfaf1aeee4bf2d7716a47144dda97214fe4a0881226ab1",
+            "file_count": 234,
+            "size_bytes": 8284425,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 3,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-06T04:43:03.227946+00:00",
+      "completed_at": "2026-11-06T11:15:49.839713+00:00",
+      "wall_seconds_all_attempts": 1258.7095921915025,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_10": {
+          "total": 26,
+          "groups": {
+            "core": 1,
+            "error": 0,
+            "functionality": 0,
+            "regression": 20,
+            "structure": 5
+          },
+          "inventory": "65da2fb1ca7f72e14a3f15888ac6c7bbfddcbbdabd421c640489d19b136d88e2"
+        }
+      }
+    },
+    {
+      "id": "dcb60f1ab7826f361b5e1de7a98cad06ce6ce766b275a061e3459e4f12c168ce",
+      "problem": "serv_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "kimi-k3.1-pro",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "13e2a3651236af435cf6abb71f648899952b5feeabb8085862a5eed191ab4f58",
+      "generation": "2267eb240f501f9aa057f9401f9afacde1c99fcacc46ecc9852823f6ae667353",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "execution",
+          "label": "infrastructure_failure",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:ba900e88ac77a757a7c1a3f9ea257f84cd2dd44d00654190fc7dba8b37f92ac5"
+          ],
+          "event_id": "6f4afd41897b12b1e3c9ee2e43ca4fa85964a4e892d52e8baf11fd12f3de2080",
+          "assessment": "619567a058404f208d5e16b7a7ff361b08190517c47bf027e78f6e01c37b6887",
+          "attempt": "953b3ae6c8574d68b51de364b0e46c03"
+        },
+        {
+          "namespace": "execution",
+          "label": "unknown",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_6",
+          "candidate": "df67c101b50b140a66ff86a2f51f8b0ec020779bc0808626f48b232cbb5a98dd",
+          "evidence": [
+            "sha256:ba900e88ac77a757a7c1a3f9ea257f84cd2dd44d00654190fc7dba8b37f92ac5"
+          ],
+          "event_id": "70cd12d56b2fd748af9d27e076695808e1cc750638e2cca1c4f016ecede57d9b",
+          "assessment": "619567a058404f208d5e16b7a7ff361b08190517c47bf027e78f6e01c37b6887",
+          "attempt": "953b3ae6c8574d68b51de364b0e46c03"
+        },
+        {
+          "namespace": "execution",
+          "label": "inference_error",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_6",
+          "candidate": "df67c101b50b140a66ff86a2f51f8b0ec020779bc0808626f48b232cbb5a98dd",
+          "evidence": [
+            "sha256:ba900e88ac77a757a7c1a3f9ea257f84cd2dd44d00654190fc7dba8b37f92ac5"
+          ],
+          "event_id": "b3df8cd86a2c1d7c8170f6f7050664a0374ee1e7d770d6f32e6a0a164f700d28",
+          "assessment": "619567a058404f208d5e16b7a7ff361b08190517c47bf027e78f6e01c37b6887",
+          "attempt": "953b3ae6c8574d68b51de364b0e46c03"
+        },
+        {
+          "namespace": "execution",
+          "label": "infrastructure_failure",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:1629a37eb4fd8d425246d1b68869b14e43b5a041cd85e0e51214309e0bd19e62"
+          ],
+          "event_id": "6f96ef11187cbd133fb6542290d6f3f57841eba7f150fe3e1afa3507b4acc777",
+          "assessment": "d7c7bff886e25eef0ceba5c542b1202d7e9946a4c5cc51f27a10576eb8a870b5",
+          "attempt": "e4331199541444f39a378acb4188681f"
+        },
+        {
+          "namespace": "execution",
+          "label": "unknown",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_6",
+          "candidate": "df67c101b50b140a66ff86a2f51f8b0ec020779bc0808626f48b232cbb5a98dd",
+          "evidence": [
+            "sha256:1629a37eb4fd8d425246d1b68869b14e43b5a041cd85e0e51214309e0bd19e62"
+          ],
+          "event_id": "c7d50f6723bc5b84bbfbb301efd844c0cbbe064d36d00075f84f1bb3e9f91ccd",
+          "assessment": "d7c7bff886e25eef0ceba5c542b1202d7e9946a4c5cc51f27a10576eb8a870b5",
+          "attempt": "e4331199541444f39a378acb4188681f"
+        },
+        {
+          "namespace": "execution",
+          "label": "inference_error",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_6",
+          "candidate": "df67c101b50b140a66ff86a2f51f8b0ec020779bc0808626f48b232cbb5a98dd",
+          "evidence": [
+            "sha256:1629a37eb4fd8d425246d1b68869b14e43b5a041cd85e0e51214309e0bd19e62"
+          ],
+          "event_id": "21d46b54c80e788c5fc30cbe370d20edf7911fd732e7c1f4ca104628f7eb7b8c",
+          "assessment": "d7c7bff886e25eef0ceba5c542b1202d7e9946a4c5cc51f27a10576eb8a870b5",
+          "attempt": "e4331199541444f39a378acb4188681f"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_6"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "c42934c99018415c94014ed68250b58a",
+      "selected_evaluation": null,
+      "evaluation_generation": "2267eb240f501f9aa057f9401f9afacde1c99fcacc46ecc9852823f6ae667353",
+      "attempt_count": 3,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_6",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "45f6ba300987fd32dd59ad33ef8115c0d0a03c4862762a6a5fe5934c392db49b",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "f5ce9628f2288d4c956f8916ac72b080a0512d123f267e81c1c7166a6a91f1de",
+          "evaluation_sha256": "da289fd5a8092fa407f20bf47ee99c0c9d436fe929a69c1ba102af75860f3285",
+          "started_at": "2026-11-06T12:15:59.055128Z",
+          "completed_at": "2026-11-06T12:28:04.347795Z",
+          "inference_seconds": 725.292667,
+          "evaluation_seconds": 1.5875954627990723,
+          "native_steps": 54,
+          "tokens": {
+            "cache_read": 1891840,
+            "cache_write": 0,
+            "input": 50920,
+            "output": 16712,
+            "reasoning": 8836
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "kimi-k3.1-pro-pending-official-rate-20261106",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_preserves_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_publishes_wishbone_instruction_and_data_buses",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_negative_jal",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_scenario_0",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_scenario_19",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_1",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_17",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_18",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_20",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_3_scenario_2",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_4_scenario_3",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_5_scenario_14",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_5_scenario_15",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_5_scenario_16",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_target_behavior_5",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_target_behavior_6",
+              "group": "Core",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 2,
+              "total": 2
+            },
+            "core": {
+              "passed": 2,
+              "total": 2
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 12,
+              "total": 12
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 16,
+              "total": 16
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 54,
+            "observed_tool_calls": 53,
+            "native_events": 171,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "7d7b8774c1e16759b492730dbab77dac713d3b7fe850d53af7506ea574fe6ba6"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 16,
+            "groups": {
+              "core": 2,
+              "error": 0,
+              "functionality": 0,
+              "regression": 12,
+              "structure": 2
+            },
+            "inventory": "16dc9fe20b82233cfbe682411752948d8eb88a09a4785001a2de5a94166e535a"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/ee4996f5d6dab871e07f3bb175d2dacb4c4c08468ae0fa0b5408f60c0874963e.tar.gz",
+            "sha256": "ee4996f5d6dab871e07f3bb175d2dacb4c4c08468ae0fa0b5408f60c0874963e",
+            "file_count": 52,
+            "size_bytes": 99455,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 3,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-06T04:44:38.079597+00:00",
+      "completed_at": "2026-11-06T12:28:17.418662+00:00",
+      "wall_seconds_all_attempts": 908.9001069869846,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_6": {
+          "total": 16,
+          "groups": {
+            "core": 2,
+            "error": 0,
+            "functionality": 0,
+            "regression": 12,
+            "structure": 2
+          },
+          "inventory": "16dc9fe20b82233cfbe682411752948d8eb88a09a4785001a2de5a94166e535a"
+        }
+      }
+    },
+    {
+      "id": "dcbd282827557fec5b3279515c44f6ad2b36d3d664c1569c17c1e4add253913d",
+      "problem": "serv_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "kimi-k3.1-pro",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "13e2a3651236af435cf6abb71f648899952b5feeabb8085862a5eed191ab4f58",
+      "generation": "868a6dbfc9295e73a46d295ae3d1e85b1f3e1aacdcc0ea6808839bccdeb886b1",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "execution",
+          "label": "infrastructure_failure",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:2af376f25a8fd07abc263476418c5bf1ae1f5f73c500cb4b324dc422ad1a5a1e"
+          ],
+          "event_id": "b69975d808696040852f2417188c8567bfb9342702b10e7dbce56195892324e4",
+          "assessment": "e45c5ec1f3302634b77747323ffc55c6d456cfcebf0741edb0ea635fe45c4275",
+          "attempt": "307b2488ff8c4885b70aa22657fa489a"
+        },
+        {
+          "namespace": "execution",
+          "label": "unknown",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_5",
+          "candidate": "a97a8a331060fb6903af4217ef08a9f137b6c9a169a95e999234b54e66121841",
+          "evidence": [
+            "sha256:2af376f25a8fd07abc263476418c5bf1ae1f5f73c500cb4b324dc422ad1a5a1e"
+          ],
+          "event_id": "eb1cc7aa68efdb6a758757a59711aeeba03ca7f67ed3e6d901d62f1ce4f39f7d",
+          "assessment": "e45c5ec1f3302634b77747323ffc55c6d456cfcebf0741edb0ea635fe45c4275",
+          "attempt": "307b2488ff8c4885b70aa22657fa489a"
+        },
+        {
+          "namespace": "execution",
+          "label": "inference_error",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_5",
+          "candidate": "a97a8a331060fb6903af4217ef08a9f137b6c9a169a95e999234b54e66121841",
+          "evidence": [
+            "sha256:2af376f25a8fd07abc263476418c5bf1ae1f5f73c500cb4b324dc422ad1a5a1e"
+          ],
+          "event_id": "78df03e7922895b249f3307ca881addc6c08d071de61f5785fb0081b7c2572ed",
+          "assessment": "e45c5ec1f3302634b77747323ffc55c6d456cfcebf0741edb0ea635fe45c4275",
+          "attempt": "307b2488ff8c4885b70aa22657fa489a"
+        },
+        {
+          "namespace": "execution",
+          "label": "infrastructure_failure",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:f82a58187652951ce765fafc8e6bfa348eabe376541b9c10e70d1ac22d15f81e"
+          ],
+          "event_id": "78e894bcaf9b12b47c2502ce067b18b65f8ea2537aa2d8e4364929fc8379400d",
+          "assessment": "f033e35ab69dbcd482a322746eab69de32965b21ba7ecfa3671e4a7d6e2753a4",
+          "attempt": "a6c957d091ab438b8842e627647123d9"
+        },
+        {
+          "namespace": "execution",
+          "label": "unknown",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_5",
+          "candidate": "a97a8a331060fb6903af4217ef08a9f137b6c9a169a95e999234b54e66121841",
+          "evidence": [
+            "sha256:f82a58187652951ce765fafc8e6bfa348eabe376541b9c10e70d1ac22d15f81e"
+          ],
+          "event_id": "0b5035b321c1f7acc8cd84ac1e67c7aad2a196481ef931e930cddb72e0560957",
+          "assessment": "f033e35ab69dbcd482a322746eab69de32965b21ba7ecfa3671e4a7d6e2753a4",
+          "attempt": "a6c957d091ab438b8842e627647123d9"
+        },
+        {
+          "namespace": "execution",
+          "label": "inference_error",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_5",
+          "candidate": "a97a8a331060fb6903af4217ef08a9f137b6c9a169a95e999234b54e66121841",
+          "evidence": [
+            "sha256:f82a58187652951ce765fafc8e6bfa348eabe376541b9c10e70d1ac22d15f81e"
+          ],
+          "event_id": "2a9766bb7775e6d33f21e1dbdd44cfa05ef911d3c23df32c5251fdacdd5aad76",
+          "assessment": "f033e35ab69dbcd482a322746eab69de32965b21ba7ecfa3671e4a7d6e2753a4",
+          "attempt": "a6c957d091ab438b8842e627647123d9"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_5"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "fd8cdce7d0b74d70b52160db5270fe8c",
+      "selected_evaluation": null,
+      "evaluation_generation": "868a6dbfc9295e73a46d295ae3d1e85b1f3e1aacdcc0ea6808839bccdeb886b1",
+      "attempt_count": 3,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_5",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "eeb53ae675f116d7bb23a598d68e3a4d4d3c2c59c51937572ca233871e2efa49",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "d39a26f10585a7f001fc45e69801b923ce029b0b7da8bb591b80cd0c2b4b140d",
+          "evaluation_sha256": "d01b3b4a3c5123f2ca65414038209683af899a9fa583e0cc98a447cb1c0b6ddb",
+          "started_at": "2026-11-06T12:18:51.323085Z",
+          "completed_at": "2026-11-06T12:34:10.018176Z",
+          "inference_seconds": 918.695091,
+          "evaluation_seconds": 1.4819610118865967,
+          "native_steps": 67,
+          "tokens": {
+            "cache_read": 2784512,
+            "cache_write": 0,
+            "input": 70417,
+            "output": 14606,
+            "reasoning": 13240
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "kimi-k3.1-pro-pending-official-rate-20261106",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_negative_jal",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_scenario_0",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_scenario_19",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_1",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_17",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_18",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_20",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_3_scenario_2",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_4_scenario_3",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_public_legacy_bus_abi",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_target_behavior_14",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_target_behavior_15",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_target_behavior_16",
+              "group": "Core",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 3,
+              "total": 3
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 9,
+              "total": 9
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 13,
+              "total": 13
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 67,
+            "observed_tool_calls": 66,
+            "native_events": 206,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "ae0ac9fc670a585da942fc1ab7fe3079db69b0377768b853cf2fd046c9c51768"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 13,
+            "groups": {
+              "core": 3,
+              "error": 0,
+              "functionality": 0,
+              "regression": 9,
+              "structure": 1
+            },
+            "inventory": "3cd8cb84cdda2f0c222b2814ba6b3ff5ce7cccbd7ef65df0c0e5250c4b6a9d35"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/d9d481120a62688d4a9bb9fffcc6652c84c62c2b71a63ee98398e3d62e625d67.tar.gz",
+            "sha256": "d9d481120a62688d4a9bb9fffcc6652c84c62c2b71a63ee98398e3d62e625d67",
+            "file_count": 52,
+            "size_bytes": 98954,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 3,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-06T04:44:39.960893+00:00",
+      "completed_at": "2026-11-06T12:34:22.386631+00:00",
+      "wall_seconds_all_attempts": 1097.9613838437945,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_5": {
+          "total": 13,
+          "groups": {
+            "core": 3,
+            "error": 0,
+            "functionality": 0,
+            "regression": 9,
+            "structure": 1
+          },
+          "inventory": "3cd8cb84cdda2f0c222b2814ba6b3ff5ce7cccbd7ef65df0c0e5250c4b6a9d35"
+        }
+      }
+    },
+    {
+      "id": "e7ed0eb55086747b9676d70959e3770308771309e7d66ba5a5c2c21b96aee78e",
+      "problem": "serv_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "kimi-k3.1-pro",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "13e2a3651236af435cf6abb71f648899952b5feeabb8085862a5eed191ab4f58",
+      "generation": "f8dfec92fd5eb4650b6817ce75dcf528f27a49401252f70c1d89ba6d2ebc7b57",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "d12b9afccef027793cebf94b7c4edf29e27a914dbee3c05a9863581a91b582ba",
+          "evidence": [
+            "sha256:2f1748321ec198e3efa1551dbaf86491856e499b892d3f5edbdc55604f85a542"
+          ],
+          "event_id": "fd12f17ed52a965ba21692e266606ae874ac2ac6cfa9c88e6aaeca3a4697cdb7",
+          "assessment": "113e828de14b2f49322022492f8fb95c1f1e4af99e4abc1a7348782c08361a60",
+          "attempt": "6d63a6508665468d8b37ab8d490db555"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "d12b9afccef027793cebf94b7c4edf29e27a914dbee3c05a9863581a91b582ba",
+          "evidence": [
+            "sha256:2f1748321ec198e3efa1551dbaf86491856e499b892d3f5edbdc55604f85a542"
+          ],
+          "event_id": "faa6d384f1349b3a5418320a030eb0e4ff0ff9f7a2f7d47569f848e0486e78b0",
+          "assessment": "113e828de14b2f49322022492f8fb95c1f1e4af99e4abc1a7348782c08361a60",
+          "attempt": "6d63a6508665468d8b37ab8d490db555"
+        },
+        {
+          "namespace": "execution",
+          "label": "infrastructure_failure",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:f9c8b928266b8260cd1f521166c64e4548072fbb392a1678df32c8f4f4bbb1e9"
+          ],
+          "event_id": "76b6b3291eea6eb48ef7f9cfd7026ef5153dea74aa4a6b965f0fbed70a455a8b",
+          "assessment": "935d6fafa2950dc74962905bcb5e64b920fb14b18d13cde42dcdf2d978c2457d",
+          "attempt": "361c61f614674ee99fde2857284ee311"
+        },
+        {
+          "namespace": "execution",
+          "label": "unknown",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "be93fed27c942bc1bf4a5e9b732b29309cadc5242ba356b7022ef07000d4e5b7",
+          "evidence": [
+            "sha256:f9c8b928266b8260cd1f521166c64e4548072fbb392a1678df32c8f4f4bbb1e9"
+          ],
+          "event_id": "0d8b3bef2e6242522ae0792f0e7c8e042b4bb94c9c2ad95889913d21f30868af",
+          "assessment": "935d6fafa2950dc74962905bcb5e64b920fb14b18d13cde42dcdf2d978c2457d",
+          "attempt": "361c61f614674ee99fde2857284ee311"
+        },
+        {
+          "namespace": "execution",
+          "label": "inference_error",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "be93fed27c942bc1bf4a5e9b732b29309cadc5242ba356b7022ef07000d4e5b7",
+          "evidence": [
+            "sha256:f9c8b928266b8260cd1f521166c64e4548072fbb392a1678df32c8f4f4bbb1e9"
+          ],
+          "event_id": "3a5da09647b7bd4ef4ec24c825658239b8ec68042298cd04af9a14a799f978b9",
+          "assessment": "935d6fafa2950dc74962905bcb5e64b920fb14b18d13cde42dcdf2d978c2457d",
+          "attempt": "361c61f614674ee99fde2857284ee311"
+        },
+        {
+          "namespace": "execution",
+          "label": "infrastructure_failure",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:b11b9e92c166f2beaaceff404c88db75c1b45d24e34a61f392bada39306f8028"
+          ],
+          "event_id": "3a77aefd87f95fdc49b4835e40a2bb5e8e4cfafc7d3e5bee7e1a60c7cdf94224",
+          "assessment": "f2f38bdf4317852c5256f482f2d0fa5e006834dda6cc4be98ff85e905cde37e1",
+          "attempt": "ea7cbc5b8b084f3fa84ebc67e0913d89"
+        },
+        {
+          "namespace": "execution",
+          "label": "unknown",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "be93fed27c942bc1bf4a5e9b732b29309cadc5242ba356b7022ef07000d4e5b7",
+          "evidence": [
+            "sha256:b11b9e92c166f2beaaceff404c88db75c1b45d24e34a61f392bada39306f8028"
+          ],
+          "event_id": "92defa20e90f95b1c14c22b7ff80b7f0b63d959fee66637c61a994539ea98889",
+          "assessment": "f2f38bdf4317852c5256f482f2d0fa5e006834dda6cc4be98ff85e905cde37e1",
+          "attempt": "ea7cbc5b8b084f3fa84ebc67e0913d89"
+        },
+        {
+          "namespace": "execution",
+          "label": "inference_error",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "be93fed27c942bc1bf4a5e9b732b29309cadc5242ba356b7022ef07000d4e5b7",
+          "evidence": [
+            "sha256:b11b9e92c166f2beaaceff404c88db75c1b45d24e34a61f392bada39306f8028"
+          ],
+          "event_id": "c05f9618662268bd0ef9b765391203c9276a75b1fb45219ff687beb9e62175de",
+          "assessment": "f2f38bdf4317852c5256f482f2d0fa5e006834dda6cc4be98ff85e905cde37e1",
+          "attempt": "ea7cbc5b8b084f3fa84ebc67e0913d89"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_3"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.0,
+      "selected_attempt": "6d63a6508665468d8b37ab8d490db555",
+      "selected_evaluation": null,
+      "evaluation_generation": "f8dfec92fd5eb4650b6817ce75dcf528f27a49401252f70c1d89ba6d2ebc7b57",
+      "attempt_count": 3,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_3",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "d12b9afccef027793cebf94b7c4edf29e27a914dbee3c05a9863581a91b582ba",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "19a0a3738a04db53c7680203b5b435615deaf42dbc30a4e603ea03e860d70b0e",
+          "evaluation_sha256": "2f1748321ec198e3efa1551dbaf86491856e499b892d3f5edbdc55604f85a542",
+          "started_at": "2026-11-06T12:59:41.125730Z",
+          "completed_at": "2026-11-06T13:25:46.620372Z",
+          "inference_seconds": 1565.494642,
+          "evaluation_seconds": 1.2627544403076172,
+          "native_steps": 101,
+          "tokens": {
+            "cache_read": 4949504,
+            "cache_write": 0,
+            "input": 95599,
+            "output": 18587,
+            "reasoning": 17356
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "kimi-k3.1-pro-pending-official-rate-20261106",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_negative_jal",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_scenario_0",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_scenario_19",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_1",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_17",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_18",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_20",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_public_legacy_bus_abi",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_target_behavior_2",
+              "group": "Core",
+              "status": "failed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 0,
+              "total": 1
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 7,
+              "total": 7
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 8,
+              "total": 9
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 101,
+            "observed_tool_calls": 100,
+            "native_events": 313,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "621fe35d279bffc32dcd14a5ddc49c26b0bc3e340c1201e6929ae9241f273634"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 9,
+            "groups": {
+              "core": 1,
+              "error": 0,
+              "functionality": 0,
+              "regression": 7,
+              "structure": 1
+            },
+            "inventory": "ba2e7d254f8c45b64088a4f58e5acb685a7e7d056de07728fe993784a8fc365f"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/42dacddf02198f6e70ea8ef2a202f4a3372419067de63de1d24e17ad476e51a5.tar.gz",
+            "sha256": "42dacddf02198f6e70ea8ef2a202f4a3372419067de63de1d24e17ad476e51a5",
+            "file_count": 50,
+            "size_bytes": 97337,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 3,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-06T04:46:00.993154+00:00",
+      "completed_at": "2026-11-06T13:25:58.778848+00:00",
+      "wall_seconds_all_attempts": 1747.9175819661468,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_3": {
+          "total": 9,
+          "groups": {
+            "core": 1,
+            "error": 0,
+            "functionality": 0,
+            "regression": 7,
+            "structure": 1
+          },
+          "inventory": "ba2e7d254f8c45b64088a4f58e5acb685a7e7d056de07728fe993784a8fc365f"
+        }
+      }
+    }
+  ]
+}
