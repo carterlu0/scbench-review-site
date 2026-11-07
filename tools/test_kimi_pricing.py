@@ -47,7 +47,7 @@ class KimiPricing(unittest.TestCase):
         self.assertIsNone(cost['usd'])
         self.assertEqual(cost['reason'], 'missing_reasoning_usage')
 
-    def test_published_completed_costs_have_explicit_pending_pcie(self):
+    def test_published_terminal_costs_include_pcie_and_uninvoked_tail(self):
         latest = json.loads((ROOT / 'data/results/latest.json').read_text())
         group = next(g for g in latest['report']['groups']
                      if g['config']['model'] == 'kimi-k3.1-pro')
@@ -59,11 +59,11 @@ class KimiPricing(unittest.TestCase):
                          {'input': 13, 'output': 68, 'cache_read': 1.3, 'cache_write': 13})
         self.assertEqual(rate['output_token_semantics'], 'exclusive_reasoning')
         self.assertEqual(group['resources']['sr_actual']['known_cost_records'], 74)
-        self.assertEqual(group['resources']['pipeline_actual']['known_cost_records'], 66)
+        self.assertEqual(group['resources']['pipeline_actual']['known_cost_records'], 74)
         self.assertAlmostEqual(group['resources']['sr_actual']['total_cost_usd'], 111.13635639 * .149565 / .15)
-        self.assertAlmostEqual(group['resources']['pipeline_actual']['known_total_cost_usd'], 57.67957311 * .149565 / .15)
-        self.assertIsNone(group['resources']['pipeline_actual']['total_cost_usd'])
-        self.assertEqual(group['publication']['pending_trials'], 1)
+        self.assertAlmostEqual(group['resources']['pipeline_actual']['total_cost_usd'], 79.106587624545)
+        self.assertEqual(group['resources']['pipeline_actual']['imputed_cost_records'], 0)
+        self.assertEqual(group['publication']['pending_trials'], 0)
 
 
 if __name__ == '__main__':

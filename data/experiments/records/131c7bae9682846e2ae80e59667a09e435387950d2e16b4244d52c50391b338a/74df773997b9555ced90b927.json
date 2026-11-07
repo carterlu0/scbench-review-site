@@ -1,0 +1,3998 @@
+{
+  "schema_version": 4,
+  "analysis": "131c7bae9682846e2ae80e59667a09e435387950d2e16b4244d52c50391b338a",
+  "problem": "register_interface_t1",
+  "cells": [
+    {
+      "id": "01264e1d08779019c36264ad0057b286def3d7905a414d8ea40494b85e6dd759",
+      "problem": "register_interface_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "kimi-k3.1-pro",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "13e2a3651236af435cf6abb71f648899952b5feeabb8085862a5eed191ab4f58",
+      "generation": "2123d186ed09de651c28142d4a2d983f96d7b8b8ca4ef576faac61b113ede6f7",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "execution",
+          "label": "infrastructure_failure",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:f47897e899401fed2c74ebb536fc9b69d3d091fc33d729f2fc3307cb9f81c159"
+          ],
+          "event_id": "c87e5b9df66505a47f5c74d2360e407800c28dfaceafd36438cfd20eab16ecdf",
+          "assessment": "6bddd51ecb72e907d074c7f7c591033b7fd98461f02ac4f8d561c4cecd6477e8",
+          "attempt": "c11112ca60b046caaa2f7eb103c7801f"
+        },
+        {
+          "namespace": "execution",
+          "label": "unknown",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_5",
+          "candidate": "b8b6d9559a3864b5703da5e96e1b9e93a6f7011b3323226896ea9b23ae48efa6",
+          "evidence": [
+            "sha256:f47897e899401fed2c74ebb536fc9b69d3d091fc33d729f2fc3307cb9f81c159"
+          ],
+          "event_id": "6dbb004b385ebe08764f73d9301f91f3f63b1f81777fc00f8c45eff5b9b159b3",
+          "assessment": "6bddd51ecb72e907d074c7f7c591033b7fd98461f02ac4f8d561c4cecd6477e8",
+          "attempt": "c11112ca60b046caaa2f7eb103c7801f"
+        },
+        {
+          "namespace": "execution",
+          "label": "inference_error",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_5",
+          "candidate": "b8b6d9559a3864b5703da5e96e1b9e93a6f7011b3323226896ea9b23ae48efa6",
+          "evidence": [
+            "sha256:f47897e899401fed2c74ebb536fc9b69d3d091fc33d729f2fc3307cb9f81c159"
+          ],
+          "event_id": "2294eedc3a0ca2be25dce07178565cd53eca1a874b9467d64aa61f2b2501bf44",
+          "assessment": "6bddd51ecb72e907d074c7f7c591033b7fd98461f02ac4f8d561c4cecd6477e8",
+          "attempt": "c11112ca60b046caaa2f7eb103c7801f"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_5"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "45035310f3fb4dc39f7c97f2281ae9f6",
+      "selected_evaluation": null,
+      "evaluation_generation": "2123d186ed09de651c28142d4a2d983f96d7b8b8ca4ef576faac61b113ede6f7",
+      "attempt_count": 2,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_5",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "f7f85da8ba634cdd4afbc3a86c1c4a75d7d08caae77c2db12468d10830824470",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "9b4582d22076ae11b740adda14193a0237f27128990ca37196d97c610e849c29",
+          "evaluation_sha256": "d20d19dd62d2f38869c03cf5a0f887af91218da0d56edbe7dfd87f681f710ca1",
+          "started_at": "2026-11-06T03:48:59.488082Z",
+          "completed_at": "2026-11-06T04:01:30.553477Z",
+          "inference_seconds": 751.065395,
+          "evaluation_seconds": 65.57369804382324,
+          "native_steps": 28,
+          "tokens": {
+            "cache_read": 1123328,
+            "cache_write": 0,
+            "input": 54849,
+            "output": 8470,
+            "reasoning": 8087
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "kimi-k3.1-pro-pending-official-rate-20261106",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_offline_manifest",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[REG_BUS]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[apb_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[periph_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc_dst]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc_src]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cut]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_demux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_filter_empty_writes]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_mux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_to_mem]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_uniform]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[reg_cut]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_error_behavior[uniform_error]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[uniform_wide]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb_feedthrough_0]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb_feedthrough_1]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_2phase]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_4phase]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_split]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_split_4phase]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[demux]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[memory]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[mux]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[peripheral]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[reg_filter]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[uniform]",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 14,
+              "total": 14
+            },
+            "core": {
+              "passed": 2,
+              "total": 2
+            },
+            "functionality": {
+              "passed": 1,
+              "total": 1
+            },
+            "regression": {
+              "passed": 13,
+              "total": 13
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 30,
+              "total": 30
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 28,
+            "observed_tool_calls": 60,
+            "native_events": 120,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "94651d67a305a64b3d4ead2d14fdc85186ac8f094f828f71c9387722b6805fd1"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 30,
+            "groups": {
+              "core": 2,
+              "error": 0,
+              "functionality": 1,
+              "regression": 13,
+              "structure": 14
+            },
+            "inventory": "33679af2682c9a4fd41bc80e09db9bc4949a6c4987a182421dc319729638f440"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/481b5516258d40604c8a0521435c256074166a3c7737f0ca174a866b165b88df.tar.gz",
+            "sha256": "481b5516258d40604c8a0521435c256074166a3c7737f0ca174a866b165b88df",
+            "file_count": 107,
+            "size_bytes": 190965,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 2,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-06T03:43:01.526252+00:00",
+      "completed_at": "2026-11-06T04:03:07.190587+00:00",
+      "wall_seconds_all_attempts": 881.1068142205477,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_5": {
+          "total": 30,
+          "groups": {
+            "core": 2,
+            "error": 0,
+            "functionality": 1,
+            "regression": 13,
+            "structure": 14
+          },
+          "inventory": "33679af2682c9a4fd41bc80e09db9bc4949a6c4987a182421dc319729638f440"
+        }
+      }
+    },
+    {
+      "id": "0d4460bbc5e86af78796373ba10690115ef4b0d122e5c75ea74bc2e4cdde4b89",
+      "problem": "register_interface_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "kimi-k3.1-pro",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "13e2a3651236af435cf6abb71f648899952b5feeabb8085862a5eed191ab4f58",
+      "generation": "216ec79ec83ec32b6142b3738faa1abf404d3cb724b08b2f4d074f23d4c2774a",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "execution",
+          "label": "infrastructure_failure",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:1967515d559134ca0d815a0d222e07cffaec28baded6e144bf1e5774c2bd398e"
+          ],
+          "event_id": "fd37c426e4e73b76ee67e4f2a1c9ac51afebe6cf5358a2f94f48f507816c2bc0",
+          "assessment": "2feda286bc044d711d5ff515f18e604b02e5859e86de8d08e92655353a71347b",
+          "attempt": "3374198e58864b43b043fa37a3519f6f"
+        },
+        {
+          "namespace": "execution",
+          "label": "unknown",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "c864b6614697253f5206bde3563f2780b5edfa0a67396a87a1cb53b64cdaca60",
+          "evidence": [
+            "sha256:1967515d559134ca0d815a0d222e07cffaec28baded6e144bf1e5774c2bd398e"
+          ],
+          "event_id": "721c64293b9f0181765c76fbf2350fb3f59766b5f3fea80d9a746b83e33d611b",
+          "assessment": "2feda286bc044d711d5ff515f18e604b02e5859e86de8d08e92655353a71347b",
+          "attempt": "3374198e58864b43b043fa37a3519f6f"
+        },
+        {
+          "namespace": "execution",
+          "label": "inference_error",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "c864b6614697253f5206bde3563f2780b5edfa0a67396a87a1cb53b64cdaca60",
+          "evidence": [
+            "sha256:1967515d559134ca0d815a0d222e07cffaec28baded6e144bf1e5774c2bd398e"
+          ],
+          "event_id": "b517c1ff0df53ef4fae3f858a4a369f68915e053f1e64174f17d2b2b31e5fe73",
+          "assessment": "2feda286bc044d711d5ff515f18e604b02e5859e86de8d08e92655353a71347b",
+          "attempt": "3374198e58864b43b043fa37a3519f6f"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_3"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "ca5ba7904b8a4080a2a77a89479bea54",
+      "selected_evaluation": null,
+      "evaluation_generation": "216ec79ec83ec32b6142b3738faa1abf404d3cb724b08b2f4d074f23d4c2774a",
+      "attempt_count": 2,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_3",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "9b311949780f2887b98f38e26c6287ef6e7c36cc2b9e1fe6ac83edc0a9a3485b",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "d9ea93736669c2bb8464fa0a412310c962a16203fb7caa9ebca89043e19b3c7c",
+          "evaluation_sha256": "832312791e6b2abd436b03079ad91500ac9e4aa57d2af8106bdafde335cf3b87",
+          "started_at": "2026-11-06T04:04:31.778295Z",
+          "completed_at": "2026-11-06T04:10:03.964728Z",
+          "inference_seconds": 332.186433,
+          "evaluation_seconds": 37.03237342834473,
+          "native_steps": 20,
+          "tokens": {
+            "cache_read": 491008,
+            "cache_write": 0,
+            "input": 31029,
+            "output": 5942,
+            "reasoning": 4197
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "kimi-k3.1-pro-pending-official-rate-20261106",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_offline_manifest",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[REG_BUS]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[apb_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[periph_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_demux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_mux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_to_mem]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_uniform]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[peripheral]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_error_behavior[uniform_error]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[uniform_wide]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_2phase]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[demux]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[memory]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[mux]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[uniform]",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 10,
+              "total": 10
+            },
+            "core": {
+              "passed": 2,
+              "total": 2
+            },
+            "functionality": {
+              "passed": 1,
+              "total": 1
+            },
+            "regression": {
+              "passed": 6,
+              "total": 6
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 19,
+              "total": 19
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 20,
+            "observed_tool_calls": 42,
+            "native_events": 83,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "b3990fa452887b47098d2da0c934256d5e8eefdf3d09b3ee9bb199f11c1e28e1"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 19,
+            "groups": {
+              "core": 2,
+              "error": 0,
+              "functionality": 1,
+              "regression": 6,
+              "structure": 10
+            },
+            "inventory": "99b9718e2c5cc71f6b9844f89def93cb8c4b45f51cf2feb853e0378ef2b260c6"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/3d56e0c168e8bc6a2a71d310f1aa1e375211f0a7a5799d66b828228f88aa335a.tar.gz",
+            "sha256": "3d56e0c168e8bc6a2a71d310f1aa1e375211f0a7a5799d66b828228f88aa335a",
+            "file_count": 23,
+            "size_bytes": 49942,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 2,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-06T03:43:37.173340+00:00",
+      "completed_at": "2026-11-06T04:10:51.364345+00:00",
+      "wall_seconds_all_attempts": 407.78503459692,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_3": {
+          "total": 19,
+          "groups": {
+            "core": 2,
+            "error": 0,
+            "functionality": 1,
+            "regression": 6,
+            "structure": 10
+          },
+          "inventory": "99b9718e2c5cc71f6b9844f89def93cb8c4b45f51cf2feb853e0378ef2b260c6"
+        }
+      }
+    },
+    {
+      "id": "3748e7a3fade9f8ade7066cd3382352ea2a4f52878c9481ca0e6424d06695de0",
+      "problem": "register_interface_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "kimi-k3.1-pro",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "13e2a3651236af435cf6abb71f648899952b5feeabb8085862a5eed191ab4f58",
+      "generation": "5dbfd098cabeba9110ab4e889cb24ca94e5cad961fe10f8ef1d7cbf5a1f709ec",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "execution",
+          "label": "infrastructure_failure",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:b7decbb4afb89b9a00524da4c01b9199721ec93626751826669812d0744da1ca"
+          ],
+          "event_id": "0325fd22aa565c05a733a71737648cad4ce04dfc700f03c63b4c745de58c203b",
+          "assessment": "0ef1b56eeb93b3a1314d28b4b6062909665a4f9b55c40b79433d71d933b89674",
+          "attempt": "856f8ca6cc2b4959930d102ee651bb4d"
+        },
+        {
+          "namespace": "execution",
+          "label": "unknown",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_6",
+          "candidate": "8ad1077b45e02ef7d4609525dc501ac1da60eef01a1a525213a91e50e5c5e8ed",
+          "evidence": [
+            "sha256:b7decbb4afb89b9a00524da4c01b9199721ec93626751826669812d0744da1ca"
+          ],
+          "event_id": "c5055354a5f579883869cfc2645019e60b9eb50f94f4f88049e0658c76cea603",
+          "assessment": "0ef1b56eeb93b3a1314d28b4b6062909665a4f9b55c40b79433d71d933b89674",
+          "attempt": "856f8ca6cc2b4959930d102ee651bb4d"
+        },
+        {
+          "namespace": "execution",
+          "label": "inference_error",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_6",
+          "candidate": "8ad1077b45e02ef7d4609525dc501ac1da60eef01a1a525213a91e50e5c5e8ed",
+          "evidence": [
+            "sha256:b7decbb4afb89b9a00524da4c01b9199721ec93626751826669812d0744da1ca"
+          ],
+          "event_id": "259e5569976a4f1cd06c2a1acb53a00f804f43903984703a75bee71021e97984",
+          "assessment": "0ef1b56eeb93b3a1314d28b4b6062909665a4f9b55c40b79433d71d933b89674",
+          "attempt": "856f8ca6cc2b4959930d102ee651bb4d"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_6"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "b3d7000c4501465cb6e1a9a531423dfe",
+      "selected_evaluation": null,
+      "evaluation_generation": "5dbfd098cabeba9110ab4e889cb24ca94e5cad961fe10f8ef1d7cbf5a1f709ec",
+      "attempt_count": 2,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_6",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "93f11efdf84fa891c16ad305f9dc7718eea5a3210e389dce03ed9567f3504d0f",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "a8deb139fd10433100a43f01de098301682e018a231c7d99ec5e7d3ebc857f3e",
+          "evaluation_sha256": "3162ae596bf84e5dd8879c163a3da4d03991af986d5d05cce22f2f2b0f19e034",
+          "started_at": "2026-11-06T04:55:19.308933Z",
+          "completed_at": "2026-11-06T05:14:23.733111Z",
+          "inference_seconds": 1144.424178,
+          "evaluation_seconds": 100.6365921497345,
+          "native_steps": 32,
+          "tokens": {
+            "cache_read": 1925120,
+            "cache_write": 0,
+            "input": 111873,
+            "output": 15407,
+            "reasoning": 18055
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "kimi-k3.1-pro-pending-official-rate-20261106",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_offline_manifest",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[REG_BUS]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[apb_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[axi_to_reg_v2]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[periph_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc_dst]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc_src]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cut]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_demux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_filter_empty_writes]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_mux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_to_mem]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_uniform]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[axi_w32]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[cut_w32_0]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[cut_w32_1]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[cut_w32_2]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[cut_w32_3]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_error_behavior[uniform_error]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[axi_w64]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[cut_w64_0]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[cut_w64_1]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[cut_w64_2]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[cut_w64_3]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[uniform_wide]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb_feedthrough_0]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb_feedthrough_1]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_2phase]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_4phase]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_split]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[demux]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[memory]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[mux]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[peripheral]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[reg_cut]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[reg_filter]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[uniform]",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 15,
+              "total": 15
+            },
+            "core": {
+              "passed": 6,
+              "total": 6
+            },
+            "functionality": {
+              "passed": 6,
+              "total": 6
+            },
+            "regression": {
+              "passed": 13,
+              "total": 13
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 40,
+              "total": 40
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 32,
+            "observed_tool_calls": 83,
+            "native_events": 154,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "a21c822c1d66baf27572359d53f21a42b36bd9a05297ce8565c1039c49683389"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 40,
+            "groups": {
+              "core": 6,
+              "error": 0,
+              "functionality": 6,
+              "regression": 13,
+              "structure": 15
+            },
+            "inventory": "e56b85a2e09ee1a2a43c512d4491a90b8de24355f853e50c8d1a5abbd8b5411b"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/5505eee1f3bc0774ddce94dfd3a0eb418a1296f19525a410d0ca8e6324048b78.tar.gz",
+            "sha256": "5505eee1f3bc0774ddce94dfd3a0eb418a1296f19525a410d0ca8e6324048b78",
+            "file_count": 108,
+            "size_bytes": 193227,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 2,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-06T04:31:50.885259+00:00",
+      "completed_at": "2026-11-06T05:16:35.130332+00:00",
+      "wall_seconds_all_attempts": 1452.9078443944454,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_6": {
+          "total": 40,
+          "groups": {
+            "core": 6,
+            "error": 0,
+            "functionality": 6,
+            "regression": 13,
+            "structure": 15
+          },
+          "inventory": "e56b85a2e09ee1a2a43c512d4491a90b8de24355f853e50c8d1a5abbd8b5411b"
+        }
+      }
+    },
+    {
+      "id": "68a3188c1a0cb21ecaf62cb69f2178e9e2cba2a5d94b26cd313af58cf8a8236e",
+      "problem": "register_interface_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "kimi-k3.1-pro",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "13e2a3651236af435cf6abb71f648899952b5feeabb8085862a5eed191ab4f58",
+      "generation": "2a607082ef99cb1c98997bbffa03f884c54b9b70f4aacd75db3072667d3c4f90",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "execution",
+          "label": "infrastructure_failure",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:3d346071edec9127f805500f3705472d37fcb400882ba8282482efbddf83d6c1"
+          ],
+          "event_id": "a5404405ceb379ade72319c6050f97884033b506e89bd406dfa7577b1014e6f5",
+          "assessment": "b4825400b199aa5670b3af7ff9994459b746ffba31693920b6bcbd3555df9239",
+          "attempt": "8a424fcd57fd4676b3d3aba4d557114e"
+        },
+        {
+          "namespace": "execution",
+          "label": "unknown",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "ec91acc60709f1702e058bed768ec0c5786d32890f3ea4baeb7d3394993639f6",
+          "evidence": [
+            "sha256:3d346071edec9127f805500f3705472d37fcb400882ba8282482efbddf83d6c1"
+          ],
+          "event_id": "74a0378f1b6466c55d25a9ebedad4650b85448ba8d3c4ce49e8016f92904dc96",
+          "assessment": "b4825400b199aa5670b3af7ff9994459b746ffba31693920b6bcbd3555df9239",
+          "attempt": "8a424fcd57fd4676b3d3aba4d557114e"
+        },
+        {
+          "namespace": "execution",
+          "label": "inference_error",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "ec91acc60709f1702e058bed768ec0c5786d32890f3ea4baeb7d3394993639f6",
+          "evidence": [
+            "sha256:3d346071edec9127f805500f3705472d37fcb400882ba8282482efbddf83d6c1"
+          ],
+          "event_id": "500e1ef77904ba71dc40d05dc46647d2e49a35030c39ebd58a89ea80d1a00b3c",
+          "assessment": "b4825400b199aa5670b3af7ff9994459b746ffba31693920b6bcbd3555df9239",
+          "attempt": "8a424fcd57fd4676b3d3aba4d557114e"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_1"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "b673687022654805a316758c9951075f",
+      "selected_evaluation": null,
+      "evaluation_generation": "2a607082ef99cb1c98997bbffa03f884c54b9b70f4aacd75db3072667d3c4f90",
+      "attempt_count": 2,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_1",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "6da386763f591cb260dd69caabd98c94292a4e1c19f541e54c4f3678bfb32d34",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "f199d15a25f4c3d38b5b0e02b067b3449e7c1daf0715dbfae70c355eab2e04e3",
+          "evaluation_sha256": "18ad80b9fc03d98315dccf42f6687e6d05a25ba0edc19eaf5e938810766fe6ad",
+          "started_at": "2026-11-06T06:52:22.602605Z",
+          "completed_at": "2026-11-06T06:55:58.654731Z",
+          "inference_seconds": 216.052126,
+          "evaluation_seconds": 14.236105680465698,
+          "native_steps": 14,
+          "tokens": {
+            "cache_read": 230400,
+            "cache_write": 0,
+            "input": 19160,
+            "output": 4648,
+            "reasoning": 2738
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "kimi-k3.1-pro-pending-official-rate-20261106",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_offline_manifest",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[REG_BUS]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[apb_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_uniform]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[apb]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_error_behavior[uniform_error]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[uniform]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[uniform_wide]",
+              "group": "Functionality",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 5,
+              "total": 5
+            },
+            "core": {
+              "passed": 2,
+              "total": 2
+            },
+            "functionality": {
+              "passed": 2,
+              "total": 2
+            },
+            "regression": {
+              "passed": 0,
+              "total": 0
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 9,
+              "total": 9
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 14,
+            "observed_tool_calls": 29,
+            "native_events": 63,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "54b1bbf626fd8d6f0d2f85c371def5da0c20d9cf3e044aade88ea0c9d9d49455"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 9,
+            "groups": {
+              "core": 2,
+              "error": 0,
+              "functionality": 2,
+              "regression": 0,
+              "structure": 5
+            },
+            "inventory": "ec6407e7f559f248fd1fc5c30b15d085fe4ba897231d4e0f2e4a7e3cde1c3201"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/d7925b2b56486164dafe5ffcb82f8c10e91e7aee0693c8dffe1f0fe18206c77b.tar.gz",
+            "sha256": "d7925b2b56486164dafe5ffcb82f8c10e91e7aee0693c8dffe1f0fe18206c77b",
+            "file_count": 13,
+            "size_bytes": 44424,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 2,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-06T04:37:35.044155+00:00",
+      "completed_at": "2026-11-06T06:56:22.103026+00:00",
+      "wall_seconds_all_attempts": 324.7775220833719,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_1": {
+          "total": 9,
+          "groups": {
+            "core": 2,
+            "error": 0,
+            "functionality": 2,
+            "regression": 0,
+            "structure": 5
+          },
+          "inventory": "ec6407e7f559f248fd1fc5c30b15d085fe4ba897231d4e0f2e4a7e3cde1c3201"
+        }
+      }
+    },
+    {
+      "id": "6e0e774247da9d25629250b59f5c41e8d82878f34646627a8345a1bc383f30e2",
+      "problem": "register_interface_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "kimi-k3.1-pro",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "13e2a3651236af435cf6abb71f648899952b5feeabb8085862a5eed191ab4f58",
+      "generation": "7923867ca62865d3ae5a63d3f0c95c613240120dc1522ac3d22e7fb2c4510b4e",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "execution",
+          "label": "infrastructure_failure",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:529272fd5baadb4c9c96a45f5f75fb121f088b0dd72a95a3d0762f90a0022096"
+          ],
+          "event_id": "c36eee54f128930ae157e6254a9e6ef58c13aaa29132a6a80d3ca99fa3a506ec",
+          "assessment": "ae06e3fb49fdf737c9ce3e3909d2e7d65f56fdd32e640a17d63e12dc2624281f",
+          "attempt": "bbec8872a0bc472395f741297fca8087"
+        },
+        {
+          "namespace": "execution",
+          "label": "unknown",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_8",
+          "candidate": "47140a669e3569150aa33e6047427e29790327081b74b441557e3c8d00627b5b",
+          "evidence": [
+            "sha256:529272fd5baadb4c9c96a45f5f75fb121f088b0dd72a95a3d0762f90a0022096"
+          ],
+          "event_id": "95f9b045635115c848e5f4e10e114cc152c20aa385a4ff80bbde7ce1421599da",
+          "assessment": "ae06e3fb49fdf737c9ce3e3909d2e7d65f56fdd32e640a17d63e12dc2624281f",
+          "attempt": "bbec8872a0bc472395f741297fca8087"
+        },
+        {
+          "namespace": "execution",
+          "label": "inference_error",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_8",
+          "candidate": "47140a669e3569150aa33e6047427e29790327081b74b441557e3c8d00627b5b",
+          "evidence": [
+            "sha256:529272fd5baadb4c9c96a45f5f75fb121f088b0dd72a95a3d0762f90a0022096"
+          ],
+          "event_id": "21fccdba995be53398f4b790efe255bfc35e2ff8eb4e1fb103e4abcf6aa63dcb",
+          "assessment": "ae06e3fb49fdf737c9ce3e3909d2e7d65f56fdd32e640a17d63e12dc2624281f",
+          "attempt": "bbec8872a0bc472395f741297fca8087"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_8"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "e2b5c78a402641a89434c2a321e493ce",
+      "selected_evaluation": null,
+      "evaluation_generation": "7923867ca62865d3ae5a63d3f0c95c613240120dc1522ac3d22e7fb2c4510b4e",
+      "attempt_count": 2,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_8",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "c02eb0c14d65918cc120f38895ebaf2f8aaa272e992c7266532039d15179f13c",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "94251914d8ee95ee75cc26e63437fc83c75faf7769296d657d397a0bd99e05dc",
+          "evaluation_sha256": "23c4999c64856972fee567a603c0eab20441af88b15f54abc261af08e43a3e26",
+          "started_at": "2026-11-06T06:56:25.604070Z",
+          "completed_at": "2026-11-06T07:23:02.226997Z",
+          "inference_seconds": 1596.622927,
+          "evaluation_seconds": 138.5319471359253,
+          "native_steps": 40,
+          "tokens": {
+            "cache_read": 2004480,
+            "cache_write": 0,
+            "input": 72624,
+            "output": 17960,
+            "reasoning": 12259
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "kimi-k3.1-pro-pending-official-rate-20261106",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_offline_manifest",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[REG_BUS]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[apb_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[apb_to_reg_v2]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[axi_to_reg_v2]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[periph_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc_dst]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc_src]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cut]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_demux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_filter_empty_writes]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_mux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_to_axi]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_to_mem]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_uniform]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[apb_v2_0]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[apb_v2_1]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_error_behavior[axi_error]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_error_behavior[uniform_error]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[axi_w64]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[cut_w64_0]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[cut_w64_1]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[cut_w64_2]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[cut_w64_3]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[uniform_wide]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb_feedthrough_0]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb_feedthrough_1]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[axi_w32]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_2phase]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_4phase]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_split]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cut_w32_0]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cut_w32_1]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cut_w32_2]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cut_w32_3]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[demux]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[memory]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[mux]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[peripheral]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[reg_cut]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[reg_filter]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[reg_to_axi]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[uniform]",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 17,
+              "total": 17
+            },
+            "core": {
+              "passed": 4,
+              "total": 4
+            },
+            "functionality": {
+              "passed": 6,
+              "total": 6
+            },
+            "regression": {
+              "passed": 19,
+              "total": 19
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 46,
+              "total": 46
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 40,
+            "observed_tool_calls": 77,
+            "native_events": 163,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "60bd5b1b17e1a16defff510783fa74dcfa48ca9e0a2de694db4dc94c92f7437c"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 46,
+            "groups": {
+              "core": 4,
+              "error": 0,
+              "functionality": 6,
+              "regression": 19,
+              "structure": 17
+            },
+            "inventory": "fee2debd1ce0189b4227ea4ad57d607e2a0e270c4a976151bd6484d850379f59"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/cf1b7266d8a555db5f8d7b30dac06c7c851f1caf099fa082daa8d8534f270edd.tar.gz",
+            "sha256": "cf1b7266d8a555db5f8d7b30dac06c7c851f1caf099fa082daa8d8534f270edd",
+            "file_count": 116,
+            "size_bytes": 207501,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 2,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-06T04:37:37.056414+00:00",
+      "completed_at": "2026-11-06T07:25:51.365053+00:00",
+      "wall_seconds_all_attempts": 1854.694722512737,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_8": {
+          "total": 46,
+          "groups": {
+            "core": 4,
+            "error": 0,
+            "functionality": 6,
+            "regression": 19,
+            "structure": 17
+          },
+          "inventory": "fee2debd1ce0189b4227ea4ad57d607e2a0e270c4a976151bd6484d850379f59"
+        }
+      }
+    },
+    {
+      "id": "714982d4006ad4f0fa0022cbe27410ce5cc7a5e8167aafe26e1296ddb57c01ce",
+      "problem": "register_interface_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "kimi-k3.1-pro",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "13e2a3651236af435cf6abb71f648899952b5feeabb8085862a5eed191ab4f58",
+      "generation": "d0ae92673d1c87b1516bbfd440387b87373490de5af11eb108bb8f3f3f5bb0d7",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "execution",
+          "label": "infrastructure_failure",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:e1271ed4a6300be99030c123bf5677fcf646d0fab4263ac1a97cd8784a62bfea"
+          ],
+          "event_id": "b983ebb9ef37451e90878b68bd06ace0955c4390c1f35d809ae7b0c354a41a2c",
+          "assessment": "64010a71bdb63e2f90a27df552610a96dbea796c0368ed77b54fc1e5e202f956",
+          "attempt": "fcf0f4f226f94ad888333a5f4fb79d93"
+        },
+        {
+          "namespace": "execution",
+          "label": "unknown",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_7",
+          "candidate": "dba1a803be4ba5704d1fc9d944676a4fb28788ed49b6df930e2e8ba09585c4fe",
+          "evidence": [
+            "sha256:e1271ed4a6300be99030c123bf5677fcf646d0fab4263ac1a97cd8784a62bfea"
+          ],
+          "event_id": "b8ddeedb1ca92cd45ef3509b4003f983e3f34c8d47461d00a0ab781d3d134940",
+          "assessment": "64010a71bdb63e2f90a27df552610a96dbea796c0368ed77b54fc1e5e202f956",
+          "attempt": "fcf0f4f226f94ad888333a5f4fb79d93"
+        },
+        {
+          "namespace": "execution",
+          "label": "inference_error",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_7",
+          "candidate": "dba1a803be4ba5704d1fc9d944676a4fb28788ed49b6df930e2e8ba09585c4fe",
+          "evidence": [
+            "sha256:e1271ed4a6300be99030c123bf5677fcf646d0fab4263ac1a97cd8784a62bfea"
+          ],
+          "event_id": "db288f7a19f942d1b31319f4892c7656d52b92b7b48bcad4f7f9a77f1a5d0a68",
+          "assessment": "64010a71bdb63e2f90a27df552610a96dbea796c0368ed77b54fc1e5e202f956",
+          "attempt": "fcf0f4f226f94ad888333a5f4fb79d93"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_7"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "d18287d59d094f128c0e5d2b697ff946",
+      "selected_evaluation": null,
+      "evaluation_generation": "d0ae92673d1c87b1516bbfd440387b87373490de5af11eb108bb8f3f3f5bb0d7",
+      "attempt_count": 2,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_7",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "3e1c13a83c27c58c7285713cc330cc99eab507d6a73d319873538d0519345831",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "68903a35a1e8ad453a74b6a46158d1acd8f479e16e07027b1dbcd24936ea8548",
+          "evaluation_sha256": "c55a2ebb70353ebc78002c61b32362182d52892345c4476b2033df6a4f12a428",
+          "started_at": "2026-11-06T06:58:41.842201Z",
+          "completed_at": "2026-11-06T07:06:14.235173Z",
+          "inference_seconds": 452.392972,
+          "evaluation_seconds": 120.33015704154968,
+          "native_steps": 35,
+          "tokens": {
+            "cache_read": 812800,
+            "cache_write": 0,
+            "input": 35868,
+            "output": 7006,
+            "reasoning": 5833
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "kimi-k3.1-pro-pending-official-rate-20261106",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_offline_manifest",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[REG_BUS]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[apb_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[axi_to_reg_v2]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[periph_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc_dst]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc_src]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cut]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_demux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_filter_empty_writes]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_mux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_to_axi]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_to_mem]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_uniform]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[reg_to_axi]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_error_behavior[axi_error]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_error_behavior[uniform_error]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[axi_w64]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[cut_w64_0]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[cut_w64_1]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[cut_w64_2]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[cut_w64_3]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[uniform_wide]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb_feedthrough_0]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb_feedthrough_1]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[axi_w32]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_2phase]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_4phase]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_split]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cut_w32_0]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cut_w32_1]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cut_w32_2]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cut_w32_3]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[demux]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[memory]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[mux]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[peripheral]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[reg_cut]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[reg_filter]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[uniform]",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 16,
+              "total": 16
+            },
+            "core": {
+              "passed": 3,
+              "total": 3
+            },
+            "functionality": {
+              "passed": 6,
+              "total": 6
+            },
+            "regression": {
+              "passed": 18,
+              "total": 18
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 43,
+              "total": 43
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 35,
+            "observed_tool_calls": 34,
+            "native_events": 111,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "386a03e1a72f1d383bf7d287769e19f28029f086ffaff09db07c89536d556bc7"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 43,
+            "groups": {
+              "core": 3,
+              "error": 0,
+              "functionality": 6,
+              "regression": 18,
+              "structure": 16
+            },
+            "inventory": "80806fa12d214882b3ef2aa06b118d5d8dac657e45e7dd9ab93abe76aa6c3b08"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/bea43574517c73a26f0135831dc4288c40beb4211cf56e0d400d1233e287d31b.tar.gz",
+            "sha256": "bea43574517c73a26f0135831dc4288c40beb4211cf56e0d400d1233e287d31b",
+            "file_count": 114,
+            "size_bytes": 206729,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 2,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-06T04:38:45.991113+00:00",
+      "completed_at": "2026-11-06T07:08:46.168857+00:00",
+      "wall_seconds_all_attempts": 690.0542552545667,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_7": {
+          "total": 43,
+          "groups": {
+            "core": 3,
+            "error": 0,
+            "functionality": 6,
+            "regression": 18,
+            "structure": 16
+          },
+          "inventory": "80806fa12d214882b3ef2aa06b118d5d8dac657e45e7dd9ab93abe76aa6c3b08"
+        }
+      }
+    },
+    {
+      "id": "c9035a4976bf1c2650aeeb751d5aa69fc017ea38248ada6217460a954cf91a15",
+      "problem": "register_interface_t1",
+      "mode": "pipeline",
+      "prompt_arm": "original",
+      "model": "kimi-k3.1-pro",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "13e2a3651236af435cf6abb71f648899952b5feeabb8085862a5eed191ab4f58",
+      "generation": "b2402fa6ddaf41131229d10fb5e44c727cf16dacf0ed4db2a14a5b0a34f9548a",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "execution",
+          "label": "infrastructure_failure",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:f6118f965aeb1a73460bcfdd9c28f66a1afe2acf6f321dbf6362615ba822bf6a"
+          ],
+          "event_id": "1cf664ec14e0e5a36ee3dd72215427502cd0b45690864ee8e6834b32c9f4a432",
+          "assessment": "22bfb65d1d580050b7be02f7cb1d3f6512ff03abb33fd07389d5223da72f67a1",
+          "attempt": "852445e71d1f4ebf960b9381714f9149"
+        },
+        {
+          "namespace": "execution",
+          "label": "unknown",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "ec91acc60709f1702e058bed768ec0c5786d32890f3ea4baeb7d3394993639f6",
+          "evidence": [
+            "sha256:f6118f965aeb1a73460bcfdd9c28f66a1afe2acf6f321dbf6362615ba822bf6a"
+          ],
+          "event_id": "043e8436f726abc6368cf9158d32e15fdab121fbc7232b8e5dcd5af0129de174",
+          "assessment": "22bfb65d1d580050b7be02f7cb1d3f6512ff03abb33fd07389d5223da72f67a1",
+          "attempt": "852445e71d1f4ebf960b9381714f9149"
+        },
+        {
+          "namespace": "execution",
+          "label": "inference_error",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "ec91acc60709f1702e058bed768ec0c5786d32890f3ea4baeb7d3394993639f6",
+          "evidence": [
+            "sha256:f6118f965aeb1a73460bcfdd9c28f66a1afe2acf6f321dbf6362615ba822bf6a"
+          ],
+          "event_id": "5d22324733403357403785c369710e2e212b54dc4e5d07134b27246e86b2ef44",
+          "assessment": "22bfb65d1d580050b7be02f7cb1d3f6512ff03abb33fd07389d5223da72f67a1",
+          "attempt": "852445e71d1f4ebf960b9381714f9149"
+        },
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_4",
+          "candidate": "a80c0bb6ca3eb52a9736260ea5fc499fb8ace06595cd0c69572368b57747bb58",
+          "evidence": [
+            "sha256:19b8d0b38ed9cf8b7836e9a25c784d1d1f2adaeffc039c67ff21707c996b5257"
+          ],
+          "event_id": "564995c7a5b6ab5de32311ba2d73943fdbb57710f6cf339c06206bbb4f07aa1a",
+          "assessment": "5b88e016539a391d5e261205165cf286f1f4824e80fd15af129281030bfbac8c",
+          "attempt": "94a276b172834f9c9ab67fdc74437980"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_4",
+          "candidate": "a80c0bb6ca3eb52a9736260ea5fc499fb8ace06595cd0c69572368b57747bb58",
+          "evidence": [
+            "sha256:19b8d0b38ed9cf8b7836e9a25c784d1d1f2adaeffc039c67ff21707c996b5257"
+          ],
+          "event_id": "29baa26db0162cd51372e35d7773e8ad9c3da3f8bcae4023be608ac8cb094e69",
+          "assessment": "5b88e016539a391d5e261205165cf286f1f4824e80fd15af129281030bfbac8c",
+          "attempt": "94a276b172834f9c9ab67fdc74437980"
+        },
+        {
+          "namespace": "implementation",
+          "label": "functionality_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_4",
+          "candidate": "a80c0bb6ca3eb52a9736260ea5fc499fb8ace06595cd0c69572368b57747bb58",
+          "evidence": [
+            "sha256:19b8d0b38ed9cf8b7836e9a25c784d1d1f2adaeffc039c67ff21707c996b5257"
+          ],
+          "event_id": "37dc9ac95aed2dff121e203f6d727d39018b4acc1762004d1a1e6a5d950c1cd0",
+          "assessment": "5b88e016539a391d5e261205165cf286f1f4824e80fd15af129281030bfbac8c",
+          "attempt": "94a276b172834f9c9ab67fdc74437980"
+        },
+        {
+          "namespace": "implementation",
+          "label": "structure_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_4",
+          "candidate": "a80c0bb6ca3eb52a9736260ea5fc499fb8ace06595cd0c69572368b57747bb58",
+          "evidence": [
+            "sha256:19b8d0b38ed9cf8b7836e9a25c784d1d1f2adaeffc039c67ff21707c996b5257"
+          ],
+          "event_id": "eb91154302150568fbf8130160ae17a88a3ba2065a7da8e5a447d36ff730f46a",
+          "assessment": "5b88e016539a391d5e261205165cf286f1f4824e80fd15af129281030bfbac8c",
+          "attempt": "94a276b172834f9c9ab67fdc74437980"
+        },
+        {
+          "namespace": "execution",
+          "label": "infrastructure_failure",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:3cd4737cccdbd4289cadf48f1c757c052b6047eaf400c3b2acc9e09d6b2b9e37"
+          ],
+          "event_id": "50973a05c781a21336adb080f16be2744b9157330b99e140ef07cac863a4221c",
+          "assessment": "c63a27009f070f3b3bd907cd30371e2f2d8f35566ab0a959768e0ee93897f9bb",
+          "attempt": "322b216877d54a0796409aa3f696e9f3"
+        },
+        {
+          "namespace": "execution",
+          "label": "unknown",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "ec91acc60709f1702e058bed768ec0c5786d32890f3ea4baeb7d3394993639f6",
+          "evidence": [
+            "sha256:3cd4737cccdbd4289cadf48f1c757c052b6047eaf400c3b2acc9e09d6b2b9e37"
+          ],
+          "event_id": "f543f0f4da63ff4eb9ea4b20b13bf1778beb3a11321c29b2bf34ed877464fefe",
+          "assessment": "c63a27009f070f3b3bd907cd30371e2f2d8f35566ab0a959768e0ee93897f9bb",
+          "attempt": "322b216877d54a0796409aa3f696e9f3"
+        },
+        {
+          "namespace": "execution",
+          "label": "inference_error",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "ec91acc60709f1702e058bed768ec0c5786d32890f3ea4baeb7d3394993639f6",
+          "evidence": [
+            "sha256:3cd4737cccdbd4289cadf48f1c757c052b6047eaf400c3b2acc9e09d6b2b9e37"
+          ],
+          "event_id": "fb79fd19719da7444487b3753bafe0c4d66586657ced1b3fac050ee789872d21",
+          "assessment": "c63a27009f070f3b3bd907cd30371e2f2d8f35566ab0a959768e0ee93897f9bb",
+          "attempt": "322b216877d54a0796409aa3f696e9f3"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 8,
+      "planned_targets": [
+        "checkpoint_1",
+        "checkpoint_2",
+        "checkpoint_3",
+        "checkpoint_4",
+        "checkpoint_5",
+        "checkpoint_6",
+        "checkpoint_7",
+        "checkpoint_8"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.375,
+      "selected_attempt": "94a276b172834f9c9ab67fdc74437980",
+      "selected_evaluation": null,
+      "evaluation_generation": "b2402fa6ddaf41131229d10fb5e44c727cf16dacf0ed4db2a14a5b0a34f9548a",
+      "attempt_count": 3,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_1",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "712dfe673608121c22c3ab927f2724e5fd3fb7137043e4d713bd8da9cd95d29c",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "8f07debb714d2f5602eb942fea7a4640ccf0a8765842a086d93af0a4aa8400df",
+          "evaluation_sha256": "83c89a315bad146c9a12522ace8ba44625cb9d56c0caeb3f3d9ae94800e65a4c",
+          "started_at": "2026-11-06T11:15:53.245335Z",
+          "completed_at": "2026-11-06T11:22:48.058806Z",
+          "inference_seconds": 414.813471,
+          "evaluation_seconds": 14.224706888198853,
+          "native_steps": 23,
+          "tokens": {
+            "cache_read": 529920,
+            "cache_write": 0,
+            "input": 33125,
+            "output": 7054,
+            "reasoning": 6276
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "kimi-k3.1-pro-pending-official-rate-20261106",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_offline_manifest",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[REG_BUS]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[apb_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_uniform]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[apb]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_error_behavior[uniform_error]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[uniform]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[uniform_wide]",
+              "group": "Functionality",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 5,
+              "total": 5
+            },
+            "core": {
+              "passed": 2,
+              "total": 2
+            },
+            "functionality": {
+              "passed": 2,
+              "total": 2
+            },
+            "regression": {
+              "passed": 0,
+              "total": 0
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 9,
+              "total": 9
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 23,
+            "observed_tool_calls": 42,
+            "native_events": 92,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "da15f7d898a5be893d44c540e4b2b7253bad6785cd62a63cc2049ac157bafeca"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 9,
+            "groups": {
+              "core": 2,
+              "error": 0,
+              "functionality": 2,
+              "regression": 0,
+              "structure": 5
+            },
+            "inventory": "174a0bc0336a375070717b049bfd3cba1b3108ff2cfd7fda214b38e1d725eeaf"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/1529f46a70e6c79224100e8ec161afe25c35c4fadc7629f84c7c7761065aeb66.tar.gz",
+            "sha256": "1529f46a70e6c79224100e8ec161afe25c35c4fadc7629f84c7c7761065aeb66",
+            "file_count": 13,
+            "size_bytes": 44600,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_2",
+          "target_checkpoint": "checkpoint_2",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "28b94eda0804affba5f6b3c009efbe5ff03d5b5373f083bb730e68d36f8a105f",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "ebb81eb22815de1d3aa5a38f2750d23a8c495a515718b83d922b64a6bd962c70",
+          "evaluation_sha256": "0bca2644060b6395d4fe219302db52ff16c6f34f5858134c89308be01eeb9883",
+          "started_at": "2026-11-06T11:23:07.997901Z",
+          "completed_at": "2026-11-06T11:55:10.140420Z",
+          "inference_seconds": 1922.142519,
+          "evaluation_seconds": 41.08626437187195,
+          "native_steps": 67,
+          "tokens": {
+            "cache_read": 3664640,
+            "cache_write": 0,
+            "input": 95422,
+            "output": 23242,
+            "reasoning": 17637
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "kimi-k3.1-pro-pending-official-rate-20261106",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_mux_demux_typed_array_abi",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_offline_manifest",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[REG_BUS]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[apb_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_demux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_mux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_to_mem]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_uniform]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[cdc_2phase]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[cdc_continuous_valid]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[demux]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[demux_continuous_valid]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[memory]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[memory_continuous_valid]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[mux]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[mux_continuous_valid]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_error_behavior[uniform_error]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[uniform_wide]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[uniform]",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 10,
+              "total": 10
+            },
+            "core": {
+              "passed": 9,
+              "total": 9
+            },
+            "functionality": {
+              "passed": 1,
+              "total": 1
+            },
+            "regression": {
+              "passed": 2,
+              "total": 2
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 22,
+              "total": 22
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 67,
+            "observed_tool_calls": 110,
+            "native_events": 255,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "a81d2a22e55a2613d56cc941153d72b17dc1f6ed2b15ac7d0212810d49a36171"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 22,
+            "groups": {
+              "core": 9,
+              "error": 0,
+              "functionality": 1,
+              "regression": 2,
+              "structure": 10
+            },
+            "inventory": "c45db60c4378fee17d97e63ffd556485506ecf6bd56c75852b3accf1c2c22d89"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/195c1a9bdde2df6277b975719a606dc20ef4351e5a6c7b54819683bd45a6154c.tar.gz",
+            "sha256": "195c1a9bdde2df6277b975719a606dc20ef4351e5a6c7b54819683bd45a6154c",
+            "file_count": 17,
+            "size_bytes": 46319,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_3",
+          "target_checkpoint": "checkpoint_3",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "a80c0bb6ca3eb52a9736260ea5fc499fb8ace06595cd0c69572368b57747bb58",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "840528ec3ce5b0b91b8ef7df9c78c8deb096cc9d68dead578741472af2f37da0",
+          "evaluation_sha256": "b1168384eaa10adf8a9286a300f218a5181579792058d4f0d0c2374483960ea1",
+          "started_at": "2026-11-06T11:55:56.613539Z",
+          "completed_at": "2026-11-06T12:00:59.446286Z",
+          "inference_seconds": 302.832747,
+          "evaluation_seconds": 33.600728034973145,
+          "native_steps": 19,
+          "tokens": {
+            "cache_read": 373248,
+            "cache_write": 0,
+            "input": 23250,
+            "output": 5105,
+            "reasoning": 2821
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "kimi-k3.1-pro-pending-official-rate-20261106",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_offline_manifest",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[REG_BUS]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[apb_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[periph_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_demux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_mux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_to_mem]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_uniform]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[peripheral]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_error_behavior[uniform_error]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[uniform_wide]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[cdc_2phase]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[demux]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[memory]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[mux]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[uniform]",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 10,
+              "total": 10
+            },
+            "core": {
+              "passed": 2,
+              "total": 2
+            },
+            "functionality": {
+              "passed": 1,
+              "total": 1
+            },
+            "regression": {
+              "passed": 6,
+              "total": 6
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 19,
+              "total": 19
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 19,
+            "observed_tool_calls": 44,
+            "native_events": 85,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "80b485b236f024419f1cd6bc51a0a8fedbeba412b345e1cc8e216bfd1e7b4c0c"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 19,
+            "groups": {
+              "core": 2,
+              "error": 0,
+              "functionality": 1,
+              "regression": 6,
+              "structure": 10
+            },
+            "inventory": "aa203182374e57af7dcdbbb2d2f55853c4209ee4507df9c606f0856accd829ba"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/b6b2f3aa5a73aa262dd56341fa83662fddeb7446297d9a92269627732ec7063e.tar.gz",
+            "sha256": "b6b2f3aa5a73aa262dd56341fa83662fddeb7446297d9a92269627732ec7063e",
+            "file_count": 18,
+            "size_bytes": 46729,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_4",
+          "target_checkpoint": "checkpoint_4",
+          "state": "failed",
+          "gate_passed": false,
+          "candidate": "a80c0bb6ca3eb52a9736260ea5fc499fb8ace06595cd0c69572368b57747bb58",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "49ae2b49ce9c38e95822c4f623f266a1d32964e1d5f1fc8aeef5a1e0c3aaab33",
+          "evaluation_sha256": "19b8d0b38ed9cf8b7836e9a25c784d1d1f2adaeffc039c67ff21707c996b5257",
+          "started_at": "2026-11-06T12:01:38.462577Z",
+          "completed_at": "2026-11-06T12:05:46.856545Z",
+          "inference_seconds": 248.393968,
+          "evaluation_seconds": 32.142852544784546,
+          "native_steps": 17,
+          "tokens": {
+            "cache_read": 212736,
+            "cache_write": 0,
+            "input": 12549,
+            "output": 1291,
+            "reasoning": 4061
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "kimi-k3.1-pro-pending-official-rate-20261106",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[REG_BUS]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[periph_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_demux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_mux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_to_mem]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_uniform]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_offline_manifest",
+              "group": "Structure",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_public_abi[apb_to_reg]",
+              "group": "Structure",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc]",
+              "group": "Structure",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc_dst]",
+              "group": "Structure",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc_src]",
+              "group": "Structure",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_filter_empty_writes]",
+              "group": "Structure",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_direct_behavior[cdc_2phase]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_error_behavior[uniform_error]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[cdc_4phase]",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_direct_behavior[cdc_split]",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_direct_behavior[cdc_split_4phase]",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_extended_behavior[uniform_wide]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[apb_feedthrough_0]",
+              "group": "Functionality",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_extended_behavior[apb_feedthrough_1]",
+              "group": "Functionality",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_extended_behavior[reg_filter]",
+              "group": "Functionality",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[demux]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[memory]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[mux]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[peripheral]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[uniform]",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 7,
+              "total": 13
+            },
+            "core": {
+              "passed": 2,
+              "total": 5
+            },
+            "functionality": {
+              "passed": 1,
+              "total": 4
+            },
+            "regression": {
+              "passed": 6,
+              "total": 6
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 16,
+              "total": 28
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 17,
+            "observed_tool_calls": 16,
+            "native_events": 51,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "7aa85f365c735ec48968f23e796d41216112b469746ad04ed8ecc8b184d3deae"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 28,
+            "groups": {
+              "core": 5,
+              "error": 0,
+              "functionality": 4,
+              "regression": 6,
+              "structure": 13
+            },
+            "inventory": "b9b83fc78f155b293525c1d444f294ffd81e798ba48a5ec9d0e3ad53b8b24e28"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/b6b2f3aa5a73aa262dd56341fa83662fddeb7446297d9a92269627732ec7063e.tar.gz",
+            "sha256": "b6b2f3aa5a73aa262dd56341fa83662fddeb7446297d9a92269627732ec7063e",
+            "file_count": 18,
+            "size_bytes": 46729,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_5",
+          "target_checkpoint": "checkpoint_5",
+          "state": "stopped_by_policy",
+          "gate_passed": null,
+          "candidate": null,
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": null,
+          "evaluation_sha256": null,
+          "started_at": null,
+          "completed_at": null,
+          "inference_seconds": null,
+          "evaluation_seconds": null,
+          "native_steps": null,
+          "tokens": null,
+          "official_cost": {
+            "usd": 0,
+            "coverage": "complete",
+            "pricebook": "kimi-k3.1-pro-pending-official-rate-20261106"
+          },
+          "tests": [],
+          "test_counts": null,
+          "score": 0,
+          "calls": {
+            "http_requests": 0,
+            "http_retries": 0,
+            "observed_responses": 0,
+            "observed_tool_calls": 0,
+            "coverage": "not_invoked"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 30,
+            "groups": {
+              "core": 2,
+              "error": 0,
+              "functionality": 1,
+              "regression": 13,
+              "structure": 14
+            },
+            "inventory": "392dd8c1a985c5c0f08dcca2d87741c4798b9c8a71960f11d46071339ea98e89"
+          }
+        },
+        {
+          "checkpoint": "checkpoint_6",
+          "target_checkpoint": "checkpoint_6",
+          "state": "stopped_by_policy",
+          "gate_passed": null,
+          "candidate": null,
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": null,
+          "evaluation_sha256": null,
+          "started_at": null,
+          "completed_at": null,
+          "inference_seconds": null,
+          "evaluation_seconds": null,
+          "native_steps": null,
+          "tokens": null,
+          "official_cost": {
+            "usd": 0,
+            "coverage": "complete",
+            "pricebook": "kimi-k3.1-pro-pending-official-rate-20261106"
+          },
+          "tests": [],
+          "test_counts": null,
+          "score": 0,
+          "calls": {
+            "http_requests": 0,
+            "http_retries": 0,
+            "observed_responses": 0,
+            "observed_tool_calls": 0,
+            "coverage": "not_invoked"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 40,
+            "groups": {
+              "core": 6,
+              "error": 0,
+              "functionality": 6,
+              "regression": 13,
+              "structure": 15
+            },
+            "inventory": "790be5e44d001707daeabbfabe2b90dab409f5995296cd91633e6eba512391b7"
+          }
+        },
+        {
+          "checkpoint": "checkpoint_7",
+          "target_checkpoint": "checkpoint_7",
+          "state": "stopped_by_policy",
+          "gate_passed": null,
+          "candidate": null,
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": null,
+          "evaluation_sha256": null,
+          "started_at": null,
+          "completed_at": null,
+          "inference_seconds": null,
+          "evaluation_seconds": null,
+          "native_steps": null,
+          "tokens": null,
+          "official_cost": {
+            "usd": 0,
+            "coverage": "complete",
+            "pricebook": "kimi-k3.1-pro-pending-official-rate-20261106"
+          },
+          "tests": [],
+          "test_counts": null,
+          "score": 0,
+          "calls": {
+            "http_requests": 0,
+            "http_retries": 0,
+            "observed_responses": 0,
+            "observed_tool_calls": 0,
+            "coverage": "not_invoked"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 43,
+            "groups": {
+              "core": 3,
+              "error": 0,
+              "functionality": 6,
+              "regression": 18,
+              "structure": 16
+            },
+            "inventory": "e8bd167fc2007203079a5616a9356f38655ea4873ce3496ccb253961f3eb63c0"
+          }
+        },
+        {
+          "checkpoint": "checkpoint_8",
+          "target_checkpoint": "checkpoint_8",
+          "state": "stopped_by_policy",
+          "gate_passed": null,
+          "candidate": null,
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": null,
+          "evaluation_sha256": null,
+          "started_at": null,
+          "completed_at": null,
+          "inference_seconds": null,
+          "evaluation_seconds": null,
+          "native_steps": null,
+          "tokens": null,
+          "official_cost": {
+            "usd": 0,
+            "coverage": "complete",
+            "pricebook": "kimi-k3.1-pro-pending-official-rate-20261106"
+          },
+          "tests": [],
+          "test_counts": null,
+          "score": 0,
+          "calls": {
+            "http_requests": 0,
+            "http_retries": 0,
+            "observed_responses": 0,
+            "observed_tool_calls": 0,
+            "coverage": "not_invoked"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 46,
+            "groups": {
+              "core": 4,
+              "error": 0,
+              "functionality": 6,
+              "regression": 19,
+              "structure": 17
+            },
+            "inventory": "45a1b5364e4b8ed52e22f3c8fe3ba676c2e2454be294331b003b52db1daef388"
+          }
+        }
+      ],
+      "agent_invocations": 6,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-06T04:43:13.471662+00:00",
+      "completed_at": "2026-11-06T12:06:28.415069+00:00",
+      "wall_seconds_all_attempts": 3205.5989064089954,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_1": {
+          "total": 9,
+          "groups": {
+            "core": 2,
+            "error": 0,
+            "functionality": 2,
+            "regression": 0,
+            "structure": 5
+          },
+          "inventory": "174a0bc0336a375070717b049bfd3cba1b3108ff2cfd7fda214b38e1d725eeaf"
+        },
+        "checkpoint_5": {
+          "total": 30,
+          "groups": {
+            "core": 2,
+            "error": 0,
+            "functionality": 1,
+            "regression": 13,
+            "structure": 14
+          },
+          "inventory": "392dd8c1a985c5c0f08dcca2d87741c4798b9c8a71960f11d46071339ea98e89"
+        },
+        "checkpoint_8": {
+          "total": 46,
+          "groups": {
+            "core": 4,
+            "error": 0,
+            "functionality": 6,
+            "regression": 19,
+            "structure": 17
+          },
+          "inventory": "45a1b5364e4b8ed52e22f3c8fe3ba676c2e2454be294331b003b52db1daef388"
+        },
+        "checkpoint_6": {
+          "total": 40,
+          "groups": {
+            "core": 6,
+            "error": 0,
+            "functionality": 6,
+            "regression": 13,
+            "structure": 15
+          },
+          "inventory": "790be5e44d001707daeabbfabe2b90dab409f5995296cd91633e6eba512391b7"
+        },
+        "checkpoint_3": {
+          "total": 19,
+          "groups": {
+            "core": 2,
+            "error": 0,
+            "functionality": 1,
+            "regression": 6,
+            "structure": 10
+          },
+          "inventory": "aa203182374e57af7dcdbbb2d2f55853c4209ee4507df9c606f0856accd829ba"
+        },
+        "checkpoint_4": {
+          "total": 28,
+          "groups": {
+            "core": 5,
+            "error": 0,
+            "functionality": 4,
+            "regression": 6,
+            "structure": 13
+          },
+          "inventory": "b9b83fc78f155b293525c1d444f294ffd81e798ba48a5ec9d0e3ad53b8b24e28"
+        },
+        "checkpoint_2": {
+          "total": 22,
+          "groups": {
+            "core": 9,
+            "error": 0,
+            "functionality": 1,
+            "regression": 2,
+            "structure": 10
+          },
+          "inventory": "c45db60c4378fee17d97e63ffd556485506ecf6bd56c75852b3accf1c2c22d89"
+        },
+        "checkpoint_7": {
+          "total": 43,
+          "groups": {
+            "core": 3,
+            "error": 0,
+            "functionality": 6,
+            "regression": 18,
+            "structure": 16
+          },
+          "inventory": "e8bd167fc2007203079a5616a9356f38655ea4873ce3496ccb253961f3eb63c0"
+        }
+      }
+    },
+    {
+      "id": "cc18d3c014dc9ca9a43b3563ec50de034eec728f3144db662ac93f0d194e9dfc",
+      "problem": "register_interface_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "kimi-k3.1-pro",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "13e2a3651236af435cf6abb71f648899952b5feeabb8085862a5eed191ab4f58",
+      "generation": "b4f7c617a22a586d81daeee659c5025ce193d0aaedd4aa982583d07a0d1908bd",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "execution",
+          "label": "infrastructure_failure",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:d102ce80462980e49667c3d4f4888377a04656ebce6a6ded30010a095f0c8eaa"
+          ],
+          "event_id": "55433e38e05d0de047f7adb761e9023e15f829cd2ad523f130f42ed905848861",
+          "assessment": "786c5ca1ea405194a7520e9e016dc3d69583af42fd9a94cccf8a379bd3c6676e",
+          "attempt": "2f2aab078ef04ba98b4e55d6df034a1e"
+        },
+        {
+          "namespace": "execution",
+          "label": "unknown",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_4",
+          "candidate": "7244e287fdf07d74996eb99afbe0e58da0f1609018cf5f8a3e6d099fc522f7c6",
+          "evidence": [
+            "sha256:d102ce80462980e49667c3d4f4888377a04656ebce6a6ded30010a095f0c8eaa"
+          ],
+          "event_id": "493aaaeb24df49fdfc03ce79f9a0fa4f3efcd8db24bcfb6e419995d0cb715450",
+          "assessment": "786c5ca1ea405194a7520e9e016dc3d69583af42fd9a94cccf8a379bd3c6676e",
+          "attempt": "2f2aab078ef04ba98b4e55d6df034a1e"
+        },
+        {
+          "namespace": "execution",
+          "label": "inference_error",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_4",
+          "candidate": "7244e287fdf07d74996eb99afbe0e58da0f1609018cf5f8a3e6d099fc522f7c6",
+          "evidence": [
+            "sha256:d102ce80462980e49667c3d4f4888377a04656ebce6a6ded30010a095f0c8eaa"
+          ],
+          "event_id": "06f93c2a7a95f23142ee60ba8ef552f20998a6d7111d89c87d3cc6d9873de255",
+          "assessment": "786c5ca1ea405194a7520e9e016dc3d69583af42fd9a94cccf8a379bd3c6676e",
+          "attempt": "2f2aab078ef04ba98b4e55d6df034a1e"
+        },
+        {
+          "namespace": "execution",
+          "label": "infrastructure_failure",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:506a94577835b381488cb07edcbcd308cccd382d0dcb58add82cca6235ae34f4"
+          ],
+          "event_id": "1d5ac34a961bcf0953850c92ddce3cbe9f03b2051ac8c344764741e6740a4286",
+          "assessment": "d0ad709712ad02f0aa1a5e56cd5e180267ba298de8574ec4b3db57083a5b06b1",
+          "attempt": "802d5ed63ae6474994059dd0e4483fb6"
+        },
+        {
+          "namespace": "execution",
+          "label": "unknown",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_4",
+          "candidate": "7244e287fdf07d74996eb99afbe0e58da0f1609018cf5f8a3e6d099fc522f7c6",
+          "evidence": [
+            "sha256:506a94577835b381488cb07edcbcd308cccd382d0dcb58add82cca6235ae34f4"
+          ],
+          "event_id": "461dff15838c54a63896f2ffae87665a50e5237b84bac080518afd621ded966e",
+          "assessment": "d0ad709712ad02f0aa1a5e56cd5e180267ba298de8574ec4b3db57083a5b06b1",
+          "attempt": "802d5ed63ae6474994059dd0e4483fb6"
+        },
+        {
+          "namespace": "execution",
+          "label": "inference_error",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_4",
+          "candidate": "7244e287fdf07d74996eb99afbe0e58da0f1609018cf5f8a3e6d099fc522f7c6",
+          "evidence": [
+            "sha256:506a94577835b381488cb07edcbcd308cccd382d0dcb58add82cca6235ae34f4"
+          ],
+          "event_id": "bfe889bf382a1bd7ecfce1ba8789cec23f424029ba89b26360b1130d306ac7ee",
+          "assessment": "d0ad709712ad02f0aa1a5e56cd5e180267ba298de8574ec4b3db57083a5b06b1",
+          "attempt": "802d5ed63ae6474994059dd0e4483fb6"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_4"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "94a0c981a09f4b93bcdda485e6222e36",
+      "selected_evaluation": null,
+      "evaluation_generation": "b4f7c617a22a586d81daeee659c5025ce193d0aaedd4aa982583d07a0d1908bd",
+      "attempt_count": 3,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_4",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "85f905b09ceedbc4e835666e0668ec9d0790b8615668916775c2e25e1e1a0a31",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "7c6461fd6fde7c2321797e2b744cf875422dcc7ccadcba59a32e0959696c79f2",
+          "evaluation_sha256": "820f9f5f28f4e774abdf89642a7114140ba16261a5d402dbb14e3045ea868f81",
+          "started_at": "2026-11-06T11:21:10.112846Z",
+          "completed_at": "2026-11-06T11:35:47.737049Z",
+          "inference_seconds": 877.624203,
+          "evaluation_seconds": 56.562382221221924,
+          "native_steps": 19,
+          "tokens": {
+            "cache_read": 812544,
+            "cache_write": 0,
+            "input": 65929,
+            "output": 12463,
+            "reasoning": 14205
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "kimi-k3.1-pro-pending-official-rate-20261106",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_offline_manifest",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[REG_BUS]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[apb_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[periph_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc_dst]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc_src]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_demux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_filter_empty_writes]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_mux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_to_mem]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_uniform]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[cdc_2phase]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[cdc_4phase]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[cdc_split]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[cdc_split_4phase]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_error_behavior[uniform_error]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[apb_feedthrough_0]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[apb_feedthrough_1]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[reg_filter]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[uniform_wide]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[demux]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[memory]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[mux]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[peripheral]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[uniform]",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 13,
+              "total": 13
+            },
+            "core": {
+              "passed": 5,
+              "total": 5
+            },
+            "functionality": {
+              "passed": 4,
+              "total": 4
+            },
+            "regression": {
+              "passed": 6,
+              "total": 6
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 28,
+              "total": 28
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 19,
+            "observed_tool_calls": 60,
+            "native_events": 103,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "5f5f9bda3fdb908f99cad556f622aa63094d2d9c9c2bc52a719b3404caa9d32a"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 28,
+            "groups": {
+              "core": 5,
+              "error": 0,
+              "functionality": 4,
+              "regression": 6,
+              "structure": 13
+            },
+            "inventory": "e9ee8da06b85b64776edcda4352b496e893ba40e7b55ea5639030b1f502f4986"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/1660ad9444069507fc26f169a7053b4c1cf56c818073f2d4699b59a45a7ed850.tar.gz",
+            "sha256": "1660ad9444069507fc26f169a7053b4c1cf56c818073f2d4699b59a45a7ed850",
+            "file_count": 67,
+            "size_bytes": 138260,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 3,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-06T04:43:22.848803+00:00",
+      "completed_at": "2026-11-06T11:37:06.257642+00:00",
+      "wall_seconds_all_attempts": 1129.24174660258,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_4": {
+          "total": 28,
+          "groups": {
+            "core": 5,
+            "error": 0,
+            "functionality": 4,
+            "regression": 6,
+            "structure": 13
+          },
+          "inventory": "e9ee8da06b85b64776edcda4352b496e893ba40e7b55ea5639030b1f502f4986"
+        }
+      }
+    },
+    {
+      "id": "f70b4153267d324e355d498fe8978f366d7d817d03cbf95c3ca1725b19cdc884",
+      "problem": "register_interface_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "kimi-k3.1-pro",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "13e2a3651236af435cf6abb71f648899952b5feeabb8085862a5eed191ab4f58",
+      "generation": "1856a978d1cbfa677aed9950580ee22b437983f2bd57947b192e6aacf802852b",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "execution",
+          "label": "infrastructure_failure",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:e4a52408d29aebf451618c81dd4beeb2a4699445ec3f85bd430f6602c6300695"
+          ],
+          "event_id": "6f80d0ba2e4f8c902840ab80a168c6ebf740333945a27be8e42f047bcb833a99",
+          "assessment": "c37686a7ec52e9ed164d29035da4c1c68c1ead758ce0c21ca2f6518186b1e94c",
+          "attempt": "9d5b1373e9294a358a9a1de3b88ef1ad"
+        },
+        {
+          "namespace": "execution",
+          "label": "unknown",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_2",
+          "candidate": "dd876248e47e45b013b787f615e7a2561f413b0d73c2853176917e33d83bbf72",
+          "evidence": [
+            "sha256:e4a52408d29aebf451618c81dd4beeb2a4699445ec3f85bd430f6602c6300695"
+          ],
+          "event_id": "1d035bc14057b3e4dc337cb032036bf7e65980dd42fa54f24589a484a790f360",
+          "assessment": "c37686a7ec52e9ed164d29035da4c1c68c1ead758ce0c21ca2f6518186b1e94c",
+          "attempt": "9d5b1373e9294a358a9a1de3b88ef1ad"
+        },
+        {
+          "namespace": "execution",
+          "label": "inference_error",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_2",
+          "candidate": "dd876248e47e45b013b787f615e7a2561f413b0d73c2853176917e33d83bbf72",
+          "evidence": [
+            "sha256:e4a52408d29aebf451618c81dd4beeb2a4699445ec3f85bd430f6602c6300695"
+          ],
+          "event_id": "d16c7213c29492b6de0485fb265e21a335e867cbc20549a666a866b7ddcc06c5",
+          "assessment": "c37686a7ec52e9ed164d29035da4c1c68c1ead758ce0c21ca2f6518186b1e94c",
+          "attempt": "9d5b1373e9294a358a9a1de3b88ef1ad"
+        },
+        {
+          "namespace": "execution",
+          "label": "interrupted",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:2d0e4fed282841d91dabc891cd538da46a7d7b6db88532359d50f6cd01332465"
+          ],
+          "event_id": "3e581f3867e404f59096825e566534feab83ced97ced0dba76709c5a1582bbb1",
+          "assessment": "d25ef7ac014e648147e90e27ffc7628514b091d47af0679cb7f9177d909aade6",
+          "attempt": "c570924c999743dcaf514e8d1c6aac16"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_2"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "067dd932ec79467f9043cbab96c2ae1d",
+      "selected_evaluation": null,
+      "evaluation_generation": "1856a978d1cbfa677aed9950580ee22b437983f2bd57947b192e6aacf802852b",
+      "attempt_count": 3,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_2",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "0e5e6a92fa67afec12a5abe1aaf0fe59eccc33b1226df3d83a638b139913d79a",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "fe132ca4163d3459f09bc4ddb1d877923b1d4816c87131a54953b02a52423b24",
+          "evaluation_sha256": "bbec2612585213e6aa142246e37a22c1a785285bf020bf9d89d61e0e01236e30",
+          "started_at": "2026-11-06T13:29:49.056259Z",
+          "completed_at": "2026-11-06T13:44:46.074928Z",
+          "inference_seconds": 897.018669,
+          "evaluation_seconds": 45.90398287773132,
+          "native_steps": 49,
+          "tokens": {
+            "cache_read": 1495808,
+            "cache_write": 0,
+            "input": 50538,
+            "output": 13020,
+            "reasoning": 11933
+          },
+          "official_cost": {
+            "usd": null,
+            "coverage": "unknown",
+            "pricebook": "kimi-k3.1-pro-pending-official-rate-20261106",
+            "reason": "unregistered_model"
+          },
+          "tests": [
+            {
+              "nodeid": "test_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_mux_demux_typed_array_abi",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_offline_manifest",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[REG_BUS]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[apb_to_reg]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_cdc]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_demux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_mux]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_to_mem]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_public_abi[reg_uniform]",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[cdc_2phase]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[cdc_continuous_valid]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[demux]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[demux_continuous_valid]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[memory]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[memory_continuous_valid]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[mux]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_direct_behavior[mux_continuous_valid]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_error_behavior[uniform_error]",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_extended_behavior[uniform_wide]",
+              "group": "Functionality",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[apb]",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_preserved_behavior[uniform]",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 10,
+              "total": 10
+            },
+            "core": {
+              "passed": 9,
+              "total": 9
+            },
+            "functionality": {
+              "passed": 1,
+              "total": 1
+            },
+            "regression": {
+              "passed": 2,
+              "total": 2
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 22,
+              "total": 22
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 49,
+            "observed_tool_calls": 48,
+            "native_events": 154,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "14625a5fa1aa509d9f13542cef7f6ad489085f9485bf6602e727368f102bd8d1"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 22,
+            "groups": {
+              "core": 9,
+              "error": 0,
+              "functionality": 1,
+              "regression": 2,
+              "structure": 10
+            },
+            "inventory": "5f0ce747a604ef24759480e43c5fdabe90dc3926c7fe9cbdd0464e7053edef33"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/6b2808c2dc8b7e58722d4bce524622b415eeae4df0713b010df1a4f36965e25d.tar.gz",
+            "sha256": "6b2808c2dc8b7e58722d4bce524622b415eeae4df0713b010df1a4f36965e25d",
+            "file_count": 20,
+            "size_bytes": 47335,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 3,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-06T04:47:25.549064+00:00",
+      "completed_at": "2026-11-06T13:45:42.125825+00:00",
+      "wall_seconds_all_attempts": 1167.301073525101,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0,
+      "cost_coverage": "unknown",
+      "expected_test_counts": {
+        "checkpoint_2": {
+          "total": 22,
+          "groups": {
+            "core": 9,
+            "error": 0,
+            "functionality": 1,
+            "regression": 2,
+            "structure": 10
+          },
+          "inventory": "5f0ce747a604ef24759480e43c5fdabe90dc3926c7fe9cbdd0464e7053edef33"
+        }
+      }
+    }
+  ]
+}
