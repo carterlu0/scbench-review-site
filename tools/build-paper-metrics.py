@@ -75,6 +75,9 @@ def reprice_report(report, details, analysis, manifest, book):
                                if cp["target_checkpoint"] == row["checkpoint_id"]), None)
             if checkpoint is None:
                 continue
+            if (checkpoint.get("state") == "pending"
+                    and checkpoint.get("score_override", {}).get("reason") == "temporary_user_zero"):
+                continue
             checkpoint = {**checkpoint, "tokens": row.get("usage") or checkpoint.get("tokens")}
             for policy in ("actual", "fixed_85"):
                 old = row["costs"][policy]

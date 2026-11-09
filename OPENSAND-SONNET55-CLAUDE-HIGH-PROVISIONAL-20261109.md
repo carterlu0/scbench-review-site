@@ -11,3 +11,7 @@ With the provisional PCIe zero, Pipeline FDR is 0.00%, CC 9.50%, FC 30.53%. SR C
 Analysis: `110bbf292befc9e27152e0a711a4635421fb97ea298464a17ca7be57602d7169`. The raw experiment ledger remains unchanged. This immutable snapshot will remain available after PCIe finishes and a final result is published.
 
 [Current results](https://carterlu0.github.io/scbench-review-site/#experiments?model=claude-sonnet-5-5&thinking=high) · [Independent snapshot](https://carterlu0.github.io/scbench-review-site/#experiments?analysis=110bbf292befc9e27152e0a711a4635421fb97ea298464a17ca7be57602d7169)
+
+Sonnet 5.5 prices confirmed by the user on 2026-11-09 (USD per 1M tokens): input $2.00, output $10.00, cache reads $0.10, 5-minute cache writes $2.50. The selected completed results total $93.331584 ($37.875683 Pipeline + $55.455901 SR); unfinished PCIe usage and unselected retry/recovery attempts are excluded. The historical frozen pricebook used the same numeric rates.
+
+[Pricing details and checkpoint estimates](https://github.com/carterlu0/scbench-rtl-problems/blob/main/experiments/PRICING-SONNET55-20261109.json).
