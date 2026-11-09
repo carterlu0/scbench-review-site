@@ -1,0 +1,3791 @@
+{
+  "schema_version": 4,
+  "analysis": "4b0fc7d8e8bb49c2dd8457dff7b4b2e600708a852f9ea9e94c4076792ae65ac6",
+  "problem": "serv_t1",
+  "cells": [
+    {
+      "id": "45d14beea5e0447981ee6ca41c49cf62e1637cd06f932762356ab99466951b2f",
+      "problem": "serv_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "glm-5.3",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "ffe271adb4c44fed61c9f4f6c8bb0582ae74f2a04f77fa62d20dd6481c8efe97",
+      "generation": "76b7764d30681b57e4f9b2eb0b8de501e7570868ff9fd77e636b878c535bf98c",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "64680c33eb88323c3bc58e66abc54c4c3f7ac6172f40f5d855c056d82a588d91",
+          "evidence": [
+            "sha256:948b49a4f00e1c2704b2e2c9207a26063cf6c8fc056c86ddab41cda601538291"
+          ],
+          "event_id": "fcc3200b2050ea408eec36de650f650ec47a99732ed7f13e3b9986fda470b160",
+          "assessment": "fd7cd8552f73631129fbc61184ab20a1e9958853a2f79ad1c8a4703fa5c1d36b",
+          "attempt": "c992dcaac09d4826a2777c75d76557a1"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "64680c33eb88323c3bc58e66abc54c4c3f7ac6172f40f5d855c056d82a588d91",
+          "evidence": [
+            "sha256:948b49a4f00e1c2704b2e2c9207a26063cf6c8fc056c86ddab41cda601538291"
+          ],
+          "event_id": "a99bdc9825a59f3f4b6d678301706fe25b8480c928407eee121ab910662c9854",
+          "assessment": "fd7cd8552f73631129fbc61184ab20a1e9958853a2f79ad1c8a4703fa5c1d36b",
+          "attempt": "c992dcaac09d4826a2777c75d76557a1"
+        },
+        {
+          "namespace": "implementation",
+          "label": "structure_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "64680c33eb88323c3bc58e66abc54c4c3f7ac6172f40f5d855c056d82a588d91",
+          "evidence": [
+            "sha256:948b49a4f00e1c2704b2e2c9207a26063cf6c8fc056c86ddab41cda601538291"
+          ],
+          "event_id": "d234c6e71126f43eaf14254a506cc2d448bb286e88e4ae98719bd1f39d812b2e",
+          "assessment": "fd7cd8552f73631129fbc61184ab20a1e9958853a2f79ad1c8a4703fa5c1d36b",
+          "attempt": "c992dcaac09d4826a2777c75d76557a1"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_1"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.0,
+      "selected_attempt": "c992dcaac09d4826a2777c75d76557a1",
+      "selected_evaluation": null,
+      "evaluation_generation": "76b7764d30681b57e4f9b2eb0b8de501e7570868ff9fd77e636b878c535bf98c",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_1",
+          "state": "failed",
+          "gate_passed": false,
+          "candidate": "64680c33eb88323c3bc58e66abc54c4c3f7ac6172f40f5d855c056d82a588d91",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "318374f82cd87b86c72a69e58398efbda14642014e5cb6f200a2179095785bc7",
+          "evaluation_sha256": "948b49a4f00e1c2704b2e2c9207a26063cf6c8fc056c86ddab41cda601538291",
+          "started_at": "2026-11-07T12:48:03.000219Z",
+          "completed_at": "2026-11-07T13:02:35.894840Z",
+          "inference_seconds": 872.894621,
+          "evaluation_seconds": 0.6016757488250732,
+          "native_steps": 6,
+          "tokens": {
+            "cache_read": 62976,
+            "cache_write": 0,
+            "input": 71326,
+            "output": 363,
+            "reasoning": 70265
+          },
+          "official_cost": {
+            "usd": 0.42699336,
+            "coverage": "complete",
+            "pricebook": "glm-5.3-user-provided-usd-20261109"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_negative_jal_redirects_next_fetch",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_target_behavior_0",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_target_behavior_19",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_public_legacy_bus_abi",
+              "group": "Structure",
+              "status": "failed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 0,
+              "total": 1
+            },
+            "core": {
+              "passed": 0,
+              "total": 3
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 0,
+              "total": 0
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 0,
+              "total": 4
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 6,
+            "observed_tool_calls": 10,
+            "native_events": 22,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "e0bf6aaf1dc626089bdc30c35eb2fce3cb844a8bdd022189a175d2878e6c3fb6"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 4,
+            "groups": {
+              "core": 3,
+              "error": 0,
+              "functionality": 0,
+              "regression": 0,
+              "structure": 1
+            },
+            "inventory": "f9d05fda38c2d2dd5f949cd70dcad45a101e2f450d984b476aa8225f9242b636"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/911a25b736f12a5a1d7aff378a9da90ce8f80e0e442fd85c0d683fb28f4e6a4c.tar.gz",
+            "sha256": "911a25b736f12a5a1d7aff378a9da90ce8f80e0e442fd85c0d683fb28f4e6a4c",
+            "file_count": 42,
+            "size_bytes": 93376,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-07T12:48:00.535108+00:00",
+      "completed_at": "2026-11-07T13:02:46.785414+00:00",
+      "wall_seconds_all_attempts": 886.2449921970001,
+      "official_cost_all_attempts": 0.42699336,
+      "known_official_cost": 0.42699336,
+      "cost_coverage": "complete",
+      "expected_test_counts": {
+        "checkpoint_1": {
+          "total": 4,
+          "groups": {
+            "core": 3,
+            "error": 0,
+            "functionality": 0,
+            "regression": 0,
+            "structure": 1
+          },
+          "inventory": "f9d05fda38c2d2dd5f949cd70dcad45a101e2f450d984b476aa8225f9242b636"
+        }
+      }
+    },
+    {
+      "id": "479139709b4afc71462bb9b2e4ee38d74315d84af207372e01ee458d853b6aa9",
+      "problem": "serv_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "glm-5.3",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "ffe271adb4c44fed61c9f4f6c8bb0582ae74f2a04f77fa62d20dd6481c8efe97",
+      "generation": "2267eb240f501f9aa057f9401f9afacde1c99fcacc46ecc9852823f6ae667353",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_6",
+          "candidate": "df67c101b50b140a66ff86a2f51f8b0ec020779bc0808626f48b232cbb5a98dd",
+          "evidence": [
+            "sha256:ed408c1a7bf6639c6f7d446ca226b94a88b896568f04f9cbf7321cc29731eaa6"
+          ],
+          "event_id": "950d69dd5233a2b41bf2ea1013d70c519b0c3e16e3892b439a50256b8a028b3b",
+          "assessment": "03f395f2de2da1593c8c0d4c57ff2a2709326a50fe5cc3f632e9c6ea70907118",
+          "attempt": "241fb41e63e94fa09bd61643594eda4b"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_6",
+          "candidate": "df67c101b50b140a66ff86a2f51f8b0ec020779bc0808626f48b232cbb5a98dd",
+          "evidence": [
+            "sha256:ed408c1a7bf6639c6f7d446ca226b94a88b896568f04f9cbf7321cc29731eaa6"
+          ],
+          "event_id": "739ed44ec212df04d9d104a2063e1542dfa01c622aa5cfaf962bdc958bbb9000",
+          "assessment": "03f395f2de2da1593c8c0d4c57ff2a2709326a50fe5cc3f632e9c6ea70907118",
+          "attempt": "241fb41e63e94fa09bd61643594eda4b"
+        },
+        {
+          "namespace": "implementation",
+          "label": "structure_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_6",
+          "candidate": "df67c101b50b140a66ff86a2f51f8b0ec020779bc0808626f48b232cbb5a98dd",
+          "evidence": [
+            "sha256:ed408c1a7bf6639c6f7d446ca226b94a88b896568f04f9cbf7321cc29731eaa6"
+          ],
+          "event_id": "979578ce2b24992c3431ea7ba122e7d2bdb176986dcdd14fb23b954d23e6c248",
+          "assessment": "03f395f2de2da1593c8c0d4c57ff2a2709326a50fe5cc3f632e9c6ea70907118",
+          "attempt": "241fb41e63e94fa09bd61643594eda4b"
+        },
+        {
+          "namespace": "execution",
+          "label": "infrastructure_failure",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:58a9ec46a8dd51165f8857379fee5b79f984ca8a300c65c3134da64e60f5dc1a"
+          ],
+          "event_id": "f6695a2793cc7701086bb5a9f417fa48d64dcc9141297b65c3798f1174081105",
+          "assessment": "09a332f1a92bf210f36e75028b96da85eb74f89ed43ca5ea28d2480cbf709119",
+          "attempt": "867c41d4c6e542f4a72a884dfc1778f7"
+        },
+        {
+          "namespace": "execution",
+          "label": "unknown",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_6",
+          "candidate": "df67c101b50b140a66ff86a2f51f8b0ec020779bc0808626f48b232cbb5a98dd",
+          "evidence": [
+            "sha256:58a9ec46a8dd51165f8857379fee5b79f984ca8a300c65c3134da64e60f5dc1a"
+          ],
+          "event_id": "81f2736e4dd536008316745cbb465e568f7025d0e8c452064263354d5299264c",
+          "assessment": "09a332f1a92bf210f36e75028b96da85eb74f89ed43ca5ea28d2480cbf709119",
+          "attempt": "867c41d4c6e542f4a72a884dfc1778f7"
+        },
+        {
+          "namespace": "execution",
+          "label": "inference_error",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_6",
+          "candidate": "df67c101b50b140a66ff86a2f51f8b0ec020779bc0808626f48b232cbb5a98dd",
+          "evidence": [
+            "sha256:58a9ec46a8dd51165f8857379fee5b79f984ca8a300c65c3134da64e60f5dc1a"
+          ],
+          "event_id": "0dbccdbba31ce3f2d7da3257ee10f0b711ceef3fce55d41b9aa91fa093b53001",
+          "assessment": "09a332f1a92bf210f36e75028b96da85eb74f89ed43ca5ea28d2480cbf709119",
+          "attempt": "867c41d4c6e542f4a72a884dfc1778f7"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_6"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.0,
+      "selected_attempt": "241fb41e63e94fa09bd61643594eda4b",
+      "selected_evaluation": null,
+      "evaluation_generation": "2267eb240f501f9aa057f9401f9afacde1c99fcacc46ecc9852823f6ae667353",
+      "attempt_count": 2,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_6",
+          "state": "failed",
+          "gate_passed": false,
+          "candidate": "df67c101b50b140a66ff86a2f51f8b0ec020779bc0808626f48b232cbb5a98dd",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "d55a940a389460e348f58cf64c9e95e1d4e84bb48d4f6e0de6a6bba627f85772",
+          "evaluation_sha256": "ed408c1a7bf6639c6f7d446ca226b94a88b896568f04f9cbf7321cc29731eaa6",
+          "started_at": "2026-11-09T04:17:19.024225Z",
+          "completed_at": "2026-11-09T04:29:12.884544Z",
+          "inference_seconds": 713.860319,
+          "evaluation_seconds": 1.435006856918335,
+          "native_steps": 7,
+          "tokens": {
+            "cache_read": 111552,
+            "cache_write": 0,
+            "input": 26198,
+            "output": 363,
+            "reasoning": 37034
+          },
+          "official_cost": {
+            "usd": 0.23022752,
+            "coverage": "complete",
+            "pricebook": "glm-5.3-user-provided-usd-20261109"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_preserves_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_publishes_wishbone_instruction_and_data_buses",
+              "group": "Structure",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_negative_jal",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_scenario_0",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_scenario_19",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_1",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_17",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_18",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_20",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_3_scenario_2",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_4_scenario_3",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_5_scenario_14",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_5_scenario_15",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_5_scenario_16",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_target_behavior_5",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_target_behavior_6",
+              "group": "Core",
+              "status": "failed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 2
+            },
+            "core": {
+              "passed": 0,
+              "total": 2
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 12,
+              "total": 12
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 13,
+              "total": 16
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 7,
+            "observed_tool_calls": 17,
+            "native_events": 31,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "217e870ee2481c8b93f35c4442512329a871b6eb570c1f18fe75dd683662a4b4"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 16,
+            "groups": {
+              "core": 2,
+              "error": 0,
+              "functionality": 0,
+              "regression": 12,
+              "structure": 2
+            },
+            "inventory": "383e916d3699c3380a8956c619fa3779583832a17d73e55b5e7e29c20b20a259"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/71960203979c42b93cc93985446dfcad7cf0699b0e2cf09eecde49aec91f2b03.tar.gz",
+            "sha256": "71960203979c42b93cc93985446dfcad7cf0699b0e2cf09eecde49aec91f2b03",
+            "file_count": 51,
+            "size_bytes": 98769,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 2,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-07T12:48:13.307610+00:00",
+      "completed_at": "2026-11-09T04:29:23.655647+00:00",
+      "wall_seconds_all_attempts": 748.6900738299992,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0.25834471999999997,
+      "cost_coverage": "partial",
+      "expected_test_counts": {
+        "checkpoint_6": {
+          "total": 16,
+          "groups": {
+            "core": 2,
+            "error": 0,
+            "functionality": 0,
+            "regression": 12,
+            "structure": 2
+          },
+          "inventory": "383e916d3699c3380a8956c619fa3779583832a17d73e55b5e7e29c20b20a259"
+        }
+      }
+    },
+    {
+      "id": "50a590c712b532151fec433bf6ba2adc8a8d17a4f955e2001aaddf6ea4d457ee",
+      "problem": "serv_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "glm-5.3",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "ffe271adb4c44fed61c9f4f6c8bb0582ae74f2a04f77fa62d20dd6481c8efe97",
+      "generation": "e35561ca7af4c81618d7d95f6e6548ae1caea26d4608faf7bc58137f59c79141",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_8",
+          "candidate": "a912d60050b93cf87c3120fba8bfd38f43a7ddd38bdcfa1946c25b21c3c17136",
+          "evidence": [
+            "sha256:a753c79b4bf84232fb88e7130f3e23aad98d2a7dd9e731fcb9e50f05645e15ae"
+          ],
+          "event_id": "3c0541635858d1716dec1f648b0e2ce44d03465052c647b67c1c355958c64958",
+          "assessment": "12a21a3cfd0f987b7f6ce6af0b50ef8bf39821b93b91779a5eedfaccb3deb460",
+          "attempt": "e8573034b1064c33a39f065e2498425c"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_8",
+          "candidate": "a912d60050b93cf87c3120fba8bfd38f43a7ddd38bdcfa1946c25b21c3c17136",
+          "evidence": [
+            "sha256:a753c79b4bf84232fb88e7130f3e23aad98d2a7dd9e731fcb9e50f05645e15ae"
+          ],
+          "event_id": "cd229e647a69c6e5ad9a3875cb10180e7a67c095acc8710036bc4dd189cd0ffb",
+          "assessment": "12a21a3cfd0f987b7f6ce6af0b50ef8bf39821b93b91779a5eedfaccb3deb460",
+          "attempt": "e8573034b1064c33a39f065e2498425c"
+        },
+        {
+          "namespace": "implementation",
+          "label": "structure_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_8",
+          "candidate": "a912d60050b93cf87c3120fba8bfd38f43a7ddd38bdcfa1946c25b21c3c17136",
+          "evidence": [
+            "sha256:a753c79b4bf84232fb88e7130f3e23aad98d2a7dd9e731fcb9e50f05645e15ae"
+          ],
+          "event_id": "73279d7fae50fbaab47fcff7e16301d7e2a95dffb6c2cb5d46d0660c75dd991f",
+          "assessment": "12a21a3cfd0f987b7f6ce6af0b50ef8bf39821b93b91779a5eedfaccb3deb460",
+          "attempt": "e8573034b1064c33a39f065e2498425c"
+        },
+        {
+          "namespace": "execution",
+          "label": "infrastructure_failure",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:08c25d144963d8a3ae14de570f8170a8e2eb02fb19a0b0507315ccd10cb158f7"
+          ],
+          "event_id": "f5ea44eb08c01707bd97e81424a28dc404d25c901c028bd1f6773a81e66de2e2",
+          "assessment": "d3f11e80d839a862c8a981f39962a31484db6a74a405f1363e02a73df20e0098",
+          "attempt": "7b5b6c8a80b24616abef591cb3a995a7"
+        },
+        {
+          "namespace": "execution",
+          "label": "unknown",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_8",
+          "candidate": "a912d60050b93cf87c3120fba8bfd38f43a7ddd38bdcfa1946c25b21c3c17136",
+          "evidence": [
+            "sha256:08c25d144963d8a3ae14de570f8170a8e2eb02fb19a0b0507315ccd10cb158f7"
+          ],
+          "event_id": "d1ed4668714c34e4892f3848671d06b10b81c1ed4303f1d3ec7e6448c4ef7a70",
+          "assessment": "d3f11e80d839a862c8a981f39962a31484db6a74a405f1363e02a73df20e0098",
+          "attempt": "7b5b6c8a80b24616abef591cb3a995a7"
+        },
+        {
+          "namespace": "execution",
+          "label": "inference_error",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_8",
+          "candidate": "a912d60050b93cf87c3120fba8bfd38f43a7ddd38bdcfa1946c25b21c3c17136",
+          "evidence": [
+            "sha256:08c25d144963d8a3ae14de570f8170a8e2eb02fb19a0b0507315ccd10cb158f7"
+          ],
+          "event_id": "40870a5a422b723cf4e46b0a2deb1d4e04fed814483fe2596c54c0ad4236f38d",
+          "assessment": "d3f11e80d839a862c8a981f39962a31484db6a74a405f1363e02a73df20e0098",
+          "attempt": "7b5b6c8a80b24616abef591cb3a995a7"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_8"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.0,
+      "selected_attempt": "e8573034b1064c33a39f065e2498425c",
+      "selected_evaluation": null,
+      "evaluation_generation": "e35561ca7af4c81618d7d95f6e6548ae1caea26d4608faf7bc58137f59c79141",
+      "attempt_count": 2,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_8",
+          "state": "failed",
+          "gate_passed": false,
+          "candidate": "a912d60050b93cf87c3120fba8bfd38f43a7ddd38bdcfa1946c25b21c3c17136",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "271cddb7a0d6218f47c3f7e586b380c1dfacba0c96d8ca149494004b1650440f",
+          "evaluation_sha256": "a753c79b4bf84232fb88e7130f3e23aad98d2a7dd9e731fcb9e50f05645e15ae",
+          "started_at": "2026-11-09T04:19:46.836516Z",
+          "completed_at": "2026-11-09T04:28:47.611157Z",
+          "inference_seconds": 540.774641,
+          "evaluation_seconds": 1.827690839767456,
+          "native_steps": 2,
+          "tokens": {
+            "cache_read": 18304,
+            "cache_write": 0,
+            "input": 2823,
+            "output": 46,
+            "reasoning": 32015
+          },
+          "official_cost": {
+            "usd": 0.14977964000000005,
+            "coverage": "complete",
+            "pricebook": "glm-5.3-user-provided-usd-20261109"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_preserves_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_6_wishbone_instruction_and_data_buses",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_publishes_compressed_wrapper_parameters",
+              "group": "Structure",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_negative_jal",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_scenario_0",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_scenario_19",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_1",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_17",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_18",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_20",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_3_scenario_2",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_4_scenario_3",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_5_scenario_14",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_5_scenario_15",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_5_scenario_16",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_6_scenario_5",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_6_scenario_6",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_7_scenario_7",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_7_scenario_8",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_target_behavior_10",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_target_behavior_9",
+              "group": "Core",
+              "status": "failed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 2,
+              "total": 3
+            },
+            "core": {
+              "passed": 0,
+              "total": 2
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 16,
+              "total": 16
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 18,
+              "total": 21
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 2,
+            "observed_tool_calls": 2,
+            "native_events": 6,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "6f484869e940b3a3c4776905697d2566e2092e952bd7fba3d189bd21b0dcb213"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 21,
+            "groups": {
+              "core": 2,
+              "error": 0,
+              "functionality": 0,
+              "regression": 16,
+              "structure": 3
+            },
+            "inventory": "48eed6bb0fe1f8c3a3b7fd4a293516eb1878085e0dd1414192776a890933a3c0"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/be7eeaf0d20637aa9dc0c4acb3b55ce133e4382d6e2dcd5428cd63b69c593adf.tar.gz",
+            "sha256": "be7eeaf0d20637aa9dc0c4acb3b55ce133e4382d6e2dcd5428cd63b69c593adf",
+            "file_count": 140,
+            "size_bytes": 119100,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 2,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-07T12:48:49.349092+00:00",
+      "completed_at": "2026-11-09T04:28:59.056425+00:00",
+      "wall_seconds_all_attempts": 592.4973673730019,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0.19234108000000005,
+      "cost_coverage": "partial",
+      "expected_test_counts": {
+        "checkpoint_8": {
+          "total": 21,
+          "groups": {
+            "core": 2,
+            "error": 0,
+            "functionality": 0,
+            "regression": 16,
+            "structure": 3
+          },
+          "inventory": "48eed6bb0fe1f8c3a3b7fd4a293516eb1878085e0dd1414192776a890933a3c0"
+        }
+      }
+    },
+    {
+      "id": "718f52c48022c50748bd0d5c7f6d61e9d608791779f541b9ffc78910e005b62f",
+      "problem": "serv_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "glm-5.3",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "ffe271adb4c44fed61c9f4f6c8bb0582ae74f2a04f77fa62d20dd6481c8efe97",
+      "generation": "117faeeba6804658d4ca644843f667841a1627ee5e55a5e32ebcd0bc0c78b8e1",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "execution",
+          "label": "infrastructure_failure",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:af9cfe30350301828efa680d075a9b1827aede03f056fcff0262a0e5047bf96e"
+          ],
+          "event_id": "bd7f15c4392daad227469a4b8311bcd5ac5efa7e1e2807c484113bd9febbb74b",
+          "assessment": "8b511da9a50108632560566c2b09c6c1151f85a0497b4cbaea7f5d2f0e599247",
+          "attempt": "488ceb17c3ce44aeb5ad67bd79d5893a"
+        },
+        {
+          "namespace": "execution",
+          "label": "unknown",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_10",
+          "candidate": "33dc8a719918da8a3c6bde92aec77415935ec1d3fc69f182dbd6e30445a15f80",
+          "evidence": [
+            "sha256:af9cfe30350301828efa680d075a9b1827aede03f056fcff0262a0e5047bf96e"
+          ],
+          "event_id": "6406551f453a723fd47042602e9ebcb2574b057e035ac68e8c2015381c06691a",
+          "assessment": "8b511da9a50108632560566c2b09c6c1151f85a0497b4cbaea7f5d2f0e599247",
+          "attempt": "488ceb17c3ce44aeb5ad67bd79d5893a"
+        },
+        {
+          "namespace": "execution",
+          "label": "inference_error",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_10",
+          "candidate": "33dc8a719918da8a3c6bde92aec77415935ec1d3fc69f182dbd6e30445a15f80",
+          "evidence": [
+            "sha256:af9cfe30350301828efa680d075a9b1827aede03f056fcff0262a0e5047bf96e"
+          ],
+          "event_id": "eb032c23e1a2131979297d8acddbb5ca66bf46f3a59a288c5bc38bec6620b5c1",
+          "assessment": "8b511da9a50108632560566c2b09c6c1151f85a0497b4cbaea7f5d2f0e599247",
+          "attempt": "488ceb17c3ce44aeb5ad67bd79d5893a"
+        },
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_10",
+          "candidate": "33dc8a719918da8a3c6bde92aec77415935ec1d3fc69f182dbd6e30445a15f80",
+          "evidence": [
+            "sha256:74d59ba9c5cd7c86874a0dbc2abd4ec4632aced94457b36da41292049fad87de"
+          ],
+          "event_id": "4d72b91acc7899713bf1f465130f37e2470f6ed4ce7e14b2718b79ee8c7c7c9a",
+          "assessment": "b30c3e6ba6a46843c94508724ebe3932913deff8b22bafcc460d11323bc2b46c",
+          "attempt": "7ee727f829354da0a7d5c2fe92323b77"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_10",
+          "candidate": "33dc8a719918da8a3c6bde92aec77415935ec1d3fc69f182dbd6e30445a15f80",
+          "evidence": [
+            "sha256:74d59ba9c5cd7c86874a0dbc2abd4ec4632aced94457b36da41292049fad87de"
+          ],
+          "event_id": "657f2ef0fbb4cfeedd6c8792e286b2acce4721ba4eb57dc4472cc479b0d3440d",
+          "assessment": "b30c3e6ba6a46843c94508724ebe3932913deff8b22bafcc460d11323bc2b46c",
+          "attempt": "7ee727f829354da0a7d5c2fe92323b77"
+        },
+        {
+          "namespace": "implementation",
+          "label": "structure_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_10",
+          "candidate": "33dc8a719918da8a3c6bde92aec77415935ec1d3fc69f182dbd6e30445a15f80",
+          "evidence": [
+            "sha256:74d59ba9c5cd7c86874a0dbc2abd4ec4632aced94457b36da41292049fad87de"
+          ],
+          "event_id": "4f10b9dd4167c06576c3fd238ca1231322ea1fc6b10979da38268d79ddc0ab3d",
+          "assessment": "b30c3e6ba6a46843c94508724ebe3932913deff8b22bafcc460d11323bc2b46c",
+          "attempt": "7ee727f829354da0a7d5c2fe92323b77"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_10"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.0,
+      "selected_attempt": "7ee727f829354da0a7d5c2fe92323b77",
+      "selected_evaluation": null,
+      "evaluation_generation": "117faeeba6804658d4ca644843f667841a1627ee5e55a5e32ebcd0bc0c78b8e1",
+      "attempt_count": 2,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_10",
+          "state": "failed",
+          "gate_passed": false,
+          "candidate": "33dc8a719918da8a3c6bde92aec77415935ec1d3fc69f182dbd6e30445a15f80",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "45c73b73c5682726fbec910434fbd005d3fdaa272d3ad45b5b219e159c148fdd",
+          "evaluation_sha256": "74d59ba9c5cd7c86874a0dbc2abd4ec4632aced94457b36da41292049fad87de",
+          "started_at": "2026-11-09T04:48:06.403841Z",
+          "completed_at": "2026-11-09T05:01:21.689886Z",
+          "inference_seconds": 795.286045,
+          "evaluation_seconds": 2.462670087814331,
+          "native_steps": 9,
+          "tokens": {
+            "cache_read": 208064,
+            "cache_write": 0,
+            "input": 65441,
+            "output": 391,
+            "reasoning": 51147
+          },
+          "official_cost": {
+            "usd": 0.37248124,
+            "coverage": "complete",
+            "pricebook": "glm-5.3-user-provided-usd-20261109"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_preserves_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_6_wishbone_instruction_and_data_buses",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_8_compressed_wrapper_parameters",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_9_configurable_datapath_width",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_publishes_debug_parameter_and_rvfi_outputs",
+              "group": "Structure",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_negative_jal",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_scenario_0",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_scenario_19",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_1",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_17",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_18",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_20",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_3_scenario_2",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_4_scenario_3",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_5_scenario_14",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_5_scenario_15",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_5_scenario_16",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_6_scenario_5",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_6_scenario_6",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_7_scenario_7",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_7_scenario_8",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_8_scenario_10",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_8_scenario_9",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_9_scenario_11",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_9_scenario_12",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_target_behavior_13",
+              "group": "Core",
+              "status": "failed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 4,
+              "total": 5
+            },
+            "core": {
+              "passed": 0,
+              "total": 1
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 20,
+              "total": 20
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 24,
+              "total": 26
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 9,
+            "observed_tool_calls": 14,
+            "native_events": 35,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "d404aeece0613367609f7423d78494f0af1b9e05e5beec474c8c9deaea169805"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 26,
+            "groups": {
+              "core": 1,
+              "error": 0,
+              "functionality": 0,
+              "regression": 20,
+              "structure": 5
+            },
+            "inventory": "9e2c80ff9f830e882be5ef56a59717f1344e0f0d845138dff78ee3513c48587d"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/62d5997810af14c11083ca69c88ce2b447e4e8f4d5150498b8e881d95d24424d.tar.gz",
+            "sha256": "62d5997810af14c11083ca69c88ce2b447e4e8f4d5150498b8e881d95d24424d",
+            "file_count": 232,
+            "size_bytes": 8283527,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 2,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-07T12:58:03.700574+00:00",
+      "completed_at": "2026-11-09T05:01:36.093910+00:00",
+      "wall_seconds_all_attempts": 828.9413416520001,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0.38361264,
+      "cost_coverage": "partial",
+      "expected_test_counts": {
+        "checkpoint_10": {
+          "total": 26,
+          "groups": {
+            "core": 1,
+            "error": 0,
+            "functionality": 0,
+            "regression": 20,
+            "structure": 5
+          },
+          "inventory": "9e2c80ff9f830e882be5ef56a59717f1344e0f0d845138dff78ee3513c48587d"
+        }
+      }
+    },
+    {
+      "id": "77162abf010751a49922c68bf2676440230230849f92dc5cebc6b81ae5d3b4f2",
+      "problem": "serv_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "glm-5.3",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "ffe271adb4c44fed61c9f4f6c8bb0582ae74f2a04f77fa62d20dd6481c8efe97",
+      "generation": "567ac70a800c78982686eeab0bdbae77779450a952fb594f87387127621b8389",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "execution",
+          "label": "infrastructure_failure",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:29cbe6f62e4ea2efa9302c09c13853ba09b1bbaacbd0d4ebb6a519998db39d89"
+          ],
+          "event_id": "87b5def26780e28f2fb6f1cfc29fb97d62ae5f8d50bff37c8df2a07d85da766d",
+          "assessment": "1df9cea021054aff7d371174a30ed1babf2287a023264b2798b55d927e87468e",
+          "attempt": "2ca3750e4a9f43689195577b4ba58a2a"
+        },
+        {
+          "namespace": "execution",
+          "label": "unknown",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_7",
+          "candidate": "8f15f5d479cf07a3b52f73aab6f89c5e18b5e8fb4c1cf0fc44c62e0d5fd8db72",
+          "evidence": [
+            "sha256:29cbe6f62e4ea2efa9302c09c13853ba09b1bbaacbd0d4ebb6a519998db39d89"
+          ],
+          "event_id": "80eb519e3eb69bbddaa9d9861d145bd0389d76757e0d6310c8f4eef572d2692f",
+          "assessment": "1df9cea021054aff7d371174a30ed1babf2287a023264b2798b55d927e87468e",
+          "attempt": "2ca3750e4a9f43689195577b4ba58a2a"
+        },
+        {
+          "namespace": "execution",
+          "label": "inference_error",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_7",
+          "candidate": "8f15f5d479cf07a3b52f73aab6f89c5e18b5e8fb4c1cf0fc44c62e0d5fd8db72",
+          "evidence": [
+            "sha256:29cbe6f62e4ea2efa9302c09c13853ba09b1bbaacbd0d4ebb6a519998db39d89"
+          ],
+          "event_id": "4750fea493dd70b5159e991d044f9e76156af9fed066d5497d9c0b2939da6666",
+          "assessment": "1df9cea021054aff7d371174a30ed1babf2287a023264b2798b55d927e87468e",
+          "attempt": "2ca3750e4a9f43689195577b4ba58a2a"
+        },
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_7",
+          "candidate": "8f15f5d479cf07a3b52f73aab6f89c5e18b5e8fb4c1cf0fc44c62e0d5fd8db72",
+          "evidence": [
+            "sha256:9f2a0fa5b2aa36ce0a79c066d9ede9a4764853f762e71a851d80a9c526a76b3e"
+          ],
+          "event_id": "38f467c4930534be2b904e3b271c65f1d77f14e0289f879d35665a51cfa16cc5",
+          "assessment": "6e6896bf100acddddc420e04cb4f466b15031d72ec82f387b12f1f6daae4e58d",
+          "attempt": "d8dcd33e8fe148c9bc9593febe25f38d"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_7",
+          "candidate": "8f15f5d479cf07a3b52f73aab6f89c5e18b5e8fb4c1cf0fc44c62e0d5fd8db72",
+          "evidence": [
+            "sha256:9f2a0fa5b2aa36ce0a79c066d9ede9a4764853f762e71a851d80a9c526a76b3e"
+          ],
+          "event_id": "af6ddb646bb6bce2249baa6514af631566aee1d26459ef235fe7b3b3ec5d701d",
+          "assessment": "6e6896bf100acddddc420e04cb4f466b15031d72ec82f387b12f1f6daae4e58d",
+          "attempt": "d8dcd33e8fe148c9bc9593febe25f38d"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_7"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.0,
+      "selected_attempt": "d8dcd33e8fe148c9bc9593febe25f38d",
+      "selected_evaluation": null,
+      "evaluation_generation": "567ac70a800c78982686eeab0bdbae77779450a952fb594f87387127621b8389",
+      "attempt_count": 2,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_7",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "8f15f5d479cf07a3b52f73aab6f89c5e18b5e8fb4c1cf0fc44c62e0d5fd8db72",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "3336d07fe9ba428066f08bf1f0b996898c31a86e373d4e842f83dcf0335a321c",
+          "evaluation_sha256": "9f2a0fa5b2aa36ce0a79c066d9ede9a4764853f762e71a851d80a9c526a76b3e",
+          "started_at": "2026-11-09T05:13:26.041879Z",
+          "completed_at": "2026-11-09T05:21:59.660420Z",
+          "inference_seconds": 513.618541,
+          "evaluation_seconds": 1.7985773086547852,
+          "native_steps": 9,
+          "tokens": {
+            "cache_read": 129792,
+            "cache_write": 0,
+            "input": 20075,
+            "output": 306,
+            "reasoning": 32104
+          },
+          "official_cost": {
+            "usd": 0.20445491999999998,
+            "coverage": "complete",
+            "pricebook": "glm-5.3-user-provided-usd-20261109"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_preserves_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_6_wishbone_instruction_and_data_buses",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_negative_jal",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_scenario_0",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_scenario_19",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_1",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_17",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_18",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_20",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_3_scenario_2",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_4_scenario_3",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_5_scenario_14",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_5_scenario_15",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_5_scenario_16",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_6_scenario_5",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_6_scenario_6",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_target_behavior_7",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_target_behavior_8",
+              "group": "Core",
+              "status": "failed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 2,
+              "total": 2
+            },
+            "core": {
+              "passed": 0,
+              "total": 2
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 14,
+              "total": 14
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 16,
+              "total": 18
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 9,
+            "observed_tool_calls": 13,
+            "native_events": 31,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "4cccf58b0954356adec90631cade0335883a877af4900d41ccd6a391a20a16f4"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 18,
+            "groups": {
+              "core": 2,
+              "error": 0,
+              "functionality": 0,
+              "regression": 14,
+              "structure": 2
+            },
+            "inventory": "1b35de84f002112ec9b2a2f7a322749dfd2addbdac997d5bf08c119dd0b9b1f8"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/1205ba93987502a56fc9131e4244d245c8fd6e386cb68e3a197eab27bc0058f3.tar.gz",
+            "sha256": "1205ba93987502a56fc9131e4244d245c8fd6e386cb68e3a197eab27bc0058f3",
+            "file_count": 157,
+            "size_bytes": 126762,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 2,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-07T12:58:23.872211+00:00",
+      "completed_at": "2026-11-09T05:22:11.066419+00:00",
+      "wall_seconds_all_attempts": 553.234208074,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0.22987528,
+      "cost_coverage": "partial",
+      "expected_test_counts": {
+        "checkpoint_7": {
+          "total": 18,
+          "groups": {
+            "core": 2,
+            "error": 0,
+            "functionality": 0,
+            "regression": 14,
+            "structure": 2
+          },
+          "inventory": "1b35de84f002112ec9b2a2f7a322749dfd2addbdac997d5bf08c119dd0b9b1f8"
+        }
+      }
+    },
+    {
+      "id": "a1c952e2b59bf3992ea7c4caa53a2481261ac103dcda64d914df1c4924835338",
+      "problem": "serv_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "glm-5.3",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "ffe271adb4c44fed61c9f4f6c8bb0582ae74f2a04f77fa62d20dd6481c8efe97",
+      "generation": "f8dfec92fd5eb4650b6817ce75dcf528f27a49401252f70c1d89ba6d2ebc7b57",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "execution",
+          "label": "infrastructure_failure",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:aa3b4673f2f6909564311199c76cf1a20fe961404fcc26a15f4a2c96e8f3d186"
+          ],
+          "event_id": "e7533f3cb0e41333c4fc1f2439db5ebdf16ab052849dae1c935b96b7f9e81826",
+          "assessment": "1ce07b94ae1fc9674c88435d52dbfae5bb80e2b6460d2e0e24448fc799efe157",
+          "attempt": "c6d1d5d29fc044099172c994a327106d"
+        },
+        {
+          "namespace": "execution",
+          "label": "unknown",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "be93fed27c942bc1bf4a5e9b732b29309cadc5242ba356b7022ef07000d4e5b7",
+          "evidence": [
+            "sha256:aa3b4673f2f6909564311199c76cf1a20fe961404fcc26a15f4a2c96e8f3d186"
+          ],
+          "event_id": "b8c109eb6e0524008b41f2017a77c903baef47366961c099820b08808c8cb14e",
+          "assessment": "1ce07b94ae1fc9674c88435d52dbfae5bb80e2b6460d2e0e24448fc799efe157",
+          "attempt": "c6d1d5d29fc044099172c994a327106d"
+        },
+        {
+          "namespace": "execution",
+          "label": "inference_error",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "be93fed27c942bc1bf4a5e9b732b29309cadc5242ba356b7022ef07000d4e5b7",
+          "evidence": [
+            "sha256:aa3b4673f2f6909564311199c76cf1a20fe961404fcc26a15f4a2c96e8f3d186"
+          ],
+          "event_id": "fd0cb3805401e976e2ca24d3edadf643cca16f30703baeac8f4caa66ea0309c1",
+          "assessment": "1ce07b94ae1fc9674c88435d52dbfae5bb80e2b6460d2e0e24448fc799efe157",
+          "attempt": "c6d1d5d29fc044099172c994a327106d"
+        },
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "be93fed27c942bc1bf4a5e9b732b29309cadc5242ba356b7022ef07000d4e5b7",
+          "evidence": [
+            "sha256:361dcf511856da38c41ec6bb38e1cc74b6f576e58a784e195250280c71f0215e"
+          ],
+          "event_id": "79ffbf998b98998625bb0151f3c9c4bfdfbb5ddad29ef608447f198310603667",
+          "assessment": "e78a8992842e12c099f6c10096733875baa1f67759b67583966a11eebe280669",
+          "attempt": "e1ee3a25adbc49e196ee80e00b4664de"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_3",
+          "candidate": "be93fed27c942bc1bf4a5e9b732b29309cadc5242ba356b7022ef07000d4e5b7",
+          "evidence": [
+            "sha256:361dcf511856da38c41ec6bb38e1cc74b6f576e58a784e195250280c71f0215e"
+          ],
+          "event_id": "296340af3a4d7a22da97f875df5d5c90d00839733dc510fae96a23ea9c035ace",
+          "assessment": "e78a8992842e12c099f6c10096733875baa1f67759b67583966a11eebe280669",
+          "attempt": "e1ee3a25adbc49e196ee80e00b4664de"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_3"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.0,
+      "selected_attempt": "e1ee3a25adbc49e196ee80e00b4664de",
+      "selected_evaluation": null,
+      "evaluation_generation": "f8dfec92fd5eb4650b6817ce75dcf528f27a49401252f70c1d89ba6d2ebc7b57",
+      "attempt_count": 2,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_3",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "be93fed27c942bc1bf4a5e9b732b29309cadc5242ba356b7022ef07000d4e5b7",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "af27c5d5d60506bfabe357b131e4a930af710ffb94334202b2eb1f3ec239b4ac",
+          "evaluation_sha256": "361dcf511856da38c41ec6bb38e1cc74b6f576e58a784e195250280c71f0215e",
+          "started_at": "2026-11-09T06:30:05.819674Z",
+          "completed_at": "2026-11-09T06:42:13.662918Z",
+          "inference_seconds": 727.843244,
+          "evaluation_seconds": 1.4472475051879883,
+          "native_steps": 7,
+          "tokens": {
+            "cache_read": 102144,
+            "cache_write": 0,
+            "input": 25926,
+            "output": 403,
+            "reasoning": 39577
+          },
+          "official_cost": {
+            "usd": 0.23876584,
+            "coverage": "complete",
+            "pricebook": "glm-5.3-user-provided-usd-20261109"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_negative_jal",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_scenario_0",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_scenario_19",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_1",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_17",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_18",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_20",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_public_legacy_bus_abi",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_target_behavior_2",
+              "group": "Core",
+              "status": "failed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 0,
+              "total": 1
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 7,
+              "total": 7
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 8,
+              "total": 9
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 7,
+            "observed_tool_calls": 19,
+            "native_events": 33,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "c99c0ce7001b7ffee3b8423c491f967c0d02360a5088046fb04565ed11ea3df1"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 9,
+            "groups": {
+              "core": 1,
+              "error": 0,
+              "functionality": 0,
+              "regression": 7,
+              "structure": 1
+            },
+            "inventory": "555dbc8164f0e66678de8d37dbb6f0e5ec6d9594c4812b61abc4346ff64a2d21"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/391c29505c3b79a9075caa497d11626230cd69c87be84366a82ed2436c07d8cf.tar.gz",
+            "sha256": "391c29505c3b79a9075caa497d11626230cd69c87be84366a82ed2436c07d8cf",
+            "file_count": 49,
+            "size_bytes": 96782,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 2,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-07T13:00:02.262468+00:00",
+      "completed_at": "2026-11-09T06:42:24.412606+00:00",
+      "wall_seconds_all_attempts": 758.7622927170014,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0.25802776,
+      "cost_coverage": "partial",
+      "expected_test_counts": {
+        "checkpoint_3": {
+          "total": 9,
+          "groups": {
+            "core": 1,
+            "error": 0,
+            "functionality": 0,
+            "regression": 7,
+            "structure": 1
+          },
+          "inventory": "555dbc8164f0e66678de8d37dbb6f0e5ec6d9594c4812b61abc4346ff64a2d21"
+        }
+      }
+    },
+    {
+      "id": "a86991390633b0236b921c032fd597c765dfa7fe4208a42823e8c72a510ee972",
+      "problem": "serv_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "glm-5.3",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "ffe271adb4c44fed61c9f4f6c8bb0582ae74f2a04f77fa62d20dd6481c8efe97",
+      "generation": "e3e9ac5231efa1e73a3e8946d579a28970c3e7e8926bc43a4626bbfa067f412a",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_9",
+          "candidate": "2dfba2d479340857ed1ef9cb2287065f28ae58d98447b8fa2a8d227353e648cd",
+          "evidence": [
+            "sha256:382cce6810449ca214c207c9ff8e0985e1decbed52c26c2994d3a3f6554889a1"
+          ],
+          "event_id": "d87fcbab3399c2fa09f067133bc34acc2f8931285a9b065b1389d73127986246",
+          "assessment": "117cb8e661a346bd7aed6daef3ec2d69e79f2a30fc303ac214f82363859d39aa",
+          "attempt": "d0f830df30d74ad68cf189f370cebe7a"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_9",
+          "candidate": "2dfba2d479340857ed1ef9cb2287065f28ae58d98447b8fa2a8d227353e648cd",
+          "evidence": [
+            "sha256:382cce6810449ca214c207c9ff8e0985e1decbed52c26c2994d3a3f6554889a1"
+          ],
+          "event_id": "12433543ebeca940f9ed8ecd8ab561dc6d75ce3b1f1b05c3a1cd9f962d0cb72f",
+          "assessment": "117cb8e661a346bd7aed6daef3ec2d69e79f2a30fc303ac214f82363859d39aa",
+          "attempt": "d0f830df30d74ad68cf189f370cebe7a"
+        },
+        {
+          "namespace": "implementation",
+          "label": "structure_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_9",
+          "candidate": "2dfba2d479340857ed1ef9cb2287065f28ae58d98447b8fa2a8d227353e648cd",
+          "evidence": [
+            "sha256:382cce6810449ca214c207c9ff8e0985e1decbed52c26c2994d3a3f6554889a1"
+          ],
+          "event_id": "b109d9c309f1b366871e57553fe1933a16e591a2d401bae380f1d6500b9c76bc",
+          "assessment": "117cb8e661a346bd7aed6daef3ec2d69e79f2a30fc303ac214f82363859d39aa",
+          "attempt": "d0f830df30d74ad68cf189f370cebe7a"
+        },
+        {
+          "namespace": "execution",
+          "label": "infrastructure_failure",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:654746809f29763b29404303cbc17564805262417055e2dde15c15b9a82fe363"
+          ],
+          "event_id": "cb69c19de1ff6db34c7f27b8189eec48b275b210ec9fd873954b8a18f0258672",
+          "assessment": "a3a4a20e04ef6ea5ea42e17ddc9a42a05c88b896c791f126536fbfd379dccecc",
+          "attempt": "7af2317316e84d5ebb36f80e7a04938f"
+        },
+        {
+          "namespace": "execution",
+          "label": "unknown",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_9",
+          "candidate": "2dfba2d479340857ed1ef9cb2287065f28ae58d98447b8fa2a8d227353e648cd",
+          "evidence": [
+            "sha256:654746809f29763b29404303cbc17564805262417055e2dde15c15b9a82fe363"
+          ],
+          "event_id": "e6da9eaeabfc9813c7594ce4634b6b11c6ed4843c2ad776b7097ca0f8b7dbd94",
+          "assessment": "a3a4a20e04ef6ea5ea42e17ddc9a42a05c88b896c791f126536fbfd379dccecc",
+          "attempt": "7af2317316e84d5ebb36f80e7a04938f"
+        },
+        {
+          "namespace": "execution",
+          "label": "inference_error",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_9",
+          "candidate": "2dfba2d479340857ed1ef9cb2287065f28ae58d98447b8fa2a8d227353e648cd",
+          "evidence": [
+            "sha256:654746809f29763b29404303cbc17564805262417055e2dde15c15b9a82fe363"
+          ],
+          "event_id": "4e39ea9333b845830619c27971de424adf2d2089446509ca5f6902fef9b2478a",
+          "assessment": "a3a4a20e04ef6ea5ea42e17ddc9a42a05c88b896c791f126536fbfd379dccecc",
+          "attempt": "7af2317316e84d5ebb36f80e7a04938f"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_9"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.0,
+      "selected_attempt": "d0f830df30d74ad68cf189f370cebe7a",
+      "selected_evaluation": null,
+      "evaluation_generation": "e3e9ac5231efa1e73a3e8946d579a28970c3e7e8926bc43a4626bbfa067f412a",
+      "attempt_count": 2,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_9",
+          "state": "failed",
+          "gate_passed": false,
+          "candidate": "2dfba2d479340857ed1ef9cb2287065f28ae58d98447b8fa2a8d227353e648cd",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "b15afad8f3f5cf368ac96c56b0be9c0f8ab4a08776106f8326a4c405e22ced2e",
+          "evaluation_sha256": "382cce6810449ca214c207c9ff8e0985e1decbed52c26c2994d3a3f6554889a1",
+          "started_at": "2026-11-09T06:42:27.750838Z",
+          "completed_at": "2026-11-09T06:56:21.495493Z",
+          "inference_seconds": 833.744655,
+          "evaluation_seconds": 2.2524449825286865,
+          "native_steps": 10,
+          "tokens": {
+            "cache_read": 244224,
+            "cache_write": 0,
+            "input": 41911,
+            "output": 499,
+            "reasoning": 32315
+          },
+          "official_cost": {
+            "usd": 0.26655523999999997,
+            "coverage": "complete",
+            "pricebook": "glm-5.3-user-provided-usd-20261109"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_preserves_artifact_hygiene",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_6_wishbone_instruction_and_data_buses",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_8_compressed_wrapper_parameters",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_publishes_configurable_datapath_width",
+              "group": "Structure",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_negative_jal",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_scenario_0",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_scenario_19",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_1",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_17",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_18",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_20",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_3_scenario_2",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_4_scenario_3",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_5_scenario_14",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_5_scenario_15",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_5_scenario_16",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_6_scenario_5",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_6_scenario_6",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_7_scenario_7",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_7_scenario_8",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_8_scenario_10",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_8_scenario_9",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_target_behavior_11",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_target_behavior_12",
+              "group": "Core",
+              "status": "failed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 3,
+              "total": 4
+            },
+            "core": {
+              "passed": 1,
+              "total": 2
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 18,
+              "total": 18
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 22,
+              "total": 24
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 10,
+            "observed_tool_calls": 22,
+            "native_events": 42,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "98c0e2ea721cd04d5bb15ec477d40b6d619dfb77d71572283eb1795055009eba"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 24,
+            "groups": {
+              "core": 2,
+              "error": 0,
+              "functionality": 0,
+              "regression": 18,
+              "structure": 4
+            },
+            "inventory": "2dd4e8c39f38a97ddfa68c554dd9f74bb9501d18b39acec435544a937bc34b76"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/154a2c47d65d9f3317de5262e7d89a18f7f271dc3364b6cbbb7b3cde4ead9996.tar.gz",
+            "sha256": "154a2c47d65d9f3317de5262e7d89a18f7f271dc3364b6cbbb7b3cde4ead9996",
+            "file_count": 184,
+            "size_bytes": 659478,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 2,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-07T13:00:33.140693+00:00",
+      "completed_at": "2026-11-09T06:56:34.468572+00:00",
+      "wall_seconds_all_attempts": 871.9703694589989,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0.31246816,
+      "cost_coverage": "partial",
+      "expected_test_counts": {
+        "checkpoint_9": {
+          "total": 24,
+          "groups": {
+            "core": 2,
+            "error": 0,
+            "functionality": 0,
+            "regression": 18,
+            "structure": 4
+          },
+          "inventory": "2dd4e8c39f38a97ddfa68c554dd9f74bb9501d18b39acec435544a937bc34b76"
+        }
+      }
+    },
+    {
+      "id": "d3a48647f503519f4bfda3b8e09fe1ca0a999a3270d55d07a515c4f69a7e0357",
+      "problem": "serv_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "glm-5.3",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "ffe271adb4c44fed61c9f4f6c8bb0582ae74f2a04f77fa62d20dd6481c8efe97",
+      "generation": "868a6dbfc9295e73a46d295ae3d1e85b1f3e1aacdcc0ea6808839bccdeb886b1",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_5",
+          "candidate": "a97a8a331060fb6903af4217ef08a9f137b6c9a169a95e999234b54e66121841",
+          "evidence": [
+            "sha256:fc21e1eef99faefaaf5b01c999d7a85b4e51de4d48834af29285505cd77eef0b"
+          ],
+          "event_id": "222d7fb4e1dc941becf67cacb9345afeeb69096d7e0a92bd036ddd4661e9851f",
+          "assessment": "cec2850ad019c350ee9239f66aecfb536f302ea5525e9ff18c2f6cc583032702",
+          "attempt": "240211d1a7fd422f85a1e46d1c7e3da4"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_5",
+          "candidate": "a97a8a331060fb6903af4217ef08a9f137b6c9a169a95e999234b54e66121841",
+          "evidence": [
+            "sha256:fc21e1eef99faefaaf5b01c999d7a85b4e51de4d48834af29285505cd77eef0b"
+          ],
+          "event_id": "f8caa6f26497201511e25c065521d2c5e407d433f5d0ff7cec5164ffad24885d",
+          "assessment": "cec2850ad019c350ee9239f66aecfb536f302ea5525e9ff18c2f6cc583032702",
+          "attempt": "240211d1a7fd422f85a1e46d1c7e3da4"
+        },
+        {
+          "namespace": "execution",
+          "label": "infrastructure_failure",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:badb313e5810cb2c16f35e9323b59a6f262f4cfbbdd0fe36056fb4fda17d5bb0"
+          ],
+          "event_id": "9cff786460f98c0707c17d1df7421cfaff694fb96591b1eb5aa8ce2f06a3a1a2",
+          "assessment": "d7fe9e51a2b1b4758e694d903d88733b5e97a2f73c059d6d037ad531df4f006d",
+          "attempt": "7b2ed13f3a9d4e55aa6fb3f0bb26c4c4"
+        },
+        {
+          "namespace": "execution",
+          "label": "unknown",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_5",
+          "candidate": "a97a8a331060fb6903af4217ef08a9f137b6c9a169a95e999234b54e66121841",
+          "evidence": [
+            "sha256:badb313e5810cb2c16f35e9323b59a6f262f4cfbbdd0fe36056fb4fda17d5bb0"
+          ],
+          "event_id": "298d4bbdce0b1ef671257383af6761b543c5ad4c54bb34cbd456f5d561800084",
+          "assessment": "d7fe9e51a2b1b4758e694d903d88733b5e97a2f73c059d6d037ad531df4f006d",
+          "attempt": "7b2ed13f3a9d4e55aa6fb3f0bb26c4c4"
+        },
+        {
+          "namespace": "execution",
+          "label": "inference_error",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_5",
+          "candidate": "a97a8a331060fb6903af4217ef08a9f137b6c9a169a95e999234b54e66121841",
+          "evidence": [
+            "sha256:badb313e5810cb2c16f35e9323b59a6f262f4cfbbdd0fe36056fb4fda17d5bb0"
+          ],
+          "event_id": "cea45677fe56b03cb784ce2424fba6ad184a90f26b45786db480808f40e19135",
+          "assessment": "d7fe9e51a2b1b4758e694d903d88733b5e97a2f73c059d6d037ad531df4f006d",
+          "attempt": "7b2ed13f3a9d4e55aa6fb3f0bb26c4c4"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_5"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.0,
+      "selected_attempt": "240211d1a7fd422f85a1e46d1c7e3da4",
+      "selected_evaluation": null,
+      "evaluation_generation": "868a6dbfc9295e73a46d295ae3d1e85b1f3e1aacdcc0ea6808839bccdeb886b1",
+      "attempt_count": 2,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_5",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "a97a8a331060fb6903af4217ef08a9f137b6c9a169a95e999234b54e66121841",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "5d609e12447153605ceb3439d02e1471858ece7b8663d6dae7fbfdc246a0d7fc",
+          "evaluation_sha256": "fc21e1eef99faefaaf5b01c999d7a85b4e51de4d48834af29285505cd77eef0b",
+          "started_at": "2026-11-09T08:19:55.531971Z",
+          "completed_at": "2026-11-09T08:35:34.831252Z",
+          "inference_seconds": 939.299281,
+          "evaluation_seconds": 1.401104211807251,
+          "native_steps": 7,
+          "tokens": {
+            "cache_read": 98496,
+            "cache_write": 0,
+            "input": 16753,
+            "output": 352,
+            "reasoning": 32319
+          },
+          "official_cost": {
+            "usd": 0.19281556000000002,
+            "coverage": "complete",
+            "pricebook": "glm-5.3-user-provided-usd-20261109"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_negative_jal",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_scenario_0",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_scenario_19",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_1",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_17",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_18",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_20",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_3_scenario_2",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_4_scenario_3",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_public_legacy_bus_abi",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_target_behavior_15",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_target_behavior_14",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_target_behavior_16",
+              "group": "Core",
+              "status": "failed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 1,
+              "total": 3
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 9,
+              "total": 9
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 11,
+              "total": 13
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 7,
+            "observed_tool_calls": 15,
+            "native_events": 29,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "01aa9f89d49de3ea735dddaff1d028dd469e9dd1bc1415c92228e1a13a5b7c9f"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 13,
+            "groups": {
+              "core": 3,
+              "error": 0,
+              "functionality": 0,
+              "regression": 9,
+              "structure": 1
+            },
+            "inventory": "1ad047a2cdc4d8a595180f7d4448556d7f88e648fe493a0a99eb35b0fcee9b3c"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/ff12c56842bdaa5e919db710d1efc44ccc009f29e0ff665cc554b8cd1fb65460.tar.gz",
+            "sha256": "ff12c56842bdaa5e919db710d1efc44ccc009f29e0ff665cc554b8cd1fb65460",
+            "file_count": 51,
+            "size_bytes": 98536,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 2,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-07T13:06:34.958406+00:00",
+      "completed_at": "2026-11-09T08:35:45.980387+00:00",
+      "wall_seconds_all_attempts": 978.5624949480007,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0.22428944000000003,
+      "cost_coverage": "partial",
+      "expected_test_counts": {
+        "checkpoint_5": {
+          "total": 13,
+          "groups": {
+            "core": 3,
+            "error": 0,
+            "functionality": 0,
+            "regression": 9,
+            "structure": 1
+          },
+          "inventory": "1ad047a2cdc4d8a595180f7d4448556d7f88e648fe493a0a99eb35b0fcee9b3c"
+        }
+      }
+    },
+    {
+      "id": "e99ee1e2bee4eb9037893d663ef18ec50bf253f5f14530d9549f576fc9273a26",
+      "problem": "serv_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "glm-5.3",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "ffe271adb4c44fed61c9f4f6c8bb0582ae74f2a04f77fa62d20dd6481c8efe97",
+      "generation": "01cc74391346932a6b6dfb8fb08ce2ce24926d42fdcd87c4e16ac4b1d8f50d42",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "execution",
+          "label": "infrastructure_failure",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:3f0e6748de65b746cfb43c121845c23bcf7d0db38201db8b4f6d1ac59190431a"
+          ],
+          "event_id": "a7706b9ce2875103e900cea7bf045872c99dc05205a9eb4c3a2c8680f76b8aa9",
+          "assessment": "1395d5bed6a436d81878682caf3e35a98e6087f9991bd891ab4f1f7c3502ffc0",
+          "attempt": "3ed21f44de6346ee9acb2696e2b6e399"
+        },
+        {
+          "namespace": "execution",
+          "label": "unknown",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_2",
+          "candidate": "0c26da23b3df34f6971c1dfd997fb2271a5ffc4eebab981b380d48f6fe91fb20",
+          "evidence": [
+            "sha256:3f0e6748de65b746cfb43c121845c23bcf7d0db38201db8b4f6d1ac59190431a"
+          ],
+          "event_id": "1760852823e42658821b2e7d4fe7ab36397131295e7df9fd4cf83ae1ce042089",
+          "assessment": "1395d5bed6a436d81878682caf3e35a98e6087f9991bd891ab4f1f7c3502ffc0",
+          "attempt": "3ed21f44de6346ee9acb2696e2b6e399"
+        },
+        {
+          "namespace": "execution",
+          "label": "inference_error",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_2",
+          "candidate": "0c26da23b3df34f6971c1dfd997fb2271a5ffc4eebab981b380d48f6fe91fb20",
+          "evidence": [
+            "sha256:3f0e6748de65b746cfb43c121845c23bcf7d0db38201db8b4f6d1ac59190431a"
+          ],
+          "event_id": "d6100a690c575e3aab3cb3dc0b4096558a3e0a1c63bdca6c81994d868e84269e",
+          "assessment": "1395d5bed6a436d81878682caf3e35a98e6087f9991bd891ab4f1f7c3502ffc0",
+          "attempt": "3ed21f44de6346ee9acb2696e2b6e399"
+        },
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_2",
+          "candidate": "0c26da23b3df34f6971c1dfd997fb2271a5ffc4eebab981b380d48f6fe91fb20",
+          "evidence": [
+            "sha256:94332bd03466498b8e68d30d074d27a3534bcdc4335aec7d8864d85032acdf56"
+          ],
+          "event_id": "f65c6810f6e48febcfa7a63618c5f44fbb06eb70ef456b9a8762df114877f929",
+          "assessment": "a4a7d31c90720ac5fec1b24dc3a5f799735efb601b75ff34e9f7978f38e774c9",
+          "attempt": "4a009ff27221471fbdc50c30d99c183e"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_2",
+          "candidate": "0c26da23b3df34f6971c1dfd997fb2271a5ffc4eebab981b380d48f6fe91fb20",
+          "evidence": [
+            "sha256:94332bd03466498b8e68d30d074d27a3534bcdc4335aec7d8864d85032acdf56"
+          ],
+          "event_id": "a93c331f6ed3fdd503607020f20463c15569bc1c96b20e26fe51ab900c19e840",
+          "assessment": "a4a7d31c90720ac5fec1b24dc3a5f799735efb601b75ff34e9f7978f38e774c9",
+          "attempt": "4a009ff27221471fbdc50c30d99c183e"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_2"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.0,
+      "selected_attempt": "4a009ff27221471fbdc50c30d99c183e",
+      "selected_evaluation": null,
+      "evaluation_generation": "01cc74391346932a6b6dfb8fb08ce2ce24926d42fdcd87c4e16ac4b1d8f50d42",
+      "attempt_count": 2,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_2",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "0c26da23b3df34f6971c1dfd997fb2271a5ffc4eebab981b380d48f6fe91fb20",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "e8c0eeef230daca304915f66483f6e292ab9dd2d5eb19dc224011b82ca01476b",
+          "evaluation_sha256": "94332bd03466498b8e68d30d074d27a3534bcdc4335aec7d8864d85032acdf56",
+          "started_at": "2026-11-09T08:35:49.175903Z",
+          "completed_at": "2026-11-09T08:46:25.148924Z",
+          "inference_seconds": 635.973021,
+          "evaluation_seconds": 5.754303932189941,
+          "native_steps": 5,
+          "tokens": {
+            "cache_read": 56576,
+            "cache_write": 0,
+            "input": 14222,
+            "output": 346,
+            "reasoning": 32214
+          },
+          "official_cost": {
+            "usd": 0.17788456,
+            "coverage": "complete",
+            "pricebook": "glm-5.3-user-provided-usd-20261109"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_negative_jal",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_scenario_0",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_scenario_19",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_public_legacy_bus_abi",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_target_behavior_1",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_target_behavior_17",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_target_behavior_18",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_target_behavior_20",
+              "group": "Core",
+              "status": "failed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 0,
+              "total": 4
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 3,
+              "total": 3
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 4,
+              "total": 8
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 5,
+            "observed_tool_calls": 16,
+            "native_events": 26,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "615546e6be925a89e826a8822112376d977199307c5b8bbe19177c7de92fd359"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 8,
+            "groups": {
+              "core": 4,
+              "error": 0,
+              "functionality": 0,
+              "regression": 3,
+              "structure": 1
+            },
+            "inventory": "69efb036553fc4e8f25a8623b02ee5c1ee215099e3a78cedd7c75e4df81a2768"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/81ba8b5c368cd28a5c967df27568fa455759cf2d06b7dfb5fc842e7ca883a4d7.tar.gz",
+            "sha256": "81ba8b5c368cd28a5c967df27568fa455759cf2d06b7dfb5fc842e7ca883a4d7",
+            "file_count": 48,
+            "size_bytes": 95850,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 2,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-07T13:06:50.740954+00:00",
+      "completed_at": "2026-11-09T08:46:40.447277+00:00",
+      "wall_seconds_all_attempts": 673.3734621900003,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0.18504744,
+      "cost_coverage": "partial",
+      "expected_test_counts": {
+        "checkpoint_2": {
+          "total": 8,
+          "groups": {
+            "core": 4,
+            "error": 0,
+            "functionality": 0,
+            "regression": 3,
+            "structure": 1
+          },
+          "inventory": "69efb036553fc4e8f25a8623b02ee5c1ee215099e3a78cedd7c75e4df81a2768"
+        }
+      }
+    },
+    {
+      "id": "ed4189f3663f83aee850be33aa987ee37fa5bbdc14ba76ecbd6f820d935f8949",
+      "problem": "serv_t1",
+      "mode": "pipeline",
+      "prompt_arm": "original",
+      "model": "glm-5.3",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "ffe271adb4c44fed61c9f4f6c8bb0582ae74f2a04f77fa62d20dd6481c8efe97",
+      "generation": "913f46bf34097f974aa9aa7918d1e86727ba7e06586af16aba62c81cd8ab4360",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "64680c33eb88323c3bc58e66abc54c4c3f7ac6172f40f5d855c056d82a588d91",
+          "evidence": [
+            "sha256:0704ef15fe5e42c51c98f5bbe682bda74d03c4703768bc4b7afb2adc1aca95bc"
+          ],
+          "event_id": "b77f8268701327b6eae2e2251b1a58c6be85954bee7f84faedf550990e404acc",
+          "assessment": "749c86ab8caa010d876cb3efe5379ac9aa77acbea77cf9d792757538d31e4b90",
+          "attempt": "c64bb0c46e33440ea0ef20ccd2f616f1"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "64680c33eb88323c3bc58e66abc54c4c3f7ac6172f40f5d855c056d82a588d91",
+          "evidence": [
+            "sha256:0704ef15fe5e42c51c98f5bbe682bda74d03c4703768bc4b7afb2adc1aca95bc"
+          ],
+          "event_id": "361305d969aaf5fb1dba911a31d5bf2082af0dc748d774c31b324472e2be4fe1",
+          "assessment": "749c86ab8caa010d876cb3efe5379ac9aa77acbea77cf9d792757538d31e4b90",
+          "attempt": "c64bb0c46e33440ea0ef20ccd2f616f1"
+        },
+        {
+          "namespace": "implementation",
+          "label": "structure_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "64680c33eb88323c3bc58e66abc54c4c3f7ac6172f40f5d855c056d82a588d91",
+          "evidence": [
+            "sha256:0704ef15fe5e42c51c98f5bbe682bda74d03c4703768bc4b7afb2adc1aca95bc"
+          ],
+          "event_id": "376fb6c4f9fe2c78fa9e17c8181ccd183e42442c250306425049b54d26af8aa8",
+          "assessment": "749c86ab8caa010d876cb3efe5379ac9aa77acbea77cf9d792757538d31e4b90",
+          "attempt": "c64bb0c46e33440ea0ef20ccd2f616f1"
+        },
+        {
+          "namespace": "execution",
+          "label": "interrupted",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+          ],
+          "event_id": "347daac187d374fc8cd0ba2704f5f7354281766c863c20f9850b171da1afd50e",
+          "assessment": "b26bf140ba3cffc8a1f5a0e0b461d445898baf8f05d19e53d293e66ac509947d",
+          "attempt": "80786899ada34f49a376f74826f54169"
+        },
+        {
+          "namespace": "execution",
+          "label": "infrastructure_failure",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:f3595395556a7f9e5e8770d7b33c09bba6929a45998a97f4b7cf4fcb70c230d2"
+          ],
+          "event_id": "e9ff62f76a46876cada1fa379f4e3478e10c71c87c510d57475f3dba8d2082ff",
+          "assessment": "d2af2c9a942e06739346dbf032e37021d1092e7111a3f6356fd2c04ba21f8163",
+          "attempt": "8b412f3d8ee94a1d9f9078a3c7aebaa1"
+        },
+        {
+          "namespace": "execution",
+          "label": "unknown",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "64680c33eb88323c3bc58e66abc54c4c3f7ac6172f40f5d855c056d82a588d91",
+          "evidence": [
+            "sha256:f3595395556a7f9e5e8770d7b33c09bba6929a45998a97f4b7cf4fcb70c230d2"
+          ],
+          "event_id": "d5538bf6731f49a2113a9f6e62d44828dfc835740d486f6ac6ed80217122dd1f",
+          "assessment": "d2af2c9a942e06739346dbf032e37021d1092e7111a3f6356fd2c04ba21f8163",
+          "attempt": "8b412f3d8ee94a1d9f9078a3c7aebaa1"
+        },
+        {
+          "namespace": "execution",
+          "label": "inference_error",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "64680c33eb88323c3bc58e66abc54c4c3f7ac6172f40f5d855c056d82a588d91",
+          "evidence": [
+            "sha256:f3595395556a7f9e5e8770d7b33c09bba6929a45998a97f4b7cf4fcb70c230d2"
+          ],
+          "event_id": "5ef3d488c1530f50abb8cff06f754bf889a5b1f9076c7d476f9453a77076229f",
+          "assessment": "d2af2c9a942e06739346dbf032e37021d1092e7111a3f6356fd2c04ba21f8163",
+          "attempt": "8b412f3d8ee94a1d9f9078a3c7aebaa1"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 10,
+      "planned_targets": [
+        "checkpoint_1",
+        "checkpoint_2",
+        "checkpoint_3",
+        "checkpoint_4",
+        "checkpoint_5",
+        "checkpoint_6",
+        "checkpoint_7",
+        "checkpoint_8",
+        "checkpoint_9",
+        "checkpoint_10"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.0,
+      "selected_attempt": "c64bb0c46e33440ea0ef20ccd2f616f1",
+      "selected_evaluation": null,
+      "evaluation_generation": "913f46bf34097f974aa9aa7918d1e86727ba7e06586af16aba62c81cd8ab4360",
+      "attempt_count": 3,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_1",
+          "state": "failed",
+          "gate_passed": false,
+          "candidate": "64680c33eb88323c3bc58e66abc54c4c3f7ac6172f40f5d855c056d82a588d91",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "dc7ad015a28d1a8f29891455fe979d318464ceff3736e2ced8383baed1e63cd8",
+          "evaluation_sha256": "0704ef15fe5e42c51c98f5bbe682bda74d03c4703768bc4b7afb2adc1aca95bc",
+          "started_at": "2026-11-09T09:02:39.149409Z",
+          "completed_at": "2026-11-09T09:13:46.588791Z",
+          "inference_seconds": 667.439382,
+          "evaluation_seconds": 0.6296467781066895,
+          "native_steps": 7,
+          "tokens": {
+            "cache_read": 94080,
+            "cache_write": 0,
+            "input": 16734,
+            "output": 398,
+            "reasoning": 36744
+          },
+          "official_cost": {
+            "usd": 0.2113132,
+            "coverage": "complete",
+            "pricebook": "glm-5.3-user-provided-usd-20261109"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_negative_jal_redirects_next_fetch",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_pending_requests_remain_stable_under_backpressure",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_public_instruction_and_load_request_behavior",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_public_legacy_bus_abi",
+              "group": "Structure",
+              "status": "failed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 0,
+              "total": 1
+            },
+            "core": {
+              "passed": 0,
+              "total": 3
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 0,
+              "total": 0
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 0,
+              "total": 4
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 7,
+            "observed_tool_calls": 15,
+            "native_events": 29,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "229d248a284089286f62b40b82c40ead4474a50fe9fc2589c4643f9184d85a20"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 4,
+            "groups": {
+              "core": 3,
+              "error": 0,
+              "functionality": 0,
+              "regression": 0,
+              "structure": 1
+            },
+            "inventory": "3337de3e002f9cdb3087382fc58eaca743c6502a5083c32521730b569e5ee993"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/911a25b736f12a5a1d7aff378a9da90ce8f80e0e442fd85c0d683fb28f4e6a4c.tar.gz",
+            "sha256": "911a25b736f12a5a1d7aff378a9da90ce8f80e0e442fd85c0d683fb28f4e6a4c",
+            "file_count": 42,
+            "size_bytes": 93376,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_2",
+          "target_checkpoint": "checkpoint_2",
+          "state": "stopped_by_policy",
+          "gate_passed": null,
+          "candidate": null,
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": null,
+          "evaluation_sha256": null,
+          "started_at": null,
+          "completed_at": null,
+          "inference_seconds": null,
+          "evaluation_seconds": null,
+          "native_steps": null,
+          "tokens": null,
+          "official_cost": {
+            "usd": 0,
+            "coverage": "complete",
+            "pricebook": "glm-5.3-user-provided-usd-20261109"
+          },
+          "tests": [],
+          "test_counts": null,
+          "score": 0,
+          "calls": {
+            "http_requests": 0,
+            "http_retries": 0,
+            "observed_responses": 0,
+            "observed_tool_calls": 0,
+            "coverage": "not_invoked"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 8,
+            "groups": {
+              "core": 4,
+              "error": 0,
+              "functionality": 0,
+              "regression": 3,
+              "structure": 1
+            },
+            "inventory": "92d9fbc50a51e7848ed597282d70bd770026c518f7d04cb90a8ca3bf66bd6938"
+          }
+        },
+        {
+          "checkpoint": "checkpoint_3",
+          "target_checkpoint": "checkpoint_3",
+          "state": "stopped_by_policy",
+          "gate_passed": null,
+          "candidate": null,
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": null,
+          "evaluation_sha256": null,
+          "started_at": null,
+          "completed_at": null,
+          "inference_seconds": null,
+          "evaluation_seconds": null,
+          "native_steps": null,
+          "tokens": null,
+          "official_cost": {
+            "usd": 0,
+            "coverage": "complete",
+            "pricebook": "glm-5.3-user-provided-usd-20261109"
+          },
+          "tests": [],
+          "test_counts": null,
+          "score": 0,
+          "calls": {
+            "http_requests": 0,
+            "http_retries": 0,
+            "observed_responses": 0,
+            "observed_tool_calls": 0,
+            "coverage": "not_invoked"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 9,
+            "groups": {
+              "core": 1,
+              "error": 0,
+              "functionality": 0,
+              "regression": 7,
+              "structure": 1
+            },
+            "inventory": "113abcf47a53cf0ee13ff8e28e867c03eaf3406d29e79f43f798c67da2f3ecad"
+          }
+        },
+        {
+          "checkpoint": "checkpoint_4",
+          "target_checkpoint": "checkpoint_4",
+          "state": "stopped_by_policy",
+          "gate_passed": null,
+          "candidate": null,
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": null,
+          "evaluation_sha256": null,
+          "started_at": null,
+          "completed_at": null,
+          "inference_seconds": null,
+          "evaluation_seconds": null,
+          "native_steps": null,
+          "tokens": null,
+          "official_cost": {
+            "usd": 0,
+            "coverage": "complete",
+            "pricebook": "glm-5.3-user-provided-usd-20261109"
+          },
+          "tests": [],
+          "test_counts": null,
+          "score": 0,
+          "calls": {
+            "http_requests": 0,
+            "http_retries": 0,
+            "observed_responses": 0,
+            "observed_tool_calls": 0,
+            "coverage": "not_invoked"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 10,
+            "groups": {
+              "core": 1,
+              "error": 0,
+              "functionality": 0,
+              "regression": 8,
+              "structure": 1
+            },
+            "inventory": "f209d1ecc50e4793ebd59a1c649ccd5b2a8f33350bb4baba184a3a365f39a459"
+          }
+        },
+        {
+          "checkpoint": "checkpoint_5",
+          "target_checkpoint": "checkpoint_5",
+          "state": "stopped_by_policy",
+          "gate_passed": null,
+          "candidate": null,
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": null,
+          "evaluation_sha256": null,
+          "started_at": null,
+          "completed_at": null,
+          "inference_seconds": null,
+          "evaluation_seconds": null,
+          "native_steps": null,
+          "tokens": null,
+          "official_cost": {
+            "usd": 0,
+            "coverage": "complete",
+            "pricebook": "glm-5.3-user-provided-usd-20261109"
+          },
+          "tests": [],
+          "test_counts": null,
+          "score": 0,
+          "calls": {
+            "http_requests": 0,
+            "http_retries": 0,
+            "observed_responses": 0,
+            "observed_tool_calls": 0,
+            "coverage": "not_invoked"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 13,
+            "groups": {
+              "core": 3,
+              "error": 0,
+              "functionality": 0,
+              "regression": 9,
+              "structure": 1
+            },
+            "inventory": "f433a2c32a464abba152371ae26fed74b61fab819e30fd04b4883c59247483dc"
+          }
+        },
+        {
+          "checkpoint": "checkpoint_6",
+          "target_checkpoint": "checkpoint_6",
+          "state": "stopped_by_policy",
+          "gate_passed": null,
+          "candidate": null,
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": null,
+          "evaluation_sha256": null,
+          "started_at": null,
+          "completed_at": null,
+          "inference_seconds": null,
+          "evaluation_seconds": null,
+          "native_steps": null,
+          "tokens": null,
+          "official_cost": {
+            "usd": 0,
+            "coverage": "complete",
+            "pricebook": "glm-5.3-user-provided-usd-20261109"
+          },
+          "tests": [],
+          "test_counts": null,
+          "score": 0,
+          "calls": {
+            "http_requests": 0,
+            "http_retries": 0,
+            "observed_responses": 0,
+            "observed_tool_calls": 0,
+            "coverage": "not_invoked"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 17,
+            "groups": {
+              "core": 2,
+              "error": 0,
+              "functionality": 0,
+              "regression": 12,
+              "structure": 3
+            },
+            "inventory": "98a98da8b4096d76438ad99c46317ec7f270e939ef2bb06216fc4b5796639c06"
+          }
+        },
+        {
+          "checkpoint": "checkpoint_7",
+          "target_checkpoint": "checkpoint_7",
+          "state": "stopped_by_policy",
+          "gate_passed": null,
+          "candidate": null,
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": null,
+          "evaluation_sha256": null,
+          "started_at": null,
+          "completed_at": null,
+          "inference_seconds": null,
+          "evaluation_seconds": null,
+          "native_steps": null,
+          "tokens": null,
+          "official_cost": {
+            "usd": 0,
+            "coverage": "complete",
+            "pricebook": "glm-5.3-user-provided-usd-20261109"
+          },
+          "tests": [],
+          "test_counts": null,
+          "score": 0,
+          "calls": {
+            "http_requests": 0,
+            "http_retries": 0,
+            "observed_responses": 0,
+            "observed_tool_calls": 0,
+            "coverage": "not_invoked"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 19,
+            "groups": {
+              "core": 2,
+              "error": 0,
+              "functionality": 0,
+              "regression": 14,
+              "structure": 3
+            },
+            "inventory": "1a01185212d2b2bb44174a14b5e3e6d72390432a37f504e85d459afede188144"
+          }
+        },
+        {
+          "checkpoint": "checkpoint_8",
+          "target_checkpoint": "checkpoint_8",
+          "state": "stopped_by_policy",
+          "gate_passed": null,
+          "candidate": null,
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": null,
+          "evaluation_sha256": null,
+          "started_at": null,
+          "completed_at": null,
+          "inference_seconds": null,
+          "evaluation_seconds": null,
+          "native_steps": null,
+          "tokens": null,
+          "official_cost": {
+            "usd": 0,
+            "coverage": "complete",
+            "pricebook": "glm-5.3-user-provided-usd-20261109"
+          },
+          "tests": [],
+          "test_counts": null,
+          "score": 0,
+          "calls": {
+            "http_requests": 0,
+            "http_retries": 0,
+            "observed_responses": 0,
+            "observed_tool_calls": 0,
+            "coverage": "not_invoked"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 22,
+            "groups": {
+              "core": 2,
+              "error": 0,
+              "functionality": 0,
+              "regression": 16,
+              "structure": 4
+            },
+            "inventory": "ceee4d4656992be740ff652f091ff88d32db3fc539acbed5d768201fa4e92b73"
+          }
+        },
+        {
+          "checkpoint": "checkpoint_9",
+          "target_checkpoint": "checkpoint_9",
+          "state": "stopped_by_policy",
+          "gate_passed": null,
+          "candidate": null,
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": null,
+          "evaluation_sha256": null,
+          "started_at": null,
+          "completed_at": null,
+          "inference_seconds": null,
+          "evaluation_seconds": null,
+          "native_steps": null,
+          "tokens": null,
+          "official_cost": {
+            "usd": 0,
+            "coverage": "complete",
+            "pricebook": "glm-5.3-user-provided-usd-20261109"
+          },
+          "tests": [],
+          "test_counts": null,
+          "score": 0,
+          "calls": {
+            "http_requests": 0,
+            "http_retries": 0,
+            "observed_responses": 0,
+            "observed_tool_calls": 0,
+            "coverage": "not_invoked"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 25,
+            "groups": {
+              "core": 2,
+              "error": 0,
+              "functionality": 0,
+              "regression": 18,
+              "structure": 5
+            },
+            "inventory": "34b5c4ac7283e1fe819aa690349b96d568241f3da3669a1d8d96feb871b3445d"
+          }
+        },
+        {
+          "checkpoint": "checkpoint_10",
+          "target_checkpoint": "checkpoint_10",
+          "state": "stopped_by_policy",
+          "gate_passed": null,
+          "candidate": null,
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": null,
+          "evaluation_sha256": null,
+          "started_at": null,
+          "completed_at": null,
+          "inference_seconds": null,
+          "evaluation_seconds": null,
+          "native_steps": null,
+          "tokens": null,
+          "official_cost": {
+            "usd": 0,
+            "coverage": "complete",
+            "pricebook": "glm-5.3-user-provided-usd-20261109"
+          },
+          "tests": [],
+          "test_counts": null,
+          "score": 0,
+          "calls": {
+            "http_requests": 0,
+            "http_retries": 0,
+            "observed_responses": 0,
+            "observed_tool_calls": 0,
+            "coverage": "not_invoked"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 27,
+            "groups": {
+              "core": 1,
+              "error": 0,
+              "functionality": 0,
+              "regression": 20,
+              "structure": 6
+            },
+            "inventory": "41d7ec9161d9275ff3133ecaf96cb0b1993de79b4ed92b458525cc9ccd7643a6"
+          }
+        }
+      ],
+      "agent_invocations": null,
+      "agent_retries": null,
+      "legacy_origin": null,
+      "started_at": "2026-11-07T13:07:01.309996+00:00",
+      "completed_at": "2026-11-09T09:13:56.509207+00:00",
+      "wall_seconds_all_attempts": 766.5466779699964,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0.2113132,
+      "cost_coverage": "partial",
+      "expected_test_counts": {
+        "checkpoint_3": {
+          "total": 9,
+          "groups": {
+            "core": 1,
+            "error": 0,
+            "functionality": 0,
+            "regression": 7,
+            "structure": 1
+          },
+          "inventory": "113abcf47a53cf0ee13ff8e28e867c03eaf3406d29e79f43f798c67da2f3ecad"
+        },
+        "checkpoint_7": {
+          "total": 19,
+          "groups": {
+            "core": 2,
+            "error": 0,
+            "functionality": 0,
+            "regression": 14,
+            "structure": 3
+          },
+          "inventory": "1a01185212d2b2bb44174a14b5e3e6d72390432a37f504e85d459afede188144"
+        },
+        "checkpoint_1": {
+          "total": 4,
+          "groups": {
+            "core": 3,
+            "error": 0,
+            "functionality": 0,
+            "regression": 0,
+            "structure": 1
+          },
+          "inventory": "3337de3e002f9cdb3087382fc58eaca743c6502a5083c32521730b569e5ee993"
+        },
+        "checkpoint_9": {
+          "total": 25,
+          "groups": {
+            "core": 2,
+            "error": 0,
+            "functionality": 0,
+            "regression": 18,
+            "structure": 5
+          },
+          "inventory": "34b5c4ac7283e1fe819aa690349b96d568241f3da3669a1d8d96feb871b3445d"
+        },
+        "checkpoint_10": {
+          "total": 27,
+          "groups": {
+            "core": 1,
+            "error": 0,
+            "functionality": 0,
+            "regression": 20,
+            "structure": 6
+          },
+          "inventory": "41d7ec9161d9275ff3133ecaf96cb0b1993de79b4ed92b458525cc9ccd7643a6"
+        },
+        "checkpoint_2": {
+          "total": 8,
+          "groups": {
+            "core": 4,
+            "error": 0,
+            "functionality": 0,
+            "regression": 3,
+            "structure": 1
+          },
+          "inventory": "92d9fbc50a51e7848ed597282d70bd770026c518f7d04cb90a8ca3bf66bd6938"
+        },
+        "checkpoint_6": {
+          "total": 17,
+          "groups": {
+            "core": 2,
+            "error": 0,
+            "functionality": 0,
+            "regression": 12,
+            "structure": 3
+          },
+          "inventory": "98a98da8b4096d76438ad99c46317ec7f270e939ef2bb06216fc4b5796639c06"
+        },
+        "checkpoint_8": {
+          "total": 22,
+          "groups": {
+            "core": 2,
+            "error": 0,
+            "functionality": 0,
+            "regression": 16,
+            "structure": 4
+          },
+          "inventory": "ceee4d4656992be740ff652f091ff88d32db3fc539acbed5d768201fa4e92b73"
+        },
+        "checkpoint_4": {
+          "total": 10,
+          "groups": {
+            "core": 1,
+            "error": 0,
+            "functionality": 0,
+            "regression": 8,
+            "structure": 1
+          },
+          "inventory": "f209d1ecc50e4793ebd59a1c649ccd5b2a8f33350bb4baba184a3a365f39a459"
+        },
+        "checkpoint_5": {
+          "total": 13,
+          "groups": {
+            "core": 3,
+            "error": 0,
+            "functionality": 0,
+            "regression": 9,
+            "structure": 1
+          },
+          "inventory": "f433a2c32a464abba152371ae26fed74b61fab819e30fd04b4883c59247483dc"
+        }
+      }
+    },
+    {
+      "id": "ee64e2c7e5d69ad702aa72a2a876f84d54aaacec53a43cdb8a8b6727bced0f23",
+      "problem": "serv_t1",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "glm-5.3",
+      "agent": "opencode",
+      "agent_version": "1.18.32",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "ffe271adb4c44fed61c9f4f6c8bb0582ae74f2a04f77fa62d20dd6481c8efe97",
+      "generation": "fa22d89a408c4ce80d982b89b10ec10c93b9297f37ce5c027aa7389914079717",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "execution",
+          "label": "infrastructure_failure",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:9ee0430f458563fedae7a9b79e10ebc61cc0acad6065364ccac10a28bdf725e4"
+          ],
+          "event_id": "208ad17d817cc1bbe7693abfd3ae0b10ffb28e3926e33d1b520f09a102e9737a",
+          "assessment": "0f7daccccf261edb7ffa92243fdcaad3ff2d95bc4bbb0cf563c5e929405cc45c",
+          "attempt": "97e790e5954c473a8b9d32b3cbadfb35"
+        },
+        {
+          "namespace": "execution",
+          "label": "unknown",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_4",
+          "candidate": "bac8fcba60693364f747dd63c27791d08c5243155ab4989c63b5f6850092e271",
+          "evidence": [
+            "sha256:9ee0430f458563fedae7a9b79e10ebc61cc0acad6065364ccac10a28bdf725e4"
+          ],
+          "event_id": "a6a523d143e7e6a57f226a7f9090543af7b6f459bb3c17e99872749c3ca3014e",
+          "assessment": "0f7daccccf261edb7ffa92243fdcaad3ff2d95bc4bbb0cf563c5e929405cc45c",
+          "attempt": "97e790e5954c473a8b9d32b3cbadfb35"
+        },
+        {
+          "namespace": "execution",
+          "label": "inference_error",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_4",
+          "candidate": "bac8fcba60693364f747dd63c27791d08c5243155ab4989c63b5f6850092e271",
+          "evidence": [
+            "sha256:9ee0430f458563fedae7a9b79e10ebc61cc0acad6065364ccac10a28bdf725e4"
+          ],
+          "event_id": "3f6b6686e1fc67fde2a075aeeedadb45b6bb684d97ebf9a7246149ebcfc7141b",
+          "assessment": "0f7daccccf261edb7ffa92243fdcaad3ff2d95bc4bbb0cf563c5e929405cc45c",
+          "attempt": "97e790e5954c473a8b9d32b3cbadfb35"
+        },
+        {
+          "namespace": "execution",
+          "label": "infrastructure_failure",
+          "confidence": "confirmed",
+          "checkpoint": null,
+          "candidate": null,
+          "evidence": [
+            "sha256:91d3d06b95628088ce64db4789ab40ae174b439ae440e8dbecdda6a483c82c4b"
+          ],
+          "event_id": "0cf641e1df16cabaf74f886e388091d2183b457a94b6b441637728b0d7cd1335",
+          "assessment": "4f08d77f6f137e4dc56f6885bdf8e7dfa507884030125186ca1ff6c2612063f9",
+          "attempt": "162fbe157a3741bb8428d3a1daece68b"
+        },
+        {
+          "namespace": "execution",
+          "label": "unknown",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_4",
+          "candidate": "bac8fcba60693364f747dd63c27791d08c5243155ab4989c63b5f6850092e271",
+          "evidence": [
+            "sha256:91d3d06b95628088ce64db4789ab40ae174b439ae440e8dbecdda6a483c82c4b"
+          ],
+          "event_id": "071cbc92e5f7500602c564810af5fac3ecf0e37441ea4c629769b35fa86c8a95",
+          "assessment": "4f08d77f6f137e4dc56f6885bdf8e7dfa507884030125186ca1ff6c2612063f9",
+          "attempt": "162fbe157a3741bb8428d3a1daece68b"
+        },
+        {
+          "namespace": "execution",
+          "label": "inference_error",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_4",
+          "candidate": "bac8fcba60693364f747dd63c27791d08c5243155ab4989c63b5f6850092e271",
+          "evidence": [
+            "sha256:91d3d06b95628088ce64db4789ab40ae174b439ae440e8dbecdda6a483c82c4b"
+          ],
+          "event_id": "52be00ea36ba11847d0ad8503fcb95c82fbf8d2a450bb3eda50558d18d6eb506",
+          "assessment": "4f08d77f6f137e4dc56f6885bdf8e7dfa507884030125186ca1ff6c2612063f9",
+          "attempt": "162fbe157a3741bb8428d3a1daece68b"
+        },
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_4",
+          "candidate": "bac8fcba60693364f747dd63c27791d08c5243155ab4989c63b5f6850092e271",
+          "evidence": [
+            "sha256:ea15305b570c7b707247c045f87dc0ee3c6bf22ca1f9cd62d8a0a9737a1165f5"
+          ],
+          "event_id": "5bce96b55af888048fafc26de6d6746bfb9c982e52535de453b3437daf79b39f",
+          "assessment": "bd73a04a6c51aaf5b5ad8d337adb5e1686e00c2053f010e3e357833d2fdd4780",
+          "attempt": "8a5ab4cb85764d388a0a50d8d0eee520"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_4",
+          "candidate": "bac8fcba60693364f747dd63c27791d08c5243155ab4989c63b5f6850092e271",
+          "evidence": [
+            "sha256:ea15305b570c7b707247c045f87dc0ee3c6bf22ca1f9cd62d8a0a9737a1165f5"
+          ],
+          "event_id": "9e1d1b3659100a5636f1a657dfa7659ebc8db7bc48db44cf0dabad9645744dc8",
+          "assessment": "bd73a04a6c51aaf5b5ad8d337adb5e1686e00c2053f010e3e357833d2fdd4780",
+          "attempt": "8a5ab4cb85764d388a0a50d8d0eee520"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_4"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.0,
+      "selected_attempt": "8a5ab4cb85764d388a0a50d8d0eee520",
+      "selected_evaluation": null,
+      "evaluation_generation": "fa22d89a408c4ce80d982b89b10ec10c93b9297f37ce5c027aa7389914079717",
+      "attempt_count": 3,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_4",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "bac8fcba60693364f747dd63c27791d08c5243155ab4989c63b5f6850092e271",
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "28958d11d6182545a42352bd657776a90ff65d879ae7b8850edb5868aaf1cbc8",
+          "evaluation_sha256": "ea15305b570c7b707247c045f87dc0ee3c6bf22ca1f9cd62d8a0a9737a1165f5",
+          "started_at": "2026-11-09T09:14:27.488679Z",
+          "completed_at": "2026-11-09T09:23:09.063919Z",
+          "inference_seconds": 521.57524,
+          "evaluation_seconds": 1.5652201175689697,
+          "native_steps": 5,
+          "tokens": {
+            "cache_read": 61824,
+            "cache_write": 0,
+            "input": 14826,
+            "output": 291,
+            "reasoning": 32438
+          },
+          "official_cost": {
+            "usd": 0.18083823999999998,
+            "coverage": "complete",
+            "pricebook": "glm-5.3-user-provided-usd-20261109"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_negative_jal",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_scenario_0",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_scenario_19",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_1",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_17",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_18",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_2_scenario_20",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_3_scenario_2",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_checkpoint_1_public_legacy_bus_abi",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_target_behavior_3",
+              "group": "Core",
+              "status": "failed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 0,
+              "total": 1
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 8,
+              "total": 8
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 9,
+              "total": 10
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 5,
+            "observed_tool_calls": 15,
+            "native_events": 25,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "df360820efa9d165822d7d113de1dbfd0f2a3e0dd22f0f33c89aadc5fd218dd4"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 10,
+            "groups": {
+              "core": 1,
+              "error": 0,
+              "functionality": 0,
+              "regression": 8,
+              "structure": 1
+            },
+            "inventory": "1dc42fbb2efeb2618739d5c075894638fc6d2cda1c45e6c5b2d585a1e5893e80"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/df87cd5bc9994b31c8bcb0eaeae51179ad91d2648ab6ecec8d1292c7e097ffa1.tar.gz",
+            "sha256": "df87cd5bc9994b31c8bcb0eaeae51179ad91d2648ab6ecec8d1292c7e097ffa1",
+            "file_count": 50,
+            "size_bytes": 97528,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 3,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-07T13:07:44.487595+00:00",
+      "completed_at": "2026-11-09T09:23:19.744844+00:00",
+      "wall_seconds_all_attempts": 629.9174078069955,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 0.18870051999999998,
+      "cost_coverage": "partial",
+      "expected_test_counts": {
+        "checkpoint_4": {
+          "total": 10,
+          "groups": {
+            "core": 1,
+            "error": 0,
+            "functionality": 0,
+            "regression": 8,
+            "structure": 1
+          },
+          "inventory": "1dc42fbb2efeb2618739d5c075894638fc6d2cda1c45e6c5b2d585a1e5893e80"
+        }
+      }
+    }
+  ]
+}
