@@ -14,7 +14,7 @@ test('current final counts agree with scored applicability while raw skips remai
     const raw=await readFile(new URL('data/results/'+detail.path,root));
     assert.equal(createHash('sha256').update(raw).digest('hex'),detail.sha256);
     const cells=JSON.parse(raw).cells.filter(c=>c.mode==='pipeline');
-    assert.equal(cells.length,11);
+    assert.equal(cells.length,12);
     for(const cell of cells){
       const cp=cell.checkpoints.at(-1);
       const result=finalResult(cell,cells);
@@ -37,7 +37,7 @@ test('current final counts agree with scored applicability while raw skips remai
         assert.equal(skipped.length,problem==='clint_t1'?9:problem==='serv_t1'?1:0);
         assert.equal(cp.tests.length,total+skipped.length);
       }
-      if(problem==='ef_uart_t1'&&!['deepseek-flash','kimi-k3.1-pro'].includes(cell.model))assert.equal(result.reason,'delivery_failure');
+      if(problem==='ef_uart_t1'&&!['deepseek-flash','kimi-k3.1-pro','claude-sonnet-5-5'].includes(cell.model))assert.equal(result.reason,'delivery_failure');
       if(problem==='serv_t1'&&cell.model==='gpt-6-luna'&&cell.thinking==='xhigh'){
         assert.equal(fraction(result),'26/26');
         assert.equal(cp.state,'passed');

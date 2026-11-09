@@ -1,0 +1,1825 @@
+{
+  "schema_version": 4,
+  "analysis": "110bbf292befc9e27152e0a711a4635421fb97ea298464a17ca7be57602d7169",
+  "problem": "taxi_axi_t3",
+  "cells": [
+    {
+      "id": "43de01701315b3d819511b075795fe5b61a18f0938b8756cd63577b0dcef752a",
+      "problem": "taxi_axi_t3",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "claude-sonnet-5-5",
+      "agent": "claude_code",
+      "agent_version": "2.1.295",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "0cdf774db5b16e9c444aaf9d9d4e0c7d96322f04e13c0f578e8006a4e7edb9be",
+      "generation": "c6cad315fccb499da686ebef42d1af2476ca034c6e62943a8d8143e14be74de1",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_5",
+          "candidate": "5d23739e99dba74c6ae02de365d539f6d4293b283909c055a7714b5d2a82bedd",
+          "evidence": [
+            "sha256:07b802f6c2ad6b1183edcdb252c9a8a2eccc0215b1d11ec2769494833013d0ee"
+          ],
+          "event_id": "6f4b4effbb1af2c6afe25c9d06c4113d7bea84dc093d37500f17354fd904ef7b",
+          "assessment": "bb9cad5ebab475aecd57f091f3937c80f7b83e7ff2fe0bfe3f4a6f24dd32abc8",
+          "attempt": "80957054e637489bb08215f83ca46697"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_5",
+          "candidate": "5d23739e99dba74c6ae02de365d539f6d4293b283909c055a7714b5d2a82bedd",
+          "evidence": [
+            "sha256:07b802f6c2ad6b1183edcdb252c9a8a2eccc0215b1d11ec2769494833013d0ee"
+          ],
+          "event_id": "c368fadc6b39329ca732a4e742a9b1b10b8ed20a3624927c57a766b10ff6c682",
+          "assessment": "bb9cad5ebab475aecd57f091f3937c80f7b83e7ff2fe0bfe3f4a6f24dd32abc8",
+          "attempt": "80957054e637489bb08215f83ca46697"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_5"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.0,
+      "selected_attempt": "80957054e637489bb08215f83ca46697",
+      "selected_evaluation": null,
+      "evaluation_generation": "c6cad315fccb499da686ebef42d1af2476ca034c6e62943a8d8143e14be74de1",
+      "attempt_count": 4,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_5",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "5d23739e99dba74c6ae02de365d539f6d4293b283909c055a7714b5d2a82bedd",
+          "model_verification": "response_verified",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "53af48dec1fba0e606e25eb22a0728581968b9a4d91f9b5efa8ecd60f85847bb",
+          "evaluation_sha256": "07b802f6c2ad6b1183edcdb252c9a8a2eccc0215b1d11ec2769494833013d0ee",
+          "started_at": "2026-11-07T06:16:13.626315Z",
+          "completed_at": "2026-11-07T07:04:29.531056Z",
+          "inference_seconds": 2895.904741,
+          "evaluation_seconds": 9671.759910821915,
+          "native_steps": 40,
+          "tokens": {
+            "cache_read": 1906232,
+            "cache_write": 452253,
+            "input": 39883,
+            "output": 33252,
+            "reasoning": 0
+          },
+          "official_cost": {
+            "usd": 1.7335417,
+            "coverage": "complete",
+            "pricebook": "official-2026-10-21"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_decode_errors",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_nondefault_region",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_response_ids",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_routing",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_write_burst_ownership",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_axi_fifo_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_admission_accept",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_admission_thread",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_decode_errors",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_independent_read_write_pressure",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_issue_limit",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_nondefault_region",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_register_types",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_routing",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_source_id_restoration",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_axi_interconnect_1s_endpoint_behavior_decode_errors",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_axi_interconnect_1s_endpoint_behavior_nondefault_region",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_axi_interconnect_1s_endpoint_behavior_response_id",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_axi_interconnect_1s_endpoint_behavior_routing",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_axi_crossbar_1s_endpoint_behavior_admission_accept",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_axi_crossbar_1s_endpoint_behavior_admission_thread",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_axi_crossbar_1s_endpoint_behavior_decode_errors",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_axi_crossbar_1s_endpoint_behavior_issue_limit",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_axi_crossbar_1s_endpoint_behavior_nondefault_region",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_axi_crossbar_1s_endpoint_behavior_register_types",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_axi_crossbar_1s_endpoint_behavior_response_id",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_axi_crossbar_1s_endpoint_behavior_routing",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_axi_dp_ram_endpoint_behavior_interleave_order",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_axi_dp_ram_endpoint_behavior_pipeline_latency",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_axi_dp_ram_endpoint_behavior_basic_rw",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_axi_dp_ram_endpoint_behavior_cross_port_sharing",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_axi_dp_ram_endpoint_behavior_nondefault_port_options",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_5_core_structure",
+              "group": "Structure",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 2,
+              "total": 5
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 27,
+              "total": 27
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 30,
+              "total": 33
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 40,
+            "observed_tool_calls": 100,
+            "native_events": 498,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "165e4a6ced33be28609d061284c049a4527e20f5b6893262248e55f3a5d593a2"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 33,
+            "groups": {
+              "core": 5,
+              "error": 0,
+              "functionality": 0,
+              "regression": 27,
+              "structure": 1
+            },
+            "inventory": "3c5c8dfbadea128bd909efe408ce88506d4ff1851836be1e6d225541e1dc4923"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/5dee195bd1a6e71ce8b946b933a94a9e35a1393685c38997839f151149c6d97a.tar.gz",
+            "sha256": "5dee195bd1a6e71ce8b946b933a94a9e35a1393685c38997839f151149c6d97a",
+            "file_count": 67,
+            "size_bytes": 49592,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": null,
+      "agent_retries": null,
+      "legacy_origin": null,
+      "started_at": "2026-11-06T13:45:04.694943+00:00",
+      "completed_at": "2026-11-07T09:45:53.822664+00:00",
+      "wall_seconds_all_attempts": 12583.517462442,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 1.7335417,
+      "cost_coverage": "partial",
+      "expected_test_counts": {
+        "checkpoint_5": {
+          "total": 33,
+          "groups": {
+            "core": 5,
+            "error": 0,
+            "functionality": 0,
+            "regression": 27,
+            "structure": 1
+          },
+          "inventory": "3c5c8dfbadea128bd909efe408ce88506d4ff1851836be1e6d225541e1dc4923"
+        }
+      }
+    },
+    {
+      "id": "8f8710ecc3800c8400b05e9dfbd15b475aa480e54398c2d69c0d0ef3becc3db5",
+      "problem": "taxi_axi_t3",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "claude-sonnet-5-5",
+      "agent": "claude_code",
+      "agent_version": "2.1.295",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "0cdf774db5b16e9c444aaf9d9d4e0c7d96322f04e13c0f578e8006a4e7edb9be",
+      "generation": "d8f071e828f39425e34169306f6c17d819a38d4309a29e89c2f6a71bdd347ec8",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_2",
+          "candidate": "263e42c1d5c76f23c8e619bae05e45a3d07ab5571a74be5d8093c82d24eaeb4c",
+          "evidence": [
+            "sha256:a2f86078623175aa248322d506f994cc5f007d8241dea7ba31c96751eb48b7d5"
+          ],
+          "event_id": "d8ac2078fccc647eed880f4e4d08c92c50e23fd01fe4f45603554de63239bd13",
+          "assessment": "465a25290f2f6f95c44f3942d702fa095fb1604e1b1516619a9a552828ea497f",
+          "attempt": "d95d3ff101774fa9b039630444ffbcc5"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_2",
+          "candidate": "263e42c1d5c76f23c8e619bae05e45a3d07ab5571a74be5d8093c82d24eaeb4c",
+          "evidence": [
+            "sha256:a2f86078623175aa248322d506f994cc5f007d8241dea7ba31c96751eb48b7d5"
+          ],
+          "event_id": "dd47b9d686768018d9d3e4f69d1486b0bc58e1520fae8285bc6bf60b4fec9827",
+          "assessment": "465a25290f2f6f95c44f3942d702fa095fb1604e1b1516619a9a552828ea497f",
+          "attempt": "d95d3ff101774fa9b039630444ffbcc5"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_2"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.0,
+      "selected_attempt": "d95d3ff101774fa9b039630444ffbcc5",
+      "selected_evaluation": null,
+      "evaluation_generation": "d8f071e828f39425e34169306f6c17d819a38d4309a29e89c2f6a71bdd347ec8",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_2",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "263e42c1d5c76f23c8e619bae05e45a3d07ab5571a74be5d8093c82d24eaeb4c",
+          "model_verification": "response_verified",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "55085bfc18ffa42ebb075110e8b974ca7c6a96fe4ccdc49ae8729e396f12a113",
+          "evaluation_sha256": "a2f86078623175aa248322d506f994cc5f007d8241dea7ba31c96751eb48b7d5",
+          "started_at": "2026-11-07T04:59:22.687036Z",
+          "completed_at": "2026-11-07T05:11:05.794695Z",
+          "inference_seconds": 703.107659,
+          "evaluation_seconds": 812.5656304359436,
+          "native_steps": 28,
+          "tokens": {
+            "cache_read": 1809737,
+            "cache_write": 71347,
+            "input": 31097,
+            "output": 55346,
+            "reasoning": 0
+          },
+          "official_cost": {
+            "usd": 0.9749952,
+            "coverage": "complete",
+            "pricebook": "official-2026-10-21"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_decode_errors",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_nondefault_region",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_response_ids",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_routing",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_write_burst_ownership",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_axi_fifo_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_admission_accept",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_admission_thread",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_decode_errors",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_independent_read_write_pressure",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_issue_limit",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_nondefault_region",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_register_types",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_routing",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_source_id_restoration",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_core_structure",
+              "group": "Structure",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 0,
+              "total": 9
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 6,
+              "total": 6
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 7,
+              "total": 16
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 28,
+            "observed_tool_calls": 51,
+            "native_events": 253,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "cd6919fd63094c358301fbacfd640592263ac0c13f5d28d630a8c899fb197fbb"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 16,
+            "groups": {
+              "core": 9,
+              "error": 0,
+              "functionality": 0,
+              "regression": 6,
+              "structure": 1
+            },
+            "inventory": "6fe80c11c43fc35efe49ad7c21ac81cc2bfd1772e5d6673518e2c973f3953442"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/e8e1f634a4b553e8cec6c26fc9bba16a7d23fb0622de7e69cab7703a5a51a151.tar.gz",
+            "sha256": "e8e1f634a4b553e8cec6c26fc9bba16a7d23fb0622de7e69cab7703a5a51a151",
+            "file_count": 40,
+            "size_bytes": 36574,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-07T04:59:20.424398+00:00",
+      "completed_at": "2026-11-07T05:24:48.708940+00:00",
+      "wall_seconds_all_attempts": 1528.2789989940002,
+      "official_cost_all_attempts": 0.9749952,
+      "known_official_cost": 0.9749952,
+      "cost_coverage": "complete",
+      "expected_test_counts": {
+        "checkpoint_2": {
+          "total": 16,
+          "groups": {
+            "core": 9,
+            "error": 0,
+            "functionality": 0,
+            "regression": 6,
+            "structure": 1
+          },
+          "inventory": "6fe80c11c43fc35efe49ad7c21ac81cc2bfd1772e5d6673518e2c973f3953442"
+        }
+      }
+    },
+    {
+      "id": "99b34b95699752edd7e883722ef3a1ad6a7c4e0d804ba81f024f9856a2c82374",
+      "problem": "taxi_axi_t3",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "claude-sonnet-5-5",
+      "agent": "claude_code",
+      "agent_version": "2.1.295",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "0cdf774db5b16e9c444aaf9d9d4e0c7d96322f04e13c0f578e8006a4e7edb9be",
+      "generation": "9bc66f6bbabf5ee67aef93b3fd62376082bb5de6aac44fc8d36fc5959aa279f3",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_4"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "58b27c6b0c7e4561854339b55e34eaa0",
+      "selected_evaluation": null,
+      "evaluation_generation": "9bc66f6bbabf5ee67aef93b3fd62376082bb5de6aac44fc8d36fc5959aa279f3",
+      "attempt_count": 2,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_4",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "dd21af80cd25bf6015135dd1585c1de3fb2400bf0d09fac5696bb84dad968c80",
+          "model_verification": "response_verified",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "6e27a06c6cfe3630e70953585a1b33c1a862a5e333d8fab23b40ec9a40cb97ee",
+          "evaluation_sha256": "f02f2eadad6a9c626d2cea41638811df4a9bd520e29bc77ce6e03b254dc99de3",
+          "started_at": "2026-11-07T06:16:13.577234Z",
+          "completed_at": "2026-11-07T07:05:55.619213Z",
+          "inference_seconds": 2982.041979,
+          "evaluation_seconds": 2400.5476932525635,
+          "native_steps": 46,
+          "tokens": {
+            "cache_read": 2539092,
+            "cache_write": 328059,
+            "input": 42069,
+            "output": 28968,
+            "reasoning": 0
+          },
+          "official_cost": {
+            "usd": 1.4478746999999998,
+            "coverage": "complete",
+            "pricebook": "official-2026-10-21"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_decode_errors",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_nondefault_region",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_response_ids",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_routing",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_write_burst_ownership",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_axi_fifo_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_admission_accept",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_admission_thread",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_decode_errors",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_independent_read_write_pressure",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_issue_limit",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_nondefault_region",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_register_types",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_routing",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_source_id_restoration",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_axi_interconnect_1s_endpoint_behavior_decode_errors",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_axi_interconnect_1s_endpoint_behavior_nondefault_region",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_axi_interconnect_1s_endpoint_behavior_response_id",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_axi_interconnect_1s_endpoint_behavior_routing",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_axi_crossbar_1s_endpoint_behavior_admission_accept",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_axi_crossbar_1s_endpoint_behavior_admission_thread",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_axi_crossbar_1s_endpoint_behavior_decode_errors",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_axi_crossbar_1s_endpoint_behavior_issue_limit",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_axi_crossbar_1s_endpoint_behavior_nondefault_region",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_axi_crossbar_1s_endpoint_behavior_register_types",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_axi_crossbar_1s_endpoint_behavior_response_id",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_axi_crossbar_1s_endpoint_behavior_routing",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_4_core_structure",
+              "group": "Structure",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 8,
+              "total": 8
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 19,
+              "total": 19
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 28,
+              "total": 28
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 46,
+            "observed_tool_calls": 73,
+            "native_events": 571,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "46bf211bdf6f9af7fe6ce4b75f51e07ebac483d603b8fac80c02d644811893f5"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 28,
+            "groups": {
+              "core": 8,
+              "error": 0,
+              "functionality": 0,
+              "regression": 19,
+              "structure": 1
+            },
+            "inventory": "62641a80b1eebb7fbb4435f3957c3a22bc8b519d5ae1ebacd1072ed3fc463944"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/dd8a6ac0d294ed256fb12d20311f62b5aca5a4a7455ef8821a08739e1b20e848.tar.gz",
+            "sha256": "dd8a6ac0d294ed256fb12d20311f62b5aca5a4a7455ef8821a08739e1b20e848",
+            "file_count": 58,
+            "size_bytes": 43955,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": null,
+      "agent_retries": null,
+      "legacy_origin": null,
+      "started_at": "2026-11-07T05:20:25.912484+00:00",
+      "completed_at": "2026-11-07T07:46:08.576001+00:00",
+      "wall_seconds_all_attempts": 5398.260949564001,
+      "official_cost_all_attempts": null,
+      "known_official_cost": 1.4478746999999998,
+      "cost_coverage": "partial",
+      "expected_test_counts": {
+        "checkpoint_4": {
+          "total": 28,
+          "groups": {
+            "core": 8,
+            "error": 0,
+            "functionality": 0,
+            "regression": 19,
+            "structure": 1
+          },
+          "inventory": "62641a80b1eebb7fbb4435f3957c3a22bc8b519d5ae1ebacd1072ed3fc463944"
+        }
+      }
+    },
+    {
+      "id": "d31a9a393bb5d3b918b52af5e39fadf7187ef4f406538b27fd142b789a5fc46d",
+      "problem": "taxi_axi_t3",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "claude-sonnet-5-5",
+      "agent": "claude_code",
+      "agent_version": "2.1.295",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "0cdf774db5b16e9c444aaf9d9d4e0c7d96322f04e13c0f578e8006a4e7edb9be",
+      "generation": "ecac71052bc33287987d0e0ba6bd67c1f35b29fb42246124e4565bbdc443c2c2",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "035c6ac29d60a60cad141b2fd2ac218caa4306cab6d41220da899865c290a99c",
+          "evidence": [
+            "sha256:7fdc891e1d59b037ef51306bb09cf0200077b6a188b7c81d2de56d273954fd56"
+          ],
+          "event_id": "74b7557b10059e5c65ce569f59df2c7cddbab8d28257538fc1b9bee21e23778b",
+          "assessment": "6dd4ecd31f97e6d84113b69a5554d377f1d5bd6985bdbc7284a212f09ba8d986",
+          "attempt": "807d2e7ea40e41f392d798364f12e7f4"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "035c6ac29d60a60cad141b2fd2ac218caa4306cab6d41220da899865c290a99c",
+          "evidence": [
+            "sha256:7fdc891e1d59b037ef51306bb09cf0200077b6a188b7c81d2de56d273954fd56"
+          ],
+          "event_id": "cca504fb03b63652042050ced1c3b5ab0f5b7d481cd7ac0d85be7f8b38b9b153",
+          "assessment": "6dd4ecd31f97e6d84113b69a5554d377f1d5bd6985bdbc7284a212f09ba8d986",
+          "attempt": "807d2e7ea40e41f392d798364f12e7f4"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_1"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.0,
+      "selected_attempt": "807d2e7ea40e41f392d798364f12e7f4",
+      "selected_evaluation": null,
+      "evaluation_generation": "ecac71052bc33287987d0e0ba6bd67c1f35b29fb42246124e4565bbdc443c2c2",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_1",
+          "state": "failed",
+          "gate_passed": true,
+          "candidate": "035c6ac29d60a60cad141b2fd2ac218caa4306cab6d41220da899865c290a99c",
+          "model_verification": "response_verified",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "c37e7d5a883a0e3b7e85fa0bf35b1ab36fec43c0d48f2f987dcb6c4878fb9aa5",
+          "evaluation_sha256": "7fdc891e1d59b037ef51306bb09cf0200077b6a188b7c81d2de56d273954fd56",
+          "started_at": "2026-11-07T08:12:44.358350Z",
+          "completed_at": "2026-11-07T08:22:14.532706Z",
+          "inference_seconds": 570.174356,
+          "evaluation_seconds": 47.57470464706421,
+          "native_steps": 19,
+          "tokens": {
+            "cache_read": 1140060,
+            "cache_write": 61993,
+            "input": 29665,
+            "output": 46600,
+            "reasoning": 0
+          },
+          "official_cost": {
+            "usd": 0.7943185,
+            "coverage": "complete",
+            "pricebook": "official-2026-10-21"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_decode_errors",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_nondefault_region",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_response_ids",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_routing",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_write_burst_ownership",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_core_structure",
+              "group": "Structure",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_axi_fifo_behavior",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 0,
+              "total": 5
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 1,
+              "total": 1
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 2,
+              "total": 7
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 19,
+            "observed_tool_calls": 46,
+            "native_events": 317,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "dd3eebaf5814e35b06d51b0f8882cbd8fcd3d18fd0ef9586dd3e604a46f2fdfc"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 7,
+            "groups": {
+              "core": 5,
+              "error": 0,
+              "functionality": 0,
+              "regression": 1,
+              "structure": 1
+            },
+            "inventory": "11a0e8f38c2f5ebea20a2ea9c67b0a6ad478518ea3e3f2160da2e590c00d19b1"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/f31a32e09199bece72a0c953a26251b561dda84cc726fde3d14df21886f2590c.tar.gz",
+            "sha256": "f31a32e09199bece72a0c953a26251b561dda84cc726fde3d14df21886f2590c",
+            "file_count": 26,
+            "size_bytes": 24207,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-07T08:12:42.098955+00:00",
+      "completed_at": "2026-11-07T08:23:12.172460+00:00",
+      "wall_seconds_all_attempts": 630.0677934989999,
+      "official_cost_all_attempts": 0.7943185,
+      "known_official_cost": 0.7943185,
+      "cost_coverage": "complete",
+      "expected_test_counts": {
+        "checkpoint_1": {
+          "total": 7,
+          "groups": {
+            "core": 5,
+            "error": 0,
+            "functionality": 0,
+            "regression": 1,
+            "structure": 1
+          },
+          "inventory": "11a0e8f38c2f5ebea20a2ea9c67b0a6ad478518ea3e3f2160da2e590c00d19b1"
+        }
+      }
+    },
+    {
+      "id": "d54feadf1a7eb83c850758d505a839a065eb1f223bb8befbf12bc783701433cb",
+      "problem": "taxi_axi_t3",
+      "mode": "sr",
+      "prompt_arm": "original",
+      "model": "claude-sonnet-5-5",
+      "agent": "claude_code",
+      "agent_version": "2.1.295",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "0cdf774db5b16e9c444aaf9d9d4e0c7d96322f04e13c0f578e8006a4e7edb9be",
+      "generation": "985977765ffdf3beaf3842d222b5ce013a8b082218d779fd17814cfb32876ea7",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [],
+      "repeat": 0,
+      "planned_checkpoints": 1,
+      "planned_targets": [
+        "checkpoint_3"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "passed",
+      "score": 1.0,
+      "selected_attempt": "ca4106874e4c4b95b2182e353d1e4ba4",
+      "selected_evaluation": null,
+      "evaluation_generation": "985977765ffdf3beaf3842d222b5ce013a8b082218d779fd17814cfb32876ea7",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_3",
+          "state": "passed",
+          "gate_passed": true,
+          "candidate": "01a562c74d04cb2505ae3af4012eda745e83cb71f868ec9f17b9caa9065412a2",
+          "model_verification": "response_verified",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "62bfbb7c6130222995885098887b6bacee60e5043fe361632ec1e46d726a6717",
+          "evaluation_sha256": "1dd9219ce3b224fd799760da008b0763c887cd269caf67282460059abf8588d1",
+          "started_at": "2026-11-07T09:02:39.793521Z",
+          "completed_at": "2026-11-07T09:10:23.446766Z",
+          "inference_seconds": 463.653245,
+          "evaluation_seconds": 1997.9160702228546,
+          "native_steps": 17,
+          "tokens": {
+            "cache_read": 998686,
+            "cache_write": 33937,
+            "input": 56536,
+            "output": 18583,
+            "reasoning": 0
+          },
+          "official_cost": {
+            "usd": 0.48361309999999996,
+            "coverage": "complete",
+            "pricebook": "official-2026-10-21"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_decode_errors",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_nondefault_region",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_response_ids",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_routing",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_write_burst_ownership",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_axi_fifo_behavior",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_admission_accept",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_admission_thread",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_decode_errors",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_independent_read_write_pressure",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_issue_limit",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_nondefault_region",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_register_types",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_routing",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_2_axi_crossbar_endpoint_behavior_source_id_restoration",
+              "group": "Regression",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_axi_interconnect_1s_endpoint_behavior_decode_errors",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_axi_interconnect_1s_endpoint_behavior_nondefault_region",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_axi_interconnect_1s_endpoint_behavior_response_id",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_axi_interconnect_1s_endpoint_behavior_routing",
+              "group": "Core",
+              "status": "passed"
+            },
+            {
+              "nodeid": "test_checkpoint_3_core_structure",
+              "group": "Structure",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 1,
+              "total": 1
+            },
+            "core": {
+              "passed": 4,
+              "total": 4
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 15,
+              "total": 15
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 20,
+              "total": 20
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 17,
+            "observed_tool_calls": 47,
+            "native_events": 321,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "8e2d639eb565d5bced68f44e67802f4cf6f5e4e16abeb5d16dbd22473f07da43"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 20,
+            "groups": {
+              "core": 4,
+              "error": 0,
+              "functionality": 0,
+              "regression": 15,
+              "structure": 1
+            },
+            "inventory": "d622b399f9a4c3adabbaf89597e1629d1b028c70e665a9c50883b522a8d95e99"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/9858c6bd92df2472a0863cd8bf3d23e19b0a4a176b8bfdab9c0b1d25084d6a31.tar.gz",
+            "sha256": "9858c6bd92df2472a0863cd8bf3d23e19b0a4a176b8bfdab9c0b1d25084d6a31",
+            "file_count": 49,
+            "size_bytes": 41493,
+            "excluded_symlinks": []
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-07T09:02:37.431302+00:00",
+      "completed_at": "2026-11-07T09:43:52.548797+00:00",
+      "wall_seconds_all_attempts": 2475.111002623,
+      "official_cost_all_attempts": 0.48361309999999996,
+      "known_official_cost": 0.48361309999999996,
+      "cost_coverage": "complete",
+      "expected_test_counts": {
+        "checkpoint_3": {
+          "total": 20,
+          "groups": {
+            "core": 4,
+            "error": 0,
+            "functionality": 0,
+            "regression": 15,
+            "structure": 1
+          },
+          "inventory": "d622b399f9a4c3adabbaf89597e1629d1b028c70e665a9c50883b522a8d95e99"
+        }
+      }
+    },
+    {
+      "id": "dbb76f8e9542448df4d1dd27eab1dfcc2fe19c4f0a1c047964afb7ba6da8e8d9",
+      "problem": "taxi_axi_t3",
+      "mode": "pipeline",
+      "prompt_arm": "original",
+      "model": "claude-sonnet-5-5",
+      "agent": "claude_code",
+      "agent_version": "2.1.295",
+      "agent_config": "9fb4529378b21254b53e24628e747c85e4572545dc67d0f98da5baa99d5db0b7",
+      "thinking": "high",
+      "protocol": "0cdf774db5b16e9c444aaf9d9d4e0c7d96322f04e13c0f578e8006a4e7edb9be",
+      "generation": "b40bfe888f2a25f4cabb98b7b599420745ab558269bd943eec2b868ec3844c45",
+      "formal": true,
+      "experiment_category": "formal",
+      "automatic_observations": [
+        {
+          "namespace": "implementation",
+          "label": "test_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "3e03c1eafa629d2924fc85c5e050c1a13fbacc93f5f6a96f531adebb95f38cbe",
+          "evidence": [
+            "sha256:a6d2bb96ace6d6a9cdee7c77983b0e897ff88b2d6dd44493f144879b880423d0"
+          ],
+          "event_id": "de2297d6eca69104ccbf71ec4ca7ac4295a0d0f37dcde54e3fc060873e0c2350",
+          "assessment": "a1dff420d3c8252cbb6d9ea517196cceca91a6e0b9ecd062f410d13131cd4c8e",
+          "attempt": "80d7b5fa92424101992b896ccb91a539"
+        },
+        {
+          "namespace": "implementation",
+          "label": "core_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "3e03c1eafa629d2924fc85c5e050c1a13fbacc93f5f6a96f531adebb95f38cbe",
+          "evidence": [
+            "sha256:a6d2bb96ace6d6a9cdee7c77983b0e897ff88b2d6dd44493f144879b880423d0"
+          ],
+          "event_id": "3398a878f0c290912c8cd5e5cd4dc8a41fa628e64c843804ca4241aa19a4de8d",
+          "assessment": "a1dff420d3c8252cbb6d9ea517196cceca91a6e0b9ecd062f410d13131cd4c8e",
+          "attempt": "80d7b5fa92424101992b896ccb91a539"
+        },
+        {
+          "namespace": "implementation",
+          "label": "structure_failure",
+          "confidence": "confirmed",
+          "checkpoint": "checkpoint_1",
+          "candidate": "3e03c1eafa629d2924fc85c5e050c1a13fbacc93f5f6a96f531adebb95f38cbe",
+          "evidence": [
+            "sha256:a6d2bb96ace6d6a9cdee7c77983b0e897ff88b2d6dd44493f144879b880423d0"
+          ],
+          "event_id": "c331b255c97d3b0ad543fc568494b0c3ce432ba8c27b6862ec37904f46c357af",
+          "assessment": "a1dff420d3c8252cbb6d9ea517196cceca91a6e0b9ecd062f410d13131cd4c8e",
+          "attempt": "80d7b5fa92424101992b896ccb91a539"
+        }
+      ],
+      "repeat": 0,
+      "planned_checkpoints": 5,
+      "planned_targets": [
+        "checkpoint_1",
+        "checkpoint_2",
+        "checkpoint_3",
+        "checkpoint_4",
+        "checkpoint_5"
+      ],
+      "progression_policy": "structure-cases",
+      "status": "completed",
+      "outcome": "failed",
+      "score": 0.0,
+      "selected_attempt": "80d7b5fa92424101992b896ccb91a539",
+      "selected_evaluation": null,
+      "evaluation_generation": "b40bfe888f2a25f4cabb98b7b599420745ab558269bd943eec2b868ec3844c45",
+      "attempt_count": 1,
+      "checkpoints": [
+        {
+          "checkpoint": "checkpoint_1",
+          "target_checkpoint": "checkpoint_1",
+          "state": "failed",
+          "gate_passed": false,
+          "candidate": "3e03c1eafa629d2924fc85c5e050c1a13fbacc93f5f6a96f531adebb95f38cbe",
+          "model_verification": "response_verified",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": "acbe3fe8ab1e3b3cc6e907b8cff87f12e408633dc0bf2c33d5fc89713403d03d",
+          "evaluation_sha256": "a6d2bb96ace6d6a9cdee7c77983b0e897ff88b2d6dd44493f144879b880423d0",
+          "started_at": "2026-11-07T09:05:23.237565Z",
+          "completed_at": "2026-11-07T09:17:31.692632Z",
+          "inference_seconds": 728.455067,
+          "evaluation_seconds": 47.752776861190796,
+          "native_steps": 28,
+          "tokens": {
+            "cache_read": 1290288,
+            "cache_write": 45511,
+            "input": 16783,
+            "output": 29145,
+            "reasoning": 0
+          },
+          "official_cost": {
+            "usd": 0.5678223,
+            "coverage": "complete",
+            "pricebook": "official-2026-10-21"
+          },
+          "tests": [
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_decode_errors",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_nondefault_region",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_response_ids",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_routing",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_axi_interconnect_endpoint_behavior_write_burst_ownership",
+              "group": "Core",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_core_structure",
+              "group": "Structure",
+              "status": "failed"
+            },
+            {
+              "nodeid": "test_checkpoint_1_preserves_axi_fifo_behavior",
+              "group": "Regression",
+              "status": "passed"
+            }
+          ],
+          "test_counts": {
+            "structure": {
+              "passed": 0,
+              "total": 1
+            },
+            "core": {
+              "passed": 0,
+              "total": 5
+            },
+            "functionality": {
+              "passed": 0,
+              "total": 0
+            },
+            "regression": {
+              "passed": 1,
+              "total": 1
+            },
+            "error": {
+              "passed": 0,
+              "total": 0
+            },
+            "total": {
+              "passed": 1,
+              "total": 7
+            }
+          },
+          "calls": {
+            "http_requests": null,
+            "http_retries": null,
+            "observed_responses": 28,
+            "observed_tool_calls": 46,
+            "native_events": 374,
+            "coverage": "native_lower_bound",
+            "source": "native_stdout",
+            "evidence_digest": "2bf07c4ded0ace138f600c9d1f9af9fedbe4f87ff7d9253c6973e8b06e4a335f"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 7,
+            "groups": {
+              "core": 5,
+              "error": 0,
+              "functionality": 0,
+              "regression": 1,
+              "structure": 1
+            },
+            "inventory": "86dc35486108a8ef9c48e60c52f399614bbe12f50cc1912d4b942276463f113e"
+          },
+          "candidate_artifact": {
+            "path": "experiments/artifacts/12c341deee8d6056db35ad39c41dabc6b7c1ed54fdc1c20d5a45d985ef247337.tar.gz",
+            "sha256": "12c341deee8d6056db35ad39c41dabc6b7c1ed54fdc1c20d5a45d985ef247337",
+            "file_count": 26,
+            "size_bytes": 23146,
+            "excluded_symlinks": []
+          }
+        },
+        {
+          "checkpoint": "checkpoint_2",
+          "target_checkpoint": "checkpoint_2",
+          "state": "stopped_by_policy",
+          "gate_passed": null,
+          "candidate": null,
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": null,
+          "evaluation_sha256": null,
+          "started_at": null,
+          "completed_at": null,
+          "inference_seconds": null,
+          "evaluation_seconds": null,
+          "native_steps": null,
+          "tokens": null,
+          "official_cost": {
+            "usd": 0,
+            "coverage": "complete",
+            "pricebook": "official-2026-10-21"
+          },
+          "tests": [],
+          "test_counts": null,
+          "score": 0,
+          "calls": {
+            "http_requests": 0,
+            "http_retries": 0,
+            "observed_responses": 0,
+            "observed_tool_calls": 0,
+            "coverage": "not_invoked"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 17,
+            "groups": {
+              "core": 9,
+              "error": 0,
+              "functionality": 0,
+              "regression": 7,
+              "structure": 1
+            },
+            "inventory": "76c7971d1e68d11d93c0d9ec10293a9319d05094dacf299c63b766523cd64b41"
+          }
+        },
+        {
+          "checkpoint": "checkpoint_3",
+          "target_checkpoint": "checkpoint_3",
+          "state": "stopped_by_policy",
+          "gate_passed": null,
+          "candidate": null,
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": null,
+          "evaluation_sha256": null,
+          "started_at": null,
+          "completed_at": null,
+          "inference_seconds": null,
+          "evaluation_seconds": null,
+          "native_steps": null,
+          "tokens": null,
+          "official_cost": {
+            "usd": 0,
+            "coverage": "complete",
+            "pricebook": "official-2026-10-21"
+          },
+          "tests": [],
+          "test_counts": null,
+          "score": 0,
+          "calls": {
+            "http_requests": 0,
+            "http_retries": 0,
+            "observed_responses": 0,
+            "observed_tool_calls": 0,
+            "coverage": "not_invoked"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 22,
+            "groups": {
+              "core": 4,
+              "error": 0,
+              "functionality": 0,
+              "regression": 17,
+              "structure": 1
+            },
+            "inventory": "a8b12ba8a2a7962687170ab621614e658a593b87de42722d5e23662494237b6a"
+          }
+        },
+        {
+          "checkpoint": "checkpoint_4",
+          "target_checkpoint": "checkpoint_4",
+          "state": "stopped_by_policy",
+          "gate_passed": null,
+          "candidate": null,
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": null,
+          "evaluation_sha256": null,
+          "started_at": null,
+          "completed_at": null,
+          "inference_seconds": null,
+          "evaluation_seconds": null,
+          "native_steps": null,
+          "tokens": null,
+          "official_cost": {
+            "usd": 0,
+            "coverage": "complete",
+            "pricebook": "official-2026-10-21"
+          },
+          "tests": [],
+          "test_counts": null,
+          "score": 0,
+          "calls": {
+            "http_requests": 0,
+            "http_retries": 0,
+            "observed_responses": 0,
+            "observed_tool_calls": 0,
+            "coverage": "not_invoked"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 31,
+            "groups": {
+              "core": 8,
+              "error": 0,
+              "functionality": 0,
+              "regression": 22,
+              "structure": 1
+            },
+            "inventory": "255be68231b845383e644f8c2b5d65cc7c6c5f105fea5c804d7df129cf7becfb"
+          }
+        },
+        {
+          "checkpoint": "checkpoint_5",
+          "target_checkpoint": "checkpoint_5",
+          "state": "stopped_by_policy",
+          "gate_passed": null,
+          "candidate": null,
+          "model_verification": "requested_only",
+          "execution_diagnosis": null,
+          "candidate_failure": null,
+          "candidate_failure_reason": null,
+          "inference_sha256": null,
+          "evaluation_sha256": null,
+          "started_at": null,
+          "completed_at": null,
+          "inference_seconds": null,
+          "evaluation_seconds": null,
+          "native_steps": null,
+          "tokens": null,
+          "official_cost": {
+            "usd": 0,
+            "coverage": "complete",
+            "pricebook": "official-2026-10-21"
+          },
+          "tests": [],
+          "test_counts": null,
+          "score": 0,
+          "calls": {
+            "http_requests": 0,
+            "http_retries": 0,
+            "observed_responses": 0,
+            "observed_tool_calls": 0,
+            "coverage": "not_invoked"
+          },
+          "compatibility": {
+            "score": "identical",
+            "time": "identical",
+            "cost": "identical",
+            "calls": "identical"
+          },
+          "defects": [],
+          "tags": [],
+          "expected_test_counts": {
+            "total": 37,
+            "groups": {
+              "core": 5,
+              "error": 0,
+              "functionality": 0,
+              "regression": 31,
+              "structure": 1
+            },
+            "inventory": "99680e62e280e81b00975f3b8876abc12e66214a732ad7fbf7b138b7a950c44a"
+          }
+        }
+      ],
+      "agent_invocations": 1,
+      "agent_retries": 0,
+      "legacy_origin": null,
+      "started_at": "2026-11-07T09:05:20.874226+00:00",
+      "completed_at": "2026-11-07T09:18:29.961885+00:00",
+      "wall_seconds_all_attempts": 789.0813973969998,
+      "official_cost_all_attempts": 0.5678223,
+      "known_official_cost": 0.5678223,
+      "cost_coverage": "complete",
+      "expected_test_counts": {
+        "checkpoint_4": {
+          "total": 31,
+          "groups": {
+            "core": 8,
+            "error": 0,
+            "functionality": 0,
+            "regression": 22,
+            "structure": 1
+          },
+          "inventory": "255be68231b845383e644f8c2b5d65cc7c6c5f105fea5c804d7df129cf7becfb"
+        },
+        "checkpoint_2": {
+          "total": 17,
+          "groups": {
+            "core": 9,
+            "error": 0,
+            "functionality": 0,
+            "regression": 7,
+            "structure": 1
+          },
+          "inventory": "76c7971d1e68d11d93c0d9ec10293a9319d05094dacf299c63b766523cd64b41"
+        },
+        "checkpoint_1": {
+          "total": 7,
+          "groups": {
+            "core": 5,
+            "error": 0,
+            "functionality": 0,
+            "regression": 1,
+            "structure": 1
+          },
+          "inventory": "86dc35486108a8ef9c48e60c52f399614bbe12f50cc1912d4b942276463f113e"
+        },
+        "checkpoint_5": {
+          "total": 37,
+          "groups": {
+            "core": 5,
+            "error": 0,
+            "functionality": 0,
+            "regression": 31,
+            "structure": 1
+          },
+          "inventory": "99680e62e280e81b00975f3b8876abc12e66214a732ad7fbf7b138b7a950c44a"
+        },
+        "checkpoint_3": {
+          "total": 22,
+          "groups": {
+            "core": 4,
+            "error": 0,
+            "functionality": 0,
+            "regression": 17,
+            "structure": 1
+          },
+          "inventory": "a8b12ba8a2a7962687170ab621614e658a593b87de42722d5e23662494237b6a"
+        }
+      }
+    }
+  ]
+}
